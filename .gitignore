@@ -1,0 +1,66 @@
+frontend/node_modules/
+*.scssc
+
+upgrade
+test/*
+news/*
+favicons/*
+cgi-bin/*
+wp-content/*.zip
+wp-content/*.bak
+wp-content/uploads/*
+wp-content/themes/*.zip
+wp-content/cache/*
+wp-content/wp-rocket-config/*
+wp-content/advanced-cache.php
+.idea/*
+.idea
+.cache/*
+.config/*
+.local/*
+.qidb/*
+.quarantine/*
+.tmb/*
+.well-known/*
+.htaccess
+
+wp-config.php
+*.gz
+#*.txt
+!robots.txt
+*.bash_history
+*.ftpquota
+*.selected_editor
+*.strace
+*.user.ini
+test_cart.php
+
+# ignore query_monitor plugin related files, as they might be on staging but
+# there is no reason to have them on production.
+wp-content/db.php
+#wp-content/plugins/query-monitor/
+
+# SCSS
+wp-content/themes/atelier-child/scss/main.css
+wp-content/themes/atelier-child/scss/main.css.map
+
+# Wordfence
+wp-content/wflogs/
+
+# MyCryptoCheckout logs
+wp-content/plugins/mycryptocheckout/MyCryptoCheckout.php.*.debug.html
+
+# Helpers
+adminer-*.php
+o1024.php
+p1024.php
+
+# Verification files, etc.
+A8115FEE7F49D1EC35AE0B548143DB74.txt
+
+# WP related files
+.maintenance
+wp-content/debug.log
+
+# Dot files
+.version

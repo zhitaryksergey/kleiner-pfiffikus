@@ -1,0 +1,178 @@
+# Translation of Plugins - Force Regenerate Thumbnails - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - Force Regenerate Thumbnails - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-01-28 05:36:49+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - Force Regenerate Thumbnails - Development (trunk)\n"
+
+#. Author URI of the plugin/theme
+msgid "http://www.pedroelsner.com/"
+msgstr "http://pedroelsner.com/"
+
+#. Author of the plugin/theme
+msgid "Pedro Elsner"
+msgstr "Pedro Elsner"
+
+#. Description of the plugin/theme
+msgid "Delete and REALLY force the regenerate thumbnail."
+msgstr "這個外掛能為網站刪除既有縮圖，並強制重新產生新縮圖。"
+
+#. Plugin URI of the plugin/theme
+msgid "http://pedroelsner.com/2012/08/forcando-a-atualizacao-de-thumbnails-no-wordpress"
+msgstr "http://pedroelsner.com/2012/08/forcando-a-atualizacao-de-thumbnails-no-wordpress/"
+
+#: force-regenerate-thumbnails.php:678
+msgid "(ID %s)<br />%s"
+msgstr "(ID %s)<br />%s"
+
+#: force-regenerate-thumbnails.php:650
+msgid "<br />Successfully regenerated in %s seconds"
+msgstr "<br />已於 %s 秒內重新產生縮圖"
+
+#: force-regenerate-thumbnails.php:648
+msgid "<br />Regenerate: %s</span>"
+msgstr "<br />重新產生: %s</span>"
+
+#: force-regenerate-thumbnails.php:645
+msgid "<br /><span style=\"color: #DD3D36;\">Please, check the folder permission (chmod 777): %s</span>"
+msgstr "<br /><span style=\"color: #DD3D36;\">請檢查資料夾權限 (chmod 777): %s</span>"
+
+#: force-regenerate-thumbnails.php:644
+msgid "<br /><b><span style=\"color: #DD3D36;\">Deleted error: %s</span></b>"
+msgstr "<br /><b><span style=\"color: #DD3D36;\">刪除舊圖發生錯誤: %s</span></b>"
+
+#: force-regenerate-thumbnails.php:641
+msgid "<br />Deleted: %s"
+msgstr "<br />已刪除的縮圖: %s"
+
+#: force-regenerate-thumbnails.php:638
+msgid "<code>Image Debug 4: %s</code><br />"
+msgstr "<code>圖片偵錯 4: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:636
+msgid "<code>Image Debug 3: %s</code><br />"
+msgstr "<code>圖片偵錯 3: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:634
+msgid "<code>Image Debug 2: %s</code><br />"
+msgstr "<code>圖片偵錯 2: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:632
+msgid "<code>Image: %s</code><br />"
+msgstr "<code>圖片檔案完整路徑: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:631
+msgid "<code>BaseUrl: %s</code><br />"
+msgstr "<code>圖片檔案儲存網址: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:630
+msgid "<code>BaseDir: %s</code><br />"
+msgstr "<code>圖片檔案儲存路徑: %s</code><br />"
+
+#: force-regenerate-thumbnails.php:626
+msgid "<b>&quot;%s&quot; (ID %s)</b>"
+msgstr "<b>&quot;%s&quot; (ID %s)</b>"
+
+#: force-regenerate-thumbnails.php:576
+msgid "Unknown failure reason."
+msgstr "未知的錯誤原因。"
+
+#: force-regenerate-thumbnails.php:483
+msgid "The originally uploaded image file cannot be found."
+msgstr "找不到之前上傳的圖片。"
+
+#: force-regenerate-thumbnails.php:480 force-regenerate-thumbnails.php:504
+#: force-regenerate-thumbnails.php:507
+msgid "The originally uploaded image file cannot be found at &quot;%s&quot;."
+msgstr "在 %s 找不到之前上傳的圖片。"
+
+#: force-regenerate-thumbnails.php:452
+msgid "Your user account does not have permission to regenerate images."
+msgstr "你沒有重新產生圖片縮圖的權限。"
+
+#: force-regenerate-thumbnails.php:444 force-regenerate-thumbnails.php:448
+msgid "Failed: %d is an invalid image ID."
+msgstr "處理失敗: %d 為無效的圖片 ID。"
+
+#: force-regenerate-thumbnails.php:412
+msgid "You can regenerate all thumbnails for specific images from the <a href='%s'>Media</a> page. (WordPress 3.1+ only)"
+msgstr "網站的 WordPress 如為 3.1 (含) 以上版本，網站管理員便可前往 [<a href='%s'>媒體庫</a>] 頁面，為指定圖片重新產生縮圖。"
+
+#: force-regenerate-thumbnails.php:406
+msgid "Regenerate All Thumbnails"
+msgstr "重新產生全部縮圖"
+
+#: force-regenerate-thumbnails.php:402
+msgid "Pressing the follow button, you can regenerate thumbnails for all images that you have uploaded to your blog."
+msgstr "點擊下方按鈕，便能為所有上傳至這個網站的圖片重新產生縮圖。"
+
+#: force-regenerate-thumbnails.php:313
+msgid "Stopping..."
+msgstr "處理程序停止中..."
+
+#: force-regenerate-thumbnails.php:282
+msgid "Failure: %s"
+msgstr "%s 張圖片處理失敗"
+
+#: force-regenerate-thumbnails.php:281
+msgid "Success: %s"
+msgstr "%s 張圖片處理成功"
+
+#: force-regenerate-thumbnails.php:280
+msgid "Total: %s"
+msgstr "總計 %s 張圖片需要處理"
+
+#: force-regenerate-thumbnails.php:277
+msgid "Process Information"
+msgstr "處理程序資訊"
+
+#: force-regenerate-thumbnails.php:275
+msgid "Abort Process"
+msgstr "中止處理程序"
+
+#: force-regenerate-thumbnails.php:269 force-regenerate-thumbnails.php:405
+msgid "You must enable Javascript in order to proceed!"
+msgstr "為了進行相關處理，請務必啟用瀏覽器中的 Javascript 功能。"
+
+#: force-regenerate-thumbnails.php:266
+msgid "All done! %1$s image(s) were successfully resized in %2$s seconds and there were 0 failures. %3$s"
+msgstr "全部完成！已於 %2$s 秒內成功重新處理 %1$s 張圖片，且本次處理過程中沒有處理失敗的圖片。%3$s"
+
+#: force-regenerate-thumbnails.php:265
+msgid "All done! %1$s image(s) were successfully resized in %2$s seconds and there were %3$s failure(s). To try regenerating the failed images again, <a href=\"%4$s\">click here</a>. %5$s"
+msgstr "全部完成！已於 %2$s 秒內成功重新處理 %1$s 張圖片，處理過程中有 %3$s 張圖片處理失敗。如需為處理失敗的圖片再次進行處理，請<a href=\"%4$s\">點擊這裡</a>。%5$s"
+
+#: force-regenerate-thumbnails.php:262
+msgid "To go back to the previous page, <a href=\"%s\">click here</a>."
+msgstr "如需返回上一頁，請<a href=\"%s\">點擊這裡</a>。"
+
+#: force-regenerate-thumbnails.php:258
+msgid "Please be patient while the thumbnails are regenerated. You will be notified via this page when the regenerating is completed."
+msgstr "重新產生縮圖時請耐心等候。這項程序完成後，這個頁面會顯示通知訊息。"
+
+#: force-regenerate-thumbnails.php:246
+msgid "Unable to find any images. Are you sure <a href='%s'>some exist</a>?"
+msgstr "無法找到任何圖片。確定這個網站已有<a href='%s'>上傳的圖片</a>嗎？"
+
+#: force-regenerate-thumbnails.php:231
+msgid "Cheatin&#8217; uh?"
+msgstr "很抱歉，無法進行這項操作。"
+
+#: force-regenerate-thumbnails.php:134
+msgid "Regenerate the thumbnails for this single image"
+msgstr "為單張圖片重新產生縮圖"
+
+#. #-#-#-#-#  tmp-force-regenerate-thumbnails.pot (Force Regenerate Thumbnails
+#. 2.0.5)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: force-regenerate-thumbnails.php:91 force-regenerate-thumbnails.php:134
+#: force-regenerate-thumbnails.php:155 force-regenerate-thumbnails.php:178
+#: force-regenerate-thumbnails.php:222
+msgid "Force Regenerate Thumbnails"
+msgstr "Force Regenerate Thumbnails"

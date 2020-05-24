@@ -1,0 +1,2224 @@
+# Translation of Plugins - Email Subscribers &amp; Newsletters - Stable (latest release) in Polish
+# This file is distributed under the same license as the Plugins - Email Subscribers &amp; Newsletters - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2019-06-11 07:10:42+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: pl\n"
+"Project-Id-Version: Plugins - Email Subscribers &amp; Newsletters - Stable (latest release)\n"
+
+#: includes/pro-features.php:165
+msgid "you will have settings panel where you need to enable Contact form 7 sync and select the list in which you want to add people whenever they fill any of the Contact Form."
+msgstr "będziesz miał panel ustawień, w którym musisz włączyć synchronizację z \"Contact Form 7\" i wybrać listę, do której chcesz dodawać ludzi, gdy wypełnią \"Contact Form 7\"."
+
+#: includes/pro-features.php:163
+msgid "Are you using Contact Form 7 for your list building? You can use this integration to add to a specific list whenever new subscribers added from Contact Form 7"
+msgstr "Czy używasz \"Contact Form 7\" do budowania listy? Możesz zintegrować dodawanie go do określonej listy, gdy nowi subskrybenci zostaną dodani w \"Contact Form 7\"."
+
+#: includes/pro-features.php:162
+msgid "Sync Contact Form 7 users"
+msgstr "Synchronizuj użytkowników Contact Form 7"
+
+#: includes/pro-features.php:132
+msgid ""
+"you will have settings panel where you need to enable WooCommerce sync and select the list in which you want to add people whenever they\n"
+"            purchase something\n"
+"            from you."
+msgstr ""
+"będziesz miał panel ustawień, w którym musisz włączyć synchronizację z \"WooCommerce\" i wybrać listę, do której chcesz dodawać ludzi, gdy tylko\n"
+"            kupią coś\n"
+"            od ciebie."
+
+#: includes/pro-features.php:130
+msgid "Are you using WooCommerce for your online business? You can use this integration to add to a specific list whenever someone make a purchase from you"
+msgstr "Czy używasz \"WooCommerce\" w swoim biznesie online? Możesz zintegrować dodawanie go do określonej listy, gdy tylko ktoś kupi coś od Ciebie"
+
+#: includes/pro-features.php:129
+msgid "Sync WooCommerce Customers"
+msgstr "Synchronizuj klientów WooCommerce"
+
+#: includes/pro-features.php:106
+msgid "now"
+msgstr "teraz"
+
+#: includes/pro-features.php:106 includes/pro-features.php:136
+#: includes/pro-features.php:167
+msgid "Checkout "
+msgstr "Sprawdź"
+
+#: includes/pro-features.php:103
+msgid ""
+"you will have settings panel where you need to enable Comment user sync and select the list in which you want to add people whenever someone post a\n"
+"            comment."
+msgstr "będziesz miał panel ustawień, w którym musisz włączyć synchronizację użytkowników komentujących i wybrać listę, do której chcesz dodawać ludzi, gdy tylko skomentują wpis"
+
+#: includes/pro-features.php:103 includes/pro-features.php:106
+#: includes/pro-features.php:132 includes/pro-features.php:165
+msgid "Email Subscribers Starter"
+msgstr "Starter Email Subscribers "
+
+#: includes/pro-features.php:103 includes/pro-features.php:132
+#: includes/pro-features.php:165
+msgid "Once you upgrade to "
+msgstr "Po uaktualnieniu do"
+
+#: includes/pro-features.php:102 includes/pro-features.php:131
+#: includes/pro-features.php:164
+msgid "How to setup?"
+msgstr "Jak skonfigurować?"
+
+#: includes/pro-features.php:101
+msgid "Quickly add to your mailing list when someone post a comment on your website."
+msgstr "Szybko dodaj go do listy mailingowej, gdy ktoś opublikuje komentarz na twojej stronie."
+
+#: includes/pro-features.php:100
+msgid "Sync Comment Users"
+msgstr "Synchronizuj komentujących"
+
+#: includes/pro-features.php:73
+msgid "Contact Form 7"
+msgstr "Contact Form 7"
+
+#: includes/admin/class-es-newsletters.php:83 includes/feedback.php:76
+msgid "Send"
+msgstr "Wyślij"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:163
+msgid "Ok"
+msgstr "OK"
+
+#: includes/admin/class-es-export-subscribers.php:88
+msgid "Unconfirmed Contacts"
+msgstr "Kontakty niepotwierdzone "
+
+#: includes/admin/class-es-export-subscribers.php:68
+msgid "No."
+msgstr "Nie."
+
+#: admin/partials/dashboard.php:103
+msgid "Be a part of growing Email Subscribers community. Share your valuable feedback and get quick help from community. It's a great way to connect with real people"
+msgstr "Bądź częścią rosnącej społeczności Email Subscribers. Podziel się cennymi opiniami i uzyskaj szybką pomoc od społeczności. To świetny sposób na kontakt z ludźmi"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:613
+msgid "Skip %s Deactivate"
+msgstr "Pomiń dezaktywację  %s"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:612
+msgid "Submit %s Deactivate"
+msgstr "Zatwierdź dezaktywację  %s"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:597
+msgid "If you have a moment, please share why you are deactivating %s:"
+msgstr "Jeśli masz chwilę, podziel się informacją dlaczego dezaktywujesz %s:"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:596
+msgid "Quick Feedback"
+msgstr "Szybka informacja zwrotna"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:589
+msgid "Please share the reason"
+msgstr "Proszę, podziel się powodem"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:587
+msgid "Other"
+msgstr "Inne"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:583
+msgid "It's a temporary deactivation"
+msgstr "To jest dezaktywacja tymczasowa"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:579
+msgid "I couldn't get the plugin to work"
+msgstr "Nie mogłem uruchomić wtyczki"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:576
+msgid "Please share which plugin"
+msgstr "Proszę, udostępnij tę wtyczkę"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:574
+msgid "I'm switching to a different plugin"
+msgstr "Przełączam na inną wtyczkę"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:570
+msgid "I no longer need the plugin"
+msgstr "Nie potrzebuję już tej wtyczki"
+
+#: includes/feedback/class-ig-feedback-v-1-0-2.php:419
+msgid "Please select an option"
+msgstr "Proszę wybrać opcję"
+
+#: includes/admin/class-es-subscribers-table.php:65
+msgid "New"
+msgstr "Nowy"
+
+#: includes/admin/class-es-reports-table.php:96
+msgid "Sr No"
+msgstr "Sr No"
+
+#: includes/pro-features.php:63
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/class-email-subscribers.php:143
+msgid " right now"
+msgstr " teraz"
+
+#: includes/class-email-subscribers.php:143
+msgid "update to the latest version"
+msgstr "zaktualizuj do najnowszej wersji"
+
+#: includes/class-email-subscribers.php:143
+msgid "We have released a recommended update of Email subscribers Premium. So kindly "
+msgstr "Wydaliśmy zalecaną aktualizację Email Subscribers Premium. Tak uprzejmie"
+
+#: admin/partials/onboarding.php:86
+msgid "Please solve these problems, without that email sending won't work."
+msgstr "Rozwiąż te problemy, bez tego wysyłanie e-maili nie będzie działać."
+
+#: admin/partials/onboarding.php:85
+msgid "Explore more about problems"
+msgstr "Poznaj więcej problemów"
+
+#: admin/partials/onboarding.php:83
+msgid "We faced some problems sending test Campaigns."
+msgstr "Mieliśmy problemy z wysyłaniem kampanii testowych."
+
+#: admin/partials/onboarding.php:82
+msgid "Problem sending emails - fix this first."
+msgstr "Problemy z wysyłaniem e-maili -  napraw to najpierw."
+
+#: admin/partials/onboarding.php:65 admin/partials/onboarding.php:88
+msgid "Also, it's a perfect time to get better at email marketing now. Sign up below to get our highly acclaimed course for free."
+msgstr "Ponadto jest to idealny czas, aby poprawić marketing e-mailowy teraz. Zarejestruj się poniżej, aby otrzymać nasz wysoko ceniony kurs za darmo."
+
+#: admin/partials/onboarding.php:62
+msgid "Explore more"
+msgstr "Poznaj więcej"
+
+#: admin/partials/onboarding.php:60
+msgid "2. <a href=\"%s\" target=\"_blank\">Go back and send another test email</a> with different email address "
+msgstr "2. <a href=\"%s\" target=\"_blank\">Wróć i wyślij kolejny testowy e-mail </a> z innym adresem e-mail"
+
+#: admin/partials/onboarding.php:59
+msgid "1. Check your spam or junk folder"
+msgstr "1. Sprawdź folder spamu lub śmieci"
+
+#: admin/partials/onboarding.php:57
+msgid "Check these few things below"
+msgstr "Sprawdź tych kilka rzeczy poniżej"
+
+#: admin/partials/onboarding.php:50 admin/partials/onboarding.php:75
+#: admin/partials/onboarding.php:98
+msgid "Skip and goto Dashboard"
+msgstr "Pomiń i przejdź do pulpitu nawigacyjnego"
+
+#: admin/partials/onboarding.php:49 admin/partials/onboarding.php:74
+#: admin/partials/onboarding.php:97
+msgid "Signup and send me the course for free"
+msgstr "Zarejestruj i wyślij mi darmowy kurs"
+
+#: admin/partials/onboarding.php:40
+msgid "Everything is setup now. It's a perfect time to get better at email marketing now. Sign up below to get our highly acclaimed course for free."
+msgstr "Wszystko jest teraz skonfigurowane. To idealny czas, aby poprawić marketing e-mailowy teraz. Zarejestruj się poniżej, aby otrzymać nasz wysoko ceniony kurs za darmo."
+
+#: admin/partials/onboarding.php:38
+msgid "We're done!"
+msgstr "Skończyliśmy!"
+
+#: admin/partials/onboarding.php:34
+msgid "No, I haven't received them yet"
+msgstr "Nie, jeszcze ich nie otrzymałem"
+
+#: admin/partials/onboarding.php:33
+msgid "Yes, I received the test emails"
+msgstr "Tak, otrzymałem testowe e-maile"
+
+#: admin/partials/onboarding.php:29
+msgid "They may take a few minutes to arrive. But do confirm you received them."
+msgstr "Przesłanie może potrwać kilka minut, ale proszę potwierdź, że je otrzymałeś."
+
+#: admin/partials/onboarding.php:28
+msgid "We sent two Campaigns to %s and email you have added."
+msgstr "Wysłaliśmy dwie kampanie do %s i e-mail który dodałeś."
+
+#: admin/partials/onboarding.php:26
+msgid "Test emails sent, check your inbox"
+msgstr "Przetestuj wysyłanie e-maili, sprawdź swoją skrzynkę odbiorczą"
+
+#: admin/partials/onboarding.php:20
+msgid "Send a test email"
+msgstr "Wyślij e-mail testowy"
+
+#: admin/partials/onboarding.php:18
+msgid "Add an email to send a test to:"
+msgstr "Dodaj e-mail do wysłania jako test do:"
+
+#: admin/partials/onboarding.php:15
+msgid "Next step is to test everything by <strong>sending a test mail</strong>. <br>We've already added you, but recommend adding another email to test."
+msgstr "Następnym krokiem jest przetestowanie wszystkiego przez <strong>wysłanie e-maila testowego</strong>. <br>Dodaliśmy już Ciebie, ale zalecamy dodanie kolejnego e-maila do przetestowania."
+
+#: admin/partials/onboarding.php:11
+msgid "Created two Campaigns - \"<a href=\"%s\" target=\"_blank\">Newsletter Broadcast</a>\" and \"<a href=\"%s\" target=\"_blank\">New Post Notification</a>\""
+msgstr "Utworzono dwie kampanie - \"<a href=\"%s\" target=\"_blank\">Transmisja biuletynu</a>\" i \"<a href=\"%s\" target=\"_blank\">Powiadomienie o nowym wpisie</a>\""
+
+#: admin/partials/onboarding.php:10
+msgid "Added optin form to <a href=\"%s\" target=\"_blank\">default widget area</a> to show it on your site"
+msgstr "Dodano formularz optin do <a href=\"%s\" target=\"_blank\">domyślnego obszaru widżetów</a>, aby pokazać go na swojej stronie"
+
+#: admin/partials/onboarding.php:9
+msgid "Created a <a href=\"%s\" target=\"_blank\"> subscription / lead collection optin form</a>"
+msgstr "Utworzono <a href=\"%s\" target=\"_blank\">formularz subskrypcji/wprowadzenia optin</a>"
+
+#: admin/partials/onboarding.php:8
+msgid "to both lists"
+msgstr "do obu list"
+
+#: admin/partials/onboarding.php:8
+msgid "Added yourself"
+msgstr "Dodano ciebie"
+
+#: admin/partials/onboarding.php:7
+msgid "Created two Lists - <a href=\"%s\" target=\"_blank\">Main</a> and <a href=\"%s\" target=\"_blank\">Test</a>"
+msgstr "Utworzono dwie listy  - <a href=\"%s\" target=\"_blank\">Główną</a> i <a href=\"%s\" target=\"_blank\">Testową</a>"
+
+#: admin/partials/onboarding.php:5
+msgid "We automatically:"
+msgstr "Automatycznie:"
+
+#: admin/partials/onboarding.php:4
+msgid "80% done!"
+msgstr "80% zrobione!"
+
+#: admin/partials/dashboard.php:33
+msgid "4. And if you haven't already, signup for the free course below."
+msgstr "4. A jeśli jeszcze tego nie zrobiłeś, zarejestruj się na darmowy kurs poniżej."
+
+#: admin/partials/dashboard.php:32
+msgid "3. Go ahead and take a look around. Tweak settings, review <a href=\"%s\" target=\"_blank\">design templates</a> or go through the documentation."
+msgstr "3. Śmiało, rozejrzyj się. Dostosuj ustawienia, przejrzyj <a href=\"%s\" target=\"_blank\">szablony projektów</a> lub przejrzyj dokumentację."
+
+#: admin/partials/dashboard.php:31
+msgid "2. <a href=\"%s\" target=\"blank\" ><b>Review and rearrange the form from Widgets.</b></a> You can also learn about <a href=\"%s\" target=\"_blank\">adding a form to another place from this help article.</a>"
+msgstr "2. <a href=\"%s\" target=\"blank\" ><b>Przejrzyj i popraw formularz w widżetach. </b></a>Możesz także, z tego artykułu pomocy, dowiedzieć się o <a href=\"%s\" target=\"_blank\">dodaniu formularza do innego miejsca.</a>"
+
+#: admin/partials/dashboard.php:27
+msgid "You are all setup 👍"
+msgstr "W pełni skonfigurowane 👍"
+
+#: admin/partials/dashboard.php:30
+msgid "1.Check <a href=\"%s\" target=\"blank\" >optin form</a> on your homepage"
+msgstr "1. Sprawdź <a href=\"%s\" target=\"blank\" >formularz Optin</a> na swojej stronie głównej"
+
+#: admin/partials/dashboard.php:28
+msgid "Here are the things you can do next"
+msgstr "Oto rzeczy, które możesz zrobić dalej"
+
+#: includes/admin/class-es-handle-sync-wp-user.php:161
+msgid "WordPress"
+msgstr "WordPress"
+
+#: includes/admin/class-es-handle-sync-wp-user.php:76
+msgid "Select the list in which newly registered user will be subscribed to"
+msgstr "Wybierz listę, do której przypisany zostanie nowo zarejestrowany użytkownik"
+
+#: includes/admin/class-es-handle-sync-wp-user.php:58
+msgid "Whenever someone signup, it will automatically be added into selected list"
+msgstr "Za każdym razem, gdy ktoś się zarejestruje, zostanie automatycznie dodany do wybranej listy"
+
+#: includes/admin/class-es-handle-sync-wp-user.php:56
+msgid "Sync WordPress Users?"
+msgstr "Synchronizować użytkowników WordPress?"
+
+#: includes/admin/class-es-forms-table.php:292
+msgid "Button"
+msgstr "Przycisk"
+
+#: includes/admin/class-es-forms-table.php:273
+msgid "Label"
+msgstr "Etykieta"
+
+#: includes/pro-features.php:52
+msgid "Comments"
+msgstr "Komentarze"
+
+#: includes/notices/views/html-notice-updating.php:19
+msgid "Your database is being updated in the background. Please be patient."
+msgstr "Twoja baza danych jest aktualizowana w tle. Proszę o cierpliwość."
+
+#: includes/admin/class-es-templates-table.php:252
+msgid "Copy"
+msgstr "Kopiuj"
+
+#: includes/admin/class-es-templates-table.php:231
+msgid "Duplicate"
+msgstr "Powiel"
+
+#: includes/admin/class-es-forms-table.php:352
+msgid "Secure your form and avoid spam signups with Email Subscribers Starter Plan <a target=\"_blank\" style=\"font-weight: bold; cursor:pointer; text-decoration:none\" href=\"%s\">Get started</a>"
+msgstr "Zabezpiecz swój formularz i unikaj rejestracji spamu w Email Subscribers Starter Plan <a target=\"_blank\" style=\"font-weight: bold; cursor:pointer; text-decoration:none\" href=\"%s\">Rozpocznij</a>"
+
+#: admin/partials/help.php:49
+msgid "Once you click on <b>Run the updater</b> button, it will run the migration process from 3.5.x once again. So, if you have created new campaigns, forms or lists after migration to 4.x earlier, you will lose those data. So, make sure you have a backup with you."
+msgstr "Po kliknięciu przycisku <b>Uruchom aktualizator</b> zostanie ponownie uruchomiony proces migracji z wersji 3.5.x. Jeśli po migracji do wersji 4.x utworzyłeś nowe kampanie, formularze lub listy, utracisz te dane. Upewnij się, że masz kopię zapasową."
+
+#: admin/partials/help.php:47
+msgid "If you found duplicate campaigns, lists, forms, reports after upgrading from Email Subscribers 3.5.x to 4.x and want to run the database migration again to fix this, please click the below <b>Run the updater</b> button."
+msgstr "Jeśli po aktualizacji Email Subscribers z 3.5.x do 4.x znalazłeś zduplikowane kampanie, listy, formularze, raporty i chcesz ponownie przeprowadzić migrację bazy danych, kliknij przycisk <b>Uruchom aktualizator</b> ."
+
+#: admin/partials/help.php:45
+msgid "Database Migration"
+msgstr "Migracja bazy danych"
+
+#: admin/partials/pricing.php:51
+msgid "Get Started @ $49/year"
+msgstr "Rozpocznij @ $49/miesiąc"
+
+#: admin/partials/pricing.php:49
+msgid "Get Started @ $9/month"
+msgstr "Rozpocznij @ $9/miesiąc"
+
+#: includes/admin/class-es-admin-settings.php:467
+msgid "Enter email address to send test email."
+msgstr "Wprowadź adres do wysłania testowego e-maila."
+
+#: includes/admin/class-es-admin-settings.php:446
+msgid "Check this if you do not want Email Subscribers to use WP cron for sending emails"
+msgstr "Zaznacz to, jeśli nie chcesz, aby Email Subscribers korzystało z WordPressowego CRONa do wysyłania e-maili"
+
+#: includes/admin/class-es-admin-settings.php:445
+msgid "Disable WordPress Cron"
+msgstr "Wyłącza WordPressowego CRONa"
+
+#: includes/admin/class-es-admin-settings.php:178
+msgid "Check this if you want to track email opening."
+msgstr "Zaznacz to, jeśli chcesz śledzić otwarcie e-maila."
+
+#: includes/admin/class-es-admin-settings.php:176
+msgid "Track Opens"
+msgstr "Śledzenie otwarcia"
+
+#: admin/class-email-subscribers-admin.php:400
+msgid "Something went wrong"
+msgstr "Coś poszło źle"
+
+#: includes/admin/class-es-admin-settings.php:478
+msgid "Seeing spam signups from particular domains? Enter domains names (one per line) that you want to block here."
+msgstr "Widzisz zapisy spamu z poszczególnych domen? Wprowadź tutaj nazwy domen, które chcesz tutaj zablokować (po jednej w wierszu)."
+
+#: includes/class-es-common.php:430
+msgid "Plain Text Email Ising PHP mail()"
+msgstr "E-mail typu Zwykły Tekst przez PHP mail ()"
+
+#: includes/class-es-common.php:429
+msgid "HTML Email Using PHP mail()"
+msgstr "E-mail typu HTML przez PHP mail ()"
+
+#: includes/class-es-common.php:428
+msgid "Plain Text Email Using WordPress"
+msgstr "E-mail typu Zwykły tekst używając WordPressa"
+
+#: includes/class-es-common.php:427
+msgid "HTML Email Using WordPress"
+msgstr "E-mail typu HTML używając WordPressa"
+
+#: includes/admin/class-es-info.php:22
+msgid "<span class=\"es-fire-sale\"> 🔥 </span> Go Pro"
+msgstr "<span class=\"es-heart\"> 🔥 </span> Go Pro"
+
+#: includes/admin/class-es-forms-table.php:698
+msgid "Search Forms"
+msgstr "Przeszukaj formularze"
+
+#: includes/admin/class-es-forms-table.php:644
+msgid "<a href=\"?page=%s&action=%s&form=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Delete</a>"
+msgstr "<a href=\"?page=%s&action=%s&form=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Usuń</a>"
+
+#: includes/admin/class-es-forms-table.php:643
+msgid "<a href=\"?page=%s&action=%s&form=%s&_wpnonce=%s\">Edit</a>"
+msgstr "<a href=\"?page=%s&action=%s&form=%s&_wpnonce=%s\">Popraw</a>"
+
+#: includes/admin/class-es-lists-table.php:422
+#: includes/admin/class-es-campaigns-table.php:236
+msgid "<a href=\"?page=%s&action=%s&list=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Delete</a>"
+msgstr "<a href=\"?page=%s&action=%s&list=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Usuń</a>"
+
+#: includes/admin/class-es-lists-table.php:421
+#: includes/admin/class-es-campaigns-table.php:233
+msgid "<a href=\"?page=%s&action=%s&list=%s&_wpnonce=%s\">Edit</a>"
+msgstr "<a href=\"?page=%s&action=%s&list=%s&_wpnonce=%s\">Popraw</a>"
+
+#: includes/admin/class-es-reports-table.php:154
+msgid "Not yet viewed"
+msgstr "Jeszcze nie oglądany"
+
+#: includes/admin/class-es-admin-settings.php:436
+msgid "You need to visit this URL to send email notifications. Know <a href='%s' target='_blank'>how to run this in background</a>"
+msgstr "Aby wysłać powiadomienia e-mail, powinieneś odwiedzić ten adres URL. Poznaj <a href='%s' target='_blank'>jak uruchomić to w tle</a>"
+
+#: includes/admin/class-es-admin-settings.php:150
+msgid "Select whether to send HTML or Plain Text email using WordPress or PHP mail(). We recommend to send email using WordPres"
+msgstr "Wybierz, czy wysyłać wiadomości e-mail w formacie HTML, czy zwykłym tekstem, używając WordPressa lub PHP mail (). Zalecamy wysyłanie wiadomości e-mail za pomocą WordPressa"
+
+#: includes/admin/class-es-subscribers-table.php:590
+msgid "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\">Resend Confirmation<a>"
+msgstr "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\">Wyślij ponownie potwierdzenie<a>"
+
+#: includes/admin/class-es-subscribers-table.php:584
+msgid "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Delete</a>"
+msgstr "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\" onclick=\"return checkDelete()\">Usuń</a>"
+
+#: includes/admin/class-es-subscribers-table.php:583
+msgid "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\">Edit</a>"
+msgstr "<a href=\"?page=%s&action=%s&subscriber=%s&_wpnonce=%s\">Popraw</a>"
+
+#: admin/partials/dashboard.php:102
+msgid "<span>Join our</span> Email Subscribers Secret Club!"
+msgstr "<span>Dołącz do naszego</span> Email Subscribers Secret Club!"
+
+#: admin/partials/dashboard.php:99
+msgid "All Documentation"
+msgstr "Pełna dokumentacja"
+
+#: admin/partials/dashboard.php:98
+msgid "How to add WordPress users to your lists"
+msgstr "Jak dodać użytkownika WordPressa do twoich list"
+
+#: admin/partials/dashboard.php:97
+msgid "How to Create and Send Broadcasts Emails"
+msgstr "Jak tworzyć i wysyłać e-maile z audycjami"
+
+#: admin/partials/dashboard.php:96
+msgid "How to create new template for Post Notification or Broadcast"
+msgstr "Jak utworzyć nowy szablon dla Powiadomień o wpisach lub audycji"
+
+#: admin/partials/dashboard.php:95
+msgid "How to create a new campaign for new blog post "
+msgstr "Jak utworzyć nową kampanię dla nowego wpisu na blogu"
+
+#: admin/partials/dashboard.php:94
+msgid "How to create and show subscription forms."
+msgstr "Jak tworzyć i wyświetlać formularze subskrypcji."
+
+#: admin/partials/dashboard.php:93
+msgid "Help & How to's"
+msgstr "Pomoc i Jak to zrobić"
+
+#: admin/partials/dashboard.php:86
+msgid "Overview"
+msgstr "Podsumowanie"
+
+#: admin/partials/dashboard.php:57
+msgid ""
+"Do you want to build your list, keep off spam, write emails that people open and click through? Do you want to build your brand and nurture an amazing tribe?\n"
+"\t\t\t\t\t\t\t\t\t\t\t\tEnter your name and email on the form to get it all."
+msgstr ""
+"Czy chcesz zbudować swoją listę, powstrzymać spam, pisać e-maile otwierane i klikane? Chcesz zbudować swoją markę i pielęgnować niesamowite plemię?\n"
+"\t\t\t\t\t\t\t\t\t\t\t\tAby to wszystko uzyskać wprowadź swoje imię i adres e-mail w formularz."
+
+#: admin/partials/dashboard.php:56
+msgid "In short 5 weeks: build your list and succeed with email marketing"
+msgstr "W ciągu 5 tygodni: zbuduj swoją listę i odnieś sukces dzięki marketingowi e-mailowemu"
+
+#: admin/partials/dashboard.php:52
+msgid "Free Course - Email Marketing Mastery"
+msgstr "Bezpłatny kurs - Mistrzostwo E-mail Marketingu"
+
+#: admin/partials/dashboard.php:45
+msgid "5. And don’t forget to signup for the free course below."
+msgstr "5. I nie zapomnij zapisać się na bezpłatny kurs poniżej."
+
+#: admin/partials/dashboard.php:44
+msgid "4. Go ahead and take a look around. Tweak settings, review <a href=\"%s\" target=\"_blank\">design templates</a> or go through the documentation."
+msgstr "4. Śmiało i rozejrzyj się. Dostosuj ustawienia, przejrzyj <a href=\"%s\" target=\"_blank\">szablony projektów</a> lub przejrzyj dokumentację."
+
+#: admin/partials/dashboard.php:43
+msgid "\" and confirm you got those test  emails.</b>"
+msgstr "\" i potwierdź, że masz te e-maile testowe.</b>"
+
+#: admin/partials/dashboard.php:43
+msgid "3. BTW, we also sent a few test emails to the Test List. <a href=\"%s\" target=\"_blank\">We sent both those campaigns</b> </a>(newsletter and new post notification).<b> So check your email \""
+msgstr "3. Przy okazji, wysłaliśmy również kilka testowych e-maili do listy testowej. <a href=\"%s\" target=\"_blank\">Wysłaliśmy obie te kampanie</b> </a>(biuletyn i nowe powiadomienie o wpisie).<b> Sprawdź pocztę e-mail ”"
+
+#: admin/partials/dashboard.php:42
+msgid "2. We also created a lead collection / subscription form and added it the default widget area on your site. <a href=\"%s\" target=\"blank\" ><b>Review and rearrange the form from Widgets.</b></a> You can also learn about <a href=\"%s\" target=\"_blank\">adding a form to another place from this help article.</a>"
+msgstr "2. Stworzyliśmy również formularz wiodącej kolekcji/subskrypcji i dodaliśmy go do domyślnego obszaru widżetów na twojej witrynie. <a href=\"%s\" target=\"blank\" ><b>Przejrzyj i zmień formularz z widżetów.</b></a> Możesz także dowiedzieć się o dodawani formularza do innego miejsca <a href=\"%s\" target=\"_blank\">z tego artykułu pomocy.</a>"
+
+#: admin/partials/dashboard.php:41
+msgid "1. We created two lists - <b>Main List</b> and <b>Test List</b>. Also added yourself to the Test List. That way you can test campaigns on the Test List before sending them to the Main List ;-)"
+msgstr "1. Stworzyliśmy dwie listy: <b>Główną</b> i <b>Testową</b>. Dodałeś się także do listy testowej. W ten sposób możesz przetestować kampanie na liście Testowej przed wysłaniem ich na listę Główną ;-)"
+
+#: admin/partials/dashboard.php:39
+msgid "Please read this carefully and make changes as needed"
+msgstr "Przeczytaj to uważnie i wprowadź niezbędne zmiany"
+
+#: admin/partials/dashboard.php:38
+msgid "We’ve setup the basics to save you time."
+msgstr "Skonfigurowaliśmy podstawy, aby zaoszczędzić czas."
+
+#: admin/partials/dashboard.php:37
+msgid "Email Subscribers is a complete newsletter plugin that lets you collect leads, send automated new blog post notification emails, send newsletters and more. It’s your tool to build an audience and engage with them ongoingly."
+msgstr "Email Subscribers to kompletna wtyczka biuletynowa, która umożliwia zbieranie potencjalnych klientów, wysyłanie automatycznych e-maili z powiadomieniami o nowych wpisach na blogu, tworzenie i wysyłani biuletynów i nie tylko. To Twoje narzędzie do budowania publiczności i stałego zajmowania się nią."
+
+#: admin/partials/dashboard.php:36
+msgid "Hello! 👋"
+msgstr "Hello! 👋"
+
+#: includes/admin/class-es-lists-table.php:479
+msgid "Search Lists"
+msgstr "Przeszukaj listy"
+
+#: includes/admin/class-es-admin-settings.php:312
+msgid "Available keywords. {{NAME}}, {{EMAIL}}, {{LIST}}, {{UNSUBSCRIBE-LINK}}"
+msgstr "Możliwe słowa kluczowe. {{NAME}}, {{EMAIL}}, {{LIST}}, {{UNSUBSCRIBE-LINK}}"
+
+#: includes/admin/class-es-admin-settings.php:122
+msgid "Choose a FROM name for all the emails to be sent from this plugin."
+msgstr "Wybierz nazwę [OD] dla wszystkich wiadomości wysyłanych z tej wtyczki"
+
+#: includes/admin/class-es-subscribers-table.php:664
+msgid "All Lists"
+msgstr "Wszystkie listy"
+
+#: includes/admin/class-es-subscribers-table.php:653
+msgid "Search Contacts"
+msgstr "Przeszukaj kontakty"
+
+#: includes/admin/class-es-subscribers-table.php:439
+msgid "Save Changes"
+msgstr "Zapisz zmiany"
+
+#: includes/admin/class-es-reports-table.php:248
+msgid "View"
+msgstr "Zobacz"
+
+#: includes/admin/class-es-import-subscribers.php:127
+msgid "%d contacts are invalid."
+msgstr "%d kontakt(-ów) jest nieprawidłowy(-ch)."
+
+#: includes/admin/class-es-subscribers-table.php:864
+msgid "Contact(s) have been added to list successfully!"
+msgstr "Kontakt(y) zostały dodane do listy poprawnie!"
+
+#: includes/admin/class-es-subscribers-table.php:641
+msgid "Add To List"
+msgstr "Dodaj do listy"
+
+#: includes/admin/class-es-lists-table.php:368
+#: includes/admin/class-es-lists-table.php:377
+msgid "<a href=\"%s\" target=\"_blank\">%d</a>"
+msgstr "<a href=\"%s\" target=\"_blank\">%d</a>"
+
+#: public/class-email-subscribers-public.php:188
+msgid "Sorry, we couldn't find you. Please contact admin."
+msgstr "Przepraszamy, nie mogliśmy Cię znaleźć. Skontaktuj się z administratorem."
+
+#: admin/partials/dashboard.php:25
+msgid "Explore all changes"
+msgstr "Przeglądaj wszystkie zmiany"
+
+#: admin/partials/dashboard.php:23
+msgid "4. Find <a href=\"%s\" target=\"_blank\">Forms</a> here"
+msgstr "4. Znajdź <a href=\"%s\" target=\"_blank\">formularze</a> tutaj"
+
+#: admin/partials/dashboard.php:22
+msgid "3. Groups are now called <a href=\"%s\" target=\"_blank\">Lists</a>"
+msgstr "3. Grupy są teraz nazywane <a href=\"%s\" target=\"_blank\">Listami</a>"
+
+#: admin/partials/dashboard.php:21
+msgid "2. Subscribers are now called <b>Contacts</b> and part of an <a href=\"%s\" target=\"_blank\">Audience</a>"
+msgstr "2. Subskrybenci są teraz nazywani <b>Kontaktami</b> i częścią <a href=\"%s\" target=\"_blank\">Grupy Odbiorców</a>"
+
+#: admin/partials/dashboard.php:20
+msgid "1. Newsletters are now <b>Broadcasts</b>. Broadcasts and Post notifications are now merged in <a href=\"%s\" target=\"_blank\">Campaigns</a>"
+msgstr "1. Biuletyny są teraz <b>audycjami</b>. Audycje i powiadomienia pocztowe są obecnie łączone w <a href=\"%s\" target=\"_blank\">kampanie</a>"
+
+#: admin/partials/dashboard.php:19
+msgid "Here's a quick look at changes within the plugin:"
+msgstr "Oto krótkie spojrzenie na zmiany we wtyczce:"
+
+#: admin/partials/dashboard.php:18
+msgid "Congratulations! You've successfully upgraded to "
+msgstr "Gratulacje! Z powodzeniem uaktualniłeś(-aś) do"
+
+#: admin/partials/help.php:145
+msgid "How to <a href=\"https://www.icegram.com/documentation/es-how-to-use-rainmakers-form-in-email-subscribers/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page\" target=\"_blank\">add Rainmaker’s form in Email Subscribers</a>"
+msgstr "Jak<a href=\"https://www.icegram.com/documentation/es-how-to-use-rainmakers-form-in-email-subscribers/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page\" target=\"_blank\">dodać formularz Rainmake do Email Subscribers</a>"
+
+#: admin/partials/help.php:142
+msgid "Email subscribers easily integrates with another <b>free</b> plugin <a class=\"es-cta\" target=\"_blank\" href=\"https://wordpress.org/plugins/icegram-rainmaker/\">Rainmaker</a>"
+msgstr "Email Subscribers łatwo integruje się z inną <b>bezpłatną</b> wtyczką <a class=\"es-cta\" target=\"_blank\" href=\"https://wordpress.org/plugins/icegram-rainmaker/\">Rainmaker</a>"
+
+#: admin/partials/help.php:137
+msgid "How to <a href=\"https://www.icegram.com/documentation/es-how-to-show-subscribe-form-inside-a-popup/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page\" target=\"_blank\">show subscribe form inside a popup</a>"
+msgstr "Jak <a href=\"https://www.icegram.com/documentation/es-how-to-show-subscribe-form-inside-a-popup/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page\" target=\"_blank\">wyświetlić formularz subskrypcji w wyskakującym okienku</a>"
+
+#: admin/partials/help.php:135
+msgid "Using Email Subscribers you can achieve this easily with our <b>free</b> plugin <a target=\"_blank\" class=\"es-cta\" href=\"https://wordpress.org/plugins/icegram/\">Icegram</a>"
+msgstr "Używając Email Subscribers możesz to łatwo osiągnąć dzięki naszej <b> darmowej </b> wtyczce <a target=\"_blank\" class=\"es-cta\" href=\"https://wordpress.org/plugins/icegram/\">Icegram</a>"
+
+#: admin/partials/help.php:74
+msgid "Modify "
+msgstr "Edytuj"
+
+#: admin/partials/help.php:25
+msgid "Send broadcast to different lists."
+msgstr "Wyślij audycję na różne list. "
+
+#: admin/class-email-subscribers-admin.php:180
+msgid "Audience"
+msgstr "Grupa odbiorców"
+
+#: admin/class-email-subscribers-admin.php:175
+msgid "Dashboard"
+msgstr "Kokpit"
+
+#: includes/es-backward.php:101
+msgid "Confirm Your Subscription!"
+msgstr "Potwierdź Subskrypcję!"
+
+#: includes/admin/class-es-newsletters.php:163
+msgid "Contacts from the selected list will be notified."
+msgstr "Zostaną powiadomione kontakty z wybranej listy."
+
+#: includes/admin/class-es-newsletters.php:151
+msgid "Content of the selected template will be broadcasted."
+msgstr "Treść wybranego szablonu zostanie wyemitowana."
+
+#: includes/admin/class-es-newsletters.php:99
+msgid "Campaigns > Broadcast"
+msgstr "Kampanie > Emisja"
+
+#: includes/admin/class-es-admin-settings.php:476
+msgid "Blocked Domain(s)"
+msgstr "Blokowane Domeny"
+
+#: includes/admin/class-es-admin-settings.php:456
+msgid "Total emails your host can send in an hour."
+msgstr "Łączna liczba e-maili, które Twój host może wysłać w ciągu godziny."
+
+#: includes/admin/class-es-admin-settings.php:455
+msgid "Maximum Emails To Send In An Hour"
+msgstr "Maksymalna liczba e-maili do wysłania w ciągu godziny"
+
+#: includes/admin/class-es-admin-settings.php:435
+msgid "Cron URL"
+msgstr "CRON URL"
+
+#: includes/admin/class-es-admin-settings.php:418
+msgid "Send report to admin(s) whenever campaign is successfully sent to all contacts. Available Keywords: {{DATE}}, {{SUBJECT}}, {{COUNT}}"
+msgstr "Wyślij raport do administratora(-ów), gdy kampania zostanie pomyślnie wysłana do wszystkich kontaktów. Dostępne słowa kluczowe: {{DATE}}, {{SUBJECT}}, {{COUNT}}"
+
+#: includes/admin/class-es-admin-settings.php:396
+msgid "Set this option to \"Yes\" to notify admin(s) on every campaign sent."
+msgstr "Ustaw tę opcję na „Tak”, aby powiadomić administratora(-ów) o każdej wysłanej kampanii."
+
+#: includes/admin/class-es-admin-settings.php:385
+msgid "Admin Notification On Every Campaign Sent"
+msgstr "Powiadomienie administratora o każdej kampanii Wysłane"
+
+#: includes/admin/class-es-admin-settings.php:370
+msgid "New email subscription"
+msgstr "Nowa subskrypcja e-mail"
+
+#: includes/admin/class-es-admin-settings.php:360
+msgid "Set this option to \"Yes\" to notify admin(s) for new contact signup."
+msgstr "Ustaw tę opcję na „Tak”, aby powiadomić administratora(-ów) o nowej rejestracji kontaktu."
+
+#: includes/admin/class-es-admin-settings.php:354
+#: includes/admin/class-es-admin-settings.php:390
+msgid "Notify?"
+msgstr "Powiadomić?"
+
+#: includes/admin/class-es-admin-settings.php:349
+msgid "Admin Notification On New Subscription"
+msgstr "Powiadomienie administratora o nowej subskrypcji"
+
+#: includes/admin/class-es-admin-settings.php:341
+msgid "If Double Optin is set, contact will receive confirmation email with above content. You can use {{NAME}}, {{EMAIL}}, {{SUBSCRIBE-LINK}} keywords"
+msgstr "Jeśli ustawione jest Double Optin, kontakt otrzyma wiadomość e-mail z potwierdzeniem z powyższą treścią. Możesz użyć słów kluczowych {{NAME}}, {{EMAIL}}, {{SUBSCRIBE-LINK}}"
+
+#: includes/admin/class-es-admin-settings.php:319
+msgid "Confirmation Email"
+msgstr "Email potwierdzający"
+
+#: includes/admin/class-es-admin-settings.php:311
+#: includes/admin/class-es-admin-settings.php:340
+#: includes/admin/class-es-admin-settings.php:375
+#: includes/admin/class-es-admin-settings.php:417
+msgid "Content"
+msgstr "Treść"
+
+#: includes/admin/class-es-admin-settings.php:291
+msgid "Send welcome email to new contact after signup."
+msgstr "Wyślij e-mail powitalny do nowego kontaktu po rejestracji."
+
+#: includes/admin/class-es-admin-settings.php:290
+msgid "Enable?"
+msgstr "Włączyć?"
+
+#: includes/admin/class-es-admin-settings.php:280
+msgid "Welcome Email"
+msgstr "Email powitalny"
+
+#: includes/admin/class-es-admin-settings.php:250
+msgid "Show this message if any error occured after clicking on unsubscribe link."
+msgstr "Pokaż tę wiadomość, jeśli po kliknięciu linku anulującego subskrypcję wystąpił błąd."
+
+#: includes/admin/class-es-admin-settings.php:238
+msgid "Once contact clicks on unsubscribe link, he/she will be redirected to a page where this message will be shown."
+msgstr "Po kliknięciu w link rezygnacji z subskrypcji kontakt zostanie przekierowany na stronę, na której zostanie wyświetlony ten komunikat."
+
+#: includes/admin/class-es-admin-settings.php:235
+msgid "Thank You, You have been successfully unsubscribed. You will no longer hear from us."
+msgstr "Dziękujemy, pomyślnie anulowano subskrypcję. Nie będziesz już o nas słyszeć."
+
+#: includes/admin/class-es-admin-settings.php:227
+msgid "Unsubscribe Success/ Error Messages"
+msgstr "Sukces anulacji subskrypcji/ Komunikat Błędu"
+
+#: includes/admin/class-es-admin-settings.php:219
+msgid "Show this message if any error occured after clicking confirmation link from Double Opt-In (Confirmation) Email."
+msgstr "Pokaż tę wiadomość, jeśli pojawił się błąd po kliknięciu linku potwierdzenia z Double Opt-In (Potwierdzającego) Emaila."
+
+#: includes/admin/class-es-admin-settings.php:218
+#: includes/admin/class-es-admin-settings.php:249
+msgid "Error Message"
+msgstr "Komunikat Błędu"
+
+#: includes/admin/class-es-admin-settings.php:216
+msgid "Oops.. Your request couldn't be completed. This email address seems to be already subscribed / blocked."
+msgstr "Ups… Twoje zapytanie nie mogło zostać zrealizowane. Ten adres e-mail wydaje się już być subskrybowany / zablokowany."
+
+#: includes/admin/class-es-admin-settings.php:208
+msgid "Show this message if contact is successfully subscribed from Double Opt-In (Confirmation) Email"
+msgstr "Pokaż tę wiadomość, jeśli kontakt został pomyślnie subskrybowany przez Double Opt-In (Potwierdzający) Email "
+
+#: includes/admin/class-es-admin-settings.php:207
+#: includes/admin/class-es-admin-settings.php:237
+msgid "Success Message"
+msgstr "Wiadomość o sukcesie"
+
+#: includes/admin/class-es-admin-settings.php:205
+msgid "You have been subscribed successfully!"
+msgstr "Subskrypcja zrealizowana pomyślnie!"
+
+#: includes/admin/class-es-admin-settings.php:198
+msgid "Subscription Success/ Error Messages"
+msgstr "Sukces subskrypcji/ Komunikat Błędu"
+
+#: includes/admin/class-es-admin-settings.php:191
+msgid "Add text which you want your contact to see in footer to unsubscribe. Use {{UNSUBSCRIBE-LINK}} keyword to add unsubscribe link."
+msgstr "Dodaj tekst, który chcesz, aby Twój kontakt widział w stopce anulowania subskrypcji. Użyj słowa kluczowego {{UNSUBSCRIBE-LINK}}, aby dodać link rezygnacji z subskrypcji."
+
+#: includes/admin/class-es-admin-settings.php:190
+msgid "Show Unsubscribe Message In Email Footer"
+msgstr "Pokaż komunikat o anulacji subskrypcji w stopce Emaila"
+
+#: includes/admin/class-es-admin-settings.php:141
+msgid "Email Addresses"
+msgstr "Adresy Email"
+
+#: includes/admin/class-es-admin-settings.php:117
+msgid "Sender"
+msgstr "Nadawca"
+
+#: includes/admin/class-es-admin-settings.php:73
+msgid "Security"
+msgstr "Bezpieczeństwo"
+
+#: includes/admin/class-es-admin-settings.php:70
+msgid "General"
+msgstr "Ogólny"
+
+#: includes/admin/class-es-admin-settings.php:53
+#: includes/admin/class-es-handle-sync-wp-user.php:36
+msgid "Settings have been saved successfully!"
+msgstr "Ustawienia zapisane poprawnie!"
+
+#: includes/admin/class-es-post-notifications.php:299
+msgid "(Optional) Select custom post type for which you want to send notification."
+msgstr "(Opcjonalnie) Wybierz niestandardowy typ wpisu, dla którego chcesz wysłać powiadomienie."
+
+#: includes/admin/class-es-post-notifications.php:298
+msgid "Select custom post type(s)"
+msgstr "Wybierz niestandardowy(-e) typ(-y) postów"
+
+#: includes/admin/class-es-post-notifications.php:285
+msgid "Notification will be sent out when any post from selected categories will be published."
+msgstr "Powiadomienie zostanie wysłane, gdy opublikowany zostanie dowolny post z wybranych kategorii."
+
+#: includes/admin/class-es-post-notifications.php:259
+msgid "Content of the selected template will be sent out as post notification."
+msgstr "Treść wybranego szablonu zostanie wysłana jako powiadomienie o wpisie."
+
+#: includes/admin/class-es-post-notifications.php:258
+msgid "Select template"
+msgstr "Wybierz szablon"
+
+#: includes/admin/class-es-post-notifications.php:247
+msgid "Contacts from the selected list will be notified about new post notification."
+msgstr "Kontakty z wybranej listy zostaną zawiadomione o nowym powiadomieniu o wpisie."
+
+#: includes/admin/class-es-newsletters.php:157
+#: includes/admin/class-es-post-notifications.php:246
+#: includes/admin/class-es-handle-sync-wp-user.php:74
+msgid "Select List"
+msgstr "Wybierz listę"
+
+#: includes/admin/class-es-post-notifications.php:221
+msgid "Campaigns > Edit Post Notification"
+msgstr "Kampanie > Edytuj powiadomienie o wpisie"
+
+#: includes/admin/class-es-post-notifications.php:218
+msgid "Campaigns > New Post Notification"
+msgstr "Kampanie> Nowe powiadomienie o wpisie"
+
+#: includes/admin/class-es-post-notifications.php:191
+msgid "Post notification has been updated successfully!"
+msgstr "Powiadomienie o wpisie zostało zaktualizowane pomyślnie!"
+
+#: includes/admin/class-es-post-notifications.php:79
+msgid "Post notification has been added successfully!"
+msgstr "Powiadomienie o wpisie zostało dodane pomyślnie!"
+
+#: includes/admin/class-es-newsletters.php:46
+#: includes/admin/class-es-post-notifications.php:50
+msgid "Please select template."
+msgstr "Proszę wybrać szablon."
+
+#: includes/admin/class-es-forms-table.php:783
+msgid "No Forms avaliable."
+msgstr "Brak dostępnych formularzy."
+
+#: includes/admin/class-es-forms-table.php:759
+msgid "Please select form(s) to delete."
+msgstr "Proszę wybrać formularz(-e) do usunięcia."
+
+#: includes/admin/class-es-forms-table.php:756
+msgid "Form(s) have been deleted successfully!"
+msgstr "Formularz(-e) został(-y) usunięty(-e) pomyślnie!"
+
+#: includes/admin/class-es-forms-table.php:741
+msgid "Form has been deleted successfully!"
+msgstr "Formularz został usunięty pomyślnie!"
+
+#: includes/admin/class-es-forms-table.php:734
+msgid "You do not have permission to delete this form."
+msgstr "Nie masz uprawnień do usunięcia tego formularza."
+
+#: includes/admin/class-es-forms-table.php:660
+msgid "Shortcode"
+msgstr "Krótki kod"
+
+#: includes/admin/class-es-forms-table.php:323
+msgid "Allow contacts to choose list(s) in which they want to subscribe."
+msgstr "Zezwalaj kontaktom na wybranie list(-y) z których chcą subskrybować."
+
+#: includes/admin/class-es-forms-table.php:322
+msgid "Allow contact to choose list(s)"
+msgstr "Zezwalaj kontaktom na wybranie list(-y)"
+
+#: includes/admin/class-es-forms-table.php:304
+msgid "Contacts will be added into selected list(s)"
+msgstr "Kontakt zostanie dodany do wybranych(-ej) list(-y)"
+
+#: includes/admin/class-es-forms-table.php:272
+msgid "Required?"
+msgstr "Wymagany?"
+
+#: includes/admin/class-es-forms-table.php:271
+msgid "Show?"
+msgstr "Pokazać?"
+
+#: includes/admin/class-es-forms-table.php:270
+msgid "Field"
+msgstr "Pole"
+
+#: includes/admin/class-es-forms-table.php:265
+msgid "Form Fields"
+msgstr "Pola formularza"
+
+#: includes/admin/class-es-forms-table.php:249
+msgid "Form Name"
+msgstr "Nazwa formularza"
+
+#: includes/admin/class-es-forms-table.php:232
+msgid "Edit Form"
+msgstr "Edytuj formularz"
+
+#: includes/admin/class-es-forms-table.php:230
+msgid "New Form"
+msgstr "Nowy formularz"
+
+#: includes/admin/class-es-forms-table.php:193
+msgid "Sorry, form not found"
+msgstr "Przepraszam, nie znaleziono formularza"
+
+#: includes/admin/class-es-forms-table.php:184
+msgid "Form has been updated successfully!"
+msgstr "Formularz został pomyślnie zaktualizowany!"
+
+#: includes/admin/class-es-forms-table.php:139
+msgid "Form has been added successfully!"
+msgstr "Formularz został pomyślnie dodany!"
+
+#: includes/admin/class-es-forms-table.php:94
+msgid "Please select list(s) in which contact will be subscribed."
+msgstr "Wybierz listę(-y), w których kontakt będzie subskrybował."
+
+#: includes/admin/class-es-forms-table.php:89
+msgid "Please add form name."
+msgstr "Proszę podaj nazwę formularza"
+
+#: includes/admin/class-es-forms-table.php:86
+msgid "You do not have permission to edit this form."
+msgstr "Nie masz uprawnień do edytowania tego formularza."
+
+#: includes/admin/class-es-widget.php:70
+msgid "Subscriber List"
+msgstr "Lista subskrybentów"
+
+#: includes/admin/class-es-widget.php:11
+msgid "Email Subscribers Widget"
+msgstr "Widżet Email Subscribers"
+
+#: includes/admin/class-es-subscribers-table.php:874
+msgid "No contacts avaliable."
+msgstr "Brak dostępnych kontaktów."
+
+#: includes/admin/class-es-subscribers-table.php:844
+msgid "Contact(s) have been moved to list successfully!"
+msgstr "Kontakt(-y) został(-y) pomyślnie przeniesiony(-e) na listę!"
+
+#: includes/admin/class-es-newsletters.php:49
+#: includes/admin/class-es-post-notifications.php:42
+#: includes/admin/class-es-subscribers-table.php:835
+#: includes/admin/class-es-subscribers-table.php:855
+msgid "Please select list."
+msgstr "Proszę wybierz listę."
+
+#: includes/admin/class-es-subscribers-table.php:824
+msgid "Status has been changed successfully!"
+msgstr "Status został zmieniony pomyślnie!"
+
+#: includes/admin/class-es-subscribers-table.php:814
+msgid "Please select status."
+msgstr "Proszę wybierz status."
+
+#: includes/admin/class-es-subscribers-table.php:743
+#: includes/admin/class-es-subscribers-table.php:803
+msgid "Contact(s) have been deleted successfully!"
+msgstr "Kontakt(-y) został(-y) pomyślnie usunięty(-e)!"
+
+#: includes/admin/class-es-subscribers-table.php:726
+msgid "Contact have been updated successfully!"
+msgstr "Kontakt(-y) został(-y) pomyślnie zaktualizowany(-e)!"
+
+#: includes/admin/class-es-subscribers-table.php:642
+msgid "Change Status"
+msgstr "Zmień status"
+
+#: includes/admin/class-es-subscribers-table.php:640
+msgid "Move To List"
+msgstr "Przesuń na listę"
+
+#: includes/admin/class-es-subscribers-table.php:429
+#: includes/admin/class-es-subscribers-table.php:608
+msgid "List(s)"
+msgstr "Lista(-y)"
+
+#: includes/admin/class-es-subscribers-table.php:414
+msgid "No list found"
+msgstr "Listy nie znaleziono"
+
+#: includes/admin/class-es-subscribers-table.php:383
+msgid "Edit Contact"
+msgstr "Edytuj kontakt"
+
+#: includes/admin/class-es-subscribers-table.php:378
+msgid "Contact updated successfully!"
+msgstr "Kontakt został pomyślnie zaktualizowany! "
+
+#: includes/admin/class-es-subscribers-table.php:253
+msgid "Contact already exist."
+msgstr "Kontakt już istnieje."
+
+#: includes/admin/class-es-subscribers-table.php:249
+msgid "Contact has been added successfully!"
+msgstr "Status został pomyślnie dodany! "
+
+#: includes/admin/class-es-export-subscribers.php:26
+#: includes/admin/class-es-subscribers-table.php:210
+msgid "Please Select List"
+msgstr "Proszę wybierz listę"
+
+#: includes/admin/class-es-subscribers-table.php:123
+msgid "Audience > Contacts"
+msgstr "Odbiorcy > Kontakty"
+
+#: includes/admin/class-es-subscribers-table.php:21
+msgid "Contact"
+msgstr "Kontakt"
+
+#: includes/admin/class-es-cron.php:251
+msgid "Please try after sometime."
+msgstr "Proszę spróbuj za chwilę."
+
+#: includes/admin/class-es-cron.php:250
+msgid "GUID is empty."
+msgstr "GUID jest pusty."
+
+#: includes/admin/class-es-cron.php:249
+msgid "Not allowed to process request."
+msgstr "Niedozwolone żądanie przetwarzania."
+
+#: includes/admin/class-es-cron.php:246 includes/admin/class-es-cron.php:247
+#: includes/admin/class-es-cron.php:248
+msgid "Invalid GUID."
+msgstr "Błędny GUID."
+
+#: includes/admin/class-es-cron.php:245
+msgid "No notifications found to send."
+msgstr "Nie znaleziono powiadomień do wysłania."
+
+#: includes/admin/class-es-cron.php:244
+msgid "Emails not found."
+msgstr "Nie znaleziono e-maili."
+
+#: includes/admin/class-es-cron.php:135
+#: includes/admin/class-es-admin-settings.php:404
+msgid "Campaign Sent!"
+msgstr "Kampania wysłana!"
+
+#: includes/admin/class-es-export-subscribers.php:279
+msgid "Created On"
+msgstr "Stworzony"
+
+#: includes/admin/class-es-export-subscribers.php:221
+msgid "Export the Subscribers"
+msgstr "Eksportuj subskrybentów"
+
+#: includes/admin/class-es-subscribers-table.php:54
+msgid "Import Contacts"
+msgstr "Importuj kontakty"
+
+#: includes/admin/class-es-export-subscribers.php:124
+msgid "Audience > Export Contacts"
+msgstr "Odbiorcy > Eksportuj kontakty"
+
+#: includes/admin/class-es-export-subscribers.php:106
+#: includes/admin/class-es-lists-table.php:387
+msgid "Download"
+msgstr "Pobierz"
+
+#: includes/admin/class-es-export-subscribers.php:87
+msgid "Unsubscribed Contacts"
+msgstr "Kontakty odsubskrybowane"
+
+#: includes/admin/class-es-export-subscribers.php:86
+msgid "Subscribed Contacts"
+msgstr "Zasubskrybowane kontakty"
+
+#: includes/admin/class-es-export-subscribers.php:69
+#: includes/admin/class-es-subscribers-table.php:22
+#: includes/admin/class-es-subscribers-table.php:172
+msgid "Contacts"
+msgstr "Kontakty"
+
+#: includes/admin/class-es-export-subscribers.php:37
+msgid "No data available"
+msgstr "Brak dostępnych danych"
+
+#: includes/admin/class-es-lists-table.php:579
+msgid "No lists avaliable."
+msgstr "Brak dostępnych list"
+
+#: includes/admin/class-es-lists-table.php:555
+#: includes/admin/class-es-handle-sync-wp-user.php:28
+msgid "Please select list"
+msgstr "Proszę wybierz listę"
+
+#: includes/admin/class-es-lists-table.php:552
+msgid "List(s) have been deleted successfully"
+msgstr "Lista(-y) została(-y) pomyślnie usunięta(-y)! "
+
+#: includes/admin/class-es-lists-table.php:537
+msgid "List has been deleted successfully!"
+msgstr "Lista została pomyślnie usunięta! "
+
+#: includes/admin/class-es-lists-table.php:532
+msgid "You do not have permission to delete list"
+msgstr "Nie masz uprawnień do usuwania listy"
+
+#: includes/admin/class-es-forms-table.php:661
+#: includes/admin/class-es-lists-table.php:441
+#: includes/admin/class-es-subscribers-table.php:609
+msgid "Created"
+msgstr "Utworzone"
+
+#: includes/admin/class-es-export-subscribers.php:85
+#: includes/admin/class-es-lists-table.php:440
+msgid "All Contacts"
+msgstr "Wszystkie kontakty"
+
+#: admin/partials/dashboard.php:87 includes/admin/class-es-lists-table.php:439
+msgid "Active Contacts"
+msgstr "Aktywne kontakty"
+
+#: includes/admin/class-es-lists-table.php:208
+msgid "Edit List"
+msgstr "Edytuj listę"
+
+#: includes/admin/class-es-lists-table.php:169
+#: includes/admin/class-es-lists-table.php:520
+msgid "List has been updated successfully!"
+msgstr "Lista została pomyślnie zaktualizowana! "
+
+#: includes/admin/class-es-lists-table.php:128
+msgid "List has been added successfully!"
+msgstr "Lista została pomyślnie dodana! "
+
+#: includes/admin/class-es-lists-table.php:85
+msgid "Please add list name"
+msgstr "Proszę dodaj nazwę listy"
+
+#: includes/admin/class-es-lists-table.php:83
+#: includes/admin/class-es-lists-table.php:516
+msgid "You do not have permission to edit list"
+msgstr "Nie masz uprawnień do edycji listy "
+
+#: includes/admin/class-es-lists-table.php:42
+msgid "Audience > Lists"
+msgstr "Odbiorcy > Listy"
+
+#: admin/class-email-subscribers-admin.php:176 admin/partials/dashboard.php:90
+#: includes/admin/class-es-forms-table.php:303
+#: includes/admin/class-es-lists-table.php:20
+#: includes/admin/class-es-lists-table.php:66
+msgid "Lists"
+msgstr "Listy"
+
+#: includes/admin/class-es-reports-table.php:412
+msgid "Reports have been deleted successfully!"
+msgstr "Raporty zostały pomyślnie usunięte! "
+
+#: includes/admin/class-es-reports-table.php:394
+msgid "You do not have permission to preview notification"
+msgstr "Nie masz uprawnień do podglądu powiadomienia"
+
+#: includes/admin/class-es-reports-table.php:385
+msgid "Report has been deleted successfully!"
+msgstr "Raport został pomyślnie usunięty! "
+
+#: includes/admin/class-es-reports-table.php:380
+msgid "You do not have permission to delete notification"
+msgstr "Nie masz uprawnień do usunięcia powiadomienia"
+
+#: includes/admin/class-es-reports-table.php:368
+msgid "You do not have permission to view notification"
+msgstr "Nie masz uprawnień do przeglądania powiadomień"
+
+#: includes/admin/class-es-export-subscribers.php:70
+#: includes/admin/class-es-reports-table.php:270
+msgid "Total Contacts"
+msgstr "Ilość kontaktów"
+
+#: includes/admin/class-es-reports-table.php:265
+#: includes/admin/class-es-admin-settings.php:301
+#: includes/admin/class-es-admin-settings.php:329
+#: includes/admin/class-es-admin-settings.php:367
+#: includes/admin/class-es-admin-settings.php:406
+msgid "Subject"
+msgstr "Temat"
+
+#: includes/admin/class-es-reports-table.php:209
+msgid "Completed"
+msgstr "Zakończone"
+
+#: includes/admin/class-es-reports-table.php:167
+msgid "No Reports avaliable."
+msgstr "Brak dostępnych rekordów."
+
+#: includes/admin/class-es-reports-table.php:154
+msgid "Viewed"
+msgstr "Przejrzane"
+
+#: includes/admin/class-es-reports-table.php:51
+msgid "<br /><span class='es-helper'>No emails found in queue</span>"
+msgstr "<br /><span class='es-helper'>Nie znaleziono e-maili w kolejce</span>"
+
+#: includes/admin/class-es-reports-table.php:50
+msgid "<span class='page-title-action button-disabled'>Send Queued Emails Now</span>"
+msgstr "<span class='page-title-action button-disabled'>Wyślij teraz e-maile z kolejki</span>"
+
+#: includes/admin/class-es-reports-table.php:48
+msgid "<a href='%s' target='_blank' class='page-title-action es-imp-button'>Send Queued Emails Now</a>"
+msgstr "<a href='%s' target='_blank' class='page-title-action es-imp-button'>Wyślij teraz e-maile z kolejki</a>"
+
+#: includes/admin/class-es-reports-table.php:19
+msgid "Report"
+msgstr "Raport"
+
+#: includes/admin/class-es-import-subscribers.php:227
+msgid "Audience > Import Contacts"
+msgstr "Odbiorcy > Importuj kontakty"
+
+#: includes/admin/class-es-import-subscribers.php:198
+msgid "Select list"
+msgstr "Wybierz listę"
+
+#: includes/admin/class-es-import-subscribers.php:186
+msgid "Select status"
+msgstr "Wybierz status"
+
+#: includes/admin/class-es-import-subscribers.php:149
+#: includes/admin/class-es-import-subscribers.php:153
+msgid "Error: Please Upload File"
+msgstr "Błąd: Proszę załaduj plik"
+
+#: includes/admin/class-es-import-subscribers.php:145
+msgid "Error: Please Upload only CSV File"
+msgstr "Błąd: Proszę załaduj tylko plik CSV"
+
+#: includes/admin/class-es-import-subscribers.php:141
+msgid "Error: Please select status"
+msgstr "Błąd: Proszę wybierz status"
+
+#: includes/admin/class-es-import-subscribers.php:137
+msgid "Error: Please Select List"
+msgstr "Błąd: Proszę wybierz listę"
+
+#: includes/admin/class-es-import-subscribers.php:122
+msgid "%d contacts are already exists."
+msgstr "Kontakty już istnieją"
+
+#: includes/admin/class-es-import-subscribers.php:114
+#: includes/admin/class-es-import-subscribers.php:118
+msgid "Total %d contacts have been imported successfully!"
+msgstr "Wszystkie %d kontakty(-ów) zostały poprawnie zaimportowane!"
+
+#: includes/admin/class-es-import-subscribers.php:15
+msgid "Import Subscribers"
+msgstr "Import subskrybentów"
+
+#: admin/class-email-subscribers-admin.php:183 admin/partials/dashboard.php:88
+#: includes/admin/class-es-forms-table.php:19
+#: includes/admin/class-es-forms-table.php:20
+#: includes/admin/class-es-forms-table.php:42
+#: includes/admin/class-es-forms-table.php:67
+#: includes/admin/class-es-form-widget.php:70
+msgid "Forms"
+msgstr "Formularze"
+
+#: includes/admin/class-es-form-widget.php:66
+#: includes/admin/class-es-widget.php:54
+msgid "Widget Title:"
+msgstr "Tytuł widżetu:"
+
+#: includes/admin/class-es-form-widget.php:11
+msgid "Email Subscribers Form"
+msgstr "Formularz Email Subscribers"
+
+#: includes/admin/class-es-templates-table.php:52
+msgid "for Newsletter:"
+msgstr "dla biuletynu:"
+
+#: includes/admin/class-es-templates-table.php:48
+msgid "for Post Notification: "
+msgstr "dla powiadomień o wpisach:"
+
+#: includes/admin/class-es-forms-table.php:328
+#: includes/admin/class-es-admin-settings.php:285
+#: includes/admin/class-es-admin-settings.php:357
+#: includes/admin/class-es-admin-settings.php:393
+#: includes/admin/class-es-handle-sync-wp-user.php:67
+#: includes/admin/class-es-widget.php:49
+msgid "Yes"
+msgstr "Tak"
+
+#: includes/admin/class-es-forms-table.php:332
+#: includes/admin/class-es-admin-settings.php:285
+#: includes/admin/class-es-admin-settings.php:358
+#: includes/admin/class-es-admin-settings.php:394
+#: includes/admin/class-es-handle-sync-wp-user.php:64
+#: includes/admin/class-es-widget.php:49
+msgid "No"
+msgstr "Nie"
+
+#: includes/admin/class-es-lists-table.php:212
+#: includes/admin/class-es-subscribers-table.php:72
+#: includes/admin/class-es-subscribers-table.php:186
+msgid "Manage Lists"
+msgstr "Zarządzaj listami"
+
+#: includes/admin/class-es-export-subscribers.php:60
+#: includes/admin/class-es-subscribers-table.php:45
+msgid "Export Contacts"
+msgstr "Eksportuj kontakty"
+
+#: includes/admin/class-es-subscribers-table.php:36
+#: includes/admin/class-es-subscribers-table.php:185
+msgid "Add New Contact"
+msgstr "Dodaj nowy kontakt"
+
+#: includes/admin/class-es-handle-sync-wp-user.php:143
+msgid "Audience > Sync Contacts"
+msgstr "Odbiorcy > Synchronizuj kontakty"
+
+#: includes/admin/class-es-handle-subscription.php:399
+msgid "Invalid Captcha"
+msgstr "Niepoprawna CAPTCHA"
+
+#: includes/admin/class-es-handle-subscription.php:398
+msgid "Please select the list"
+msgstr "Proszę wybierz listę"
+
+#: includes/admin/class-es-handle-subscription.php:397
+msgid "You do not have permission to add subscriber"
+msgstr "Nie masz uprawnień do dodawania subskrybenta"
+
+#: includes/admin/class-es-handle-subscription.php:396
+msgid "Oops...unable to add subscriber"
+msgstr "Ups… nie można dodać subskrybenta"
+
+#: includes/admin/class-es-handle-subscription.php:394
+msgid "Invalid name"
+msgstr "Niepoprawna nazwa"
+
+#: includes/admin/class-es-tools.php:35
+msgid "Email has been sent. Please check your inbox"
+msgstr "Email został wysłany. Proszę, sprawdź swoją skrzynkę odbiorczą"
+
+#: includes/admin/class-es-campaigns-table.php:361
+msgid "Please check campaign(s) to delete."
+msgstr "Sprawdź kampanie do usunięcia."
+
+#: includes/admin/class-es-campaigns-table.php:356
+msgid "Campaign(s) have been deleted successfully!"
+msgstr "Kampanie zostały poprawnie usunięte!"
+
+#: includes/admin/class-es-campaigns-table.php:337
+msgid "Campaign has been deleted successfully!"
+msgstr "Kampania została poprawnie usunięta! "
+
+#: includes/admin/class-es-campaigns-table.php:333
+msgid "You are not allowed to delete campaign."
+msgstr "Nie masz uprawnień do usunięcia kampanii. "
+
+#: includes/admin/class-es-campaigns-table.php:296
+msgid "Search Campaigns"
+msgstr "Szukaj kampanii"
+
+#: includes/admin/class-es-lists-table.php:19
+#: includes/admin/class-es-campaigns-table.php:256
+msgid "List"
+msgstr "Lista"
+
+#: admin/class-email-subscribers-admin.php:178
+#: includes/admin/class-es-reports-table.php:191
+#: includes/admin/class-es-templates-table.php:42
+#: includes/admin/class-es-templates-table.php:216
+#: includes/admin/class-es-campaigns-table.php:186
+msgid "Broadcast"
+msgstr "Transmisja"
+
+#: includes/admin/class-es-campaigns-table.php:158
+msgid "No Campaigns Found."
+msgstr "Nie znaleziono kampanii."
+
+#: includes/admin/class-es-newsletters.php:101
+#: includes/admin/class-es-post-notifications.php:237
+#: includes/admin/class-es-campaigns-table.php:52
+msgid "Manage Templates"
+msgstr "Zarządzaj szablonami"
+
+#: includes/admin/class-es-newsletters.php:108
+#: includes/admin/class-es-campaigns-table.php:51
+msgid "Send Broadcast"
+msgstr "Wyślij transmisję"
+
+#: includes/admin/class-es-campaigns-table.php:50
+msgid "Create Post Notification"
+msgstr "Utwórz powiadomienie o wpisie"
+
+#: admin/class-email-subscribers-admin.php:181 admin/partials/dashboard.php:89
+#: includes/admin/class-es-newsletters.php:100
+#: includes/admin/class-es-post-notifications.php:233
+#: includes/admin/class-es-campaigns-table.php:36
+#: includes/admin/class-es-campaigns-table.php:49
+msgid "Campaigns"
+msgstr "Kampanie"
+
+#: includes/admin/class-es-campaigns-table.php:19
+#: includes/admin/class-es-campaigns-table.php:20
+msgid "Campaign"
+msgstr "Kampania"
+
+#: includes/class-es-mailer.php:105
+msgid "Welcome !"
+msgstr "Witamy!"
+
+#: includes/class-email-subscribers.php:503
+msgid "Every Fifteen Minutes"
+msgstr "Co piętnaście minut"
+
+#: includes/class-email-subscribers.php:160
+msgid "OK, I Got it!"
+msgstr "OK, rozumiem!"
+
+#: includes/admin/class-es-admin-settings.php:72
+msgid "Email Sending"
+msgstr "Wysyłanie e-maili"
+
+#: includes/class-email-subscribers.php:159
+msgid "Or use <strong><a href=\"%s\" target=\"_blank\">Email Subscribners Pro</a></strong> for automatic Cron support"
+msgstr "Lub użyj <strong><a href=\"%s\" target=\"_blank\">Email Subscribners Pro</a></strong> do automatycznej obsługi Cron"
+
+#: includes/class-email-subscribers.php:158
+msgid "Or schedule Cron in <a href=\"%s\" target=\"_blank\">cPanel</a>"
+msgstr "Lub zaplanuj Cron w <a href=\"%s\" target=\"_blank\">cPanel</a>"
+
+#: includes/class-email-subscribers.php:157
+msgid "WordPress Cron is disable on your site. Email notifications from Email Subscribers plugin will not be sent automatically. <a href=\"%s\" target=\"_blank\" >Here's how you can enable it.</a>"
+msgstr "WordPress Cron jest wyłączony w Twojej witrynie. Powiadomienia e-mail z Email Subscribers nie będą wysyłane automatycznie. <a href=\"%s\" target=\"_blank\" >Oto, jak możesz go włączyć.</a>"
+
+#: includes/class-email-subscribers.php:136
+msgid "Email Subscribers Pro"
+msgstr "Email Subscribers Pro"
+
+#: includes/class-email-subscribers.php:135
+msgid "<strong>Email Subscribers Pro</strong> plugin is activated but it won't work because it needs plugin to be updated. Please update %s plugin first."
+msgstr "Wtyczka <strong>Email Subscribers Pro</strong> została aktywowana, ale nie będzie działać, ponieważ wymaga aktualizacji. Zaktualizuj ją %s najpierw."
+
+#: includes/admin/class-es-campaigns-table.php:182
+#: includes/class-es-common.php:332
+msgid "Inactive"
+msgstr "Nieaktywny"
+
+#: includes/admin/class-es-campaigns-table.php:182
+#: includes/class-es-common.php:331
+msgid "Active"
+msgstr "Aktywny"
+
+#: includes/admin/class-es-newsletters.php:145 includes/class-es-common.php:302
+msgid "Select Template"
+msgstr "Wybierz szablon"
+
+#: includes/admin/class-es-forms-table.php:771
+#: includes/admin/class-es-lists-table.php:567 includes/class-es-common.php:263
+msgid "Disable"
+msgstr "Wyłączony"
+
+#: includes/admin/class-es-forms-table.php:770
+#: includes/admin/class-es-lists-table.php:566 includes/class-es-common.php:262
+msgid "Enable"
+msgstr "Włączony"
+
+#: includes/notices/class-es-admin-notices.php:97
+msgid "Action failed. Please refresh the page and retry."
+msgstr "Akcja nieudana. Odśwież stronę i spróbuj ponownie."
+
+#: includes/notices/views/html-notice-update.php:29
+msgid "Are you sure you wish to run the updater now?"
+msgstr "Jesteś pewien, że chcesz teraz uruchomić aktualizator?"
+
+#: admin/partials/help.php:52 includes/notices/views/html-notice-update.php:23
+msgid "Run the updater"
+msgstr "Uruchom aktualizator"
+
+#: includes/notices/views/html-notice-update.php:19
+msgid "We need to update your data store to the latest version."
+msgstr "Musimy zaktualizować twój magazyn danych do najnowszej wersji."
+
+#: includes/notices/views/html-notice-updated.php:14
+msgid "Email Subscribers data update complete. Thank you for updating to the latest version!"
+msgstr "Aktualizacja danych Email Subscribers zakończona. Dziękujemy za aktualizację do najnowszej wersji!"
+
+#: includes/notices/views/html-notice-updated.php:12
+msgid "Dismiss"
+msgstr "Odwołaj"
+
+#: includes/notices/views/html-notice-updating.php:22
+msgid "Taking a while? Click here to run it now."
+msgstr "Trochę trwa? Kliknij tutaj, by uruchomić go teraz."
+
+#: includes/notices/views/html-notice-updating.php:19
+#: includes/notices/views/html-notice-update.php:19
+msgid "Email Subscribers data update"
+msgstr "Aktualizacja danych Email Subscribers"
+
+#. translators: %d: interval
+#: includes/upgrade/class-es-background-process.php:184
+msgid "Every %d minutes"
+msgstr "C %d minut"
+
+#: includes/libraries/wp-background-process.php:427
+msgid "Every %d Minutes"
+msgstr "Co %d Minut"
+
+#: includes/admin/class-es-handle-subscription.php:395
+#: public/class-email-subscribers-public.php:117
+msgid "Please try after some time"
+msgstr "Proszę spróbuj po pewnym czasie"
+
+#: includes/admin/class-es-handle-subscription.php:393
+#: public/class-email-subscribers-public.php:116
+msgid "Invalid email address"
+msgstr "Niepoprawny adres e-mail"
+
+#: includes/admin/class-es-handle-subscription.php:392
+#: public/class-email-subscribers-public.php:115
+msgid "Oops.. Unexpected error occurred."
+msgstr "Ups… Wystąpił nieoczekiwany błąd."
+
+#: includes/admin/class-es-handle-subscription.php:391
+#: public/class-email-subscribers-public.php:114
+msgid "Email Address already exists!"
+msgstr "Adres e-mail już istnieje!"
+
+#: includes/admin/class-es-handle-subscription.php:389
+#: public/class-email-subscribers-public.php:112
+msgid "Successfully Subscribed."
+msgstr "Zasubskrybowany poprawnie."
+
+#: includes/admin/class-es-handle-subscription.php:388
+#: public/class-email-subscribers-public.php:111
+msgid "You need to wait for sometime before subscribing again"
+msgstr "Musisz poczekać jakiś czas przed ponownym subskrybowaniem"
+
+#: includes/admin/class-es-handle-subscription.php:387
+#: public/class-email-subscribers-public.php:110
+msgid "Please enter email address"
+msgstr "Proszę wprowadzić adres e-mail"
+
+#: public/partials/cron-message.php:37
+msgid "Total Emails In Queue"
+msgstr "Łączna liczba e-maili w kolejce"
+
+#: includes/admin/class-es-tools.php:31
+msgid "Test email to %s"
+msgstr "Testuj e-mail do %s"
+
+#: includes/admin/class-es-admin-settings.php:466
+msgid "Send Test Email"
+msgstr "Wyślij email Testowy"
+
+#: admin/partials/help.php:108
+msgid "What data Email Subscribers stores on your end?"
+msgstr "Jakie dane Email Subscribers przechowuje po twojej stronie?"
+
+#: admin/partials/help.php:107
+msgid "How to enable consent checkbox in the subscribe form?"
+msgstr "Jak włączyć pole wyboru zgody w formularzu subskrypcji?"
+
+#: admin/partials/help.php:105
+msgid "[GDPR] Email Subscribers"
+msgstr "[GDPR] Email Subscribers"
+
+#: admin/partials/dashboard.php:66 admin/partials/onboarding.php:47
+#: admin/partials/onboarding.php:72 admin/partials/onboarding.php:95
+msgid "Privacy Policy"
+msgstr "Polityka Prywatności"
+
+#: admin/partials/dashboard.php:66 admin/partials/onboarding.php:47
+#: admin/partials/onboarding.php:72 admin/partials/onboarding.php:95
+msgid "I have read and agreed to your %s."
+msgstr "Przeczytałem i zgodziłem się na twój %s"
+
+#: admin/partials/help.php:76
+msgid "How does Sync work?"
+msgstr "Jak działa synchronizacja?"
+
+#: includes/admin/class-es-handle-subscription.php:390
+#: public/class-email-subscribers-public.php:113
+msgid "Your subscription was successful! Kindly check your mailbox and confirm your subscription. If you don't see the email within a few minutes, check the spam/junk folder."
+msgstr "Twoja subskrypcja została zarejestrowana! Uprzejmie prosimy o zalogowanie się do swojej skrzynki pocztowej i potwierdzenie subskrypcji. Jeśli w przeciągu kilku minut nie zobaczysz maila aktywacyjnego, sprawdź folder SPAM na swojej skrzynce pocztowej."
+
+#: admin/partials/help.php:98
+msgid "What is Cron and how to Schedule Cron Emails?"
+msgstr "Co to jest CRON i jak go skonfigurować?"
+
+#: admin/partials/help.php:92
+msgid "Keywords in the Newsletters"
+msgstr "Słowa kluczowe w biuletynach"
+
+#: admin/partials/help.php:72
+msgid "General Plugin Configuration"
+msgstr "Główna konfiguracja wtyczki"
+
+#: admin/class-email-subscribers-admin.php:184
+msgid "Template Preview"
+msgstr "Podgląd szablonu"
+
+#: includes/admin/class-es-templates-table.php:90
+msgid "Preview Template"
+msgstr "Szablon podglądu"
+
+#: includes/admin/class-es-templates-table.php:40
+msgid "Select your Email Template Type"
+msgstr "Wybierz swój Typ szablonu emaili"
+
+#: includes/admin/class-es-templates-table.php:196
+msgid "Template Type"
+msgstr "Typ szablonu"
+
+#: includes/class-email-subscribers-activator.php:58
+msgid "Set thumbnail"
+msgstr "Ustaw miniaturę"
+
+#: includes/class-email-subscribers-activator.php:57
+msgid "Thumbnail (For Visual Representation only)"
+msgstr "Miniatura (wyłącznie do wizualnej identyfikacji)"
+
+#: includes/class-email-subscribers-activator.php:54
+msgid "No Templates found in Trash"
+msgstr "Nie znaleziono żadnych szablonów w koszu"
+
+#: includes/class-email-subscribers-activator.php:53
+msgid "No Templates found"
+msgstr "Nie znaleziono żadnych szablonów"
+
+#: includes/class-email-subscribers-activator.php:52
+msgid "Search Templates"
+msgstr "Szukaj szablonów"
+
+#: includes/class-email-subscribers-activator.php:51
+msgid "View Templates"
+msgstr "Zobacz szablony"
+
+#: includes/class-email-subscribers-activator.php:49
+msgid "New Templates"
+msgstr "Nowe szablony"
+
+#: includes/class-email-subscribers-activator.php:48
+msgid "Edit Templates"
+msgstr "Edytuj szablony"
+
+#: includes/class-email-subscribers-activator.php:46
+#: includes/class-email-subscribers-activator.php:47
+msgid "Add new Template"
+msgstr "Dodaj nowy szablon"
+
+#: includes/class-email-subscribers-activator.php:44
+#: includes/class-email-subscribers-activator.php:45
+#: includes/class-email-subscribers-activator.php:50
+msgid "Templates"
+msgstr "Szablony"
+
+#: includes/admin/class-es-reports-table.php:427
+msgid "This is how the email you sent may look. <br>Note: Different email services (like gmail, yahoo etc) display email content differently. So there could be a slight variation on how your customer will view the email content."
+msgstr "Tak może wyglądać twoja wysyłana wiadomość.<br>Uwaga: Różne serwisy poczty elektronicznej (takie jak gmail, yahoo, itp.) wyświetlają treści email w różny sposób. W związku z tym Twój subskrybent może ją zobaczyć nieco inaczej."
+
+#: admin/partials/help.php:144
+msgid "These styles are well designed and beautify your subscription form making it more appealing."
+msgstr "Te style są dobrze zaprojektowane i upiększają Twój formularz subskrypcji czyniąc go bardziej atrakcyjnym."
+
+#: admin/partials/help.php:143
+msgid "Rainmaker extends the core features of Email Subscribers and provides elegant form styles."
+msgstr "Rainmaker rozszerza podstawowe funkcje  Email Subscribers i zapewnia eleganckie style formularzy."
+
+#: admin/partials/help.php:140
+msgid "Get beautiful and elegant form styles"
+msgstr "Uzyskaj piękne i eleganckie style formularzy"
+
+#: admin/partials/help.php:136
+msgid "Icegram's beautiful designs instantly capture user attention and help increase sign-ups to your WordPress website."
+msgstr "Piękne wzory Icegrama natychmiast przyciągają uwagę użytkowników i pomagają zwiększyć liczbę rejestracji na stronie WordPress."
+
+#: admin/partials/help.php:134
+msgid "Don't limit your subscriber form to a widget. Embed it within popups, hello bars, slide-ins, sidebars, full screen popups etc."
+msgstr "Nie ograniczaj formularza subskrybenta do widżetu. Osadź go w wyskakujących oknach, belkach powitalnych, slajdach, paskach bocznych, pełnoekranowych wyskakujących oknach itp."
+
+#: admin/partials/help.php:132
+msgid "Show your subscribe form inside attractive popups"
+msgstr "Pokaż swój formularz subskrypcji w atrakcyjnych wyskakujących oknach"
+
+#: admin/partials/help.php:129
+msgid "Want to do more? Here's how.."
+msgstr "Chcesz zrobić więcej? Oto jak…"
+
+#: admin/partials/help.php:124
+msgid "FAQ's"
+msgstr "FAQ"
+
+#: admin/partials/help.php:120
+msgid "Troubleshooting Steps"
+msgstr "Rozwiązywanie problemów"
+
+#: admin/partials/help.php:99
+msgid "Schedule Cron Emails in cPanel"
+msgstr "Konfiguracja zadania CRON w cPanel"
+
+#: admin/partials/help.php:96
+msgid "Cron Job Setup"
+msgstr "Konfiguracja zadania CRON"
+
+#: admin/partials/help.php:116
+msgid "Send a test post notification email to myself/testgroup"
+msgstr "Jak wysłać testowe powiadomienia o nowych wpisach do siebie/grupy testowej?"
+
+#: admin/partials/help.php:115
+msgid "Keywords in the Post Notifications"
+msgstr "Dostępne słowa kluczowe w powiadomieniach o nowych wpisach"
+
+#: admin/partials/help.php:114
+msgid "Create and Send Post Notification Emails when new posts are published"
+msgstr "Tworzenie i wysyłanie powiadomień o nowych wpisach"
+
+#: admin/partials/help.php:91
+msgid "Create and Send Newsletter Emails"
+msgstr "Tworzenie i wysyłanie biuletynów"
+
+#: admin/partials/help.php:75
+msgid " (like Confirmation, Welcome, Admin emails), Cron Settings and Assign User Roles"
+msgstr " (jak Potwierdzenie, Powitanie, Emaile administracyjne), ustawienia CRON i  uprawnień użytkowników"
+
+#: admin/partials/help.php:74
+msgid "default text, email contents"
+msgstr "domyślny tekst, treść wiadomości e-mail"
+
+#: admin/partials/help.php:65
+msgid "Additional form settings"
+msgstr "Dodatkowe ustawienia formularza"
+
+#: admin/partials/help.php:27
+msgid "Supports localization and internationalization."
+msgstr "Wsparcie dla lokalizacji i internacjonalizacji."
+
+#: admin/partials/help.php:26
+msgid "Get detailed sent email reports."
+msgstr "Szczegółowe raporty wysłanych emaili."
+
+#: admin/partials/help.php:24
+msgid "Use HTML editor to create broadcast (Newsletters) and post notifications."
+msgstr "Używanie edytora HTML do tworzenia szablonów biuletynów i powiadomieniach o nowych wpisach."
+
+#: admin/partials/help.php:23
+msgid "Easily migrate subscribers from another app using Import & Export."
+msgstr "Łatwa migracja subskrybentów z innych aplikacji dzięki opcjom \"Import\" i \"Eksport\"."
+
+#: admin/partials/help.php:22
+msgid "Automatically add Unsubscribe link in the email."
+msgstr "Automatyczne dodawanie odnośnika anulującego subskrypcję do treści emaili."
+
+#: admin/partials/help.php:21
+msgid "Send email notification to admin when a new user signs up."
+msgstr "Wysyłanie powiadomień do administratorów o każdym nowym subskrybencie."
+
+#: admin/partials/help.php:20
+msgid "Send new post notification emails to subscribers when new posts are published on your website."
+msgstr "Wysyłanie powiadomień o nowych wpisach do subskrybentów."
+
+#: admin/partials/help.php:19
+msgid "Send automatic welcome email to subscribers."
+msgstr "Wysłanie automatycznych emaili powitalnych do subskrybentów."
+
+#: admin/partials/help.php:18
+msgid "Configure double Opt-In and Single Opt-In facility for subscribers."
+msgstr "Konfiguracja modelu zapisu do listy subskrybentów: podwójne lub pojedyncze Opt-in"
+
+#: admin/partials/help.php:17
+msgid "Collect customer emails by adding a subscription box (Widget/Shortcode/PHP Code)."
+msgstr "Zdobywaj nowych subskrybentów przez dodanie formularz subskrypcji (widżet/krótki kod/kod PHP)."
+
+#: admin/partials/help.php:15
+msgid "Feature Overview"
+msgstr "Przegląd funkcji:"
+
+#: includes/admin/class-es-forms-table.php:257
+msgid "Description"
+msgstr "Opis"
+
+#: admin/partials/dashboard.php:108
+msgid "Questions? Need Help?"
+msgstr "Masz pytania? Potrzebujesz pomocy?"
+
+#: admin/partials/dashboard.php:110
+msgid "Version: %s"
+msgstr "Wersja: %s"
+
+#: email-subscribers.php:101
+msgctxt "timezone date format"
+msgid "Y-m-d H:i:s"
+msgstr "Y-m-d H:i:s"
+
+#: includes/admin/class-es-admin-settings.php:377
+msgid "Content for the admin email whenever a new subscriber signs up and is confirmed. Available Keywords: {{NAME}}, {{EMAIL}}, {{LIST}}"
+msgstr "Treść emaila do administratorów z informacją o nowym subskrybencie.<br />(Dostępne słowa kluczowe: {{NAME}}, {{EMAIL}}, {{GROUP}})"
+
+#: includes/admin/class-es-admin-settings.php:369
+msgid "Subject for the admin email whenever a new contact signs up and is confirmed"
+msgstr "Temat emaila do administratorów z informacją o nowym subskrybencie."
+
+#: includes/class-es-common.php:439
+msgid "Single Opt-In"
+msgstr "Pojedynczy Opt-In"
+
+#: includes/admin/class-es-admin-settings.php:158
+msgid "Opt-in Type"
+msgstr "Typ Opt-in"
+
+#: includes/admin/class-es-admin-settings.php:149
+msgid "Email Type"
+msgstr "Typ wiadomości email"
+
+#: admin/partials/help.php:68
+msgid "How to add captcha in Subscribe form of Email Subscribers?"
+msgstr "Jak dodać CAPTCHA do formularza subskrypcji?"
+
+#: admin/partials/help.php:67
+msgid "How to Redirect Subscribers to a new page/url after successful sign up?"
+msgstr "Jak przekierować subskrybentów na nową stronę/adres URL po pomyślnym zarejestrowaniu się?"
+
+#: admin/partials/help.php:123
+msgid "CSS Help"
+msgstr "Pomoc CSS"
+
+#: includes/admin/class-es-post-notifications.php:272
+#: includes/class-es-common.php:261
+msgid "Select Status"
+msgstr "Wybierz status"
+
+#: public/partials/cron-message.php:33
+msgid "Total Emails Sent"
+msgstr "Liczba emaili na liście"
+
+#: includes/class-es-common.php:116
+msgid "Disable email notification"
+msgstr "Wyłącz powiadomienia emailowe"
+
+#: includes/admin/class-es-reports-table.php:187
+#: includes/admin/class-es-templates-table.php:43
+msgid "Post Notification"
+msgstr "Powiadomienie o wpisie"
+
+#: admin/class-email-subscribers-admin.php:179
+#: includes/admin/class-es-reports-table.php:20
+#: includes/admin/class-es-reports-table.php:43
+#: includes/admin/class-es-reports-table.php:82
+msgid "Reports"
+msgstr "Raporty"
+
+#: admin/partials/help.php:89
+msgid "Newsletters"
+msgstr "Biuletyny"
+
+#: admin/class-email-subscribers-admin.php:177 admin/partials/help.php:112
+msgid "Post Notifications"
+msgstr "Powiadomienia o wpisie"
+
+#: admin/partials/help.php:122
+msgid "Subscribers are not receiving Emails?"
+msgstr "Subskrybenci nie otrzymują emaili?"
+
+#. Author of the plugin
+msgid "Icegram"
+msgstr "Icegram"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+msgid "https://www.icegram.com/"
+msgstr "https://www.icegram.com/"
+
+#: includes/admin/class-es-import-subscribers.php:175
+msgid "from here"
+msgstr "stąd "
+
+#: includes/admin/class-es-import-subscribers.php:174
+msgid "Check CSV structure"
+msgstr "Sprawdź strukturę CSV "
+
+#: includes/admin/class-es-handle-sync-wp-user.php:95
+#: includes/admin/class-es-subscribers-table.php:63
+msgid "Sync"
+msgstr "Synchronizacja"
+
+#: includes/admin/class-es-export-subscribers.php:71
+#: includes/admin/class-es-lists-table.php:442
+msgid "Export"
+msgstr "Eksport"
+
+#: includes/admin/class-es-import-subscribers.php:210
+msgid "Import"
+msgstr "Import"
+
+#: admin/partials/help.php:100
+msgid "Schedule Cron Emails in Parallels Plesk"
+msgstr "Konfiguracja zadań CRON w Parallels Plesk"
+
+#: admin/partials/help.php:80
+msgid "How to add Unsubscribe link in emails?"
+msgstr "Jak dodać do emaila odnośnik anulujący subskrypcję?"
+
+#: admin/partials/help.php:77
+msgid "How to Import or Export Email Addresses?"
+msgstr "Jak importować lub eksportować adresy email?"
+
+#: includes/admin/class-es-templates-table.php:48
+#: includes/admin/class-es-templates-table.php:52
+msgid "Available Keywords"
+msgstr "Dostępne słowa kluczowe"
+
+#. Plugin Name of the plugin
+msgid "Email Subscribers & Newsletters"
+msgstr "Email Subscribers & Newsletters"
+
+#: includes/class-es-common.php:118
+msgid "Send email via cron job"
+msgstr "Wyślij email przez zadanie CRON"
+
+#: includes/class-es-common.php:117
+msgid "Send email immediately"
+msgstr "Wyślij email natychmiast"
+
+#: includes/class-es-common.php:418
+msgid "No Custom Post Types Available"
+msgstr "Nie są dostępne spersonalizowane typy wpisów"
+
+#: includes/admin/class-es-post-notifications.php:284
+msgid "Select Post Category"
+msgstr "Wybierz kategorię wpisów"
+
+#. Description of the plugin
+msgid "Add subscription forms on website, send HTML newsletters & automatically notify subscribers about new blog posts once it is published."
+msgstr "Dodaj formularz subskrypcji na stronie internetowej, wyślij biuletyn HTML i automatycznie powiadom subskrybentów o nowych wpisach na blogu kiedy tylko zostaną opublikowane."
+
+#: includes/admin/class-es-old-widget.php:83
+msgid "NO"
+msgstr "NIE"
+
+#: includes/admin/class-es-old-widget.php:82
+msgid "YES"
+msgstr "TAK"
+
+#: includes/admin/class-es-templates-table.php:197
+#: includes/class-es-common.php:450
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: includes/class-es-common.php:449
+msgid "Medium Size"
+msgstr "Średni rozmiar"
+
+#: includes/class-es-common.php:448
+msgid "Full Size"
+msgstr "Pełny rozmiar"
+
+#: includes/admin/class-es-admin-settings.php:170
+msgid "<p>Select image size for {{POSTIMAGE}} to be shown in the Post Notification Emails.</p>"
+msgstr "Wybierz rozmiar obrazu dla {{POSTIMAGE}} który będzie wyświetlany w emailu potwierdzającym."
+
+#: includes/admin/class-es-admin-settings.php:167
+msgid "Image Size"
+msgstr "Rozmiar obrazu"
+
+#: includes/class-es-common.php:440
+msgid "Double Opt-In"
+msgstr "Podwójne Opt-in"
+
+#: admin/partials/help.php:81
+msgid "How to check sent emails?"
+msgstr "Jak sprawdzać wysłane emaile?"
+
+#: admin/partials/help.php:78
+msgid "How to Add/Update Existing Subscribers List & Status?"
+msgstr "Jak dodać/zaktualizować grupę lub status aktualnych subskrybentów?"
+
+#: admin/partials/help.php:79
+msgid "How to change/update/translate any texts from the plugin?"
+msgstr "Jak zmienić/zaktualizować/przetłumaczyć jakikolwiek tekst używany przez wtyczkę?"
+
+#: admin/partials/dashboard.php:109
+msgid "Contact Us"
+msgstr "Napisz do nas"
+
+#: admin/class-email-subscribers-admin.php:172
+#: includes/admin/class-es-form-widget.php:11
+#: includes/admin/class-es-old-widget.php:11
+#: includes/admin/class-es-old-widget.php:12
+#: includes/admin/class-es-widget.php:11
+#: includes/class-email-subscribers-activator.php:56
+msgid "Email Subscribers"
+msgstr "Email Subscribers"
+
+#: includes/admin/class-es-admin-settings.php:133
+msgid "Email Address"
+msgstr "Adres email"
+
+#: includes/admin/class-es-export-subscribers.php:295
+#: includes/admin/class-es-subscribers-table.php:542
+#: includes/class-es-common.php:101
+msgid "Unsubscribed"
+msgstr "Anulowany"
+
+#: includes/admin/class-es-export-subscribers.php:293
+#: includes/admin/class-es-subscribers-table.php:541
+#: includes/class-es-common.php:100
+msgid "Unconfirmed"
+msgstr "Niepotwierdzony"
+
+#: includes/admin/class-es-subscribers-table.php:658
+msgid "All Statuses"
+msgstr "Wszystkie statusy"
+
+#: includes/admin/class-es-subscribers-table.php:773
+msgid "Confirmation email has been sent successfully!"
+msgstr "E-mail z potwierdzeniem wysłano poprawnie."
+
+#: includes/admin/class-es-import-subscribers.php:172
+msgid "Select CSV file"
+msgstr "Wybierz plik CSV"
+
+#: includes/admin/class-es-admin-settings.php:626
+#: includes/admin/class-es-handle-sync-wp-user.php:88
+msgid "Save Settings"
+msgstr "Zapisz ustawienia"
+
+#: includes/admin/class-es-admin-settings.php:143
+msgid "Enter the admin email addresses that should receive notifications (separated by comma)."
+msgstr "Wprowadź adresy email administratorów, którzy powinni otrzymywać powiadomienia (oddzielne przecinkami)."
+
+#: includes/admin/class-es-admin-settings.php:131
+msgid "Choose a FROM email address for all the emails to be sent from this plugin"
+msgstr "Wybierz adres e-mail [OD], dla wszystkich wiadomości wysyłanych z tej wtyczki"
+
+#: includes/admin/class-es-reports-table.php:269
+msgid "End Date"
+msgstr "Data zakończenia"
+
+#: includes/admin/class-es-reports-table.php:268
+msgid "Start Date"
+msgstr "Data rozpoczęcia"
+
+#: includes/admin/class-es-reports-table.php:101
+msgid "Viewed Date"
+msgstr "Data przeglądania"
+
+#: includes/admin/class-es-reports-table.php:100
+msgid "Viewed Status"
+msgstr "Status przeglądania"
+
+#: includes/admin/class-es-reports-table.php:99
+msgid "Sent Date"
+msgstr "Data wysyłki"
+
+#: includes/admin/class-es-forms-table.php:276
+#: includes/admin/class-es-export-subscribers.php:277
+#: includes/admin/class-es-reports-table.php:97
+#: includes/admin/class-es-admin-settings.php:130
+#: includes/admin/class-es-subscribers-table.php:425
+#: includes/admin/class-es-subscribers-table.php:607
+#: public/partials/class-es-shortcode.php:174
+msgid "Email"
+msgstr "Email"
+
+#: includes/admin/class-es-cron.php:243
+msgid "Emails sent succssfully!"
+msgstr "Wiadomości wysłano poprawnie."
+
+#: includes/admin/class-es-post-notifications.php:58
+msgid "Please select categories."
+msgstr "Proszę wybrać kategorie wpisu."
+
+#: includes/admin/class-es-subscribers-table.php:791
+msgid "Please select subscribers to update."
+msgstr "Proszę wybrać grupę subskrybentów."
+
+#: admin/partials/help.php:101
+msgid "Hosting doesn’t support Cron Jobs?"
+msgstr "Co zrobić gdy Twój hosting nie wspiera zadań CRON?"
+
+#: includes/admin/class-es-reports-table.php:250
+msgid "Preview"
+msgstr "Podgląd"
+
+#: includes/admin/class-es-forms-table.php:688
+#: includes/admin/class-es-reports-table.php:249
+#: includes/admin/class-es-reports-table.php:330
+#: includes/admin/class-es-lists-table.php:469
+#: includes/admin/class-es-subscribers-table.php:639
+msgid "Delete"
+msgstr "Usuń"
+
+#: includes/admin/class-es-reports-table.php:266
+#: includes/admin/class-es-campaigns-table.php:255
+msgid "Type"
+msgstr "Typ"
+
+#: includes/admin/class-es-forms-table.php:42
+#: includes/admin/class-es-lists-table.php:206
+msgid "Add New"
+msgstr "Dodaj Nowy"
+
+#: includes/admin/class-es-reports-table.php:424
+msgid "Preview Email"
+msgstr "Podgląd emaila"
+
+#: includes/admin/class-es-export-subscribers.php:278
+#: includes/admin/class-es-reports-table.php:98
+#: includes/admin/class-es-reports-table.php:267
+#: includes/admin/class-es-campaigns-table.php:257
+msgid "Status"
+msgstr "Status"
+
+#: includes/admin/class-es-old-widget.php:87
+msgid "Subscriber Group"
+msgstr "Grupa subskrybenta"
+
+#: includes/admin/class-es-old-widget.php:76
+msgid "Short description about subscription form"
+msgstr "Krótki opis formularza subskrypcji"
+
+#: includes/admin/class-es-widget.php:58
+msgid "Short description"
+msgstr "Krótki opis"
+
+#: includes/admin/class-es-old-widget.php:80
+#: includes/admin/class-es-widget.php:62
+msgid "Display Name Field"
+msgstr "Wyświetl pole Nazwa"
+
+#: includes/admin/class-es-old-widget.php:72
+msgid "Widget Title"
+msgstr "Tytuł widgetu"
+
+#: admin/partials/help.php:10 includes/admin/class-es-info.php:17
+msgid "Help & Info"
+msgstr "Pomoc i informacje"
+
+#: admin/class-email-subscribers-admin.php:182
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: includes/admin/class-es-admin-settings.php:71
+msgid "Notifications"
+msgstr "Powiadomienie"
+
+#: includes/admin/class-es-export-subscribers.php:295
+#: includes/admin/class-es-subscribers-table.php:540
+#: includes/class-es-common.php:99
+msgid "Subscribed"
+msgstr "Zasubskrybowane"
+
+#: admin/partials/dashboard.php:68 includes/admin/class-es-forms-table.php:215
+#: public/partials/class-es-shortcode.php:124
+msgid "Subscribe"
+msgstr "Subskrybuj"
+
+#: includes/admin/class-es-forms-table.php:282
+#: includes/admin/class-es-forms-table.php:659
+#: includes/admin/class-es-export-subscribers.php:276
+#: includes/admin/class-es-lists-table.php:223
+#: includes/admin/class-es-lists-table.php:438
+#: includes/admin/class-es-admin-settings.php:121
+#: includes/admin/class-es-admin-settings.php:124
+#: includes/admin/class-es-subscribers-table.php:421
+#: includes/admin/class-es-subscribers-table.php:606
+#: includes/admin/class-es-campaigns-table.php:254
+#: public/partials/class-es-shortcode.php:144
+msgid "Name"
+msgstr "Nazwa"

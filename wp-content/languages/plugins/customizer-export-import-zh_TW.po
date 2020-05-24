@@ -1,0 +1,76 @@
+# Translation of Plugins - Customizer Export/Import - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - Customizer Export/Import - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2018-11-15 15:38:56+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - Customizer Export/Import - Development (trunk)\n"
+
+#. Author URI of the plugin
+msgid "http://www.wpbeaverbuilder.com/?utm_source=external&utm_medium=customizer-export&utm_campaign=plugins-page"
+msgstr "https://www.wpbeaverbuilder.com/?utm_source=external&utm_medium=customizer-export&utm_campaign=plugins-page"
+
+#. Author of the plugin
+msgid "The Beaver Builder Team"
+msgstr "Beaver Builder 團隊"
+
+#. Description of the plugin
+msgid "Adds settings export and import functionality to the WordPress customizer."
+msgstr "為 WordPress 的佈景主題外觀自訂器加入匯入/匯出設定的功能。"
+
+#. Plugin URI of the plugin
+msgid "http://www.wpbeaverbuilder.com/wordpress-customizer-export-import-plugin/?utm_source=external&utm_medium=customizer-export&utm_campaign=plugins-page"
+msgstr "https://www.wpbeaverbuilder.com/wordpress-customizer-export-import-plugin/?utm_source=external&utm_medium=customizer-export&utm_campaign=plugins-page"
+
+#. Plugin Name of the plugin
+msgid "Customizer Export/Import"
+msgstr "Customizer Export/Import"
+
+#: includes/control.php:24
+msgid "Uploading..."
+msgstr "正在上傳..."
+
+#: includes/control.php:20
+msgid "Download and import image files?"
+msgstr "確定要下載並匯入圖片嗎？"
+
+#: includes/control.php:15
+msgid "Upload a file to import customization settings for this theme."
+msgstr "為這個佈景主題上傳設定檔，以便匯入設定。"
+
+#: includes/control.php:12 includes/control.php:25
+msgid "Import"
+msgstr "匯入佈景主題設定"
+
+#: includes/control.php:5
+msgid "Click the button below to export the customization settings for this theme."
+msgstr "點擊下方按鈕便可匯出這個佈景主題的設定。"
+
+#: includes/control.php:2 includes/control.php:7
+msgid "Export"
+msgstr "匯出佈景主題設定"
+
+#: classes/class-cei-core.php:270
+msgid "Error importing settings! The settings you uploaded are not for the current theme."
+msgstr "匯入設定時發生錯誤！上傳的設定檔並不屬於目前的佈景主題。"
+
+#: classes/class-cei-core.php:262 classes/class-cei-core.php:266
+msgid "Error importing settings! Please check that you uploaded a customizer export file."
+msgstr "匯入設定時發生錯誤！請檢查這個剛上傳的佈景主題設定檔。"
+
+#: classes/class-cei-core.php:249
+msgid "Error importing settings! Please try again."
+msgstr "匯入設定時發生錯誤！請再試一次。"
+
+#: classes/class-cei-core.php:114
+msgid "Export/Import"
+msgstr "匯入/匯出佈景主題設定"
+
+#: classes/class-cei-core.php:87
+msgid "Please choose a file to import."
+msgstr "請選取要匯入的檔案。"
