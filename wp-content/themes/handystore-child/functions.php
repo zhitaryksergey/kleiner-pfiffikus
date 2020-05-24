@@ -53,7 +53,7 @@ add_filter('terms_clauses', 'filter_term_sort_by_latest_post_clauses', 10, 3);
 //}
 //add_filter( 'register_taxonomy_product_brand', 'customise_product_brand_slug' );
 
-add_filter('woocommerce_display_product_attributes', 'mywoocommerce_display_product_attributes');
+add_filter('woocommerce_display_product_attributes', 'mywoocommerce_display_product_attributes',99,2);
 function mywoocommerce_display_product_attributes($product_attributes, $product)
 {
     foreach ($product_attributes as $k => $v) {
