@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Products')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Products extends RightPress_Condition_Field_Multiselect_Products
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Multiselect_Products extends RightPress_Condition
 }
 
 RP_WCDPD_Condition_Field_Multiselect_Products::get_instance();
-
-}

@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Parent condition class
@@ -12,8 +10,6 @@ if (!defined('ABSPATH')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition')) {
-
 abstract class RightPress_Condition extends RightPress_Item
 {
 
@@ -47,7 +43,7 @@ abstract class RightPress_Condition extends RightPress_Item
         // Check if library was implemented properly
         add_filter('init', array($this, 'validate_library_implementation'));
 
-        // Construct parent
+        // Call parent constructor
         parent::__construct();
     }
 
@@ -131,6 +127,10 @@ abstract class RightPress_Condition extends RightPress_Item
 
     /**
      * Get value to compare against condition
+     *
+     * Warning! Child get_value() methods must successfully return a value event under unexpected circumstances,
+     * e.g. when cart subtotal is supposed to be returned but request comes from the backend and there is no cart.
+     * In such cases empty value must be returned (numeric zero, empty array etc).
      *
      * @access public
      * @param array $params
@@ -233,6 +233,9 @@ abstract class RightPress_Condition extends RightPress_Item
     /**
      * Get cart items
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @param array $params
      * @return array
@@ -276,7 +279,7 @@ abstract class RightPress_Condition extends RightPress_Item
     /**
      * Get order
      *
-     * Throws RightPress_Exception if order can't be loaded
+     * Throws RightPress_Condition_Exception if order can't be loaded
      *
      * Only to be used in conditions' get_value() methods (otherwise errors may not be properly handled)
      *
@@ -305,7 +308,7 @@ abstract class RightPress_Condition extends RightPress_Item
     /**
      * Get product
      *
-     * Throws RightPress_Exception if product can't be loaded
+     * Throws RightPress_Condition_Exception if product can't be loaded
      *
      * Only to be used in conditions' get_value() methods (otherwise errors may not be properly handled)
      *
@@ -339,5 +342,4 @@ abstract class RightPress_Condition extends RightPress_Item
 
 
 
-}
 }

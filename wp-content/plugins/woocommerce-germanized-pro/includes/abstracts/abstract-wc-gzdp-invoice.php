@@ -289,9 +289,12 @@ class WC_GZDP_Invoice extends WC_GZDP_Post_PDF {
 			$net_total = 0;
 		}
 
+		$before_discounts = false;
+
 		// Check for coupons
 		if ( class_exists( "WC_GZD_Coupon_Helper" ) && WC_GZD_Coupon_Helper::instance()->order_has_voucher( $order ) ) {
-			$net_total = ( $this->totals['total'] + $order->get_total_discount( 'incl' ) ) - $this->totals['tax'];
+			$net_total        = ( $this->totals['total'] + $order->get_total_discount( 'incl' ) ) - $this->totals['tax'];
+			$before_discounts = true;
 
 			$key_order = apply_filters( 'woocommerce_gzdp_invoice_totals_voucher_order', array(
 				'cart_subtotal',
@@ -330,10 +333,16 @@ class WC_GZDP_Invoice extends WC_GZDP_Post_PDF {
         }
 
         if ( apply_filters( 'woocommerce_gzdp_invoice_enable_net_totals', $enable_net_totals, $this ) ) {
-            if ( $n_totals = WC_GZDP_Invoice_Helper::instance()->recalculate_order_net_totals( $order ) ) {
+
+            if ( $n_totals = WC_GZDP_Invoice_Helper::instance()->recalculate_order_net_totals( $order, $before_discounts ) ) {
                 $net_totals = array();
 
                 foreach( $n_totals as $key => $total ) {
+
+                	if ( $total['total'] < 0 && $this->type !== 'cancellation' ) {
+                		$total['total'] = 0;
+	                }
+
                     $net_totals["net_price_{$key}"] = array(
                         'key'          => "net_price_{$key}",
                         'label'        => sizeof( $n_totals ) <= 1 ? __( 'Total net', 'woocommerce-germanized-pro' ) : sprintf( __( 'Net %s', 'woocommerce-germanized-pro' ), $total['rate_percent'] ),

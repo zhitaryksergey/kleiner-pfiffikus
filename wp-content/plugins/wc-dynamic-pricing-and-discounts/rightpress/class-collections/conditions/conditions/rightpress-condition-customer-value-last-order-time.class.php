@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer_Value')) {
-    require_once('rightpress-condition-customer-value.class.php');
-}
+require_once 'rightpress-condition-customer-value.class.php';
 
 /**
  * Condition: Customer Value - Last Order Time
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer_Value')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Value_Last_Order_Time')) {
-
 abstract class RightPress_Condition_Customer_Value_Last_Order_Time extends RightPress_Condition_Customer_Value
 {
 
@@ -66,7 +60,7 @@ abstract class RightPress_Condition_Customer_Value_Last_Order_Time extends Right
     {
 
         // Get customer id
-        $customer_id = isset($params['customer_id']) ? $params['customer_id'] : (is_user_logged_in() ? get_current_user_id() : null);
+        $customer_id = isset($params['customer_id']) ? $params['customer_id'] : ((RightPress_Help::is_request('frontend') && is_user_logged_in()) ? get_current_user_id() : null);
 
         // Get billing email
         if ($customer_id) {
@@ -91,5 +85,4 @@ abstract class RightPress_Condition_Customer_Value_Last_Order_Time extends Right
 
 
 
-}
 }

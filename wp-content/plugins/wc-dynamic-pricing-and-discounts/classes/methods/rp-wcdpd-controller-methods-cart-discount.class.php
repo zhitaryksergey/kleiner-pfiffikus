@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Controller_Methods')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Controller_Methods_Cart_Discount')) {
-
 class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Methods
 {
 
@@ -27,6 +25,9 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
     protected $preparing_cart_discounts = false;
 
     public $applying_cart_discount = false;
+
+    // Track how big can the discount be for each cart item
+    protected $discount_amount_discrepancy_fix_limits = array();
 
     // Store prepared adjustments
     protected $applicable_adjustments = array();
@@ -104,6 +105,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function prepare_cart_discounts()
     {
+
         // Already applying our own cart discount
         if ($this->applying_cart_discount) {
             return;
@@ -193,6 +195,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function apply($cart = null)
     {
+
         // Already applying our own cart discount
         if ($this->applying_cart_discount) {
             return;
@@ -211,6 +214,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function register_custom_coupon_type($coupon_types)
     {
+
         // This is only used starting from WooCommerce version 3.4
         if (RightPress_Help::wc_version_gte('3.4')) {
 
@@ -234,6 +238,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function get_virtual_coupon_data($coupon_data, $coupon_code)
     {
+
         // Not our coupon
         if (!RP_WCDPD_Controller_Methods_Cart_Discount::coupon_is_cart_discount($coupon_code)) {
             return $coupon_data;
@@ -271,6 +276,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function add_filter_get_virtual_coupon_data()
     {
+
         add_filter('woocommerce_get_shop_coupon_data', array($this, 'get_virtual_coupon_data'), 10, 2);
     }
 
@@ -282,6 +288,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function remove_filter_get_virtual_coupon_data()
     {
+
         remove_filter('woocommerce_get_shop_coupon_data', array($this, 'get_virtual_coupon_data'), 10);
     }
 
@@ -297,6 +304,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function discount_is_valid_for_cart_item($is_valid, $product, $coupon, $cart_item)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
@@ -327,6 +335,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function discount_is_valid_for_cart($is_valid, $coupon)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
@@ -367,6 +376,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function get_discount_amount($discount, $price_to_discount, $cart_item, $single, $coupon)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
@@ -397,11 +407,19 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
             $subtotal_excl_tax = WC()->cart->subtotal_ex_tax;
         }
 
+        // Subtotal is zero
+        if (!$subtotal_excl_tax) {
+            return 0.00;
+        }
+
         // Calculate discount percentage
         $discount_percent = (wc_get_price_excluding_tax($cart_item['data']) * $cart_item['quantity']) / $subtotal_excl_tax;
 
         // Calculate discount
         $discount = ((float) $coupon->get_amount() * $discount_percent) / $cart_item['quantity'];
+
+        // Set price to discount to discrepancy fix limits array
+        $this->discount_amount_discrepancy_fix_limits[$coupon_code][$cart_item['key']] = $price_to_discount;
 
         // Round and return discount
         return round(min($discount, $price_to_discount), wc_get_rounding_precision());
@@ -417,11 +435,12 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function fix_discount_amount_discrepancy($discount_amounts, $coupon)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
-        // Not our coupon
-        if (!RP_WCDPD_Controller_Methods_Cart_Discount::coupon_is_cart_discount($coupon_code)) {
+        // Not our coupon or discount amounts array is empty
+        if (!RP_WCDPD_Controller_Methods_Cart_Discount::coupon_is_cart_discount($coupon_code) || empty($discount_amounts)) {
             return $discount_amounts;
         }
 
@@ -444,20 +463,44 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
         // Get remainder in full cents
         $remainder = (int) round($remainder);
 
-        // Apportion remainder to cart items
-        // Note: this approach is far from ideal since it would be better to apportion
-        // for each quantity unit (but we don't know quantities here) and it would
-        // be wise to check if we have any cart item price left to discount
-        while ($remainder) {
-            foreach ($discount_amounts as $cart_item_key => $discount_amount) {
+        // Check if remainder exists
+        if ($remainder) {
 
-                // Move one cent
-                $discount_amounts[$cart_item_key]++;
-                $remainder--;
+            // Get one cent with correct symbol
+            // Note: Remainder can be both positive (discount on items is too low and we need to add a few cents)
+            // as well as negative (discount on items is too high and we need to subtract a few cents), therefore
+            // the math below is designed to work with both positive and negative remainder
+            $one_cent = $remainder > 0 ? 1 : -1;
 
-                // Check if we have any cents left
-                if ($remainder < 1) {
-                    break(2);
+            // Get a copy of discount amounts array so that we can remove items that can no longer be discounted
+            $discount_amounts_to_process = $discount_amounts;
+
+            // Apportion remainder to cart items
+            // Note: this approach is far from ideal since it would be better to apportion for each quantity unit (but we don't know quantities here)
+            while ($remainder && $discount_amounts_to_process) {
+                foreach ($discount_amounts_to_process as $cart_item_key => $discount_amount) {
+
+                    // Add one cent to test
+                    $result = $discount_amounts[$cart_item_key] + $one_cent;
+
+                    // Discount exceeds cart item price
+                    if (isset($this->discount_amount_discrepancy_fix_limits[$coupon_code][$cart_item_key]) && RightPress_Product_Price::price_is_bigger_than($result, $this->discount_amount_discrepancy_fix_limits[$coupon_code][$cart_item_key])) {
+
+                        // Remove discount amount from discount amounts to process array
+                        unset($discount_amounts_to_process[$cart_item_key]);
+
+                        // Proceed to another cart item
+                        continue;
+                    }
+
+                    // All went fine, move one cent
+                    $discount_amounts[$cart_item_key] += $one_cent;
+                    $remainder -= $one_cent;
+
+                    // Check if we have any cents left
+                    if (abs($remainder) < 1) {
+                        break(2);
+                    }
                 }
             }
         }
@@ -479,6 +522,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function maybe_limit_cart_discount_amount($discount, $price_to_discount, $cart_item, $single, $coupon)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
@@ -516,6 +560,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function remove_cart_discounts()
     {
+
         // Already applying our own cart discount
         if ($this->applying_cart_discount) {
             return;
@@ -572,6 +617,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function maybe_invalidate_cart_discount($is_valid, $coupon)
     {
+
         // Get coupon code
         $code = $coupon->get_code();
 
@@ -607,6 +653,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function woocommerce_enable_coupons()
     {
+
         return 'yes';
     }
 
@@ -620,6 +667,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function change_virtual_coupon_label($label, $coupon)
     {
+
         // Get coupon code
         $code = $coupon->get_code();
 
@@ -662,6 +710,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function change_virtual_coupon_html($html, $coupon)
     {
+
         $code = $coupon->get_code();
 
         if (isset($this->applicable_adjustments[$code]) || $code === 'rp_wcdpd_combined') {
@@ -680,6 +729,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public static function coupon_is_cart_discount($coupon_code)
     {
+
         return RightPress_Help::string_begins_with_substring($coupon_code, 'rp_wcdpd_');
     }
 
@@ -710,6 +760,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function combine_simple()
     {
+
         return RP_WCDPD_Settings::get('cart_discounts_if_multiple_applicable') === 'combined' && count($this->applicable_adjustments) > 1;
     }
 
@@ -721,6 +772,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function get_combined_simple_rule()
     {
+
         return array(
             'uid'   => 'rp_wcdpd_combined',
             'title' => $this->get_combined_simple_cart_discount_label(),
@@ -735,6 +787,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function get_combined_simple_cart_discount_label()
     {
+
         $label = RP_WCDPD_Settings::get('cart_discounts_combined_title');
         return !RightPress_Help::is_empty($label) ? $label : __('Discount', 'rp_wcdpd');
     }
@@ -749,6 +802,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function maybe_invalidate_regular_coupon($is_valid, $coupon)
     {
+
         // Get coupon code
         $coupon_code = $coupon->get_code();
 
@@ -781,6 +835,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
      */
     public function invalidated_regular_coupon_error($error_message, $error_code, $coupon)
     {
+
         // Note: using a random error code to make sure we don't match any other error codes accidentally
         if ($error_code === '9450455045') {
             $error_message = sprintf(__('Sorry, coupon "%s" is not valid when other discounts are applied to the cart.', 'rp_wcdpd'), $coupon->get_code());
@@ -792,8 +847,7 @@ class RP_WCDPD_Controller_Methods_Cart_Discount extends RP_WCDPD_Controller_Meth
 
 
 
+
 }
 
 RP_WCDPD_Controller_Methods_Cart_Discount::get_instance();
-
-}

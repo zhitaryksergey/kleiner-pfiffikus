@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Checkout_Fee')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Checkout_Fee_Simple')) {
-
 class RP_WCDPD_Method_Checkout_Fee_Simple extends RP_WCDPD_Method_Checkout_Fee
 {
 
@@ -113,7 +111,8 @@ class RP_WCDPD_Method_Checkout_Fee_Simple extends RP_WCDPD_Method_Checkout_Fee
 
         // Maybe subtract fee tax from fixed fees
         if (RightPress_Help::string_ends_with_substring($adjustment['rule']['pricing_method'], '_amount')) {
-            $fee_amount = RP_WCDPD_Controller_Methods_Checkout_Fee::subtract_tax_from_fee_amount($fee_amount);
+            $tax_class = RP_WCDPD_Controller_Methods_Checkout_Fee::get_fee_tax_class();
+            $fee_amount = RightPress_Product_Price::maybe_subtract_tax_from_amount($fee_amount, $tax_class);
         }
 
         // Return fee amount
@@ -127,5 +126,3 @@ class RP_WCDPD_Method_Checkout_Fee_Simple extends RP_WCDPD_Method_Checkout_Fee
 }
 
 RP_WCDPD_Method_Checkout_Fee_Simple::get_instance();
-
-}

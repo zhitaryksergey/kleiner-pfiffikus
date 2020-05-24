@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Roles')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Roles extends RightPress_Condition_Field_Multiselect_Roles
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Multiselect_Roles extends RightPress_Condition_Fi
 }
 
 RP_WCDPD_Condition_Field_Multiselect_Roles::get_instance();
-
-}

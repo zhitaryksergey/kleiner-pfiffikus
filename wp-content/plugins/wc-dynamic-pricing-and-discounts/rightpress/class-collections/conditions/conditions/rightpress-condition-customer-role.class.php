@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer')) {
-    require_once('rightpress-condition-customer.class.php');
-}
+require_once 'rightpress-condition-customer.class.php';
 
 /**
  * Condition: Customer - Role
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Role')) {
-
 abstract class RightPress_Condition_Customer_Role extends RightPress_Condition_Customer
 {
 
@@ -65,12 +59,17 @@ abstract class RightPress_Condition_Customer_Role extends RightPress_Condition_C
     public function get_value($params)
     {
 
-        return RightPress_Help::current_user_roles();
+        $value = array();
+
+        if (RightPress_Help::is_request('frontend')) {
+            $value = RightPress_Help::current_user_roles();
+        }
+
+        return $value;
     }
 
 
 
 
 
-}
 }

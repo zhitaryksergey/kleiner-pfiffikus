@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Live_Product_Price_Update')) {
+defined('ABSPATH') || exit;
 
 /**
  * Live Product Price Update
@@ -21,19 +16,8 @@ if (!class_exists('RightPress_Live_Product_Price_Update')) {
 final class RightPress_Live_Product_Price_Update
 {
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -45,7 +29,7 @@ final class RightPress_Live_Product_Price_Update
     {
         // Environment variables
         $this->path = trailingslashit(dirname(__FILE__));
-        $this->url  = plugins_url('', __FILE__);
+        $this->url  = RightPress_Loader::get_component_url('rightpress-live-product-price-update');
 
         // Print container
         add_action('woocommerce_before_add_to_cart_button', array($this, 'print_container'), 99);
@@ -89,10 +73,10 @@ final class RightPress_Live_Product_Price_Update
         RightPress_Loader::load_jquery_plugin('rightpress-live-product-update');
 
         // Enqueue styles
-        RightPress_Help::enqueue_or_inject_stylesheet('rightpress-live-product-price-update-styles', $this->url . '/assets/styles.css', $rightpress_version);
+        RightPress_Help::enqueue_or_inject_stylesheet('rightpress-live-product-price-update-styles', $this->url . 'assets/styles.css', $rightpress_version);
 
         // Enqueue scripts
-        wp_enqueue_script('rightpress-live-product-price-update-scripts', $this->url . '/assets/scripts.js', array('jquery'), $rightpress_version);
+        wp_enqueue_script('rightpress-live-product-price-update-scripts', $this->url . 'assets/scripts.js', array('jquery'), $rightpress_version);
 
         // Pass variables
         wp_localize_script('rightpress-live-product-price-update-scripts', 'rightpress_live_product_price_update_vars', array(
@@ -201,5 +185,3 @@ final class RightPress_Live_Product_Price_Update
 }
 
 RightPress_Live_Product_Price_Update::get_instance();
-
-}

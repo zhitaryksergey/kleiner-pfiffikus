@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Assets_Component')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Assets Component
@@ -18,19 +13,8 @@ if (!class_exists('RightPress_Assets_Component')) {
 final class RightPress_Assets_Component
 {
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -53,5 +37,3 @@ final class RightPress_Assets_Component
 }
 
 RightPress_Assets_Component::get_instance();
-
-}

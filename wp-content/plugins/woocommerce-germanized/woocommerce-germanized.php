@@ -3,20 +3,20 @@
  * Plugin Name: Germanized for WooCommerce
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Germanized for WooCommerce extends WooCommerce to become a legally compliant store in the german market.
- * Version: 3.0.8
- * Author: Vendidero
+ * Version: 3.1.6
+ * Author: vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 4.9
- * Tested up to: 5.3
+ * Tested up to: 5.4
  * WC requires at least: 3.4
- * WC tested up to: 3.9
+ * WC tested up to: 4.1
  * Requires at least WooCommerce: 3.4
- * Tested up to WooCommerce: 3.9
+ * Tested up to WooCommerce: 4.1
  *
  * Text Domain: woocommerce-germanized
  * Domain Path: /i18n/languages/
  *
- * @author Vendidero
+ * @author vendidero
  */
 
 use Vendidero\Germanized\Autoloader;
@@ -43,9 +43,17 @@ if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 } else {
 	function wc_gzd_admin_php_notice() {
 		?>
-        <div id="message" class="error">
-            <p><?php printf( __( 'Germanized requires at least PHP 5.6 to work. Please %s your PHP version.', 'woocommerce-germanized' ), '<a href="https://wordpress.org/support/update-php/">' . __( 'upgrade', 'woocommerce-germanized' ) . '</a>' ); ?></p>
-        </div>
+		<div id="message" class="error">
+			<p>
+			<?php
+			printf(
+				/* translators: %s is the word upgrade with a link to a support page about upgrading */
+				__( 'Germanized requires at least PHP 5.6 to work. Please %s your PHP version.', 'woocommerce-germanized' ),
+				'<a href="https://wordpress.org/support/update-php/">' . esc_html__( 'upgrade', 'woocommerce-germanized' ) . '</a>'
+			);
+			?>
+			</p>
+		</div>
 		<?php
 	}
 
@@ -63,7 +71,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @var string
 		 */
-		public $version = '3.0.8';
+		public $version = '3.1.6';
 
 		/**
 		 * @var WooCommerce_Germanized $instance of the plugin
@@ -183,6 +191,12 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			register_activation_hook( __FILE__, array( 'WC_GZD_Install', 'install' ) );
 			register_deactivation_hook( __FILE__, array( 'WC_GZD_Install', 'deactivate' ) );
 
+			/**
+			 * Make sure the note hooks are available on install and during REST calls.
+			 */
+			add_action( 'woocommerce_note_updated', array( $this, 'on_update_admin_note' ) );
+			add_filter( 'woocommerce_note_statuses', array( $this, 'add_note_statuses' ), 10 );
+
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
 			add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 12 );
 
@@ -286,6 +300,37 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			 */
 			do_action( 'woocommerce_germanized_init' );
 		}
+
+		public function add_note_statuses( $statuses ) {
+		    $statuses = array_merge( $statuses, array( 'disabled', 'deactivated' ) );
+
+		    return $statuses;
+        }
+
+		/**
+         * Add the option which indicates that a notices should be hidden from the admin user.
+         *
+		 * @param $note_id
+		 */
+		public function on_update_admin_note( $note_id ) {
+			$note = new \Automattic\WooCommerce\Admin\Notes\WC_Admin_Note( $note_id );
+
+			if ( $note ) {
+				if ( strpos( $note->get_name(), 'wc-gzd-admin-' ) !== false ) {
+					$note_name = str_replace( 'wc-gzd-admin-', '', $note->get_name() );
+					$note_name = str_replace( '-notice', '', $note_name );
+					$note_name = str_replace( '-', '_', $note_name );
+
+					if ( current_user_can( 'manage_woocommerce' ) ) {
+						if ( 'disabled' === $note->get_status() ) {
+							update_option( '_wc_gzd_hide_' . $note_name . '_notice', 'yes' );
+						} elseif( 'deactivated' === $note->get_status() ) {
+							update_option( '_wc_gzd_disable_' . $note_name . '_notice', 'yes' );
+						}
+                    }
+				}
+			}
+        }
 
 		/**
 		 * Auto-load WC_Germanized classes on demand to reduce memory consumption.
@@ -402,7 +447,10 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		private function includes() {
 
 			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-core-functions.php';
+			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-cart-functions.php';
+			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-order-functions.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-legacy-functions.php';
+
 			include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-install.php';
 
 			if ( is_admin() ) {
@@ -463,9 +511,6 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 
 			// API
 			include_once WC_GERMANIZED_ABSPATH . 'includes/api/class-wc-gzd-rest-api.php';
-
-			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-cart-functions.php';
-			include_once WC_GERMANIZED_ABSPATH . 'includes/wc-gzd-order-functions.php';
 
 			include_once WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-helper.php';
 			include_once WC_GERMANIZED_ABSPATH . 'includes/class-wc-gzd-ajax.php';
@@ -530,6 +575,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					'woocommerce-subscriptions'                   => 'WC_GZD_Compatibility_WooCommerce_Subscriptions',
 					'woo-paypalplus'                              => 'WC_GZD_Compatibility_Woo_PaypalPlus',
 					'elementor-pro'                               => 'WC_GZD_Compatibility_Elementor_Pro',
+					'klarna-checkout-for-woocommerce'             => 'WC_GZD_Compatibility_Klarna_Checkout_For_WooCommerce',
 				)
 			);
 
@@ -572,6 +618,11 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 */
 		public function filter_templates( $template, $template_name, $template_path ) {
 			$template_path = $this->template_path();
+
+			// Tweak to make sure Germanized variation script loads when woocommerce_variable_add_to_cart() is called (just like Woo does)
+			if ( 'single-product/add-to-cart/variable.php' === $template_name ) {
+			    wp_enqueue_script( 'wc-gzd-add-to-cart-variation' );
+            }
 
 			if ( ! isset( $GLOBALS['wc_gzd_template_name'] ) || empty( $GLOBALS['wc_gzd_template_name'] ) || ! is_array( $GLOBALS['wc_gzd_template_name'] ) ) {
 				$GLOBALS['wc_gzd_template_name'] = array();
@@ -918,6 +969,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				$order    = wc_get_order( $order_id );
 
 				$this->localized_scripts[] = 'wc-gzd-force-pay-order';
+				$auto_submit			   = true;
 
 				/**
 				 * Filters script localization paramaters for the `wc-gzd-force-pay-order` script.
@@ -925,11 +977,11 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 				 * @param array $params Key => value array containing parameter name and value.
 				 *
 				 * @since 1.0.0
-				 *
 				 */
 				wp_localize_script( 'wc-gzd-force-pay-order', 'wc_gzd_force_pay_order_params', apply_filters( 'wc_gzd_force_pay_order_params', array(
 					'order_id'      => $order_id,
-					'gateway'       => $order->get_payment_method(),
+					'gateway'       => $order ? $order->get_payment_method() : '',
+					'auto_submit'	=> $auto_submit,
 					'block_message' => __( 'Pease wait while we are trying to redirect you to the payment provider.', 'woocommerce-germanized' ),
 				) ) );
 			}
@@ -1038,6 +1090,8 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					$mails['WC_Email_Customer_On_Hold_Order'] = include 'includes/emails/class-wc-gzd-email-customer-on-hold-order.php';
 				}
 			}
+
+			$mails['WC_GZD_Email_Customer_SEPA_Direct_Debit_Mandate'] = include 'includes/emails/class-wc-gzd-email-customer-sepa-direct-debit-mandate.php';
 
 			return $mails;
 		}

@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Conditions')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Conditions Helper
@@ -524,11 +519,17 @@ final class RightPress_Conditions
         // Search products by query
         if ($query !== '') {
 
+            // Get product with all statuses except trash
+            add_filter('woocommerce_search_products_post_statuses', array('RightPress_Conditions', 'wc_search_products_post_statuses'));
+
             // Load data stores
             $data_store = WC_Data_Store::load('product');
 
             // Search for products
-            $product_ids = $data_store->search_products($query, '', false, true);
+            $product_ids = $data_store->search_products($query, '', false, false);
+
+            // Remove filter
+            remove_filter('woocommerce_search_products_post_statuses', array('RightPress_Conditions', 'wc_search_products_post_statuses'));
         }
         // Get products by ids or all products if ids were not provided
         else {
@@ -557,6 +558,19 @@ final class RightPress_Conditions
         }
 
         return $items;
+    }
+
+    /**
+     * Product search post status filter to get all products but trashed
+     *
+     * @access public
+     * @param array $statuses
+     * @return array
+     */
+    public static function wc_search_products_post_statuses($statuses)
+    {
+
+        return array('private', 'publish', 'draft', 'future', 'pending');
     }
 
     /**
@@ -898,7 +912,7 @@ final class RightPress_Conditions
         $config['status'] = RightPress_Help::get_wc_order_is_paid_statuses(true);
 
         // Get customer id
-        $customer_id = isset($params['customer_id']) ? $params['customer_id'] : get_current_user_id();
+        $customer_id = isset($params['customer_id']) ? $params['customer_id'] : (RightPress_Help::is_request('frontend') ? get_current_user_id() : null);
 
         // Get customer billing email
         if ($customer_id) {
@@ -1060,5 +1074,4 @@ final class RightPress_Conditions
 
 
 
-}
 }

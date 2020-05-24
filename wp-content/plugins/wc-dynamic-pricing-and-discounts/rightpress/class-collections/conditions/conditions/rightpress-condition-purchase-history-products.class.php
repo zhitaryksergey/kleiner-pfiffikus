@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Purchase_History')) {
-    require_once('rightpress-condition-purchase-history.class.php');
-}
+require_once 'rightpress-condition-purchase-history.class.php';
 
 /**
  * Condition: Purchase History - Products
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Purchase_History')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Purchase_History_Products')) {
-
 abstract class RightPress_Condition_Purchase_History_Products extends RightPress_Condition_Purchase_History
 {
 
@@ -74,5 +68,4 @@ abstract class RightPress_Condition_Purchase_History_Products extends RightPress
 
 
 
-}
 }

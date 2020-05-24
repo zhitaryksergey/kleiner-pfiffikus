@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Time_Weekdays')) {
-
 class RP_WCDPD_Condition_Time_Weekdays extends RightPress_Condition_Time_Weekdays
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Time_Weekdays extends RightPress_Condition_Time_Weekday
 }
 
 RP_WCDPD_Condition_Time_Weekdays::get_instance();
-
-}

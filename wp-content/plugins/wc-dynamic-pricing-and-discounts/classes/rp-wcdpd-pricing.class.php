@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Pricing')) {
-
 class RP_WCDPD_Pricing
 {
 
@@ -212,5 +210,4 @@ class RP_WCDPD_Pricing
 
 
 
-}
 }

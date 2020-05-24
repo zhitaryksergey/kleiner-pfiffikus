@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition')) {
-    require_once('rightpress-condition.class.php');
-}
+require_once 'rightpress-condition.class.php';
 
 /**
  * Condition Group: Custom Taxonomy
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Custom_Taxonomy')) {
-
 abstract class RightPress_Condition_Custom_Taxonomy extends RightPress_Condition
 {
 
@@ -69,5 +63,4 @@ abstract class RightPress_Condition_Custom_Taxonomy extends RightPress_Condition
 
 
 
-}
 }

@@ -806,10 +806,17 @@ function gmpSwitchTooltipWindow(tooltip) {
     }
 }
 function gmpToggleSubOptionsByDataParam(value) {
-	var subOpts = jQuery('#gmpMarkerInfoWndTypeSubOpts .gmpSubOpt');
+	var subOpts = jQuery('#gmpMarkerInfoWndTypeSubOpts .gmpSubOpt'),
+		subHeight = jQuery('#gmpMapForm input[name="map_opts[marker_infownd_height_units]"]').closest('tr');
 
 	subOpts.filter('[data-type]').hide();
 	subOpts.filter('[data-type="' + value + '"]').show();
+
+	if(value == 'slide') {
+		subHeight.hide();
+	} else {
+		subHeight.show();
+	}	
 }
 function gmpWpColorpickerUpdateTitlesColor(color) {
 	g_gmpMarkerTitleColorTimeoutSet = false;

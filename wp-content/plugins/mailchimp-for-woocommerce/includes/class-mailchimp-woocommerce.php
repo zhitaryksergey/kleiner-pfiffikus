@@ -174,12 +174,6 @@ class MailChimp_WooCommerce
      */
     private function load_dependencies()
     {
-        global $wp_queue;
-
-        if (empty($wp_queue)) {
-            $wp_queue = new WP_Queue();
-        }
-
         // fire up the loader
         $this->loader = new MailChimp_WooCommerce_Loader();
 
@@ -231,8 +225,12 @@ class MailChimp_WooCommerce
 
 		// Add menu item
 		$this->loader->add_action('admin_menu', $plugin_admin, 'add_plugin_admin_menu');
+        $this->loader->add_filter('parent_file', $plugin_admin, 'highlight_admin_menu');
 
-		// Add Settings link to the plugin
+        // Add WooCommerce Navigation Bar
+        $this->loader->add_action('admin_menu', $plugin_admin, 'add_woocommerce_navigation_bar');
+
+        // Add Settings link to the plugin
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php');
 		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_action_links');
 
@@ -245,6 +243,28 @@ class MailChimp_WooCommerce
         $this->loader->add_action('plugins_loaded', $plugin_admin, 'update_db_check');
         $this->loader->add_action('admin_init', $plugin_admin, 'setup_survey_form');
         $this->loader->add_action('admin_footer', $plugin_admin, 'inject_sync_ajax_call');
+
+        // update MC store information when woocommerce general settings are saved
+        $this->loader->add_action('woocommerce_settings_save_general', $plugin_admin, 'mailchimp_update_woo_settings');
+        
+        // update MC store information if "WooCommerce Multi-Currency Extension" settings are saved
+        if ( class_exists( 'WOOMULTI_CURRENCY_F' ) ) {
+            $this->loader->add_action('villatheme_support_woo-multi-currency', $plugin_admin, 'mailchimp_update_woo_settings');
+        }
+
+        // Mailchimp oAuth
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_oauth_start', $plugin_admin, 'mailchimp_woocommerce_ajax_oauth_start' );
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_oauth_finish', $plugin_admin, 'mailchimp_woocommerce_ajax_oauth_finish' );
+
+        // Create new mailchimp Account methods
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_create_account_check_username', $plugin_admin, 'mailchimp_woocommerce_ajax_create_account_check_username' );
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_create_account_signup', $plugin_admin, 'mailchimp_woocommerce_ajax_create_account_signup' );
+
+        // add Shop Manager capability to save options
+        $this->loader->add_action('option_page_capability_mailchimp-woocommerce', $plugin_admin, 'mailchimp_woocommerce_option_page_capability');
+
+        // set communications box status
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_communication_status', $plugin_admin, 'mailchimp_woocommerce_communication_status' );
     }
 
 	/**
@@ -257,9 +277,10 @@ class MailChimp_WooCommerce
 	private function define_public_hooks() {
 
 		$plugin_public = new MailChimp_WooCommerce_Public( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+		if ( apply_filters( 'mailchimp_add_inline_footer_script', true ) ) {
+        		$this->loader->add_action('wp_footer', $plugin_public, 'add_inline_footer_script');
+		}
 	}
 
 	/**
@@ -311,16 +332,12 @@ class MailChimp_WooCommerce
 			$this->loader->add_action( 'init', $service, 'handleCampaignTracking' );
 
 			// order hooks
-            $this->loader->add_action('woocommerce_thankyou', $service, 'onNewOrder', 10);
-			$this->loader->add_action('woocommerce_api_create_order', $service, 'onNewOrder', 10);
-            $this->loader->add_action('woocommerce_ppe_do_payaction', $service, 'onNewPayPalOrder', 10, 1);
-			$this->loader->add_action('woocommerce_order_status_changed', $service, 'handleOrderStatusChanged', 10);
+            $this->loader->add_action('woocommerce_order_status_changed', $service, 'handleOrderStatusChanged', 11, 3);
 
-			// partially refunded
-            $this->loader->add_action('woocommerce_order_partially_refunded', $service, 'onPartiallyRefunded', 10);
+			// refunds
+            $this->loader->add_action('woocommerce_order_partially_refunded', $service, 'onPartiallyRefunded', 20, 1);
 
 			// cart hooks
-			//$this->loader->add_action('woocommerce_cart_updated', $service, 'handleCartUpdated');
             $this->loader->add_filter('woocommerce_update_cart_action_cart_updated', $service, 'handleCartUpdated');
 			$this->loader->add_action('woocommerce_add_to_cart', $service, 'handleCartUpdated');
 			$this->loader->add_action('woocommerce_cart_item_removed', $service, 'handleCartUpdated');
@@ -351,6 +368,22 @@ class MailChimp_WooCommerce
             // set user by email hash ( public and private )
             $this->loader->add_action('wp_ajax_mailchimp_set_user_by_email', $service, 'set_user_by_email');
             $this->loader->add_action('wp_ajax_nopriv_mailchimp_set_user_by_email', $service, 'set_user_by_email');
+
+            $jobs_classes = array(
+                "MailChimp_WooCommerce_Single_Order",
+                "MailChimp_WooCommerce_SingleCoupon",
+                "MailChimp_WooCommerce_Single_Product",
+                "MailChimp_WooCommerce_Cart_Update",
+                "MailChimp_WooCommerce_User_Submit",
+                "MailChimp_WooCommerce_Process_Coupons",
+                "MailChimp_WooCommerce_Process_Orders",
+                "MailChimp_WooCommerce_Process_Products"
+            );
+            foreach ($jobs_classes as $job_class) {
+                $this->loader->add_action($job_class, $service, 'mailchimp_process_single_job', 10, 1);
+            }
+            // sync stats manager
+            $this->loader->add_action('MailChimp_WooCommerce_Process_Full_Sync_Manager', $service, 'mailchimp_process_sync_manager', 10, 1);
 		}
 	}
 

@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Datetimepicker')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Datetimepicker
@@ -33,9 +28,9 @@ class RightPress_Datetimepicker extends RightPress_Asset
 
         // Environment variables
         $this->path = trailingslashit(dirname(__FILE__));
-        $this->url  = plugins_url('', __FILE__);
+        $this->url  = RightPress_Loader::get_component_url('rightpress-assets-component', 'assets/datetimepicker/');
 
-        // Construct parent
+        // Call parent constructor
         parent::__construct($args);
     }
 
@@ -50,7 +45,7 @@ class RightPress_Datetimepicker extends RightPress_Asset
 
         $this->scripts = array(
             'rightpress-datetimepicker-scripts' => array(
-                'relative_url'  => '/assets/js/jquery.datetimepicker.full.min.js',
+                'relative_url'  => 'assets/js/jquery.datetimepicker.full.min.js',
                 'dependencies'  => array('jquery'),
                 'variables'     => array(
                     'datetime_config'   => array($this, 'get_datetime_config'),
@@ -73,7 +68,7 @@ class RightPress_Datetimepicker extends RightPress_Asset
 
         $this->styles = array(
             'rightpress-datetimepicker-styles' => array(
-                'relative_url' => '/assets/css/jquery.datetimepicker.min.css',
+                'relative_url' => 'assets/css/jquery.datetimepicker.min.css',
             ),
         );
     }
@@ -266,5 +261,4 @@ class RightPress_Datetimepicker extends RightPress_Asset
 
 
 
-}
 }

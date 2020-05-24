@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price_Test')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Shared Product Price Test
@@ -24,19 +19,8 @@ final class RightPress_Product_Price_Test
     private $is_test = false;
     private $product_flagged = false;
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -203,7 +187,7 @@ final class RightPress_Product_Price_Test
                 else {
 
                     // Flag product in cart
-                    $product->rightpress_in_cart    = true;
+                    $product->rightpress_in_cart    = $cart_item_key;
                     $this->product_flagged          = true;
 
                     // Get price to let currency switchers change product price (WCDPD issue #621)
@@ -274,7 +258,8 @@ final class RightPress_Product_Price_Test
             if (!isset($price_changes['base_price'])) {
 
                 // Pointers
-                $price_changes['prices']['pointers'] = array_fill_keys(array_keys($cart_item_price_changes['prices']['pointers']), 1);
+                $pointers_keys = array_keys($cart_item_price_changes['prices']['pointers']);
+                $price_changes['prices']['pointers'] = array_fill_keys($pointers_keys, 1);
 
                 // Prices
                 $price_changes['base_price']        = $cart_item_price_changes['base_price'];
@@ -369,5 +354,3 @@ final class RightPress_Product_Price_Test
 }
 
 RightPress_Product_Price_Test::get_instance();
-
-}

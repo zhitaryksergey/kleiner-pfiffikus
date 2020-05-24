@@ -156,7 +156,7 @@
              *
              * Accepts jQuery object with multiple elements for checkbox/radio sets and single element for all other input types
              *
-             * TBD: REVIEW IF THIS IS OK, NEVER USED/TESTED THIS
+             * TODO: REVIEW IF THIS IS OK, NEVER USED/TESTED THIS
              */
             field_is_empty: function (field) {
 

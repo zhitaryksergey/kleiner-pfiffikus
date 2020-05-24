@@ -8,285 +8,546 @@
  * @package FacebookCommerce
  */
 
-if (!class_exists('WC_Facebookcommerce_Pixel')) :
+if ( ! class_exists( 'WC_Facebookcommerce_Pixel' ) ) :
 
 
-class WC_Facebookcommerce_Pixel {
-  const SETTINGS_KEY = 'facebook_config';
-  const PIXEL_ID_KEY = 'pixel_id';
-  const USE_PII_KEY = 'use_pii';
+	class WC_Facebookcommerce_Pixel {
 
-  const PIXEL_RENDER = 'pixel_render';
-  const NO_SCRIPT_RENDER = 'no_script_render';
 
-  private $user_info;
-  private $last_event;
-  static $render_cache = array();
+		const SETTINGS_KEY = 'facebook_config';
+		const PIXEL_ID_KEY = 'pixel_id';
+		const USE_PII_KEY  = 'use_pii';
 
-  static $default_pixel_basecode = "
-<script type='text/javascript'>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-</script>
-";
+		/** @var string cache key for pixel script block output  */
+		const PIXEL_RENDER     = 'pixel_render';
+		/** @var string cache key for pixel noscript block output */
+		const NO_SCRIPT_RENDER = 'no_script_render';
 
-  public function __construct($user_info=array()) {
-    $this->user_info = $user_info;
-    $this->last_event = '';
-  }
+		/** @var array script render memoization helper */
+		public static $render_cache = [];
 
-  public static function initialize() {
-    if (!is_admin()) {
-      return;
-    }
+		private $user_info;
 
-    // Initialize PixelID in storage - this will only need to happen when the
-    // use is an admin
-    $pixel_id = self::get_pixel_id();
-    if (!WC_Facebookcommerce_Utils::is_valid_id($pixel_id) &&
-      class_exists('WC_Facebookcommerce_WarmConfig')) {
-      $fb_warm_pixel_id = WC_Facebookcommerce_WarmConfig::$fb_warm_pixel_id;
+		private $last_event;
 
-      if (WC_Facebookcommerce_Utils::is_valid_id($fb_warm_pixel_id) &&
-          (int)$fb_warm_pixel_id == $fb_warm_pixel_id) {
-        $fb_warm_pixel_id = (string)$fb_warm_pixel_id;
-        self::set_pixel_id($fb_warm_pixel_id);
-      }
-    }
-  }
 
-  /**
-   * Returns FB pixel code script part
-   */
-  public function pixel_base_code() {
-    $pixel_id = self::get_pixel_id();
-    if (
-      (
-        isset(self::$render_cache[self::PIXEL_RENDER]) &&
-        self::$render_cache[self::PIXEL_RENDER] === true
-      ) ||
-      !isset($pixel_id) ||
-      $pixel_id === 0
-    ) {
-      return;
-    }
+		public function __construct( $user_info = array() ) {
 
-    self::$render_cache[self::PIXEL_RENDER] = true;
-    $params = self::add_version_info();
+			$this->user_info  = $user_info;
+			$this->last_event = '';
+		}
 
-    return sprintf("
-<!-- %s Facebook Integration Begin -->
-%s
-<script>
-%s
-fbq('track', 'PageView', %s);
+		public static function initialize() {
+			if ( ! is_admin() ) {
+				return;
+			}
 
-document.addEventListener('DOMContentLoaded', function() {
-  jQuery && jQuery(function($){
-    $('body').on('added_to_cart', function(event) {
-      // Ajax action.
-      $.get('?wc-ajax=fb_inject_add_to_cart_event', function(data) {
-        $('head').append(data);
-      });
-    });
-  });
-}, false);
+			// Initialize PixelID in storage - this will only need to happen when the
+			// user is an admin
+			$pixel_id = self::get_pixel_id();
+			if ( ! WC_Facebookcommerce_Utils::is_valid_id( $pixel_id ) &&
+			class_exists( 'WC_Facebookcommerce_WarmConfig' ) ) {
+				$fb_warm_pixel_id = WC_Facebookcommerce_WarmConfig::$fb_warm_pixel_id;
 
-</script>
-<!-- DO NOT MODIFY -->
-<!-- %s Facebook Integration end -->
-    ",
-    WC_Facebookcommerce_Utils::getIntegrationName(),
-    self::get_basecode(),
-    $this->pixel_init_code(),
-    json_encode($params, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT),
-    WC_Facebookcommerce_Utils::getIntegrationName());
-  }
+				if ( WC_Facebookcommerce_Utils::is_valid_id( $fb_warm_pixel_id ) &&
+				(int) $fb_warm_pixel_id == $fb_warm_pixel_id ) {
+					$fb_warm_pixel_id = (string) $fb_warm_pixel_id;
+					self::set_pixel_id( $fb_warm_pixel_id );
+				}
+			}
 
-  /**
-   * Prevent double-fires by checking the last event
-   */
-  public function check_last_event($event_name) {
-    return $event_name === $this->last_event;
-  }
+			$is_advanced_matching_enabled = self::get_use_pii_key();
+			if ( $is_advanced_matching_enabled == null &&
+			class_exists( 'WC_Facebookcommerce_WarmConfig' ) ) {
+				$fb_warm_is_advanced_matching_enabled =
+				WC_Facebookcommerce_WarmConfig::$fb_warm_is_advanced_matching_enabled;
+				if ( is_bool( $fb_warm_is_advanced_matching_enabled ) ) {
+					self::set_use_pii_key( $fb_warm_is_advanced_matching_enabled ? 1 : 0 );
+				}
+			}
+		}
 
-  /**
-   * Preferred method to inject events in a page, normally you should use this
-   * instead of WC_Facebookcommerce_Pixel::build_event()
-   */
-  public function inject_event($event_name, $params, $method='track') {
-    $code = self::build_event($event_name, $params, $method);
-    $this->last_event = $event_name;
 
-    if (WC_Facebookcommerce_Utils::isWoocommerceIntegration()) {
-      WC_Facebookcommerce_Utils::wc_enqueue_js($code);
-    } else {
-      printf("
-<!-- Facebook Pixel Event Code -->
-<script>
-%s
-</script>
-<!-- End Facebook Pixel Event Code -->
-        ",
-        $code);
-    }
-  }
+		/**
+		 * Gets Facebook Pixel init code.
+		 *
+		 * Init code might contain additional information to help matching website users with facebook users.
+		 * Information is hashed in JS side using SHA256 before sending to Facebook.
+		 *
+		 * @return string
+		 */
+		private function get_pixel_init_code() {
 
-  public function inject_conditional_event(
-    $event_name, $params, $listener, $jsonified_pii = '') {
-    $code = self::build_event($event_name, $params, 'track');
-    $this->last_event = $event_name;
+			$version_info = self::get_version_info();
+			$agent_string = sprintf(
+				'%s-%s-%s',
+				$version_info['source'],
+				$version_info['version'],
+				$version_info['pluginVersion']
+			);
 
-    // Prepends fbq(...) with pii information to the injected code.
-    if ($jsonified_pii && get_option(self::SETTINGS_KEY)[self::USE_PII_KEY]) {
-      $this->user_info = '%s';
-      $code =
-        sprintf($this->pixel_init_code(), '" || '.$jsonified_pii.' || "').$code;
-    }
+			/**
+			 * Filters Facebook Pixel init code.
+			 *
+			 * @param string $js_code
+			 */
+			return apply_filters( 'facebook_woocommerce_pixel_init', sprintf(
+				"fbq('init', '%s', %s, %s);\n",
+				esc_js( self::get_pixel_id() ),
+				json_encode( $this->user_info, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT ),
+				json_encode( [ 'agent' => $agent_string ], JSON_PRETTY_PRINT | JSON_FORCE_OBJECT )
+			) );
+		}
 
-    printf("
-<!-- Facebook Pixel Event Code -->
-<script>
-document.addEventListener('%s', function (event) {
-  %s
-}, false );
-</script>
-<!-- End Facebook Pixel Event Code -->
-      ",
-      $listener,
-      $code);
-  }
 
-  /**
-   * Returns FB pixel code noscript part to avoid W3 validation error
-   */
-  public function pixel_base_code_noscript() {
-    $pixel_id = self::get_pixel_id();
-    if (
-      (
-        isset(self::$render_cache[self::NO_SCRIPT_RENDER]) &&
-        self::$render_cache[self::NO_SCRIPT_RENDER] === true
-      ) ||
-      !isset($pixel_id) ||
-      $pixel_id === 0
-    ) {
-      return;
-    }
+		/**
+		 * Gets the Facebook Pixel code scripts.
+		 *
+		 * @return string HTML scripts
+		 */
+		public function pixel_base_code() {
 
-    self::$render_cache[self::NO_SCRIPT_RENDER] = true;
+			$pixel_id = self::get_pixel_id();
 
-    return sprintf("
-<!-- Facebook Pixel Code -->
-<noscript>
-<img height=\"1\" width=\"1\" style=\"display:none\" alt=\"fbpx\"
-src=\"https://www.facebook.com/tr?id=%s&ev=PageView&noscript=1\"/>
-</noscript>
-<!-- DO NOT MODIFY -->
-<!-- End Facebook Pixel Code -->
-    ",
-    esc_js($pixel_id));
-  }
+			// bail if no ID or already rendered
+			if ( empty( $pixel_id )|| ! empty( self::$render_cache[ self::PIXEL_RENDER ] ) ) {
+				return '';
+			}
 
-  /**
-   * You probably should use WC_Facebookcommerce_Pixel::inject_event() but
-   * this method is available if you need to modify the JS code somehow
-   */
-  public static function build_event($event_name, $params, $method='track') {
-    $params = self::add_version_info($params);
-    return sprintf(
-      "/* %s Facebook Integration Event Tracking */\n".
-      "fbq('%s', '%s', %s);",
-      WC_Facebookcommerce_Utils::getIntegrationName(),
-      $method,
-      $event_name,
-      json_encode($params, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT));
-  }
+			self::$render_cache[ self::PIXEL_RENDER ] = true;
 
-  public static function get_pixel_id() {
-    $fb_options = self::get_options();
-    if (!$fb_options) {
-      return '';
-    }
-    return isset($fb_options[self::PIXEL_ID_KEY]) ?
-           $fb_options[self::PIXEL_ID_KEY] : '';
-  }
+			ob_start();
 
-  public static function set_pixel_id($pixel_id) {
-    $fb_options = self::get_options();
+			?>
+			<script <?php echo self::get_script_attributes(); ?>>
+				!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+					n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+					n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+					t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+					document,'script','https://connect.facebook.net/en_US/fbevents.js');
+			</script>
+			<!-- WooCommerce Facebook Integration Begin -->
+			<script <?php echo self::get_script_attributes(); ?>>
 
-    if (isset($fb_options[self::PIXEL_ID_KEY])
-        && $fb_options[self::PIXEL_ID_KEY] == $pixel_id) {
-      return;
-    }
+				<?php echo $this->get_pixel_init_code(); ?>
 
-    $fb_options[self::PIXEL_ID_KEY] = $pixel_id;
-    update_option(self::SETTINGS_KEY, $fb_options);
-  }
+				fbq( 'track', 'PageView', <?php echo json_encode( self::build_params( [], 'PageView' ), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT ) ?> );
 
-  public static function get_basecode() {
-    return self::$default_pixel_basecode;
-  }
+				document.addEventListener( 'DOMContentLoaded', function() {
+					jQuery && jQuery( function( $ ) {
+						// insert placeholder for events injected when a product is added to the cart through AJAX
+						$( document.body ).append( '<div class=\"wc-facebook-pixel-event-placeholder\"></div>' );
+					} );
+				}, false );
 
-  private static function get_version_info() {
-    global $wp_version;
+			</script>
+			<!-- WooCommerce Facebook Integration End -->
+			<?php
 
-    if (WC_Facebookcommerce_Utils::isWoocommerceIntegration()) {
-      return array(
-        'source' => 'woocommerce',
-        'version' => WC()->version,
-        'pluginVersion' => WC_Facebookcommerce_Utils::PLUGIN_VERSION
-      );
-    }
+			return ob_get_clean();
+		}
 
-    return array(
-      'source' => 'wordpress',
-      'version' => $wp_version,
-      'pluginVersion' => WC_Facebookcommerce_Utils::PLUGIN_VERSION
-    );
-  }
 
-  public static function get_options() {
-    return get_option(self::SETTINGS_KEY, array(
-      self::PIXEL_ID_KEY => '0',
-      self::USE_PII_KEY => 0,
-    ));
-  }
+		/**
+		 * Gets Facebook Pixel code noscript part to avoid W3 validation errors.
+		 *
+		 * @return string
+		 */
+		public function pixel_base_code_noscript() {
 
-  /**
-   * Returns an array with version_info for pixel fires. Parameters provided by
-   * users should not be overwritten by this function
-   */
-  private static function add_version_info($params=array()) {
-    // if any parameter is passed in the pixel, do not overwrite it
-    return array_replace(self::get_version_info(), $params);
-  }
+			$pixel_id = self::get_pixel_id();
 
-  /**
-   * Init code might contain additional information to help matching website
-   * users with facebook users. Information is hashed in JS side using SHA256
-   * before sending to Facebook.
-   */
-  private function pixel_init_code() {
-    $version_info = self::get_version_info();
-    $agent_string = sprintf(
-      '%s-%s-%s',
-      $version_info['source'],
-      $version_info['version'],
-      $version_info['pluginVersion']);
+			if ( empty( $pixel_id ) || ! empty( self::$render_cache[ self::NO_SCRIPT_RENDER ] ) ) {
+				return '';
+			}
 
-    $params = array(
-      'agent' => $agent_string);
+			self::$render_cache[ self::NO_SCRIPT_RENDER ] = true;
 
-    return apply_filters('facebook_woocommerce_pixel_init', sprintf(
-      "fbq('init', '%s', %s, %s);\n",
-      esc_js(self::get_pixel_id()),
-      json_encode($this->user_info, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT),
-      json_encode($params, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT)));
-  }
+			ob_start();
 
-}
+			?>
+			<!-- Facebook Pixel Code -->
+			<noscript>
+				<img
+					height="1"
+					width="1"
+					style="display:none"
+					alt="fbpx"
+					src="https://www.facebook.com/tr?id=<?php echo esc_attr( $pixel_id ); ?>&ev=PageView&noscript=1"
+				/>
+			</noscript>
+			<!-- End Facebook Pixel Code -->
+			<?php
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Determines if the last event in the current thread matches a given event.
+		 *
+		 * @since 1.11.0
+		 *
+		 * @param string $event_name
+		 * @return bool
+		 */
+		public function is_last_event( $event_name ) {
+
+			return $event_name === $this->last_event;
+		}
+
+
+		/**
+		 * Determines if the last event in the current thread matches a given event.
+		 *
+		 * TODO remove this deprecated method by March 2020 or version 2.0.0 {FN 2020-03-25}
+		 *
+		 * @deprecated since 1.11.0
+		 *
+		 * @param string $event_name
+		 * @return bool
+		 */
+		public function check_last_event( $event_name ) {
+
+			wc_deprecated_function( __METHOD__, '1.11.0', __CLASS__ . '::has_last_event()' );
+
+			return $this->is_last_event( $event_name );
+		}
+
+
+		/**
+		 * Gets the JavaScript code to track an event.
+		 *
+		 * Updates the last event property and returns the code.
+		 *
+		 * Use {@see \WC_Facebookcommerce_Pixel::inject_event()} to print or enqueue the code.
+		 *
+		 * @since 1.10.2
+		 *
+		 * @param string $event_name the name of the event to track
+		 * @param array $params custom event parameters
+		 * @param string $method name of the pixel's fbq() function to call
+		 * @return string
+		 */
+		public function get_event_code( $event_name, $params, $method = 'track' ) {
+
+			$this->last_event = $event_name;
+
+			return self::build_event( $event_name, $params, $method );
+		}
+
+
+		/**
+		 * Gets the JavaScript code to track an event wrapped in <script> tag.
+		 *
+		 * @see \WC_Facebookcommerce_Pixel::get_event_code()
+		 *
+		 * @since 1.10.2
+		 *
+		 * @param string $event_name the name of the event to track
+		 * @param array $params custom event parameters
+		 * @param string $method name of the pixel's fbq() function to call
+		 * @return string
+		 */
+		public function get_event_script( $event_name, $params, $method = 'track' ) {
+
+			ob_start();
+
+			?>
+			<!-- Facebook Pixel Event Code -->
+			<script <?php echo self::get_script_attributes(); ?>>
+				<?php echo $this->get_event_code( $event_name, $params, $method ); ?>
+			</script>
+			<!-- End Facebook Pixel Event Code -->
+			<?php
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Prints or enqueues the JavaScript code to track an event.
+		 *
+		 * Preferred method to inject events in a page.
+		 * @see \WC_Facebookcommerce_Pixel::build_event()
+		 *
+		 * @param string $event_name the name of the event to track
+		 * @param array $params custom event parameters
+		 * @param string $method name of the pixel's fbq() function to call
+		 */
+		public function inject_event( $event_name, $params, $method = 'track' ) {
+
+			if ( \WC_Facebookcommerce_Utils::isWoocommerceIntegration() ) {
+
+				\WC_Facebookcommerce_Utils::wc_enqueue_js( $this->get_event_code( $event_name, self::build_params( $params, $event_name ), $method ) );
+
+			} else {
+
+				// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+				printf( $this->get_event_script( $event_name, self::build_params( $params, $event_name ), $method ) );
+			}
+		}
+
+
+		/**
+		 * Gets the JavaScript code to track a conditional event wrapped in <script> tag.
+		 *
+		 * @see \WC_Facebookcommerce_Pixel::get_event_code()
+		 *
+		 * @since 1.10.2
+		 *
+		 * @param string $event_name the name of the event to track
+		 * @param array $params custom event parameters
+		 * @param string $listener name of the JavaScript event to listen for
+		 * @param string $jsonified_pii JavaScript code representing an object of data for Advanced Matching
+		 * @return string
+		 */
+		public function get_conditional_event_script( $event_name, $params, $listener, $jsonified_pii ) {
+
+			$code             = self::build_event( $event_name, $params, 'track' );
+			$this->last_event = $event_name;
+
+			/** TODO: use the settings stored by {@see \WC_Facebookcommerce_Integration}. The use_pii setting here is currently always disabled regardless of the value configured in the plugin settings page {WV-2020-01-02} */
+			// Prepends fbq(...) with pii information to the injected code.
+			if ( $jsonified_pii && get_option( self::SETTINGS_KEY )[ self::USE_PII_KEY ] ) {
+				$this->user_info = '%s';
+				$code            = sprintf( $this->get_pixel_init_code(), '" || ' . $jsonified_pii . ' || "' ) . $code;
+			}
+
+			ob_start();
+
+			?>
+			<!-- Facebook Pixel Event Code -->
+			<script <?php echo self::get_script_attributes(); ?>>
+				document.addEventListener( '<?php echo esc_js( $listener ); ?>', function (event) {
+					<?php echo $code; ?>
+				}, false );
+			</script>
+			<!-- End Facebook Pixel Event Code -->
+			<?php
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Prints the JavaScript code to track a conditional event.
+		 *
+		 * The tracking code will be executed when the given JavaScript event is triggered.
+		 *
+		 * @param string $event_name
+		 * @param array $params custom event parameters
+		 * @param string $listener name of the JavaScript event to listen for
+		 * @param string $jsonified_pii JavaScript code representing an object of data for Advanced Matching
+		 * @return string
+		 */
+		public function inject_conditional_event( $event_name, $params, $listener, $jsonified_pii = '' ) {
+
+			// phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped
+			return $this->get_conditional_event_script( $event_name, self::build_params( $params, $event_name ), $listener, $jsonified_pii );
+		}
+
+
+		/**
+		 * Gets the JavaScript code to track a conditional event that is only triggered one time wrapped in <script> tag.
+		 *
+		 * @internal
+		 *
+		 * @since 1.10.2
+		 *
+		 * @param string $event_name the name of the event to track
+		 * @param array $params custom event parameters
+		 * @param string $listened_event name of the JavaScript event to listen for
+		 * @return string
+		 */
+		public function get_conditional_one_time_event_script( $event_name, $params, $listened_event ) {
+
+			$code = $this->get_event_code( $event_name, $params );
+
+			ob_start();
+
+			?>
+			<!-- Facebook Pixel Event Code -->
+			<script <?php echo self::get_script_attributes(); ?>>
+				function handle<?php echo $event_name; ?>Event() {
+					<?php echo $code; ?>
+					// some weird themes (hi, Basel) are running this script twice, so two listeners are added and we need to remove them after running one
+					jQuery( document.body ).off( '<?php echo esc_js( $listened_event ); ?>', handle<?php echo $event_name; ?>Event );
+				}
+
+				jQuery( document.body ).one( '<?php echo esc_js( $listened_event ); ?>', handle<?php echo $event_name; ?>Event );
+			</script>
+			<!-- End Facebook Pixel Event Code -->
+			<?php
+
+			return ob_get_clean();
+		}
+
+
+		/**
+		 * Builds an event.
+		 *
+		 * @see \WC_Facebookcommerce_Pixel::inject_event() for the preferred method to inject an event.
+		 *
+		 * @param string $event_name event name
+		 * @param array $params event params
+		 * @param string $method optional, defaults to 'track'
+		 * @return string
+		 */
+		public static function build_event( $event_name, $params, $method = 'track' ) {
+
+			return sprintf(
+				"/* %s Facebook Integration Event Tracking */\n" .
+				"fbq('%s', '%s', %s);",
+				WC_Facebookcommerce_Utils::getIntegrationName(),
+				esc_js( $method ),
+				esc_js( $event_name ),
+				json_encode( self::build_params( $params, $event_name ), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT )
+			);
+		}
+
+
+		/**
+		 * Gets an array with version_info for pixel fires.
+		 *
+		 * Parameters provided by users should not be overwritten by this function.
+		 *
+		 * @since 1.10.2
+		 *
+		 * @param array $params user defined parameters
+		 * @param string $event the event name the params are for
+		 * @return array
+		 */
+		private static function build_params( $params = [], $event = '' ) {
+
+			$params = array_replace( self::get_version_info(), $params );
+
+			/**
+			 * Filters the parameters for the pixel code.
+			 *
+			 * @since 1.10.2
+			 *
+			 * @param array $params user defined parameters
+			 * @param string $event the event name
+			 */
+			return (array) apply_filters( 'wc_facebook_pixel_params', $params, $event );
+		}
+
+
+		/**
+		 * Gets script tag attributes.
+		 *
+		 * @since 1.10.2
+		 *
+		 * @return string
+		 */
+		private static function get_script_attributes() {
+
+			$script_attributes = '';
+
+			/**
+			 * Filters Facebook Pixel script attributes.
+			 *
+			 * @since 1.10.2
+			 *
+			 * @param array $custom_attributes
+			 */
+			$custom_attributes = (array) apply_filters( 'wc_facebook_pixel_script_attributes', [ 'type' => 'text/javascript' ] );
+
+			foreach ( $custom_attributes as $tag => $value ) {
+				$script_attributes .= ' ' . $tag . '="' . esc_attr( $value ) . '"';
+			}
+
+			return $script_attributes;
+		}
+
+
+		public static function get_pixel_id() {
+			$fb_options = self::get_options();
+			if ( ! $fb_options ) {
+				return '';
+			}
+			return isset( $fb_options[ self::PIXEL_ID_KEY ] ) ?
+				 $fb_options[ self::PIXEL_ID_KEY ] : '';
+		}
+
+		public static function set_pixel_id( $pixel_id ) {
+			$fb_options = self::get_options();
+
+			if ( isset( $fb_options[ self::PIXEL_ID_KEY ] )
+			  && $fb_options[ self::PIXEL_ID_KEY ] == $pixel_id ) {
+				return;
+			}
+
+			$fb_options[ self::PIXEL_ID_KEY ] = $pixel_id;
+			update_option( self::SETTINGS_KEY, $fb_options );
+		}
+
+		public static function get_use_pii_key() {
+			$fb_options = self::get_options();
+			if ( ! $fb_options ) {
+				return null;
+			}
+			return isset( $fb_options[ self::USE_PII_KEY ] ) ?
+				 $fb_options[ self::USE_PII_KEY ] : null;
+		}
+
+		public static function set_use_pii_key( $use_pii ) {
+			$fb_options = self::get_options();
+
+			if ( isset( $fb_options[ self::USE_PII_KEY ] )
+			  && $fb_options[ self::USE_PII_KEY ] == $use_pii ) {
+				return;
+			}
+
+			$fb_options[ self::USE_PII_KEY ] = $use_pii;
+			update_option( self::SETTINGS_KEY, $fb_options );
+		}
+
+		private static function get_version_info() {
+			global $wp_version;
+
+			if ( WC_Facebookcommerce_Utils::isWoocommerceIntegration() ) {
+				return array(
+					'source'        => 'woocommerce',
+					'version'       => WC()->version,
+					'pluginVersion' => WC_Facebookcommerce_Utils::PLUGIN_VERSION,
+				);
+			}
+
+			return array(
+				'source'        => 'wordpress',
+				'version'       => $wp_version,
+				'pluginVersion' => WC_Facebookcommerce_Utils::PLUGIN_VERSION,
+			);
+		}
+
+		public static function get_options() {
+			return get_option(
+				self::SETTINGS_KEY,
+				array(
+					self::PIXEL_ID_KEY => '0',
+					self::USE_PII_KEY  => 0,
+				)
+			);
+		}
+
+
+		/**
+		 * Gets Facebook Pixel base code.
+		 *
+		 * @deprecated since 1.10.2
+		 *
+		 * @return string
+		 */
+		public static function get_basecode() {
+
+			wc_deprecated_function( __METHOD__, '1.10.2' );
+
+			return '';
+		}
+
+
+	}
 
 endif;

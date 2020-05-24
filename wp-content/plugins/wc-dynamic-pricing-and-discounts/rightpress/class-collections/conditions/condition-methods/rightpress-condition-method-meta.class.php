@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Method_Field')) {
-    require_once('rightpress-condition-method-field.class.php');
-}
+require_once 'rightpress-condition-method-field.class.php';
 
 /**
  * Condition Method: Meta
@@ -19,8 +15,6 @@ if (!class_exists('RightPress_Condition_Method_Field')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Method_Meta')) {
-
 abstract class RightPress_Condition_Method_Meta extends RightPress_Condition_Method_Field
 {
 
@@ -77,5 +71,4 @@ abstract class RightPress_Condition_Method_Meta extends RightPress_Condition_Met
 
 
 
-}
 }

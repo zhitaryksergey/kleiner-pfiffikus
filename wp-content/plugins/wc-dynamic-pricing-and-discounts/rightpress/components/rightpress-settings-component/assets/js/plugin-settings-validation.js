@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
         });
 
 /**
-TBD: IMPLEMENT PANEL VALIDATION
+ TODO: IMPLEMENT PANEL VALIDATION
 // Validate panels
 if (is_valid) {
 
@@ -121,7 +121,7 @@ if (is_valid) {
  * Validate single panel
  */
 /*
-TBD
+TODO: Fix this
 function validate_panel(key, form, panel)
 {
     var is_valid = true;
@@ -168,7 +168,7 @@ function validate_panel(key, form, panel)
  * Validate product pricing
  */
 /*
-TBD
+TODO: Fix this
 function validate_product_pricing(key, form, panel)
 {
     var is_valid = true;
@@ -197,7 +197,7 @@ function validate_product_pricing(key, form, panel)
  * Validate quantity ranges
  */
 /*
-TBD
+TODO: Fix this
 function validate_quantity_ranges(key, form, panel)
 {
     var is_valid = true;
@@ -325,7 +325,7 @@ function validate_group_products(key, form, panel)
             var error_message = input_validation_methods[method](input, value);
 
             // Check if error message was returned which indicates validation failure
-            // TBD: Maybe come up with better solution than null|error_message ?
+            // TODO: Maybe come up with better solution than null|error_message ?
             if (error_message !== null) {
                 set_error(input, error_message);
                 is_valid = false;

@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_BOGO')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XX')) {
-
 class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XX extends RP_WCDPD_Method_Product_Pricing_Quantity_BOGO
 {
 
@@ -70,7 +68,7 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XX extends RP_WCDPD_Method_P
                     $temporary_used_quantities = $this->merge_cart_item_quantities($used_quantities, $quantities_to_purchase);
 
                     // Get quantities to receive at adjusted price
-                    if ($quantities_to_receive = $this->reserve_quantities($quantity_group, $temporary_used_quantities, $rule['bogo_receive_quantity'])) {
+                    if ($quantities_to_receive = $this->reserve_quantities($quantity_group, $temporary_used_quantities, $rule['bogo_receive_quantity'], false, true)) {
 
                         // Mark quantities used
                         $used_quantities = $this->merge_cart_item_quantities($temporary_used_quantities, $quantities_to_receive);
@@ -103,5 +101,4 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XX extends RP_WCDPD_Method_P
     }
 
 
-}
 }

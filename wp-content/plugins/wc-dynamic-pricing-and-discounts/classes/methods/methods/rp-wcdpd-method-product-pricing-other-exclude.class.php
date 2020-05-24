@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Other')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Other_Exclude')) {
-
 class RP_WCDPD_Method_Product_Pricing_Other_Exclude extends RP_WCDPD_Method_Product_Pricing_Other
 {
 
@@ -89,5 +87,3 @@ class RP_WCDPD_Method_Product_Pricing_Other_Exclude extends RP_WCDPD_Method_Prod
 }
 
 RP_WCDPD_Method_Product_Pricing_Other_Exclude::get_instance();
-
-}

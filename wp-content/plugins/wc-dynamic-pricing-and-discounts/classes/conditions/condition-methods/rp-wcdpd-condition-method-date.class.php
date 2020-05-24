@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Method_Date')) {
-
 class RP_WCDPD_Condition_Method_Date extends RightPress_Condition_Method_Date
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Method_Date extends RightPress_Condition_Method_Date
 }
 
 RP_WCDPD_Condition_Method_Date::get_instance();
-
-}

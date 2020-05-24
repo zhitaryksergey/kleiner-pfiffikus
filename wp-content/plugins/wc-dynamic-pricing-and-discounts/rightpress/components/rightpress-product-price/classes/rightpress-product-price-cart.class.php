@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price_Cart')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Shared Product Price Cart
@@ -18,25 +13,18 @@ if (!class_exists('RightPress_Product_Price_Cart')) {
 final class RightPress_Product_Price_Cart
 {
 
-    // Store cart item price change data in memory
-    private $cart_item_price_changes = array();
-
     // Flags
-    private $cart_loaded_from_session   = false;
+    private $cart_loaded_from_session = false;
 
-    // Singleton instance
-    protected static $instance = false;
+    // Store cart item price change data in memory
+    private $cart_item_price_changes                = array();
+    private $cart_item_price_changes_environment    = array();
 
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Track which "price set" actions have been triggered
+    private $price_set_actions_triggered = array();
+
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -47,23 +35,26 @@ final class RightPress_Product_Price_Cart
     public function __construct()
     {
 
-        // No plugin uses this functionality
-        if (!has_filter('rightpress_product_price_cart_item_price_changes_first_stage_callbacks') && !has_filter('rightpress_product_price_cart_item_price_changes_second_stage_callbacks') && !has_filter('rightpress_product_price_cart_item_price_changes_third_stage_callbacks')) {
+        // Check if functionality of this class is used by any plugin
+        if (!RightPress_Product_Price_Cart::is_used()) {
             return;
         }
 
-        // WooCommerce cart hooks
-        RightPress_Product_Price::add_late_action('woocommerce_cart_loaded_from_session', array($this, 'cart_loaded_from_session'));
-        RightPress_Product_Price::add_late_action('woocommerce_before_calculate_totals', array($this, 'before_calculate_totals'));
-        RightPress_Product_Price::add_late_action('woocommerce_add_to_cart', array($this, 'add_to_cart'));
-        RightPress_Product_Price::add_late_action('woocommerce_applied_coupon', array($this, 'applied_coupon'));
+        // Cart loaded from session
+        RightPress_Help::add_late_action('woocommerce_cart_loaded_from_session', array($this, 'cart_loaded_from_session'));
     }
 
     /**
-     * =================================================================================================================
-     * WOOCOMMERCE CART HOOKS
-     * =================================================================================================================
+     * Check if functionality of this class is used by any plugin
+     *
+     * @access public
+     * @return bool
      */
+    public static function is_used()
+    {
+
+        return has_filter('rightpress_product_price_cart_item_price_changes_first_stage_callbacks') || has_filter('rightpress_product_price_cart_item_price_changes_second_stage_callbacks');
+    }
 
     /**
      * Cart loaded from session
@@ -78,92 +69,54 @@ final class RightPress_Product_Price_Cart
         // Set flag
         $this->cart_loaded_from_session = true;
 
-        // Maybe change cart item prices
-        $this->maybe_change_cart_item_prices($cart);
+        // Maybe prepare cart item prices
+        $this->maybe_prepare_cart_item_prices($cart);
     }
 
     /**
-     * Before calculate totals
+     * Get environment variables for prepared cart item prices invalidation
      *
      * @access public
      * @param object $cart
-     * @return void
+     * @return array
      */
-    public function before_calculate_totals($cart)
+    public function get_environment_variables($cart)
     {
 
-        // Maybe change cart item prices
-        $this->maybe_change_cart_item_prices($cart);
-    }
+        $variables = array();
 
-    /**
-     * Applied coupon
-     *
-     * @access public
-     * @param string $coupon_code
-     * @return void
-     */
-    public function applied_coupon($coupon_code)
-    {
+        // Applied coupons
+        $variables['applied_coupons'] = $cart->applied_coupons;
 
-        // Check if cart has been loaded
-        if ($this->cart_loaded_from_session) {
+        // Iterate over cart items
+        foreach ($cart->cart_contents as $cart_item_key => $cart_item) {
 
-            // Maybe change cart item prices
-            $this->maybe_change_cart_item_prices(WC()->cart);
+            // Cart item key
+            $variables['cart_item_keys'][] = $cart_item_key;
+
+            // Cart item quantity
+            $variables['cart_item_quantities'][] = $cart_item['quantity'];
+
+            // Cart item price as set on product
+            $variables['cart_item_prices'][] = $cart_item['data']->get_price('edit');
         }
+
+        return $variables;
     }
 
     /**
-     * Add to cart
+     * Maybe prepare cart item prices
      *
-     * @access public
-     * @return void
-     */
-    public function add_to_cart()
-    {
-
-        // Check if cart has been loaded
-        if ($this->cart_loaded_from_session) {
-
-            // Maybe change cart item prices
-            $this->maybe_change_cart_item_prices(WC()->cart);
-        }
-    }
-
-    /**
-     * =================================================================================================================
-     * GENERAL CART ITEM PRICING HANDLING
-     * =================================================================================================================
-     */
-
-    /**
-     * Maybe change cart item prices
-     *
-     * @access public
+     * @access private
      * @param object $cart
      * @return void
      */
-    private function maybe_change_cart_item_prices($cart)
+    private function maybe_prepare_cart_item_prices($cart)
     {
 
         // Check if cart has been loaded
         if (!$this->cart_loaded_from_session) {
             return;
-        }
-
-        // Wait until applied coupon event if coupon is being applied during current request (or until calculate totals if coupon is aborted)
-        if ($this->coupon_is_being_applied()) {
-            if (current_action() !== 'woocommerce_applied_coupon' && !did_action('woocommerce_applied_coupon') && current_action() !== 'woocommerce_before_calculate_totals' && !did_action('woocommerce_before_calculate_totals')) {
-                return;
-            }
-        }
-
-        // Wait until add to cart event if item is being added to cart during current request (or until calculate totals if add to cart is aborted)
-        if ($this->product_is_being_added_to_cart()) {
-            if (current_action() !== 'woocommerce_add_to_cart' && !did_action('woocommerce_add_to_cart') && current_action() !== 'woocommerce_before_calculate_totals' && !did_action('woocommerce_before_calculate_totals')) {
-                return;
-            }
         }
 
         // Cart is empty, nothing to do
@@ -177,25 +130,40 @@ final class RightPress_Product_Price_Cart
         // Store price changes in memory
         $this->cart_item_price_changes = $price_changes;
 
-        // Apply price changes
-        foreach ($price_changes as $cart_item_key => $cart_item_price_change) {
+        // Set environment variables
+        $this->cart_item_price_changes_environment = $this->get_environment_variables($cart);
 
-            // Set price to cart item
-            $cart->cart_contents[$cart_item_key]['data']->set_price($cart_item_price_change['price']);
+        // Prepared price changes
+        if (!empty($price_changes)) {
 
-            // Trigger event
-            do_action('rightpress_product_price_cart_price_set', $cart_item_price_change['price'], $cart_item_key, $cart, $cart_item_price_change);
+            // Iterate over price changes
+            foreach ($price_changes as $cart_item_key => $cart_item_price_change) {
+
+                // Get cart item price change hash
+                $hash = RightPress_Help::get_hash(false, array($cart_item_key, $cart_item_price_change));
+
+                // Check if action should be triggered
+                if (!in_array($hash, $this->price_set_actions_triggered, true)) {
+
+                    // Trigger action
+                    do_action('rightpress_product_price_cart_price_set', $cart_item_price_change['price'], $cart_item_key, $cart, $cart_item_price_change);
+
+                    // Do not repeat the same action again
+                    $this->price_set_actions_triggered[] = $hash;
+                }
+            }
         }
+        // Prepared no price changes
+        else {
 
-        // Trigger no changes event
-        if (empty($price_changes)) {
-            do_action('rightpress_product_price_cart_no_changes_to_prices', $cart);
-        }
+            // Check if action should be triggered
+            if (!in_array('no_changes', $this->price_set_actions_triggered, true)) {
 
-        // Maybe force cart totals recalculation
-        if (current_filter() !== 'woocommerce_before_calculate_totals') {
-            if (RightPress_Help::is_request('ajax') && isset($_REQUEST['wc-ajax']) && in_array($_REQUEST['wc-ajax'], array('get_refreshed_fragments', 'add_to_cart', 'remove_from_cart'), true)) {
-                WC()->session->set('cart_totals', null);
+                // Trigger action
+                do_action('rightpress_product_price_cart_no_changes_to_prices', $cart);
+
+                // Do not repeat the same action again
+                $this->price_set_actions_triggered[] = 'no_changes';
             }
         }
     }
@@ -224,38 +192,85 @@ final class RightPress_Product_Price_Cart
     }
 
     /**
-     * =================================================================================================================
-     * OTHER METHODS
-     * =================================================================================================================
-     */
-
-    /**
-     * Check if coupon is being applied during current request
+     * Maybe change product or variation price of cart item
      *
      * @access public
-     * @return bool
+     * @param float $price
+     * @param object $product
+     * @return float
      */
-    public function coupon_is_being_applied()
+    public function maybe_change_price($price, $product)
     {
 
-        return (!empty($_POST['apply_coupon']) && !empty($_POST['coupon_code']));
+        // Check if cart has been loaded
+        if (!$this->cart_loaded_from_session) {
+            return $price;
+        }
+
+        // Ensure product is in cart
+        if (empty($product->rightpress_in_cart)) {
+            return $price;
+        }
+
+        // We only need to change final product price here
+        if (current_filter() !== 'woocommerce_product_get_price' && current_filter() !== 'woocommerce_product_variation_get_price') {
+            return $price;
+        }
+
+        // Get cart item key
+        $cart_item_key = $product->rightpress_in_cart;
+
+        // Maybe refresh prepared cart item prices
+        $this->maybe_refresh_prepared_cart_item_prices($cart_item_key);
+
+        // Check if prepared cart item price exists for current cart item
+        if (isset($this->cart_item_price_changes[$cart_item_key])) {
+
+            // Set prepared price
+            $price = $this->cart_item_price_changes[$cart_item_key]['price'];
+        }
+
+        // Return potentially changed price
+        return $price;
     }
 
     /**
-     * Check if product is being added to cart during current request
+     * Maybe refresh prepared cart item prices
      *
-     * @access public
-     * @return bool
+     * @access private
+     * @param string $cart_item_key
+     * @return void
      */
-    public function product_is_being_added_to_cart()
+    private function maybe_refresh_prepared_cart_item_prices($cart_item_key = null)
     {
 
-        return (!empty($_REQUEST['add-to-cart']) || (!empty($_REQUEST['wc-ajax']) && $_REQUEST['wc-ajax'] === 'add_to_cart'));
+        $refresh = false;
+
+        // Get cart
+        if ($cart = RightPress_Help::get_wc_cart()) {
+
+            // Refresh if we don't have price for current cart item key in memory
+            if (!isset($this->cart_item_price_changes[$cart_item_key])) {
+                $refresh = true;
+            }
+
+            // Refresh if environment variables have changed
+            if ($this->cart_item_price_changes_environment !== $this->get_environment_variables($cart)) {
+                $refresh = true;
+            }
+
+            // Check if prepared cart item prices need to be refreshed
+            if ($refresh) {
+
+                // Clear current prepared cart item prices
+                $this->cart_item_price_changes = array();
+                $this->cart_item_price_changes_environment = array();
+
+                // Maybe prepare cart item prices
+                $this->maybe_prepare_cart_item_prices($cart);
+            }
+        }
     }
-
-
-
-
 
 
 
@@ -264,5 +279,3 @@ final class RightPress_Product_Price_Cart
 }
 
 RightPress_Product_Price_Cart::get_instance();
-
-}

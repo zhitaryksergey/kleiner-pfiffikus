@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Countries')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Countries extends RightPress_Condition_Field_Multiselect_Countries
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Multiselect_Countries extends RightPress_Conditio
 }
 
 RP_WCDPD_Condition_Field_Multiselect_Countries::get_instance();
-
-}

@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Assets')) {
-
 class RP_WCDPD_Assets extends RightPress_Assets
 {
 
@@ -42,7 +40,7 @@ class RP_WCDPD_Assets extends RightPress_Assets
 
 
 /**
- * TBD: OLD CODE BELOW
+ * TODO: OLD CODE BELOW
  */
 
         // Enqueue frontend assets
@@ -68,7 +66,7 @@ class RP_WCDPD_Assets extends RightPress_Assets
 
 
 /**
- * TBD: OLD CODE BELOW
+ * TODO: OLD CODE BELOW
  */
 
     /**
@@ -101,7 +99,7 @@ class RP_WCDPD_Assets extends RightPress_Assets
         }
 
         // Only load Select2 on WooCommerce 3.1 or lower
-        // TBD: check if we can switch to SelectWoo
+        // TODO: check if we can switch to SelectWoo
         //if (!RightPress_Help::wc_version_gte('3.2')) {
 
             // Enqueue Select2 related scripts and styles
@@ -174,7 +172,7 @@ class RP_WCDPD_Assets extends RightPress_Assets
         }
 
         // Use selectWoo starting from WooCommerce 3.2
-        // TBD: check if we can switch to SelectWoo
+        // TODO: check if we can switch to SelectWoo
         /*if (RightPress_Help::wc_version_gte('3.2')) {
             wp_enqueue_script('selectWoo');
             wp_enqueue_style('rp-wcdpd-select2-styles', RP_WCDPD_PLUGIN_URL . '/assets/select2/css/select2.min.css', array(), RP_WCDPD_VERSION);
@@ -254,5 +252,3 @@ class RP_WCDPD_Assets extends RightPress_Assets
 }
 
 RP_WCDPD_Assets::get_instance();
-
-}

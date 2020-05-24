@@ -16,7 +16,19 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	 * {@inheritdoc}
 	 */
 	public function register_hooks() {
-		add_action( 'init', array( $this, 'register' ), 0 );
+		add_action( 'init', [ $this, 'register' ], 20 );
+		add_action( 'admin_init', [ $this, 'unregister' ] );
+	}
+
+	/**
+	 * Removes the taxonomy from the registration.
+	 *
+	 * This makes sure that no unneeded queries are done relating these private terms.
+	 */
+	public function unregister() {
+		if ( ! $this->is_visible() ) {
+			unregister_taxonomy( self::TERM_NAME );
+		}
 	}
 
 	/**
@@ -26,7 +38,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 		$prominent_words_support    = new WPSEO_Premium_Prominent_Words_Support();
 		$prominent_words_post_types = $prominent_words_support->get_supported_post_types();
 
-		if ( $prominent_words_post_types === array() ) {
+		if ( $prominent_words_post_types === [] ) {
 			return;
 		}
 
@@ -39,10 +51,10 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	/**
 	 * Retrieves the labels for the taxonomy.
 	 *
-	 * @return array The labels for the taxonomy.
+	 * @return string[] The labels for the taxonomy.
 	 */
 	private function get_labels() {
-		return array(
+		return [
 			'name'                       => _x( 'Prominent words', 'Taxonomy General Name', 'wordpress-seo-premium' ),
 			'singular_name'              => _x( 'Prominent word', 'Taxonomy Singular Name', 'wordpress-seo-premium' ),
 			'menu_name'                  => __( 'Prominent words', 'wordpress-seo-premium' ),
@@ -61,7 +73,7 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 			'no_terms'                   => __( 'No prominent words', 'wordpress-seo-premium' ),
 			'items_list'                 => __( 'Prominent words list', 'wordpress-seo-premium' ),
 			'items_list_navigation'      => __( 'Prominent words list navigation', 'wordpress-seo-premium' ),
-		);
+		];
 	}
 
 	/**
@@ -70,22 +82,25 @@ class WPSEO_Premium_Prominent_Words_Registration implements WPSEO_WordPress_Inte
 	 * @return array The arguments for the registration to WordPress.
 	 */
 	private function get_args() {
-		$args = array(
+		return [
 			'labels'                     => $this->get_labels(),
 			'hierarchical'               => false,
 			'public'                     => false,
-			'show_ui'                    => false,
+			'show_ui'                    => $this->is_visible(),
 			'show_admin_column'          => false,
 			'show_in_nav_menus'          => false,
 			'show_tagcloud'              => false,
 			'show_in_rest'               => true,
-			'capabilities'               => array( 'edit_terms' => 'edit_posts' ),
-		);
+			'capabilities'               => [ 'edit_terms' => 'edit_posts' ],
+		];
+	}
 
-		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
-			$args['show_ui'] = true;
-		}
-
-		return $args;
+	/**
+	 * Determines if the prominent words should be visible in the menu.
+	 *
+	 * @return bool True if the prominent words should be shown.
+	 */
+	private function is_visible() {
+		return ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG );
 	}
 }

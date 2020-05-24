@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Field_Select')) {
-    require_once('rightpress-condition-field-select.class.php');
-}
+require_once 'rightpress-condition-field-select.class.php';
 
 /**
  * Condition Field Group: Select - Timeframe
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Field_Select')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Field_Select_Timeframe')) {
-
 abstract class RightPress_Condition_Field_Select_Timeframe extends RightPress_Condition_Field_Select
 {
 
@@ -112,5 +106,4 @@ abstract class RightPress_Condition_Field_Select_Timeframe extends RightPress_Co
 
 
 
-}
 }

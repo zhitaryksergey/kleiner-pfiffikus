@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Cart_Subtotal')) {
-
 class RP_WCDPD_Condition_Cart_Subtotal extends RightPress_Condition_Cart_Subtotal
 {
 
@@ -46,5 +44,3 @@ class RP_WCDPD_Condition_Cart_Subtotal extends RightPress_Condition_Cart_Subtota
 }
 
 RP_WCDPD_Condition_Cart_Subtotal::get_instance();
-
-}

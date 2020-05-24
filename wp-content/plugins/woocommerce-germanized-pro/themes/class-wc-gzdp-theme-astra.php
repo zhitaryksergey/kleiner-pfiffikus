@@ -15,7 +15,19 @@ class WC_GZDP_Theme_Astra extends WC_GZDP_Theme {
 		add_filter( 'woocommerce_gzd_shopmark_product_loop_defaults', array( $this, 'product_loop_defaults' ), 10 );
 		add_filter( 'woocommerce_gzd_shopmark_single_product_defaults', array( $this, 'single_product_defaults' ), 10 );
 
+		add_action( 'astra_woo_quick_view_product_summary', array( $this, 'quick_view_summary_hooks' ), 10 );
+
 		add_action( 'admin_notices', array( $this, 'shopmark_notice' ), 30 );
+	}
+
+	public function quick_view_summary_hooks() {
+		foreach( wc_gzd_get_single_product_shopmarks() as $shopmark ) {
+			$shopmark->execute();
+		}
+	}
+
+	public function set_single_product_filter( $filter ) {
+		return 'astra_woo_single_price_after';
 	}
 
 	public function shopmark_notice() {

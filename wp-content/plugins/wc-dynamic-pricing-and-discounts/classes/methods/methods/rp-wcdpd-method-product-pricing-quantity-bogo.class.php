@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_BOGO')) {
-
 abstract class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO extends RP_WCDPD_Method_Product_Pricing_Quantity
 {
 
@@ -141,5 +139,4 @@ abstract class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO extends RP_WCDPD_Me
     }
 
 
-}
 }

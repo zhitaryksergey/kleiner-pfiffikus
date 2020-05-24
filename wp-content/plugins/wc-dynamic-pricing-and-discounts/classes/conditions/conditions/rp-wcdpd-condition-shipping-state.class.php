@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Shipping_State')) {
-
 class RP_WCDPD_Condition_Shipping_State extends RightPress_Condition_Shipping_State
 {
 
@@ -46,5 +44,3 @@ class RP_WCDPD_Condition_Shipping_State extends RightPress_Condition_Shipping_St
 }
 
 RP_WCDPD_Condition_Shipping_State::get_instance();
-
-}

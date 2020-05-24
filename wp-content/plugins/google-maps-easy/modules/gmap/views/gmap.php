@@ -84,7 +84,21 @@ class gmapViewGmp extends viewGmp {
 				break;
 			}
 		}
-		$mapObj = $mapObj ? $mapObj : frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id']);
+
+		$byUserId = false;
+		if (isset($params['user_id']) && !empty($params['user_id'])) {
+		    switch ($params['user_id']) {
+                case 'logged_in_user':
+                    $byUserId = get_current_user_id();
+                    $byUserId = $byUserId == 0 ? false : $byUserId;
+                    break;
+                default:
+                    $byUserId = (int) $params['user_id'];
+                    break;
+            }
+        }
+
+		$mapObj = $mapObj ? $mapObj : frameGmp::_()->getModule('gmap')->getModel()->getMapById($params['id'], true, false, true, true, $byUserId);
 
 		if(empty($mapObj)){
 			return isset($params['id'])
@@ -115,6 +129,15 @@ class gmapViewGmp extends viewGmp {
 					}
 				}
 			}
+
+            if ($byUserId) {
+                foreach($mapObj['markers'] as $key => &$marker) {
+                    if(!is_null($marker['user_id']) && (int) $marker['user_id'] != $byUserId) {
+                        unset($mapObj['markers'][$key]);
+                    }
+                }
+                $mapObj['markers'] = array_values($mapObj['markers']);
+            }
 
 			if(!empty($params['marker_category'])) {
 				$category = explode(',', $params['marker_category']);

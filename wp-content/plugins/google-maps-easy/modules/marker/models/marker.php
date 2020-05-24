@@ -7,7 +7,7 @@ class markerModelGmp extends modelGmp {
             self::$tableObj = frameGmp::_()->getTable('marker');
         }
     }
-	public function save($marker = array(), &$update = false) {
+	public function save($marker = array(), &$update = false, $import = false) {
 		$id = isset($marker['id']) ? (int) $marker['id'] : 0;
 		$marker['title'] = isset($marker['title']) ? trim($marker['title']) : '';
 		$marker['coord_x'] = isset($marker['coord_x']) ? (float)$marker['coord_x'] : 0;
@@ -42,16 +42,23 @@ class markerModelGmp extends modelGmp {
 
 			//save first groups value in markers table to better compatibility
 			$markerGroupIds = $marker['marker_group_id'];
-			$marker['marker_group_id'] = $first_value = reset($markerGroupIds);;
-
+			if (!$import) {
+				$marker['marker_group_id'] = $first_value = reset($markerGroupIds);
+			}
 			$marker['params'] = isset($marker['params']) ? utilsGmp::serialize($marker['params']) : '';
+
+			if ($import) {
+				$markerGroupIds = array();
+				$markerGroupIds[] = $marker['marker_group_id'];
+			}
+
 			if($update) {
 				dispatcherGmp::doAction('beforeMarkerUpdate', $id, $marker);
 				$dbRes = frameGmp::_()->getTable('marker')->update($marker, array('id' => $id));
 
 				frameGmp::_()->getTable('marker_groups_relation')->delete('marker_id = ' . $marker['id']);
 				foreach ($markerGroupIds as $markerId) {
-					frameGmp::_()->getTable('marker_groups_relation')->insert(array('marker_id'=>$marker['id'], 'groups_id'=>$markerId));
+					$res = frameGmp::_()->getTable('marker_groups_relation')->insert(array('marker_id'=>$marker['id'], 'groups_id'=>$markerId));
 				}
 				dispatcherGmp::doAction('afterMarkerUpdate', $id, $marker);
 			} else {
@@ -108,8 +115,8 @@ class markerModelGmp extends modelGmp {
 				'coord_x' => $marker['coord_x'],
 				'coord_y' => $marker['coord_y'],
 			);*/
-			if(isset($marker['params']['marker_title_link']) 
-				&& !empty($marker['params']['marker_title_link']) 
+			if(isset($marker['params']['marker_title_link'])
+				&& !empty($marker['params']['marker_title_link'])
 				&& strpos($marker['params']['marker_title_link'], 'http') !== 0
 			) {
 				$marker['params']['marker_title_link'] = 'http://'. $marker['params']['marker_title_link'];
@@ -154,7 +161,7 @@ class markerModelGmp extends modelGmp {
 			$marker['icon'] = 1;
 		} elseif(!frameGmp::_()->getModule('icons')->getModel()->iconExists($marker['icon'])) {
 			// Why here is echo??? I don't know.........
-			//echo $marker['icon'].".."; 
+			//echo $marker['icon']."..";
 			$marker['icon'] = 1;
 		}
 		unset($marker['id']);
@@ -291,7 +298,7 @@ class markerModelGmp extends modelGmp {
         $iconsModel = frameGmp::_()->getModule('icons')->getModel();
         foreach($markerList as $i => &$m) {
 			$markerList[$i] = $this->_afterGet($markerList[$i], $widthMapData);
-        } 
+        }
         return $markerList;
     }
 	public function setMarkersToMap($addMarkerIds, $mapId) {

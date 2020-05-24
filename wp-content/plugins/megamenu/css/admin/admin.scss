@@ -1,4 +1,4 @@
-$light_blue: #2ea2cc;
+$light_blue: #0073aa;
 $light_grey: #f7f7f7;
 $mid_grey: #eee;
 $grey: #DFDFDF;
@@ -9,6 +9,7 @@ $black: #000;
 $red: #D0011B;
 $orange: #ffb900;
 $green: #46b450;
+$header_height: 75px;
 
 .rtl.nav-menus-php {
 	.mm_launch {
@@ -49,12 +50,28 @@ $green: #46b450;
 }
 .nav-menus-php {
 
+	&.mega-colorbox-open {
+		ul#adminmenu a.wp-has-current-submenu:after, 
+		ul#adminmenu>li.current>a.current:after {
+			border-right-color: #373737;
+		}
+	}
+
+	#cboxOverlay {
+		left: 160px;
+	}
+
+	#colorbox {
+		transform: translateX(80px);
+		z-index: 99999;
+	}
 	#cboxContent {
 		padding: 0;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
 		user-select: none;
+
+		.CodeMirror {
+			user-select: auto;
+		}
 
 		.notice {
 			margin: 10px 0 0 0;
@@ -163,17 +180,19 @@ $green: #46b450;
 			float: left;
 			width: 100%;
 			border-bottom: 1px solid $mid_grey;
+			background: $mid_grey;
 
 			.mm_title {
 				padding: 0 20px;
-				background: white;
 				font-size: 1.3em;
-				line-height: 75px;
+			    align-items: center;
+			    display: inline-flex;
+			    line-height: 25px;
 				float: left;
+				height: $header_height;
 
 				br {
 					display: none;
-
 				}
 			}
 
@@ -181,18 +200,20 @@ $green: #46b450;
 				text-align: right;
 				padding: 0 20px;
 				display: none;
-				line-height: 75px;
+				line-height: $header_height;
 				text-transform: uppercase;
 				color: $light_blue;
 				font-size: 11px;
 				font-weight: bold;
 				float: right;
 				background: $white;
+				position: absolute;
+				right: 54px;
 				
 				&:before {
 					color: $light_blue;
 					display: inline-block;
-					font: normal 20px/75px 'dashicons';
+					font: normal 20px/#{$header_height} 'dashicons';
 					speak: none;
 					-webkit-font-smoothing: antialiased;
 					-moz-osx-font-smoothing: grayscale;
@@ -221,18 +242,58 @@ $green: #46b450;
 				color: $text_grey;
 				width: 100%;
 				display: block;
-				padding: 10px 10px 10px 20px;
+				padding: 10px 10px 10px 15px;
 				box-sizing: border-box;
 				outline: 0;
 				position: relative;
-				transition: all 0.05s linear;
+				transition: all 0.1s linear;
 				font-size: 12px;
+				cursor: pointer;
 			}
 
+			.mm_tab:hover {
+				background: $light_grey;
+			}
+
+			.mm_tab:before {
+				color: $dark_grey;
+				display: inline-block;
+				font-family: 'dashicons';
+				speak: none;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				vertical-align: top;
+				margin-right: 10px;
+				content: '\f463';
+				font-size: 15px;
+				width: 14px;
+			}
+
+			.mm_tab.mega_menu:before {
+				content: "\f116";
+			}
+
+			.mm_tab.general_settings:before {
+				content: "\f111";
+			}
+			
+			.mm_tab.menu_icon:before {
+				content: "\f128";
+			}
+			.mm_tab.styling:before {
+				content: "\f540";
+			}
+			
+			.mm_tab.roles:before {
+				content: "\f110";
+			}
 			.mm_tab.active {
 				color: white;
 				background: $light_blue;
 
+				&:before {
+					color: white;
+				}
 				&:after {
 					right: 0;
 					border: solid 5px transparent;
@@ -252,11 +313,14 @@ $green: #46b450;
 
 		p.submit {
 			margin-bottom: 0;
-			padding-bottom: 0;
+			padding-bottom: 20px;
+			position: sticky;
+		    bottom: 0;
+		    background: white;
 		}
 
 		.mm_content_container {
-			padding: 20px;
+			padding: 20px 20px 0 20px;
 			float: right;
 			height: 504px;
 			width: 85%;
@@ -300,13 +364,15 @@ $green: #46b450;
 
 				button.mega-add-row,
 				button.mega-add-column {
-					height: 21px;
-					line-height: 20px;
+					height: 23px;
+					min-height: 23px;
+					line-height: 22px;
 					font-size: 12px;
 					padding-left: 4px;
 
 					.dashicons-plus {
-						margin-top: 4px;
+						margin-right: 4px;
+						line-height: 22px;
 					}
 				}
 
@@ -467,9 +533,19 @@ $green: #46b450;
 								top: 0;
 							}
 
-							&[data-type=item] {
-								.widget-title-action {
-									display: none;
+							&[data-type=item] form {
+								input, select {
+									float: right;
+								}
+
+								p {
+									float: left;
+									width: 100%;
+									margin-bottom: 0;
+								}
+
+								.widget-content {
+									padding-top: 10px;
 								}
 							}
 
@@ -622,7 +698,7 @@ $green: #46b450;
 
 				.dashicons {
 					font-size: 13px;
-					width: 17px;
+					width: 15px;
 					cursor: pointer;
 				}
 
@@ -686,12 +762,6 @@ $green: #46b450;
 					box-sizing: border-box;
 				}
 
-				.widget[data-type='menu_item'] {
-					.widget-action {
-						display: none;
-					}
-				}
-
 				.widget {
 					width: 100%;
 
@@ -710,7 +780,6 @@ $green: #46b450;
 			select#mm_widget_selector {
 				font-size: 0.9em;
 				float: right;
-				margin-right: 5px;
 			}
 
 			select#mm_number_of_columns {
@@ -852,6 +921,17 @@ $green: #46b450;
 						}
 					}
 				}
+				form {
+					input, select {
+						float: right;
+					}
+
+					p {
+						float: left;
+						width: 100%;
+						margin-bottom: 0;
+					}
+				}
 			}
 
 			.widget-controls {
@@ -977,167 +1057,16 @@ $green: #46b450;
 				}
 			}
 
-			#widgets[data-columns='1'] {
-				.widget[data-columns='1'] {
-					width: 100%;
-				}
+			#widgets {
+                @for $of from 1 through 12 {
+                    @for $cols from 1 through $of {
+                        &[data-columns='#{$of}'] .widget[data-columns='#{$cols}'] {
+                            width: (100% / $of) * $cols;
+                        }
+                    }
+                }
 			}
 
-			#widgets[data-columns='2'] {
-				.widget[data-columns='1'] {
-					width: 50%;
-				}
-				.widget[data-columns='2'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='3'] {
-				.widget[data-columns='1'] {
-					width: 33.3%;
-				}
-				.widget[data-columns='2'] {
-					width: 66.6%;
-				}
-				.widget[data-columns='3'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='4'] {
-				.widget[data-columns='1'] {
-					width: 25%;
-				}
-				.widget[data-columns='2'] {
-					width: 50%;
-				}
-				.widget[data-columns='3'] {
-					width: 75%;
-				}
-				.widget[data-columns='4'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='5'] {
-				.widget[data-columns='1'] {
-					width: 20%;
-				}
-				.widget[data-columns='2'] {
-					width: 40%;
-				}
-				.widget[data-columns='3'] {
-					width: 60%;
-				}
-				.widget[data-columns='4'] {
-					width: 80%;
-				}
-				.widget[data-columns='5'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='6'] {
-				.widget[data-columns='1'] {
-					width: 16.6%;
-				}
-				.widget[data-columns='2'] {
-					width: 33.3%;
-				}
-				.widget[data-columns='3'] {
-					width: 50%;
-				}
-				.widget[data-columns='4'] {
-					width: 66.6%;
-				}
-				.widget[data-columns='5'] {
-					width: 83.3%;
-				}
-				.widget[data-columns='6'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='7'] {
-				.widget[data-columns='1'] {
-					width: 14.28%;
-				}
-				.widget[data-columns='2'] {
-					width: 28.57%;
-				}
-				.widget[data-columns='3'] {
-					width: 42.85%;
-				}
-				.widget[data-columns='4'] {
-					width: 57.14%;
-				}
-				.widget[data-columns='5'] {
-					width: 71.42%;
-				}
-				.widget[data-columns='6'] {
-					width: 85.71%;
-				}
-				.widget[data-columns='7'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='8'] {
-				.widget[data-columns='1'] {
-					width: 12.5%;
-				}
-				.widget[data-columns='2'] {
-					width: 25%;
-				}
-				.widget[data-columns='3'] {
-					width: 37.5%;
-				}
-				.widget[data-columns='4'] {
-					width: 50%;
-				}
-				.widget[data-columns='5'] {
-					width: 62.5%;
-				}
-				.widget[data-columns='6'] {
-					width: 75%;
-				}
-				.widget[data-columns='7'] {
-					width: 87.5%;
-				}
-				.widget[data-columns='8'] {
-					width: 100%;
-				}
-			}
-
-			#widgets[data-columns='9'] {
-				.widget[data-columns='1'] {
-					width: 11.11%;
-				}
-				.widget[data-columns='2'] {
-					width: 22.22%;
-				}
-				.widget[data-columns='3'] {
-					width: 33.33%;
-				}
-				.widget[data-columns='4'] {
-					width: 44.44%;
-				}
-				.widget[data-columns='5'] {
-					width: 55.55%;
-				}
-				.widget[data-columns='6'] {
-					width: 66.66%;
-				}
-				.widget[data-columns='7'] {
-					width: 77.77%;
-				}
-				.widget[data-columns='8'] {
-					width: 88.88%;
-				}
-				.widget[data-columns='9'] {
-					width: 100%;
-				}
-			}
 		}
 
 		label[for='mm_enable_mega_menu'] {
@@ -1259,8 +1188,6 @@ $green: #46b450;
 
 				select {
 					font-size: 0.9em;
-					height: 28px;
-					line-height: 28px;
 				}
 				textarea {
 					font-size: 0.9em;
@@ -1382,9 +1309,10 @@ $green: #46b450;
 		background: none;
 		width: auto;
 		height: auto;
-		color: white;
-		right: -28px;
-		top: 2px;
+	    right: 14px;
+	    top: 25px;
+		color: $dark_grey;
+
 		&:before {
 			content: "\f335";
 			font: normal 24px/29px 'dashicons';
@@ -1421,7 +1349,7 @@ $green: #46b450;
 
 	.mm_launch {
 		margin-left: 10px;
-		font-size: 0.8em;
+		font-size: 12px;
 		cursor: pointer;
 		color: white;
 		display: inline-block;
@@ -1431,7 +1359,7 @@ $green: #46b450;
 		background: $dark_grey;
 		border-color: $text_grey;
 		border-width: 1px;
-		padding: 0 5px;
+		padding: 1px 5px;
 		border-radius: 3px;
 		opacity: 0;
 		-webkit-transition: all 0.3s ease;
@@ -1446,9 +1374,9 @@ $green: #46b450;
 			font-family: dashicons;
 			content: "\f111";
 			font-size: 10px;
-			margin-right: 2px;
+			margin-right: 4px;
 			display: inline-block;
-			vertical-align: bottom;
+			vertical-align: middle;
 		}
 	}
 
@@ -1556,6 +1484,9 @@ $green: #46b450;
 					font-size: 0.9em;
 					max-width: 120px;
 				}
+				select.megamenu_effect_mobile {
+					max-width: 80px;
+				}
 				tr {
 					height: 29px;
 					vertical-align: middle;
@@ -1613,10 +1544,6 @@ $green: #46b450;
 	}
 }
 
-
-
-
-
 .toplevel_page_maxmegamenu .notice,
 .mega-menu_page_maxmegamenu_theme_editor .notice,
 .toplevel_page_maxmegamenu div.updated,
@@ -1654,6 +1581,7 @@ body.toplevel_page_maxmegamenu {
 		    padding: 0 5px 0 5px;
 		    height: 28px;
 		    color: $grey;
+		    border: 1px solid #7e8993;
 		}
 
 		.select2-chosen i:before {
@@ -1687,6 +1615,7 @@ body.toplevel_page_maxmegamenu {
 
 	.icon_dropdown .select2-choice > .select2-chosen i,
 	.select2-result-label i {
+		margin: 0;
 	    display: inline-block;
 	    width: 20px;
 	    height: 20px;
@@ -1698,7 +1627,6 @@ body.toplevel_page_maxmegamenu {
 	    font-style: normal;
 	    vertical-align: top;
 	    text-align: center;
-	    -webkit-transition: color .1s ease-in 0;
 	    transition: color .1s ease-in 0;
 	    -webkit-font-smoothing: antialiased;
 	    -moz-osx-font-smoothing: grayscale;
@@ -1858,19 +1786,6 @@ body.toplevel_page_maxmegamenu {
 						padding: 0 10px;
 					}
 				}
-
-				&.mega-star:before {
-					font: 400 14px/28px dashicons;
-					color: #ffb900;
-					margin-right: 4px;
-					content: "\f155";
-					speak: none;
-					padding: 0;
-					display: inline-block;
-					vertical-align: top;
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-				}
 			}
 		}
 	}
@@ -1918,13 +1833,14 @@ body.toplevel_page_maxmegamenu {
 	.mm-picker-container {
 		border-radius: 3px;
 		box-shadow: 0 1px 0 rgba(0,0,0,.08);
-		border: 1px solid #ccc;
+		border: 1px solid #7e8993;
 		font-size: 0.9em;
 		float: left;
 
 		.sp-replacer {
 			margin: 0;
 			float: left;
+			border-right: 1px solid #7e8993;
 		}
 
 		.sp-palette-container {
@@ -1947,17 +1863,12 @@ body.toplevel_page_maxmegamenu {
 		}
 
 		div.chosen-color {
-			background: #f7f7f7;
-			-webkit-border-radius: 0 2px 2px 0;
 			border-radius: 0 2px 2px 0;
-			border-left: 1px solid #ccc;
 			color: $text_grey;
 			font-size: 11px;
 			line-height: 26px;
 			padding: 0 6px;
 			text-align: center;
-			-webkit-box-shadow: inset 0 1px 0 $white;
-			box-shadow: inset 0 1px 0 $white;
 			float: left;
 			cursor: default;
 		}
@@ -2097,9 +2008,7 @@ body.toplevel_page_maxmegamenu {
 				input[type=number],
 				select {
 					font-size: 0.9em;
-					height: 28px;
-					line-height: 28px;
-					vertical-align: top;
+					min-height: 28px;
 				}
 
 				textarea {
@@ -2450,6 +2359,7 @@ body.toplevel_page_maxmegamenu {
 			.megamenu_submit {
 			    float: left;
 			    width: 100%;
+
 			}
 
 			div.mega-tab-content {
@@ -2557,4 +2467,3 @@ body.toplevel_page_maxmegamenu {
 		transform: rotate(359deg);
 	}
 }
-

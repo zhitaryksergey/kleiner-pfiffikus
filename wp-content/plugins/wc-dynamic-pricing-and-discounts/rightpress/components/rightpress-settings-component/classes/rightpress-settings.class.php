@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Settings')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Settings Class
@@ -18,9 +13,9 @@ if (!class_exists('RightPress_Settings')) {
 abstract class RightPress_Settings
 {
 
-    // TBD: PREPARE JS FRAMEWORK FOR TWO LEVEL PANELS (WHAT WE USE FOR WCDPD)
-    // TBD: UPDATE VALIDATION JS TO VALIDATE PANELS
-    // TBD: PREPARE THIS COMPONENT TO HANDLE SETTINGS ON OTHER PAGES, E.G. WC PRODUCT PAGES. ONLY OUR OWN CUSTOM POST TYPES DO NOT GO THROUGH THIS LIB.
+    // TODO: PREPARE JS FRAMEWORK FOR TWO LEVEL PANELS (WHAT WE USE FOR WCDPD)
+    // TODO: UPDATE VALIDATION JS TO VALIDATE PANELS
+    // TODO: PREPARE THIS COMPONENT TO HANDLE SETTINGS ON OTHER PAGES, E.G. WC PRODUCT PAGES. ONLY OUR OWN CUSTOM POST TYPES DO NOT GO THROUGH THIS LIB.
 
     /**
      * Constructor
@@ -67,5 +62,4 @@ abstract class RightPress_Settings
 
 
 
-}
 }

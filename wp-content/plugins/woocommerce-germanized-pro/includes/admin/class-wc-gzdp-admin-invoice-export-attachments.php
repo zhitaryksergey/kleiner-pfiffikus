@@ -37,7 +37,14 @@ class WC_GZDP_Admin_Invoice_Export_Attachments extends WC_GZDP_Admin_Invoice_Exp
 				$zip->addFile( $attachment[ 'path' ], $attachment[ 'filename' ] );
 			$zip->close();
 			header( 'Content-Length: ' . filesize( $this->filepath ) );
+
+			// Clear ob output
+			while ( ob_get_level() ) {
+				ob_end_clean();
+			}
+
 			readfile( $this->filepath );
+			exit();
 		}
 	}
 

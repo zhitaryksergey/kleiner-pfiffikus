@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Condition methods controller
@@ -12,8 +10,6 @@ if (!defined('ABSPATH')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Controller_Condition_Methods')) {
-
 abstract class RightPress_Controller_Condition_Methods extends RightPress_Item_Controller
 {
 
@@ -35,5 +31,4 @@ abstract class RightPress_Controller_Condition_Methods extends RightPress_Item_C
 
 
 
-}
 }

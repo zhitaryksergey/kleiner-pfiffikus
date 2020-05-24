@@ -17,14 +17,14 @@ class supsystic_promoGmp extends moduleGmp {
 		if(is_admin()) {
 			$this->checkStatisticStatus();
 		}
-		$this->weLoveYou();
+		//$this->weLoveYou();
 		dispatcherGmp::addFilter('mainAdminTabs', array($this, 'addAdminTab'));
 		dispatcherGmp::addAction('beforeSaveOpts', array($this, 'checkSaveOpts'));
-		dispatcherGmp::addAction('addMapBottomControls', array($this, 'checkWeLoveYou'), 99);
+		//dispatcherGmp::addAction('addMapBottomControls', array($this, 'checkWeLoveYou'), 99);
 		dispatcherGmp::addAction('discountMsg', array($this, 'getDiscountMsg'));
 		add_action('admin_notices', array($this, 'checkAdminPromoNotices'));
 		add_action('admin_notices', array($this, 'showUserApiKeyAdminNotice'));
-	}	
+	}
 	function showUserApiKeyAdminNotice() {
 		$class = 'supsystic-admin-notice';
 		$settingsLink = frameGmp::_()->getModule('options')->getTabUrl('settings');

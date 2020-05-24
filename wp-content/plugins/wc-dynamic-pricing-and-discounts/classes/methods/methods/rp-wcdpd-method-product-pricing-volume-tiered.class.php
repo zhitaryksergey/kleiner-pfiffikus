@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Volume')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Volume_Tiered')) {
-
 class RP_WCDPD_Method_Product_Pricing_Volume_Tiered extends RP_WCDPD_Method_Product_Pricing_Volume
 {
 
@@ -162,5 +160,3 @@ class RP_WCDPD_Method_Product_Pricing_Volume_Tiered extends RP_WCDPD_Method_Prod
 }
 
 RP_WCDPD_Method_Product_Pricing_Volume_Tiered::get_instance();
-
-}

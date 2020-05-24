@@ -56,6 +56,21 @@ class WC_GZDP_PDF_Helper {
 		add_filter( 'wp_handle_upload', array( $this, 'unregister_font_upload_dir_filter' ) );
 		add_action( 'admin_init', array( $this, 'check_font_regenerate' ) );
 		add_filter( 'woocommerce_gzdp_pdf_fonts', array( $this, 'set_custom_fonts' ) );
+		add_filter( 'plupload_default_params', array( $this, 'set_upload_params' ) );
+	}
+
+	public function set_upload_params( $params ) {
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+
+			if ( $screen && 'woocommerce_page_wc-settings' === $screen->id ) {
+				if ( isset( $_GET['tab'] ) && strpos( $_GET['tab'], 'germanized' ) !== false ) {
+					$params['is_wc_gzdp_upload'] = true;
+				}
+			}
+		}
+
+		return $params;
 	}
 
 	public function set_upload_dir_not_exist_notice() {
@@ -76,29 +91,31 @@ class WC_GZDP_PDF_Helper {
 	}
 
 	public function get_fonts( $remove_filters = false ) {
-		
 		$fonts = array(
 			'courier'      => _x( 'Courier', 'font-name', 'woocommerce-germanized-pro' ),
 			'helvetica'    => _x( 'Helvetica', 'font-name', 'woocommerce-germanized-pro' ),
 			'times'        => _x( 'Times New Roman', 'font-name', 'woocommerce-germanized-pro' ),
 		);
 
-		if ( $remove_filters )
+		if ( $remove_filters ) {
 			return $fonts;
+		}
 
 		return apply_filters( 'woocommerce_gzdp_pdf_fonts', $fonts );
 	}
 
 	public function get_pdf_version( $file ) {
-
 		$content = file_get_contents( $file );
-		if ( ! $content )
+
+		if ( ! $content ) {
 			return false;
+		}
 		
 		preg_match( '/\d\.\d/', substr( $content, 0, 10 ), $match );
 
-		if ( isset( $match[0] ) )
+		if ( isset( $match[0] ) ) {
 			return $match[0];
+		}
 
 		return false;
 	}
@@ -109,60 +126,68 @@ class WC_GZDP_PDF_Helper {
 
 	public function set_custom_fonts( $fonts ) {
 		if ( $custom = $this->get_custom_fonts() ) {
-			foreach( (array) $custom as $new )
+			foreach( (array) $custom as $new ) {
 				$fonts[ $new ] = ucfirst( $new );
+			}
 		}
+
 		return $fonts;
 	}
 
 	public function get_custom_font_path( $font ) {
 		$fonts = $this->get_custom_fonts();
-		if ( ! $fonts || ! in_array( $font, (array) $fonts ) )
+
+		if ( ! $fonts || ! in_array( $font, (array) $fonts ) ) {
 			return false;
+		}
+
 		$dir = $this->get_custom_font_upload_dir();
-		return trailingslashit( $dir[ 'basedir' ] ) . $font . '.php';
+
+		return trailingslashit( $dir['basedir'] ) . $font . '.php';
 	}
 
 	public function check_font_regenerate() {
-		if ( isset( $_GET[ 'action' ] ) && $_GET[ 'action' ] == 'wc-gzdp-regenerate-fonts' && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wc-gzdp-regenerate-fonts' ) )
+		if ( current_user_can( 'manage_woocommerce' ) && isset( $_GET['action'] ) && $_GET['action'] == 'wc-gzdp-regenerate-fonts' && wp_verify_nonce( $_REQUEST['_wpnonce'], 'wc-gzdp-regenerate-fonts' ) ) {
 			$this->parse_custom_fonts();
+		}
 	}
 
 	public function register_font_upload_dir_filter( $file ) {
-		if ( strpos( $file[ 'name' ], '.ttf' ) !== false )
+		if ( strpos( $file['name'], '.ttf' ) !== false && isset( $_REQUEST['is_wc_gzdp_upload'] ) ) {
 			add_filter( 'upload_dir', array( $this, "filter_font_upload_dir" ), 0, 1 );
+		}
+
 		return $file;
 	}
 
 	public function filter_font_upload_dir( $args ) {
 		$upload_base = trailingslashit( $args[ 'basedir' ] );
-		$upload_url = trailingslashit( $args[ 'baseurl' ] );
+		$upload_url  = trailingslashit( $args[ 'baseurl' ] );
 		
-		$args[ 'basedir' ] = apply_filters( 'wc_germanized_pro_upload_font_path', $upload_base . 'wc-gzdp-' . WC_germanized_pro()->get_upload_dir_suffix() . '/fonts' );
-		$args[ 'baseurl' ] = apply_filters( 'wc_germanized_pro_upload_font_url', $upload_url . 'wc-gzdp-' . WC_germanized_pro()->get_upload_dir_suffix() . '/fonts' );
-		$args[ 'path' ] = $args[ 'basedir' ];
-		$args[ 'url' ] = $args[ 'baseurl' ];
-		$args[ 'subdir' ] = '';
+		$args['basedir'] = apply_filters( 'wc_germanized_pro_upload_font_path', $upload_base . 'wc-gzdp-' . WC_germanized_pro()->get_upload_dir_suffix() . '/fonts' );
+		$args['baseurl'] = apply_filters( 'wc_germanized_pro_upload_font_url', $upload_url . 'wc-gzdp-' . WC_germanized_pro()->get_upload_dir_suffix() . '/fonts' );
+		$args['path']    = $args['basedir'];
+		$args['url']     = $args['baseurl'];
+		$args['subdir']  = '';
 
 		return $args;
 	}
 
 	public function unregister_font_upload_dir_filter( $file ) {
-		
-		if ( strpos( $file[ 'file' ], '.ttf' ) !== false )
+		if ( isset( $file['name'] ) && strpos( $file['name'], '.ttf' ) !== false && isset( $_REQUEST['is_wc_gzdp_upload'] ) ) {
 			$this->parse_custom_fonts();
-		
+		}
+
 		remove_filter( 'upload_dir', array( $this, "filter_font_upload_dir" ), 0 );
 		return $file;
 	}
 
 	public function allow_ttf_upload( $m ) {
-		if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'manage_woocommerce' ) )
-			return $m;
-
-		$m['ttf']      = 'application/x-font-truetype';
-		$m['ttf_font'] = 'application/x-font-ttf';
-		$m['opentype'] = 'font/opentype';
+		if ( current_user_can( 'manage_woocommerce' ) ) {
+			$m['ttf']      = 'application/x-font-truetype';
+			$m['ttf_font'] = 'application/x-font-ttf';
+			$m['opentype'] = 'font/opentype';
+		}
 
 		return $m;
 	}

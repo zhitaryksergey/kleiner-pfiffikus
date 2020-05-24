@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Purchase_History_Quantity_Products')) {
-
 class RP_WCDPD_Condition_Purchase_History_Quantity_Products extends RightPress_Condition_Purchase_History_Quantity_Products
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Purchase_History_Quantity_Products extends RightPress_C
 }
 
 RP_WCDPD_Condition_Purchase_History_Quantity_Products::get_instance();
-
-}

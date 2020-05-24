@@ -204,36 +204,36 @@
     },
     {
         "name": "setasign/fpdi",
-        "version": "v2.2.0",
-        "version_normalized": "2.2.0.0",
+        "version": "v2.3.3",
+        "version_normalized": "2.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDI.git",
-            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f"
+            "reference": "50c388860a73191e010810ed57dbed795578e867"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/3c266002f8044f61b17329f7cd702d44d73f0f7f",
-            "reference": "3c266002f8044f61b17329f7cd702d44d73f0f7f",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/50c388860a73191e010810ed57dbed795578e867",
+            "reference": "50c388860a73191e010810ed57dbed795578e867",
             "shasum": ""
         },
         "require": {
             "ext-zlib": "*",
             "php": "^5.6 || ^7.0"
         },
+        "conflict": {
+            "setasign/tfpdf": "<1.31"
+        },
         "require-dev": {
             "phpunit/phpunit": "~5.7",
             "setasign/fpdf": "~1.8",
-            "setasign/tfpdf": "1.25",
+            "setasign/tfpdf": "1.31",
             "tecnickcom/tcpdf": "~6.2"
         },
         "suggest": {
-            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured.",
-            "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
-            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF.",
-            "setasign/fpdi-tfpdf": "Use this package to automatically evaluate dependencies to tFPDF."
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
         },
-        "time": "2019-01-30T14:11:19+00:00",
+        "time": "2020-04-28T12:40:35+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -267,24 +267,24 @@
     },
     {
         "name": "setasign/fpdi-fpdf",
-        "version": "v2.2.0",
-        "version_normalized": "2.2.0.0",
+        "version": "v2.3.0",
+        "version_normalized": "2.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Setasign/FPDI-FPDF.git",
-            "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9"
+            "reference": "f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
-            "reference": "e4363ac09e1b766b38ebea1c3cbe82b3480a11e9",
+            "url": "https://api.github.com/repos/Setasign/FPDI-FPDF/zipball/f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357",
+            "reference": "f2fdc44e4d5247a3bb55ed2c2c1396ef05c02357",
             "shasum": ""
         },
         "require": {
-            "setasign/fpdf": "^1.8",
-            "setasign/fpdi": "^2.2"
+            "setasign/fpdf": "^1.8.2",
+            "setasign/fpdi": "^2.3"
         },
-        "time": "2019-01-30T14:38:19+00:00",
+        "time": "2020-02-19T12:21:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -304,21 +304,22 @@
             "fpdf",
             "fpdi",
             "pdf"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "vendidero/woocommerce-germanized-dhl",
-        "version": "v1.1.2",
-        "version_normalized": "1.1.2.0",
+        "version": "v1.2.5",
+        "version_normalized": "1.2.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-germanized-dhl.git",
-            "reference": "cab67cac1c36b12aaa36ab52079a8b733543eb5e"
+            "reference": "379f41f5046a68679fd76f7460ea78fcdfa14f9e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/cab67cac1c36b12aaa36ab52079a8b733543eb5e",
-            "reference": "cab67cac1c36b12aaa36ab52079a8b733543eb5e",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/379f41f5046a68679fd76f7460ea78fcdfa14f9e",
+            "reference": "379f41f5046a68679fd76f7460ea78fcdfa14f9e",
             "shasum": ""
         },
         "require": {
@@ -328,7 +329,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-12-13T13:35:33+00:00",
+        "time": "2020-05-01T09:15:31+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -352,23 +353,23 @@
         "description": "The Germanized DHL implementation.",
         "homepage": "https://github.com/vendidero/woocommerce-germanized-dhl",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.1.2",
+            "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.2.5",
             "issues": "https://github.com/vendidero/woocommerce-germanized-dhl/issues"
         }
     },
     {
         "name": "vendidero/woocommerce-germanized-shipments",
-        "version": "v1.1.2",
-        "version_normalized": "1.1.2.0",
+        "version": "v1.2.6",
+        "version_normalized": "1.2.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-germanized-shipments.git",
-            "reference": "cee56d5221116e7e956fcac2e5b27a01edef206d"
+            "reference": "cdc46ea7aa47365a938727f5e8515dba4ba39774"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/cee56d5221116e7e956fcac2e5b27a01edef206d",
-            "reference": "cee56d5221116e7e956fcac2e5b27a01edef206d",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/cdc46ea7aa47365a938727f5e8515dba4ba39774",
+            "reference": "cdc46ea7aa47365a938727f5e8515dba4ba39774",
             "shasum": ""
         },
         "require": {
@@ -379,7 +380,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-12-13T12:44:23+00:00",
+        "time": "2020-05-01T09:17:32+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -401,23 +402,23 @@
         "description": "The Germanized Shipments implementation.",
         "homepage": "https://github.com/vendidero/woocommerce-germanized-shipments",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.1.2",
+            "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.2.6",
             "issues": "https://github.com/vendidero/woocommerce-germanized-shipments/issues"
         }
     },
     {
         "name": "vendidero/woocommerce-trusted-shops",
-        "version": "v4.0.3",
-        "version_normalized": "4.0.3.0",
+        "version": "v4.0.4",
+        "version_normalized": "4.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/vendidero/woocommerce-trusted-shops.git",
-            "reference": "5f74fc2c090f84f5e4abd34e2218e7e04621f5f2"
+            "reference": "0d9e612dba0cf844e6e1f89ce420fe34680ea406"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/5f74fc2c090f84f5e4abd34e2218e7e04621f5f2",
-            "reference": "5f74fc2c090f84f5e4abd34e2218e7e04621f5f2",
+            "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/0d9e612dba0cf844e6e1f89ce420fe34680ea406",
+            "reference": "0d9e612dba0cf844e6e1f89ce420fe34680ea406",
             "shasum": ""
         },
         "require": {
@@ -427,7 +428,7 @@
             "phpunit/phpunit": "6.5.14",
             "woocommerce/woocommerce-sniffs": "0.0.6"
         },
-        "time": "2019-12-13T12:49:03+00:00",
+        "time": "2020-03-10T14:46:24+00:00",
         "type": "wordpress-plugin",
         "installation-source": "dist",
         "autoload": {
@@ -449,7 +450,7 @@
         "description": "Trustbadge Reviews for WooCommerce.",
         "homepage": "https://github.com/vendidero/woocommerce-trusted-shops",
         "support": {
-            "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.3",
+            "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.4",
             "issues": "https://github.com/vendidero/woocommerce-trusted-shops/issues"
         }
     }

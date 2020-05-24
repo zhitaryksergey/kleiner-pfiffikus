@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Cart')) {
-    require_once('rightpress-condition-cart.class.php');
-}
+require_once 'rightpress-condition-cart.class.php';
 
 /**
  * Condition: Cart - Subtotal
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Cart')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Cart_Subtotal')) {
-
 abstract class RightPress_Condition_Cart_Subtotal extends RightPress_Condition_Cart
 {
 
@@ -106,5 +100,4 @@ abstract class RightPress_Condition_Cart_Subtotal extends RightPress_Condition_C
 
 
 
-}
 }

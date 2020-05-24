@@ -46,6 +46,14 @@ function wc_gzdp_order_has_differing_shipping_address( $order ) {
         }
     }
 
+    // In case the order has a shipping_vat_id - make sure that the order has a different shipping address
+    $shipping_vat_id = $order->get_meta( '_shipping_vat_id', true );
+	$billing_vat_id  = $order->get_meta( '_billing_vat_id', true );
+
+    if ( ! empty( $shipping_vat_id ) && empty( $billing_vat_id ) ) {
+    	return true;
+    }
+
     foreach( wc_gzdp_get_order_address_differing_fields() as $field ) {
     	$b_getter = "get_billing_{$field}";
     	$s_getter = "get_shipping_{$field}";

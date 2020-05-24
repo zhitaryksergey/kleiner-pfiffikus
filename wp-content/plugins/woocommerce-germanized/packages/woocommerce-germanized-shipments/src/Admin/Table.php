@@ -41,6 +41,7 @@ class Table extends WP_List_Table {
      */
     public function __construct( $args = array() ) {
         add_filter( 'removable_query_args', array( $this, 'enable_query_removing' ) );
+        add_filter( 'default_hidden_columns', array( $this, 'set_default_hidden_columns' ), 10, 2 );
 
         $args = wp_parse_args( $args, array(
             'type' => 'simple',
@@ -55,6 +56,21 @@ class Table extends WP_List_Table {
             )
         );
     }
+
+    public function set_default_hidden_columns( $columns, $screen ) {
+    	if ( $this->screen->id === $screen->id ) {
+    		$columns = array_merge( $columns, $this->get_default_hidden_columns() );
+		}
+
+    	return $columns;
+	}
+
+    protected function get_default_hidden_columns() {
+    	return array(
+			'weight',
+			'dimensions'
+		);
+	}
 
     public function enable_query_removing( $args ) {
         $args = array_merge( $args, array(
@@ -111,6 +127,18 @@ class Table extends WP_List_Table {
                     $changed++;
                 }
             }
+        } elseif( 'confirm_requests' === $action ) {
+	        foreach ( $ids as $id ) {
+		        if ( $shipment = wc_gzd_get_shipment( $id ) ) {
+			        if ( 'return' === $shipment->get_type() ) {
+			            if ( $shipment->is_customer_requested() && $shipment->has_status( 'requested' ) ) {
+			                if ( $shipment->confirm_customer_request() ) {
+			                    $changed++;
+			                }
+                        }
+                    }
+		        }
+	        }
         }
 
 	    /**
@@ -260,7 +288,11 @@ class Table extends WP_List_Table {
         }
 
         if ( isset( $_REQUEST['orderby'] ) ) {
-            $args['orderby'] = wc_clean( wp_unslash( $_REQUEST['orderby'] ) );
+            if ( 'weight' === $_REQUEST['orderby'] ) {
+            	$args['orderby']  = 'weight';
+			} else {
+	            $args['orderby'] = wc_clean( wp_unslash( $_REQUEST['orderby'] ) );
+            }
         }
 
         if ( isset( $_REQUEST['order'] ) ) {
@@ -304,13 +336,21 @@ class Table extends WP_List_Table {
 
                 $next_month = clone $datetime;
                 $next_month->modify( '+ 1 month' );
+                // Make sure to not include next month first day
+                $next_month->modify( '-1 day' );
 
                 $args['date_created'] = $datetime->format( 'Y-m-d' ) . '...' . $next_month->format( 'Y-m-d' );
             }
         }
 
         if ( isset( $_REQUEST['s'] ) ) {
-            $args['search'] = wc_clean( wp_unslash( $_REQUEST['s'] ) );
+            $search = wc_clean( wp_unslash( $_REQUEST['s'] ) );
+
+            if ( ! is_numeric( $search ) ) {
+                $search = '*' . $search . '*';
+            }
+
+            $args['search'] = $search;
         }
 
         // Query the user IDs for this page
@@ -576,8 +616,6 @@ class Table extends WP_List_Table {
      */
     protected function extra_tablenav( $which ) {
         ?>
-
-
         <div class="alignleft actions">
             <?php
             if ( 'top' === $which && ! is_singular() ) {
@@ -650,6 +688,8 @@ class Table extends WP_List_Table {
 	    $columns['status']     = _x( 'Status', 'shipments', 'woocommerce-germanized' );
 	    $columns['items']      = _x( 'Items', 'shipments', 'woocommerce-germanized' );
 	    $columns['address']    = _x( 'Address', 'shipments', 'woocommerce-germanized' );
+	    $columns['weight']     = _x( 'Weight', 'shipments', 'woocommerce-germanized' );
+	    $columns['dimensions'] = _x( 'Dimensions', 'shipments', 'woocommerce-germanized' );
 	    $columns['order']      = _x( 'Order', 'shipments', 'woocommerce-germanized' );
 	    $columns['actions']    = _x( 'Actions', 'shipments', 'woocommerce-germanized' );
 
@@ -660,8 +700,7 @@ class Table extends WP_List_Table {
      * @return array
      */
     public function get_columns() {
-
-        $columns               = $this->get_custom_columns();
+        $columns = $this->get_custom_columns();
 
 	    /**
 	     * Filters the columns displayed in the Shipments list table.
@@ -688,6 +727,7 @@ class Table extends WP_List_Table {
         return array(
             'date'     => array( 'date_created', false ),
             'weight'   => 'weight',
+			'order'	   => 'order_id'
         );
     }
 
@@ -958,7 +998,7 @@ class Table extends WP_List_Table {
      * @param Shipment $shipment The current shipment object.
      */
     public function column_status( $shipment ) {
-        echo '<span class="shipment-status status-' . esc_attr( $shipment->get_status() ) . '">' . wc_gzd_get_shipment_status_name( $shipment->get_status() ) .'</span>';
+        echo '<span class="shipment-status shipment-type-' . esc_attr( $shipment->get_type() ) . '-status status-' . esc_attr( $shipment->get_status() ) . '">' . wc_gzd_get_shipment_status_name( $shipment->get_status() ) .'</span>';
     }
 
     /**
@@ -969,7 +1009,7 @@ class Table extends WP_List_Table {
      * @param Shipment $shipment The current shipment object.
      */
     public function column_weight( $shipment ) {
-        echo wc_gzd_format_shipment_weight( $shipment->get_weight() );
+        echo wc_gzd_format_shipment_weight( $shipment->get_weight(), $shipment->get_weight_unit() );
     }
 
     /**
@@ -980,7 +1020,7 @@ class Table extends WP_List_Table {
      * @param Shipment $shipment The current shipment object.
      */
     public function column_dimensions( $shipment ) {
-        echo wc_gzd_format_shipment_dimensions( $shipment->get_dimensions() );
+        echo wc_gzd_format_shipment_dimensions( $shipment->get_dimensions(), $shipment->get_dimension_unit() );
     }
 
     /**

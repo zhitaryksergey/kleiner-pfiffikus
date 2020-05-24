@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer')) {
-    require_once('rightpress-condition-customer.class.php');
-}
+require_once 'rightpress-condition-customer.class.php';
 
 /**
  * Condition: Customer - Meta
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Meta')) {
-
 abstract class RightPress_Condition_Customer_Meta extends RightPress_Condition_Customer
 {
 
@@ -67,8 +61,8 @@ abstract class RightPress_Condition_Customer_Meta extends RightPress_Condition_C
     public function get_value($params)
     {
 
-        // User must be logged in
-        if (is_user_logged_in()) {
+        // Customer must be logged in
+        if (RightPress_Help::is_request('frontend') && is_user_logged_in()) {
 
             // Load customer
             if ($customer = new WC_Customer(get_current_user_id())) {
@@ -121,5 +115,4 @@ abstract class RightPress_Condition_Customer_Meta extends RightPress_Condition_C
 
 
 
-}
 }

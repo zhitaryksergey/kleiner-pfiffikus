@@ -320,6 +320,14 @@ class Settings {
 			);
 		}
 
+		$dhl_products[] = array(
+			'title'             => _x( 'Inlay Returns', 'dhl', 'woocommerce-germanized' ),
+			'type'              => 'text',
+			'default'           => '',
+			'id'                => 'woocommerce_gzd_dhl_participation_return',
+			'custom_attributes'	=> array( 'maxlength' => '2' ),
+		);
+
 		$settings = self::get_setup_settings( true );
 
 		$settings = array_merge( $settings, array(
@@ -585,7 +593,7 @@ class Settings {
 	}
 
 	public static function get_automation_settings( $for_shipping_method = false ) {
-		$shipment_statuses = array_diff_key( wc_gzd_get_shipment_statuses(), array_fill_keys( array( 'gzd-draft', 'gzd-delivered', 'gzd-returned' ), '' ) );
+		$shipment_statuses = array_diff_key( wc_gzd_get_shipment_statuses(), array_fill_keys( array( 'gzd-draft', 'gzd-delivered', 'gzd-returned', 'gzd-requested' ), '' ) );
 
 		$settings = array(
 			array(
@@ -632,15 +640,7 @@ class Settings {
 				'options'           => $shipment_statuses,
 				'class'             => 'wc-enhanced-select',
 				'custom_attributes'	=> array( 'data-show_if_woocommerce_gzd_dhl_label_return_auto_enable' => '' )
-			),
-
-			array(
-				'title' 	        => _x( 'Email', 'dhl', 'woocommerce-germanized' ),
-				'desc' 		        => _x( 'Send the return label to the customer by email after creating it.', 'dhl', 'woocommerce-germanized' ),
-				'id' 		        => 'woocommerce_gzd_dhl_label_return_auto_email',
-				'default'	        => 'no',
-				'type' 		        => 'gzd_toggle',
-			),
+			)
 		);
 
 		if ( $for_shipping_method ) {
@@ -960,38 +960,6 @@ class Settings {
 				'css'               => 'max-width: 60px;',
 				'class'             => 'wc_input_decimal',
 				'custom_attributes'	=> array( 'data-show_if_woocommerce_gzd_dhl_PreferredDay_enable' => '' )
-			),
-
-			array(
-				'title' 	        => _x( 'Preferred Time', 'dhl', 'woocommerce-germanized' ),
-				'desc' 		        => _x( 'Enable preferred time delivery.', 'dhl', 'woocommerce-germanized' ) . '<div class="wc-gzd-additional-desc">' . _x(  'Enabling this option will display options for the user to select their preferred time of delivery during the checkout.', 'dhl', 'woocommerce-germanized' ) . '</div>',
-				'id' 		        => 'woocommerce_gzd_dhl_PreferredTime_enable',
-				'default'	        => 'yes',
-				'type' 		        => 'gzd_toggle',
-			),
-
-			array(
-				'title'             => _x( 'Fee', 'dhl', 'woocommerce-germanized' ),
-				'type'              => 'text',
-				'desc'              => _x( 'Insert gross value as surcharge for preferred time delivery. Insert 0 to offer service for free.', 'dhl', 'woocommerce-germanized' ),
-				'desc_tip'          => true,
-				'id' 		        => 'woocommerce_gzd_dhl_PreferredTime_cost',
-				'default'           => '4.8',
-				'css'               => 'max-width: 60px;',
-				'class'             => 'wc_input_decimal',
-				'custom_attributes'	=> array( 'data-show_if_woocommerce_gzd_dhl_PreferredTime_enable' => '' )
-			),
-
-			array(
-				'title'             => _x( 'Combined Fee', 'dhl', 'woocommerce-germanized' ),
-				'type'              => 'text',
-				'desc'              => _x( 'Insert gross value as surcharge for the combination of preferred day and time. Insert 0 to offer service for free.', 'dhl', 'woocommerce-germanized' ),
-				'desc_tip'          => true,
-				'id' 		        => 'woocommerce_gzd_dhl_PreferredDay_combined_cost',
-				'default'           => '4.8',
-				'css'               => 'max-width: 60px;',
-				'class'             => 'wc_input_decimal',
-				'custom_attributes'	=> array( 'data-show_if_woocommerce_gzd_dhl_PreferredTime_enable' => '', 'data-show_if_woocommerce_gzd_dhl_PreferredDay_enable' => '' )
 			),
 
 			array(

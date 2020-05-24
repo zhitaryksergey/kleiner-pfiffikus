@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Settings_Exception')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Settings Exception Class
@@ -20,5 +15,4 @@ class RightPress_Settings_Exception extends RightPress_Exception
 
 
 
-}
 }

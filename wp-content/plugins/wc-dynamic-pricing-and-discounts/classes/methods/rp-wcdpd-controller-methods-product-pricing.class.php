@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Controller_Methods')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Controller_Methods_Product_Pricing')) {
-
 class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Methods
 {
 
@@ -29,9 +27,6 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
 
     // Store prepared second stage price changes for cart items
     protected $prepared_second_stage_price_changes_for_cart_items = null;
-
-    // Track which rules were already applied to cart items
-    protected $rules_applied_to_cart_items = array();
 
     // Track for which rules action rp_wcdpd_product_pricing_rule_applied_to_cart has been triggered
     protected $rule_applied_action_triggered        = array();
@@ -131,11 +126,50 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
      */
     public function maybe_change_selected_cart_item_base_price_key($selected_base_price_key, $base_price_candidate_keys, $cart_item_key)
     {
+
         // Check if any adjustments are prepared for cart item
         if (!empty($this->prepared_second_stage_price_changes_for_cart_items) && !empty($this->prepared_second_stage_price_changes_for_cart_items[$cart_item_key])) {
 
-            // Check if more than one base price candidate key is available
-            if (count($base_price_candidate_keys) > 1) {
+            // We do not wish to change base price if all prepared adjustments make no real changes to price, e.g. are fixed price discounts or percentage discounts with zero value
+            $changes_price = false;
+
+            // Generate prices arrays to test
+            $prices_arrays = array(
+                RightPress_Product_Price_Breakdown::generate_prices_array(10.00, PHP_INT_MAX),
+                RightPress_Product_Price_Breakdown::generate_prices_array(20.00, PHP_INT_MAX),
+            );
+
+            // Iterate over prepared adjustments
+            foreach ($this->prepared_second_stage_price_changes_for_cart_items[$cart_item_key] as $cart_item_adjustment) {
+
+                // Get method from rule
+                if ($method = $this->get_method_from_rule($cart_item_adjustment['rule'])) {
+
+                    // Iterate over prices arrays
+                    foreach ($prices_arrays as $prices) {
+
+                        // Apply adjustments to prices array
+                        $prices = $method->apply_adjustment_to_prices($prices, $cart_item_adjustment);
+
+                        // Iterate over price ranges
+                        foreach ($prices['ranges'] as $price_range) {
+
+                            // Check if price has changed
+                            if (RightPress_Product_Price::prices_differ($price_range['price'], $price_range['base_price'])) {
+
+                                // Set flag
+                                $changes_price = true;
+
+                                // Do not proceed further
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Check if any real price adjustments are prepared and more than one base price candidate key is available
+            if ($changes_price && count($base_price_candidate_keys) > 1) {
 
                 // Select last base price candidate key
                 // Note: Currently only WCDPD adds alternative base price so we assume that it's either one base price (default) or two base prices (default and alternative)
@@ -186,13 +220,6 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
 
             // Filter by rule selection method and exclusivity settings
             $cart_item_adjustments = RP_WCDPD_Rules::filter_by_exclusivity($this->context, $cart_item_adjustments);
-
-            // Filter out adjustments that have been applied to cart items on previous calls
-            foreach ($cart_item_adjustments as $rule_uid => $adjustment) {
-                if (RP_WCDPD_Controller_Methods_Product_Pricing::is_rule_applied_to_cart_item($rule_uid, $cart_item_key)) {
-                    unset($cart_item_adjustments[$rule_uid]);
-                }
-            }
 
             // Set updated cart item adjustments array
             $adjustments[$cart_item_key] = $cart_item_adjustments;
@@ -292,64 +319,6 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
     }
 
     /**
-     * Set that rule has been applied to cart item
-     *
-     * Does not do anything during price tests
-     *
-     * @access public
-     * @param string $rule_uid
-     * @param string $cart_item_key
-     * @return bool
-     */
-    public static function set_rule_applied_to_cart_item($rule_uid, $cart_item_key)
-    {
-
-        // Get instance
-        $instance = RP_WCDPD_Controller_Methods_Product_Pricing::get_instance();
-
-        // Product pricing test is running
-        if (RightPress_Product_Price_Test::is_running()) {
-            return;
-        }
-
-        // Set that rule has been applied to cart item
-        if (empty($instance->rules_applied_to_cart_items[$rule_uid]) || !in_array($cart_item_key, $instance->rules_applied_to_cart_items[$rule_uid], true)) {
-            $instance->rules_applied_to_cart_items[$rule_uid][] = $cart_item_key;
-        }
-    }
-
-    /**
-     * Check if rule has already been applied to cart item
-     *
-     * Always returns false during price tests
-     *
-     * @access public
-     * @param string $rule_uid
-     * @param string $cart_item_key
-     * @return bool
-     */
-    public static function is_rule_applied_to_cart_item($rule_uid, $cart_item_key)
-    {
-
-        // Get instance
-        $instance = RP_WCDPD_Controller_Methods_Product_Pricing::get_instance();
-
-        // Product pricing test is running
-        if (RightPress_Product_Price_Test::is_running()) {
-            return false;
-        }
-
-        // Rule already applied to cart item
-        if (!empty($instance->rules_applied_to_cart_items[$rule_uid]) && in_array($cart_item_key, $instance->rules_applied_to_cart_items[$rule_uid], true)) {
-            return true;
-        }
-        // Rule not yet applied to cart item
-        else {
-            return false;
-        }
-    }
-
-    /**
      * Price changes applied to cart item
      *
      * Does not do anything during price tests
@@ -377,9 +346,6 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
 
                 // Reference rule uid
                 $rule_uid = $current_change['rule']['uid'];
-
-                // Set that rule has been applied to cart item
-                RP_WCDPD_Controller_Methods_Product_Pricing::set_rule_applied_to_cart_item($rule_uid, $cart_item_key);
 
                 // Trigger rule applied action
                 if (!in_array($rule_uid, $this->rule_applied_action_triggered, true)) {
@@ -550,5 +516,3 @@ class RP_WCDPD_Controller_Methods_Product_Pricing extends RP_WCDPD_Controller_Me
 }
 
 RP_WCDPD_Controller_Methods_Product_Pricing::get_instance();
-
-}

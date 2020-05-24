@@ -4,41 +4,36 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbd134d29a72f28341058ed6a059c8a5e
+class ComposerStaticInit1d4926c5c7a0f9afcd92328f245bf9e1
 {
-    public static $files = array (
-        '23846a2512770688e91c6220c735f257' => __DIR__ . '/..' . '/yoast/wp-helpscout/src/functions.php',
-    );
-
-    public static $prefixesPsr0 = array (
-        'x' => 
-        array (
-            'xrstf\\Composer52' => 
-            array (
-                0 => __DIR__ . '/..' . '/xrstf/composer-php52/lib',
-            ),
-        ),
-    );
-
     public static $classMap = array (
         'WPSEO_Option_Woo' => __DIR__ . '/../..' . '/classes/option-woo.php',
-        'WPSEO_WooCommerce_Beacon_Setting' => __DIR__ . '/../..' . '/classes/woocommerce-beacon-setting.php',
-        'WPSEO_WooCommerce_Wrappers' => __DIR__ . '/../..' . '/classes/woocommerce-wrappers.php',
-        'Yoast_HelpScout_Beacon' => __DIR__ . '/..' . '/yoast/wp-helpscout/src/class-helpscout-beacon.php',
-        'Yoast_HelpScout_Beacon_Identifier' => __DIR__ . '/..' . '/yoast/wp-helpscout/src/class-helpscout-beacon-identifier.php',
-        'Yoast_HelpScout_Beacon_Setting' => __DIR__ . '/..' . '/yoast/wp-helpscout/src/interface-helpscout-beacon-setting.php',
-        'Yoast_I18n_WordPressOrg_v3' => __DIR__ . '/..' . '/yoast/i18n-module/src/i18n-module-wordpressorg.php',
-        'Yoast_I18n_v3' => __DIR__ . '/..' . '/yoast/i18n-module/src/i18n-module.php',
-        'Yoast_Product_WPSEO_WooCommerce' => __DIR__ . '/../..' . '/classes/product-wpseo-woocommerce.php',
-        'xrstf\\Composer52\\AutoloadGenerator' => __DIR__ . '/..' . '/xrstf/composer-php52/lib/xrstf/Composer52/AutoloadGenerator.php',
-        'xrstf\\Composer52\\Generator' => __DIR__ . '/..' . '/xrstf/composer-php52/lib/xrstf/Composer52/Generator.php',
+        'WPSEO_WooCommerce_Abstract_Product_Availability_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-abstract-product-availability-presenter.php',
+        'WPSEO_WooCommerce_Abstract_Product_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-abstract-product-presenter.php',
+        'WPSEO_WooCommerce_OpenGraph' => __DIR__ . '/../..' . '/classes/woocommerce-opengraph.php',
+        'WPSEO_WooCommerce_Pinterest_Product_Availability_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-pinterest-product-availability-presenter.php',
+        'WPSEO_WooCommerce_Product_Availability_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-availability-presenter.php',
+        'WPSEO_WooCommerce_Product_Brand_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-brand-presenter.php',
+        'WPSEO_WooCommerce_Product_Condition_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-condition-presenter.php',
+        'WPSEO_WooCommerce_Product_OpenGraph_Deprecation_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-opengraph-deprecation-presenter.php',
+        'WPSEO_WooCommerce_Product_Price_Amount_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-price-amount-presenter.php',
+        'WPSEO_WooCommerce_Product_Price_Currency_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-price-currency-presenter.php',
+        'WPSEO_WooCommerce_Product_Retailer_Item_ID_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-retailer-item-id-presenter.php',
+        'WPSEO_WooCommerce_Schema' => __DIR__ . '/../..' . '/classes/woocommerce-schema.php',
+        'WPSEO_WooCommerce_Twitter' => __DIR__ . '/../..' . '/classes/woocommerce-twitter.php',
+        'WPSEO_WooCommerce_Utils' => __DIR__ . '/../..' . '/classes/woocommerce-utils.php',
+        'WPSEO_WooCommerce_Yoast_Tab' => __DIR__ . '/../..' . '/classes/woocommerce-yoast-tab.php',
+        'WPSEO_Woocommerce_Permalink_Watcher' => __DIR__ . '/../..' . '/classes/woocommerce-permalink-watcher.php',
+        'Yoast_I18n_WordPressOrg_v3' => __DIR__ . '/..' . '/yoast/i18n-module/src/i18n-wordpressorg-v3.php',
+        'Yoast_I18n_v3' => __DIR__ . '/..' . '/yoast/i18n-module/src/i18n-v3.php',
+        'Yoast_WooCommerce_Dependencies' => __DIR__ . '/../..' . '/classes/woocommerce-dependencies.php',
+        'Yoast_WooCommerce_SEO' => __DIR__ . '/../..' . '/classes/woocommerce-seo.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitbd134d29a72f28341058ed6a059c8a5e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbd134d29a72f28341058ed6a059c8a5e::$classMap;
+            $loader->classMap = ComposerStaticInit1d4926c5c7a0f9afcd92328f245bf9e1::$classMap;
 
         }, null, ClassLoader::class);
     }

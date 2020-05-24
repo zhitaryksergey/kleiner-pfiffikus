@@ -31,11 +31,25 @@ jQuery(document).ready(function() {
                     var parent_field = jQuery(('#' + current_parent_key));
 
                     // Iterate over child-parent conditions
-                    jQuery.each(current_conditions, function(condition_method, condition_options) {
+                    jQuery.each(current_conditions, function(condition_method, condition_value) {
 
                         // Is checked
                         if (condition_method === 'is_checked') {
                             if (!parent_field.is(':checked')) {
+                                conditions_pass = false;
+                                return false;
+                            }
+                        }
+                        // Not empty
+                        else if (condition_method === 'not_empty') {
+                            if (!parent_field.val()) {
+                                conditions_pass = false;
+                                return false;
+                            }
+                        }
+                        // Value
+                        else if (condition_method === 'value') {
+                            if (parent_field.val() !== condition_value) {
                                 conditions_pass = false;
                                 return false;
                             }
@@ -53,6 +67,27 @@ jQuery(document).ready(function() {
 
             }).change();
         });
+    });
+
+    /**
+     * Select2 for tag fields in settings
+     */
+    jQuery('select[multiple][data-select-2-tags]').each(function() {
+
+        var config = {
+            tags: true,
+            allowClear: true,
+            tokenSeparators: [',', ';', ' '],
+            placeholder: rightpress_plugin_settings_labels.select2_tags_placeholder,
+            language: {
+                noResults: function (params) {
+                    return rightpress_plugin_settings_labels.select2_tags_no_results;
+                }
+            },
+        };
+
+        // Initialize Select2
+        jQuery(this).select2(config);
     });
 
     /**

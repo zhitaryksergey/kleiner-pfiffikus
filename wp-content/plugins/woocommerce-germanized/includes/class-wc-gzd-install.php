@@ -34,7 +34,8 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 			'3.0.0' => 'updates/woocommerce-gzd-update-3.0.0.php',
 			'3.0.1' => 'updates/woocommerce-gzd-update-3.0.1.php',
 			'3.0.6' => 'updates/woocommerce-gzd-update-3.0.6.php',
-			'3.0.8' => 'updates/woocommerce-gzd-update-3.0.8.php'
+			'3.0.8' => 'updates/woocommerce-gzd-update-3.0.8.php',
+			'3.1.6' => 'updates/woocommerce-gzd-update-3.1.6.php'
 		);
 
 		/**
@@ -94,6 +95,10 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 				// Update complete
 				delete_option( '_wc_gzd_needs_pages' );
 				delete_option( '_wc_gzd_needs_update' );
+
+				if ( $note = WC_GZD_Admin_Notices::instance()->get_note( 'update' ) ) {
+					$note->dismiss();
+				}
 
 				delete_transient( '_wc_gzd_activation_redirect' );
 
@@ -192,8 +197,22 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 			// Delete plugin header data for dependency check
 			delete_option( 'woocommerce_gzd_plugin_header_data' );
 
+			$notices = WC_GZD_Admin_Notices::instance();
+
+			// Refresh notes
+			foreach( $notices->get_notes() as $note ) {
+				$note->delete_note();
+			}
+
 			// Recheck outdated templates
-			delete_option( '_wc_gzd_hide_template_outdated_notice' );
+			if ( $note = $notices->get_note( 'template_outdated' ) ) {
+				$note->reset();
+			}
+
+			// Show the importer
+			if ( $note = $notices->get_note( 'dhl_importer' ) ) {
+				$note->reset();
+			}
 
 			// Queue upgrades
 			$current_version    = get_option( 'woocommerce_gzd_version', null );
@@ -206,10 +225,18 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 
 				// Only on major update
 				if ( version_compare( $new_major_version, $major_version, ">" ) ) {
-					delete_option( '_wc_gzd_hide_theme_notice' );
-					delete_option( '_wc_gzd_hide_pro_notice' );
-					delete_option( '_wc_gzd_hide_review_notice' );
-					delete_option( '_wc_gzd_hide_dhl_importer_notice' );
+
+					if ( $note = $notices->get_note( 'review' ) ) {
+						$note->reset();
+					}
+
+					if ( $note = $notices->get_note( 'pro' ) ) {
+						$note->reset();
+					}
+
+					if ( $note = $notices->get_note( 'theme_supported' ) ) {
+						$note->reset();
+					}
 				}
 			}
 
@@ -224,6 +251,11 @@ if ( ! class_exists( 'WC_GZD_Install' ) ) :
 			 *
 			 */
 			if ( apply_filters( 'woocommerec_gzd_needs_db_update', $needs_db_update ) ) {
+
+				if ( $note = $notices->get_note( 'update' ) ) {
+					$note->reset();
+				}
+
 				// Update
 				update_option( '_wc_gzd_needs_update', 1 );
 			} else {

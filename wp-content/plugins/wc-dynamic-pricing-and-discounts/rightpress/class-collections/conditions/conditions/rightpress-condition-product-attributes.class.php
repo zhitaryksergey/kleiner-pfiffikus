@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Product')) {
-    require_once('rightpress-condition-product.class.php');
-}
+require_once 'rightpress-condition-product.class.php';
 
 /**
  * Condition: Product - Attributes
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Product')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Product_Attributes')) {
-
 abstract class RightPress_Condition_Product_Attributes extends RightPress_Condition_Product
 {
 
@@ -84,5 +78,4 @@ abstract class RightPress_Condition_Product_Attributes extends RightPress_Condit
 
 
 
-}
 }

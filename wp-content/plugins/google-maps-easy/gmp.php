@@ -3,10 +3,13 @@
  * Plugin Name: Google Maps Easy
  * Plugin URI: http://supsystic.com/plugins/google-maps-plugin/
  * Description: The easiest way to create Google Map with markers or locations. Display any data on the map: text, images, videos. Custom map marker icons
- * Version: 1.9.18
+ * Version: 1.9.28
  * Author: supsystic.com
  * Author URI: http://supsystic.com
+ * Text Domain: google-maps-easy
+ * Domain Path: /languages
  **/
+
 	/**
 	 * Base config constants and functions
 	 */

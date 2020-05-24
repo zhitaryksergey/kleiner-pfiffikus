@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer_Value')) {
-    require_once('rightpress-condition-customer-value.class.php');
-}
+require_once 'rightpress-condition-customer-value.class.php';
 
 /**
  * Condition: Customer Value - Review Count
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer_Value')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Value_Review_Count')) {
-
 abstract class RightPress_Condition_Customer_Value_Review_Count extends RightPress_Condition_Customer_Value
 {
 
@@ -68,7 +62,7 @@ abstract class RightPress_Condition_Customer_Value_Review_Count extends RightPre
         $count = 0;
 
         // Get user id
-        $user_id = isset($params['customer_id']) ? $params['customer_id'] : (is_user_logged_in() ? get_current_user_id() : null);
+        $user_id = isset($params['customer_id']) ? $params['customer_id'] : ((RightPress_Help::is_request('frontend') && is_user_logged_in()) ? get_current_user_id() : null);
 
         // Get by customer id
         if ($user_id) {
@@ -92,5 +86,4 @@ abstract class RightPress_Condition_Customer_Value_Review_Count extends RightPre
 
 
 
-}
 }

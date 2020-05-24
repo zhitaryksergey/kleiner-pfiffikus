@@ -14,8 +14,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Method_List_Advanced')) {
-
 class RP_WCDPD_Condition_Method_List_Advanced extends RightPress_Condition_Method_List_Advanced
 {
 
@@ -43,5 +41,3 @@ class RP_WCDPD_Condition_Method_List_Advanced extends RightPress_Condition_Metho
 }
 
 RP_WCDPD_Condition_Method_List_Advanced::get_instance();
-
-}

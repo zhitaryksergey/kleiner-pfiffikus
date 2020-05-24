@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item_Percentage')) {
-
 class RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item_Percentage extends RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item
 {
 
@@ -87,5 +85,3 @@ class RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item_Percentage extends RP_WCDPD_Pric
 }
 
 RP_WCDPD_Pricing_Method_Fee_Per_Cart_Item_Percentage::get_instance();
-
-}

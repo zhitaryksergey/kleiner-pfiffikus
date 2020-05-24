@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_WC')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress WooCommerce Helper
@@ -317,7 +312,6 @@ final class RightPress_WC
      */
     public static function order_update_meta_data($order, $key, $value, $meta_id = '')
     {
-        // TBD: Subscriptio uses this in RightPress_WC_Legacy class
         self::update_meta_data($order, $key, $value, $meta_id, 'order', 'post');
     }
 
@@ -566,5 +560,4 @@ final class RightPress_WC
 
 
 
-}
 }

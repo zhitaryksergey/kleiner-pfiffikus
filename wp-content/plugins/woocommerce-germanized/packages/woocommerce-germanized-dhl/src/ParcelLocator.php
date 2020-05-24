@@ -502,7 +502,7 @@ class ParcelLocator {
 
 			foreach( $rates as $rate ) {
 
-				if ( $method = wc_gzd_dhl_get_shipping_method( $rate->id ) ) {
+				if ( $method = wc_gzd_dhl_get_shipping_method( $rate ) ) {
 					$supports = array();
 
 					foreach( wc_gzd_dhl_get_pickup_types() as $pickup_type => $title ) {
@@ -609,6 +609,15 @@ class ParcelLocator {
 			'country'    => '',
 		) );
 
+		$has_postnumber = false;
+
+		if ( ! empty( $args['postnumber'] ) ) {
+			$has_postnumber = true;
+
+			// Do only allow numeric input
+			$args['postnumber'] = preg_replace( "/[^0-9]/", "", $args['postnumber'] );
+		}
+
 		$error          = new WP_Error();
 		$is_packstation = false;
 
@@ -636,14 +645,14 @@ class ParcelLocator {
 			}
 		}
 
-		if ( $is_packstation ) {
+		if ( $has_postnumber && ! empty( $args['postnumber'] ) ) {
 			$post_number_len = strlen( $args['postnumber'] );
 
-			if ( empty( $args['postnumber'] ) ) {
-				$error->add( 'validation', _x( 'Your DHL customer number (Post number) is needed to ship to a packstation.', 'dhl', 'woocommerce-germanized' ) );
-			} elseif( $post_number_len < 6 || $post_number_len > 12 ) {
+			if ( $post_number_len < 6 || $post_number_len > 12 ) {
 				$error->add( 'validation', _x( 'Your DHL customer number (Post number) is not valid. Please check your number.', 'dhl', 'woocommerce-germanized' ) );
 			}
+		} elseif( ( $is_packstation || $has_postnumber ) && empty( $args['postnumber'] ) ) {
+			$error->add( 'validation', _x( 'Your DHL customer number (Post number) is needed to ship to a packstation.', 'dhl', 'woocommerce-germanized' ) );
 		}
 
 		return wc_gzd_dhl_wp_error_has_errors( $error ) ? $error : true;
@@ -660,7 +669,11 @@ class ParcelLocator {
 	}
 
 	public static function localize_printed_scripts() {
-		if ( ! in_array( 'wc-gzd-parcel-locator-dhl', self::$localized_scripts, true ) && wp_script_is( 'wc-gzd-parcel-locator-dhl' ) ) {
+		/**
+		 * Do not check for localized script as this script needs to be loadeed in footer to make sure
+		 * that shipping method data (packages etc.) exist. This may lead to duplicate localizations (which is not a bug).
+		 */
+		if ( wp_script_is( 'wc-gzd-parcel-locator-dhl' ) ) {
 			self::$localized_scripts[] = 'wc-gzd-parcel-locator-dhl';
 
 			wp_localize_script( 'wc-gzd-parcel-locator-dhl', 'wc_gzd_dhl_parcel_locator_params', array(

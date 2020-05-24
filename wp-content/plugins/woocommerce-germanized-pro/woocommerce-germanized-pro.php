@@ -3,20 +3,20 @@
  * Plugin Name: Germanized for WooCommerce Pro
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Extends Germanized for WooCommerce with professional features such as PDF invoices, legal text generators and many more.
- * Version: 2.0.9
- * Author: Vendidero
+ * Version: 2.0.17
+ * Author: vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 4.9
- * Tested up to: 5.3
+ * Tested up to: 5.4
  * WC requires at least: 3.4
- * WC tested up to: 3.9
+ * WC tested up to: 4.1
  * Requires at least Germanized for WooCommerce: 3.0
  * Tested up to Germanized for WooCommerce: 3.1
  *
  * Text Domain: woocommerce-germanized-pro
  * Domain Path: /i18n/languages/
  *
- * @author Vendidero
+ * @author vendidero
  */
 if ( ! defined( 'ABSPATH' ) )
 	exit; // Exit if accessed directly
@@ -44,7 +44,7 @@ final class WooCommerce_Germanized_Pro {
 	 *
 	 * @var string
 	 */
-	public $version = '2.0.9';
+	public $version = '2.0.17';
 
 	/**
 	 * Single instance of WooCommerce Germanized Main Class
@@ -268,16 +268,22 @@ final class WooCommerce_Germanized_Pro {
 
 	public function load_modules() {
 		
-		if ( get_option( 'woocommerce_gzdp_invoice_enable' ) != 'no' )
+		if ( get_option( 'woocommerce_gzdp_invoice_enable' ) != 'no' ) {
 			$this->load_invoice_module();
+		}
 		
-		if ( get_option( 'woocommerce_gzdp_enable_vat_check' ) == 'yes' )
+		if ( get_option( 'woocommerce_gzdp_enable_vat_check' ) == 'yes' ) {
 			$this->load_vat_module();
+		}
 		
 		$this->load_checkout_module();
 		$this->load_legal_pdf_module();
 		$this->load_contract_module();
-		$this->load_generator_module();
+
+		if ( apply_filters( 'woocommerce_gzdp_enable_legal_generator', true ) ) {
+			$this->load_generator_module();
+		}
+
 		$this->load_theme_module();
 		$this->load_elementor_module();
 	}

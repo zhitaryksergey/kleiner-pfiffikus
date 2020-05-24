@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Privacy_Compliance')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Privacy Compliance Component
@@ -18,21 +13,10 @@ if (!class_exists('RightPress_Privacy_Compliance')) {
 final class RightPress_Privacy_Compliance
 {
 
-    // TBD
+    // TODO
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -48,5 +32,3 @@ final class RightPress_Privacy_Compliance
 }
 
 RightPress_Privacy_Compliance::get_instance();
-
-}

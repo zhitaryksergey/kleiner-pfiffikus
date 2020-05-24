@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Other_Pricing_Rules_Applied')) {
-
 class RP_WCDPD_Condition_Other_Pricing_Rules_Applied extends RightPress_Condition_Other
 {
 
@@ -67,13 +65,17 @@ class RP_WCDPD_Condition_Other_Pricing_Rules_Applied extends RightPress_Conditio
     public function get_value($params)
     {
 
-        // Get cart item price changes
-        $price_changes = RightPress_Product_Price_Cart::get_cart_item_price_changes();
+        // Frontend requests only
+        if (RightPress_Help::is_request('frontend')) {
 
-        // Iterate over cart items and check if any rules are applicable
-        foreach (RightPress_Help::get_wc_cart_items() as $cart_item_key => $cart_item) {
-            if (!empty($price_changes[$cart_item_key]['all_changes']['rp_wcdpd'])) {
-                return true;
+            // Get cart item price changes
+            $price_changes = RightPress_Product_Price_Cart::get_cart_item_price_changes();
+
+            // Iterate over cart items and check if any rules are applicable
+            foreach (RightPress_Help::get_wc_cart_items() as $cart_item_key => $cart_item) {
+                if (!empty($price_changes[$cart_item_key]['all_changes']['rp_wcdpd'])) {
+                    return true;
+                }
             }
         }
 
@@ -87,5 +89,3 @@ class RP_WCDPD_Condition_Other_Pricing_Rules_Applied extends RightPress_Conditio
 }
 
 RP_WCDPD_Condition_Other_Pricing_Rules_Applied::get_instance();
-
-}

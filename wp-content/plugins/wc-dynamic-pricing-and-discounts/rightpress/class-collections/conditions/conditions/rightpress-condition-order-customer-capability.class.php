@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Order_Customer')) {
-    require_once('rightpress-condition-order-customer.class.php');
-}
+require_once 'rightpress-condition-order-customer.class.php';
 
 /**
  * Condition: Order Customer - Capability
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Order_Customer')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Order_Customer_Capability')) {
-
 abstract class RightPress_Condition_Order_Customer_Capability extends RightPress_Condition_Order_Customer
 {
 
@@ -79,5 +73,4 @@ abstract class RightPress_Condition_Order_Customer_Capability extends RightPress
 
 
 
-}
 }

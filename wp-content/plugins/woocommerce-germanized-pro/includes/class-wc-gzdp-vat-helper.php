@@ -43,6 +43,11 @@ class WC_GZDP_VAT_Helper {
 
 		// Save VAT result data from transient to corresponding order
         add_action( 'woocommerce_checkout_create_order', array( $this, 'save_vat_result_data' ), 10, 1 );
+        /*
+         * Some payment gateways (e.g. Amazon pay) retrieve order data within process_payment method.
+         * Use this Germanized hook which fires right before confirming the order to make sure we process the order again after the data might be available.
+         */
+        add_action( 'woocommerce_gzd_checkout_order_before_confirmation', array( $this, 'save_vat_result_data_after_payment' ), 10, 1 );
 
         add_filter( 'woocommerce_ajax_get_customer_details', array( $this, 'customer_details_load_vat_id' ), 10, 3 );
 
@@ -57,7 +62,37 @@ class WC_GZDP_VAT_Helper {
 
 		// New Woo Order vat exempt filter
 		add_filter( 'woocommerce_order_is_vat_exempt', array( $this, 'order_has_vat_exempt_filter' ), 10, 2 );
+
+		add_action( 'woocommerce_checkout_update_customer', array( $this, 'maybe_prevent_customer_data_update' ), 10, 2 );
 	}
+
+	/**
+     * By default Woo updates the customer with the new address data.
+     * In case shipping to a different address is activated, the billing_vat_id is removed (and vice-versa with shipping_vat_id).
+     * This leads to removal of customer data (which is not expected behaviour). Instead load the old vat id and refresh the customer.
+     *
+	 * @param WC_Customer $customer
+	 * @param array $data
+	 */
+	public function maybe_prevent_customer_data_update( $customer, $data ) {
+
+	    if ( isset( $data['ship_to_different_address'] ) ) {
+
+	        if ( false === $data['ship_to_different_address'] ) {
+		        $old_shipping_vat_id = get_user_meta( $customer->get_id(), 'shipping_vat_id', true );
+
+		        if ( ! empty( $old_shipping_vat_id ) ) {
+			        $customer->update_meta_data( 'shipping_vat_id', $old_shipping_vat_id );
+		        }
+            } else {
+		        $old_billing_vat_id = get_user_meta( $customer->get_id(), 'billing_vat_id', true );
+
+		        if ( ! empty( $old_billing_vat_id ) ) {
+			        $customer->update_meta_data( 'billing_vat_id', $old_billing_vat_id );
+		        }
+            }
+        }
+    }
 
 	/**
      * Make sure to check whether shipping to a different address is activated and
@@ -131,10 +166,20 @@ class WC_GZDP_VAT_Helper {
 	 * @param WC_Order $order
 	 */
 	public function save_vat_result_data( $order ) {
-	    if ( $vat_id = $this->get_order_vat_id( $order ) ) {
+	    if ( ( $vat_id = $this->get_order_vat_id( $order ) ) && ! $order->get_meta( '_vat_id_validation_result', true ) ) {
 	        $order->update_meta_data( '_vat_id_validation_result', $this->get_vat_result_data( $vat_id ) );
 	    }
     }
+
+	/**
+	 * @param WC_Order $order
+	 */
+    public function save_vat_result_data_after_payment( $order ) {
+	    if ( ( $vat_id = $this->get_order_vat_id( $order ) ) && ! $order->get_meta( '_vat_id_validation_result', true ) ) {
+		    $order->update_meta_data( '_vat_id_validation_result', $this->get_vat_result_data( $vat_id ) );
+		    $order->save();
+	    }
+	}
 
 	/**
 	 * @param WC_Order $order
@@ -167,11 +212,6 @@ class WC_GZDP_VAT_Helper {
 	}
 
 	public function frontend_hooks() {
-		// Use cart calculate totals filter and check if we are validating checkout (compatibility to multistep checkout)
-		add_action( 'woocommerce_before_calculate_totals', array( $this, 'set_vat_prices_process_checkout' ), 0 );
-
-		// Validate VAT ID in first step for multistep checkout
-		add_action( 'woocommerce_gzdp_multistep_checkout_validate_address', array( $this, 'validate_number_after_submit' ), 10, 2 );
 
 		// Make sure that taxes for fees are removed
 		add_action( 'woocommerce_after_calculate_totals', array( $this, 'maybe_remove_fee_taxes' ), 10, 1 );
@@ -186,8 +226,10 @@ class WC_GZDP_VAT_Helper {
 		// Set min max prices for variable products to exclude tax if is vat exempt (pre 1.4.8)
 		add_filter( 'woocommerce_variation_prices', array( $this, 'set_variable_exempt' ), 10, 3 );
 
+		// Validate checkout and maybe set VAT exempt before re-calculating totals
+		add_action( 'woocommerce_before_calculate_totals', array( $this, 'set_vat_prices_process_checkout' ), 0 );
+
 		// Vat ID check = 0
-		add_action( 'woocommerce_after_checkout_validation', array( $this, 'validate_number_after_submit' ), 0, 2 );
 		add_filter( 'woocommerce_checkout_posted_data', array( $this, 'maybe_remove_vat_id_data' ), 10, 1 );
 
 		add_filter( 'woocommerce_process_checkout_field_billing_vat_id', array( $this, 'set_billing_vat_id_format' ), 10, 1 );
@@ -225,7 +267,7 @@ class WC_GZDP_VAT_Helper {
 	public function validate_register_vat_id( $validation_error, $username, $password, $email ) {
 		$vat_id = isset( $_POST['vat_id'] ) ? wc_clean( $_POST['vat_id'] ) : '';
 
-		if ( empty( $vat_id ) && $this->vat_field_is_required() ) {
+		if ( empty( $vat_id ) && $this->vat_field_is_required( true ) ) {
 			$validation_error->add( 'wc_gzdp_registration_vat_id_missing', __( 'A valid VAT ID is required to register.', 'woocommerce-germanized-pro' ) );
 		}
 
@@ -251,7 +293,7 @@ class WC_GZDP_VAT_Helper {
 	}
 
 	public function register_form_input() {
-		wc_get_template( 'myaccount/form-register-vat-id.php', array( 'required' => $this->vat_field_is_required() ) );
+		wc_get_template( 'myaccount/form-register-vat-id.php', array( 'required' => $this->vat_field_is_required( true ) ) );
 	}
 
 	public function get_checkout_vat_id_from_session( $value, $input ) {
@@ -264,8 +306,9 @@ class WC_GZDP_VAT_Helper {
 
 	public function maybe_set_customer_vat_exempt() {
 
-		if ( get_option( 'woocommerce_gzdp_enable_vat_check_login' ) === 'no' )
+		if ( get_option( 'woocommerce_gzdp_enable_vat_check_login' ) === 'no' ) {
 			return;
+		}
 
 		if ( ! function_exists( 'is_woocommerce' ) || ! function_exists( 'is_cart' ) || ! function_exists( 'is_checkout' ) || ! function_exists( 'is_account_page' ) ) {
 			return;
@@ -274,7 +317,7 @@ class WC_GZDP_VAT_Helper {
 		if ( ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) && WC()->customer ) {
 			WC()->customer->set_is_vat_exempt( false );
 
-			if ( $vat_id  = $this->get_user_vat_id( get_current_user_id() ) ) {
+			if ( $vat_id  = $this->get_user_vat_id() ) {
 				$elements = $this->get_vat_id_from_string( $vat_id );
 
 				if ( $this->validate( $elements['country'], $elements['number'] ) ) {
@@ -294,10 +337,12 @@ class WC_GZDP_VAT_Helper {
 	}
 
 	public function get_vat_address_type_by_checkout_data( $posted ) {
-		$billing_country = isset( $posted[ 'billing_country' ] ) ? $posted[ 'billing_country' ] : WC()->countries->get_base_country();
-		$shipping_country = ( isset( $posted[ 'ship_to_different_address' ] ) && $posted[ 'ship_to_different_address' ] ) ? $posted[ 'shipping_country' ] : '';
+    	// Use billing_country as fallback if no shipping_country was supplied (e.g. Amazon Pay)
+    	$shipping_default_country = isset( $posted['shipping_country'] ) ? $posted['shipping_country'] : $posted['billing_country'];
 
-		$type = $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
+    	$billing_country  		  = isset( $posted['billing_country'] ) ? $posted['billing_country'] : WC()->countries->get_base_country();
+		$shipping_country		  = ( isset( $posted['ship_to_different_address'] ) && $posted['ship_to_different_address'] ) ? $shipping_default_country : '';
+		$type             		  = $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
 
 		return $type;
 	}
@@ -313,38 +358,6 @@ class WC_GZDP_VAT_Helper {
 
         return $data;
     }
-
-	/**
-	 * @param array    $posted
-	 * @param WP_Error $errors
-	 */
-	public function validate_number_after_submit( $posted, $errors ) {
-		$address_type = $this->get_vat_address_type_by_checkout_data( $posted );
-
-		WC()->customer->set_is_vat_exempt( false );
-
-		if ( WC()->session ) {
-			WC()->session->set( "billing_vat_id", '' );
-			WC()->session->set( "shipping_vat_id", '' );
-		}
-
-		if ( isset( $posted[ "{$address_type}_vat_id" ] ) && ( ! empty( $posted[ "{$address_type}_vat_id" ] ) || $posted[ "{$address_type}_vat_id" ] == '0' ) ) {
-
-			$vat_id_elements = $this->get_vat_id_from_string( $posted[ "{$address_type}_vat_id" ], $posted[ "{$address_type}_country" ] );
-			$country         = isset( $posted[ "{$address_type}_country" ] ) ? strtoupper( wc_clean( $posted[ "{$address_type}_country" ] ) ) : $vat_id_elements['country'];
-
-			if ( ! $this->validate( $vat_id_elements['country'], $vat_id_elements['number'] ) ) {
-				$errors->add( 'validation', __( 'VAT ID seems to be invalid.', 'woocommerce-germanized-pro' ), 'error' );
-			} else {
-
-				if ( WC()->session ) {
-					WC()->session->set( "{$address_type}_vat_id", $vat_id_elements['country'] . $vat_id_elements['number'] );
-				}
-
-				$this->set_vat_exempt( $country );
-			}
-		}
-	}
 
 	public function customer_details_load_vat_id( $customer_data, $customer, $user_id ) {
 		$customer_data["shipping"]['vat_id'] = get_user_meta( $user_id, "shipping_vat_id", true );
@@ -401,24 +414,25 @@ class WC_GZDP_VAT_Helper {
 
 	}
 
-	public function set_vat_id_format( $number, $country ) {
+	public function set_vat_id_format( $number, $country = '' ) {
 		$elements = $this->get_vat_id_from_string( $number, $country );
 
-		return apply_filters( 'woocommerce_gzdp_vat_id_format', $elements[ 'country' ] . $elements[ 'number' ], $number, $country );
+		return apply_filters( 'woocommerce_gzdp_vat_id_format', $elements['country'] . $elements['number'], $number, $country );
 	}
 
 	public function set_billing_vat_id_format( $data = '' ) {
 		if ( empty( $data ) )
 			return $data;
 
-		return $this->set_vat_id_format( $data, ( isset( $_POST[ 'billing_country' ] ) ? wc_clean( $_POST[ 'billing_country' ] ) :  WC()->countries->get_base_country() ) );
+		return $this->set_vat_id_format( $data, ( isset( $_POST['billing_country'] ) ? wc_clean( $_POST['billing_country'] ) : '' ) );
 	}
 
 	public function set_shipping_vat_id_format( $data = '' ) {
-		if ( empty( $data ) )
+		if ( empty( $data ) ) {
 			return $data;
+		}
 
-		return $this->set_vat_id_format( $data, ( isset( $_POST[ 'shipping_country' ] ) ? wc_clean( $_POST[ 'shipping_country' ] ) :  WC()->countries->get_base_country() ) );
+		return $this->set_vat_id_format( $data, ( isset( $_POST['shipping_country'] ) ? wc_clean( $_POST['shipping_country'] ) : '' ) );
 	}
 
 	public function set_variable_exempt( $prices_array, $product, $display ) {
@@ -471,8 +485,9 @@ class WC_GZDP_VAT_Helper {
 		$number   = wc_clean( $vat_id );
 		$elements = $this->get_vat_id_from_string( $number, $country );
 
-		if ( $this->validate( $elements[ 'country' ], $elements[ 'number' ] ) )
+		if ( $this->validate( $elements[ 'country' ], $elements[ 'number' ] ) ) {
 			$valid = true;
+		}
 
 		if ( ! $valid ) {
 			wc_add_notice( __( 'VAT ID seems to be invalid.', 'woocommerce-germanized-pro' ), 'error' );
@@ -510,8 +525,9 @@ class WC_GZDP_VAT_Helper {
 
 		$shipping_country_exists = ( ! empty( $shipping_country ) ? true : false );
 
-		if ( empty( $shipping_country ) )
+		if ( empty( $shipping_country ) ) {
 			$shipping_country = $billing_country;
+		}
 
 		if ( $billing_country === $shipping_country && ! $shipping_country_exists ) {
 			$type = 'billing';
@@ -539,6 +555,11 @@ class WC_GZDP_VAT_Helper {
 
 		if ( $this->order_has_differing_shipping_address( $order ) ) {
 			$shipping_country = $order->get_shipping_country();
+
+			// Fallback to billing country
+			if ( empty( $shipping_country ) ) {
+				$shipping_country = $billing_country;
+			}
 		}
 
 		return $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
@@ -555,7 +576,7 @@ class WC_GZDP_VAT_Helper {
 		    return false;
         }
 
-		$eu           = WC()->countries->get_european_union_countries( 'eu_vat' );
+		$eu           = wc_gzdp_get_eu_vat_countries();
 		$type         = $this->get_vat_address_type_by_order( $order );
 		$vat_id       = $this->get_order_vat_id( $order );
 		$user_country = 'shipping' === $type ? $order->get_shipping_country() : $order->get_billing_country();
@@ -604,18 +625,52 @@ class WC_GZDP_VAT_Helper {
 		return ! empty( $vat_id ) ? $vat_id : false;
 	}
 
-	public function user_has_differing_shipping_address( $user_id ) {
-		$shipping_vat_id = get_user_meta( $user_id, "shipping_vat_id", true );
+	public function user_has_differing_shipping_address( $user_id = 0 ) {
+        $customer = false;
+
+        if ( empty( $user_id ) && WC()->customer ) {
+            $customer = WC()->customer;
+        } elseif ( ! empty( $user_id ) ) {
+            $customer = new WC_Customer( $user_id );
+        }
+
+        if ( ! $customer ) {
+            return false;
+        }
+
+		$shipping_vat_id = $customer->get_meta( 'shipping_vat_id' );
+		$billing_vat_id  = $customer->get_meta( 'billing_vat_id' );
+
+		if ( empty( $user_id ) && WC()->session ) {
+			if ( ! is_null( WC()->session->get( 'shipping_vat_id' ) ) ) {
+				$shipping_vat_id = WC()->session->get( 'shipping_vat_id' );
+			}
+
+			if ( ! is_null( WC()->session->get( 'billing_vat_id' ) ) ) {
+				$billing_vat_id = WC()->session->get( 'billing_vat_id' );
+			}
+		}
 
 		// We do not need to check for differing addresses if the user has no shipping_vat_id
 		if ( empty( $shipping_vat_id ) ) {
 			return false;
-		}
+		} else {
+		    if ( $shipping_vat_id !== $billing_vat_id ) {
+		        return true;
+            }
+         }
 
 		foreach( $this->get_address_differing_fields() as $field ) {
 
-			$b_data = get_user_meta( $user_id, "billing_" . $field, true );
-			$s_data = get_user_meta( $user_id, "shipping_" . $field, true );
+		    $b_getter = "get_billing_{$field}";
+		    $s_getter = "get_shipping_{$field}";
+			$b_data   = '';
+			$s_data   = '';
+
+		    if ( is_callable( array( $customer, $b_getter ) ) && is_callable( array( $customer, $s_getter ) ) ) {
+		        $b_data = $customer->$b_getter();
+			    $s_data = $customer->$s_getter();
+            }
 
 			if ( ! empty( $s_data ) && $b_data !== $s_data ) {
 				return true;
@@ -625,40 +680,72 @@ class WC_GZDP_VAT_Helper {
 		return false;
 	}
 
-	public function get_user_vat_id( $user_id ) {
-		if ( WC()->customer && WC()->session ) {
+	protected function get_user_vat_address_type( $user_id = false ) {
+		$customer = false;
+		$type     = 'billing';
 
-			$billing_country  = $this->get_customer_billing_country();
-			$shipping_country = WC()->customer->get_shipping_country() !== $billing_country ?  WC()->customer->get_shipping_country() : '';
-			$type             = $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
-
-			if ( ! $this->country_supports_vat_id( $type === 'shipping' ? $shipping_country : $billing_country ) ) {
-				return false;
-			}
-
-			// As a fallback when session data does not exist, use WC()->customer to retrieve the data
-			if ( is_null( WC()->session->get( "{$type}_vat_id" ) ) ) {
-				return WC()->customer->get_meta( "{$type}_vat_id", true );
-			} else {
-				return WC()->session->get( "{$type}_vat_id" );
-			}
+		if ( ! $user_id ) {
+			$customer = WC()->customer;
 		} else {
-			$billing_country  = get_user_meta( $user_id, 'billing_country', true );
-			$shipping_country = ( $this->user_has_differing_shipping_address( $user_id ) ? get_user_meta( $user_id, 'shipping_country', true ) : '' );
-			$type             = $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
-
-			if ( ! $this->country_supports_vat_id( $type === 'shipping' ? $shipping_country : $billing_country ) ) {
-				return false;
-			}
-
-			return get_user_meta( $user_id, "{$type}_vat_id", true );
+			$customer = new WC_Customer( $user_id );
 		}
+
+		if ( $customer ) {
+			$billing_country  = $customer->get_billing_country();
+			$shipping_country = ( $this->user_has_differing_shipping_address( $user_id ) ? $customer->get_shipping_country() : '' );
+			$type             = $this->get_vat_address_type_by_countries( $billing_country, $shipping_country );
+		}
+
+		return $type;
 	}
+
+	public function get_user_vat_id( $user_id = false ) {
+        $customer = false;
+
+        if ( ! $user_id ) {
+            $customer = WC()->customer;
+        } else {
+            $customer = new WC_Customer( $user_id );
+        }
+
+        if ( $customer ) {
+	        $billing_country  = $customer->get_billing_country();
+	        $shipping_country = ( $this->user_has_differing_shipping_address( $user_id ) ? $customer->get_shipping_country() : '' );
+	        $type             = $this->get_user_vat_address_type( $user_id );
+
+	        if ( ! $this->country_supports_vat_id( $type === 'shipping' ? $shipping_country : $billing_country ) ) {
+		        return false;
+	        }
+
+	        if ( ! $user_id && WC()->session ) {
+                if ( is_checkout() && WC()->checkout()->get_value( "{$type}_vat_id" ) ) {
+                    return WC()->checkout()->get_value( "{$type}_vat_id" );
+                } elseif ( is_null( WC()->session->get( "{$type}_vat_id" ) ) ) {
+			        return $customer->get_meta( "{$type}_vat_id", true );
+		        } else {
+			        return WC()->session->get( "{$type}_vat_id" );
+		        }
+            } else {
+		        return $customer->get_meta( "{$type}_vat_id", true );
+            }
+        }
+
+		return false;
+	}
+
+	public function disable_base_rates() {
+	    return false;
+    }
+
+
 
 	public function set_vat_exempt( $country = '' ) {
 
 		if ( empty( $country ) ) {
+		    add_filter( 'woocommerce_apply_base_tax_for_local_pickup', array( $this, 'disable_base_rates' ), 10 );
 			$address = WC()->customer->get_taxable_address();
+			remove_filter( 'woocommerce_apply_base_tax_for_local_pickup', array( $this, 'disable_base_rates' ), 10 );
+
 			$country = $address[0];
 		}
 
@@ -673,7 +760,7 @@ class WC_GZDP_VAT_Helper {
 		}
 	}
 
-	public function save_billing_vat_id_field_profile(  ) {
+	public function save_billing_vat_id_field_profile() {
 		if ( isset( $_POST[ 'billing_vat_id' ] ) && ! empty( $_POST[ 'billing_vat_id' ] ) ) {
 
 			$vat_id   = sanitize_text_field( $_POST[ 'billing_vat_id' ] );
@@ -686,7 +773,7 @@ class WC_GZDP_VAT_Helper {
 		}
 	}
 
-	public function save_shipping_vat_id_field_profile(  ) {
+	public function save_shipping_vat_id_field_profile() {
 		if ( isset( $_POST[ 'shipping_vat_id' ] ) && ! empty( $_POST[ 'shipping_vat_id' ] ) ) {
 
 			$vat_id   = sanitize_text_field( $_POST[ 'shipping_vat_id' ] );
@@ -768,26 +855,40 @@ class WC_GZDP_VAT_Helper {
 		$fields['vat_id'] = '';
 		$type             = $this->get_vat_address_type_by_order( $order );
 
-		if ( ( 'shipping' === $type ) && $order->get_meta( 'shipping_vat_id' ) ) {
-			$fields['vat_id'] = apply_filters( 'woocommerce_gzdp_address_vat_id', $order->get_meta( 'shipping_vat_id' ) );
+		if ( ( 'shipping' === $type ) && $order->get_meta( '_shipping_vat_id' ) ) {
+			$fields['vat_id'] = apply_filters( 'woocommerce_gzdp_address_vat_id', $order->get_meta( '_shipping_vat_id' ) );
         }
 
 		return $fields;
 	}
 
 	public function set_vat_prices_process_checkout() {
-		$data = array();
-		
-		if ( is_checkout() && isset( $_POST['post_data'] ) ) {
-			// Parse Array
-			parse_str( $_POST['post_data'], $data );
+		if ( is_checkout() && ! is_cart() ) {
+		    $data = array();
 
-			$address_type = $this->get_vat_address_type_by_checkout_data( $data );
+		    if ( isset( $_POST['post_data'] ) ) {
+			    // Parse Array
+			    parse_str( $_POST['post_data'], $data );
+		    } else {
+			    $data = WC()->checkout()->get_posted_data();
+            }
+
+			/**
+			 * In case data is empty (e.g. while first-time visiting checkout)
+             * use WC()->checkout data as fallback (which uses customer/session data).
+			 */
+		    if ( empty( $data['billing_country'] ) ) {
+		        $address_type                       = $this->get_user_vat_address_type();
+		        $data[ $address_type . '_country' ] = WC()->checkout()->get_value( $address_type . '_country' );
+		        $data[ $address_type . '_vat_id' ]  = $this->get_user_vat_id();
+            } else {
+			    $address_type = $this->get_vat_address_type_by_checkout_data( $data );
+            }
 
 			if ( isset( $data["{$address_type}_vat_id"] ) ) {
 				$this->check_vat_exemption( $data );
 			}
-		}
+        }
 	}
 
 	public function get_customer_billing_country() {
@@ -798,9 +899,22 @@ class WC_GZDP_VAT_Helper {
 		}
 	}
 
-	public function check_vat_exemption( $post_data = array() ) {
+	/**
+	 * @param array    $posted
+	 * @param WP_Error $errors
+	 */
+	public function validate_number_after_submit( $posted, $errors ) {
+		$this->check_vat_exemption( $posted, $errors );
+	}
+
+	public function check_vat_exemption( $post_data = array(), $errors = false ) {
 
 		WC()->customer->set_is_vat_exempt( false );
+
+		// Refresh tax display as Woo no checks the customer vat exempt status on load
+		if ( WC()->cart ) {
+			WC()->cart->tax_display_cart = get_option( 'woocommerce_tax_display_cart' );
+        }
 
 		if ( WC()->session ) {
 			WC()->session->set( "billing_vat_id", '' );
@@ -808,10 +922,19 @@ class WC_GZDP_VAT_Helper {
 		}
 
 		$customer_country = $this->get_customer_billing_country();
-		$address_type     = $this->get_vat_address_type_by_checkout_data( $post_data );
+
+		if ( ! empty( $post_data ) && isset( $post_data['billing_country'] ) && ! empty( $post_data['billing_country'] ) ) {
+		    $customer_country = $post_data['billing_country'];
+        }
+
+		$address_type = $this->get_vat_address_type_by_checkout_data( $post_data );
 
 		if ( 'shipping' === $address_type ) {
 			$customer_country = WC()->customer->get_shipping_country();
+
+			if ( ! empty( $post_data ) && isset( $post_data['shipping_country'] ) && ! empty( $post_data['shipping_country'] ) ) {
+			    $customer_country = $post_data['shipping_country'];
+			}
 		}
 
 		if ( isset( $post_data["{$address_type}_vat_id"] ) && ! empty( $customer_country ) && ! empty( $post_data["{$address_type}_vat_id"] ) && $this->country_supports_vat_id( $customer_country ) ) {
@@ -826,7 +949,11 @@ class WC_GZDP_VAT_Helper {
 
 				$this->set_vat_exempt( $customer_country );
 			} else {
-				wc_add_notice( __( 'VAT ID seems to be invalid.', 'woocommerce-germanized-pro' ), 'error' );
+			    if ( $errors ) {
+				    $errors->add( 'validation', __( 'VAT ID seems to be invalid.', 'woocommerce-germanized-pro' ), 'error', array( 'id' => "{$address_type}_vat_id" ) );
+			    } else {
+				    wc_add_notice( __( 'VAT ID seems to be invalid.', 'woocommerce-germanized-pro' ), 'error', array( 'id' => "{$address_type}_vat_id" ) );
+                }
 			}
 		}
 	}
@@ -851,8 +978,9 @@ class WC_GZDP_VAT_Helper {
 	public function country_supports_vat_id( $country ) {
 		$supports_vat = false;
 		
-		if ( WC()->countries->get_base_country() !== $country && in_array( $country, WC()->countries->get_european_union_countries( 'eu_vat' ) ) )
+		if ( WC()->countries->get_base_country() !== $country && in_array( $country, wc_gzdp_get_eu_vat_countries() ) ) {
 			$supports_vat = true;
+		}
 
 		if ( 'yes' === get_option( 'woocommerce_gzdp_vat_id_base_country_included' ) &&  WC()->countries->get_base_country() === $country ) {
 			$supports_vat = true;
@@ -864,8 +992,9 @@ class WC_GZDP_VAT_Helper {
 	public function country_supports_vat_exempt( $country ) {
 		$supports_vat_exempt = false;
 
-		if ( WC()->countries->get_base_country() !== $country && in_array( $country, WC()->countries->get_european_union_countries( 'eu_vat' ) ) )
+		if ( WC()->countries->get_base_country() !== $country && in_array( $country, wc_gzdp_get_eu_vat_countries() ) ) {
 			$supports_vat_exempt = true;
+		}
 
 		return apply_filters( 'woocommerce_gzdp_country_supports_vat_exempt', $supports_vat_exempt, $country );
 	}
@@ -910,7 +1039,7 @@ class WC_GZDP_VAT_Helper {
 		return $fields;
 	}
 
-	public function vat_field_is_required() {
+	public function vat_field_is_required( $for_registration = false ) {
 		$is_required = false;
 
 		// Check if VAT ID is not forced
@@ -938,7 +1067,11 @@ class WC_GZDP_VAT_Helper {
 			$is_required = true;
 		}
 
-		return apply_filters( 'woocommerce_gzdp_vat_id_field_is_required', $is_required );
+		if ( $for_registration ) {
+		    $is_required = ( 'yes' === get_option( 'woocommerce_gzdp_vat_id_registration_required' ) ) ? true : false;
+        }
+
+		return apply_filters( 'woocommerce_gzdp_vat_id_field_is_required', $is_required, $for_registration );
 	}
 
 	public function get_vat_result_data( $vat_id ) {
@@ -969,7 +1102,7 @@ class WC_GZDP_VAT_Helper {
             set_transient( 'vat_id_validation_result_' . $country . $number, $vat_result, 5 * DAY_IN_SECONDS );
 
             if ( get_option( 'woocommerce_gzdp_vat_check_cache' ) ) {
-				$days       = (int) get_option( 'woocommerce_gzdp_vat_check_cache', 7 );
+				$days = (int) get_option( 'woocommerce_gzdp_vat_check_cache', 7 );
 
 				set_transient( 'vat_id_validated_' . $country . $number, 'yes', $days * DAY_IN_SECONDS );
 			}

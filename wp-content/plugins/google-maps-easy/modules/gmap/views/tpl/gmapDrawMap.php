@@ -52,6 +52,7 @@ $filtersWrapperEnd = $markersDisplayType ? "</div>" : '';?>
 		<div class="gmpMapDetailsContainer" id="gmpMapDetailsContainer_<?php echo $viewId ;?>">
 			<i class="gmpKMLLayersPreloader fa fa-spinner fa-spin" aria-hidden="true" style="display: none;"></i>
 			<div class="gmp_MapPreview <?php echo $mapPreviewClassname;?>" id="<?php echo $mapHtmlId ;?>"></div>
+			<?php dispatcherGmp::doAction('addMapCustomInfoWindow', $this->currentMap); ?>
 		</div>
 		<?php echo $mapsWrapperEnd; ?>
 
@@ -64,6 +65,7 @@ $filtersWrapperEnd = $markersDisplayType ? "</div>" : '';?>
 		<div class="gmpMapProControlsCon" id="gmpMapProControlsCon_<?php echo $viewId;?>">
 			<?php dispatcherGmp::doAction('addMapBottomControls', $this->currentMap); ?>
 		</div>
+		
 		<div class="gmpMapProDirectionsCon" id="gmpMapProDirectionsCon_<?php echo $viewId;?>" >
 			<?php dispatcherGmp::doAction('addMapDirectionsData', $this->currentMap); ?>
 		</div>

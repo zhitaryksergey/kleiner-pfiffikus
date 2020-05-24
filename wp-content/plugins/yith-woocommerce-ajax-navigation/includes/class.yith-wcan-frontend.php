@@ -120,101 +120,105 @@ if ( ! class_exists( 'YITH_WCAN_Frontend' ) ) {
 
             else{
 
-                $filtered_posts   = array();
-                $queried_post_ids = array();
+            	$queried_object = get_queried_object();
 
-                $problematic_theme = array(
-                    'basel',
-                    'ux-shop',
-	                'aardvark'
-                );
+            	if( ! empty( $queried_object ) && ( is_shop() || is_product_taxonomy() || ! apply_filters( 'yith_wcan_is_search', is_search() ) ) ){
+		            $filtered_posts   = array();
+		            $queried_post_ids = array();
 
-                $wp_theme       = wp_get_theme();
-	            $template_name  = $wp_theme->get_template();
+		            $problematic_theme = array(
+			            'basel',
+			            'ux-shop',
+			            'aardvark'
+		            );
 
-	            /**
-	             * Support for Flatsome Theme lower then 3.6.0
-	             */
-	            if( 'flatsome' == $template_name && version_compare( '3.6.0', $wp_theme->Version, '<' ) ){
-		            $problematic_theme[] = 'flatsome';
-	            }
+		            $wp_theme       = wp_get_theme();
+		            $template_name  = $wp_theme->get_template();
 
-                $is_qTranslateX_and_yit_core_1_0_0 = class_exists( 'QTX_Translator' ) && defined('YIT_CORE_VERSION') && '1.0.0' == YIT_CORE_VERSION;
-                $is_problematic_theme = in_array( $template_name, $problematic_theme );
+		            /**
+		             * Support for Flatsome Theme lower then 3.6.0
+		             */
+		            if( 'flatsome' == $template_name && version_compare( '3.6.0', $wp_theme->Version, '<' ) ){
+			            $problematic_theme[] = 'flatsome';
+		            }
 
-                if( $is_qTranslateX_and_yit_core_1_0_0 || $is_problematic_theme || class_exists( 'SiteOrigin_Panels' ) ){
-                    add_filter( 'yith_wcan_skip_layered_nav_query', '__return_true' );
-                }
+		            $is_qTranslateX_and_yit_core_1_0_0 = class_exists( 'QTX_Translator' ) && defined('YIT_CORE_VERSION') && '1.0.0' == YIT_CORE_VERSION;
+		            $is_problematic_theme = in_array( $template_name, $problematic_theme );
 
-                $query_filtered_posts = $this->layered_nav_query();
+		            if( $is_qTranslateX_and_yit_core_1_0_0 || $is_problematic_theme || class_exists( 'SiteOrigin_Panels' ) ){
+			            add_filter( 'yith_wcan_skip_layered_nav_query', '__return_true' );
+		            }
 
-                foreach ( $posts as $post ) {
+		            $query_filtered_posts = $this->layered_nav_query();
 
-                    if ( in_array( $post->ID, $query_filtered_posts ) ) {
-                        $filtered_posts[]   = $post;
-                        $queried_post_ids[] = $post->ID;
-                    }
-                }
+		            foreach ( $posts as $post ) {
 
-                $query->posts       = $filtered_posts;
-                $query->post_count  = count( $filtered_posts );
+			            if ( in_array( $post->ID, $query_filtered_posts ) ) {
+				            $filtered_posts[]   = $post;
+				            $queried_post_ids[] = $post->ID;
+			            }
+		            }
 
-                // Get main query
-                $current_wp_query = $this->select_query_object( $query );
+		            $query->posts       = $filtered_posts;
+		            $query->post_count  = count( $filtered_posts );
 
-                if( is_array( $current_wp_query ) ){
-                    // Get WP Query for current page (without 'paged')
-                    unset( $current_wp_query['paged'] );
-                }
+		            // Get main query
+		            $current_wp_query = $this->select_query_object( $query );
 
-                else {
-                    $current_wp_query = array();
-                }
+		            if( is_array( $current_wp_query ) ){
+			            // Get WP Query for current page (without 'paged')
+			            unset( $current_wp_query['paged'] );
+		            }
 
-                // Ensure filters are set
-                $unfiltered_args = array_merge(
-                    $current_wp_query,
-                    array(
-                        'post_type'              => 'product',
-                        'numberposts'            => - 1,
-                        'post_status'            => 'publish',
-                        'meta_query'             => is_object( $current_wp_query ) ? $current_wp_query->meta_query : array(),
-                        'fields'                 => 'ids',
-                        'no_found_rows'          => true,
-                        'update_post_meta_cache' => false,
-                        'update_post_term_cache' => false,
-                        'pagename'               => '',
-                        'wc_query'               => 'get_products_in_view', //Only for WC <= 2.6.x
-                        'suppress_filters'       => true,
-                    )
-                );
+		            else {
+			            $current_wp_query = array();
+		            }
 
-                $hide_out_of_stock_items = apply_filters( 'yith_wcan_hide_out_of_stock_items', 'yes' == get_option( 'woocommerce_hide_out_of_stock_items' ) ? true : false );
+		            // Ensure filters are set
+		            $unfiltered_args = array_merge(
+			            $current_wp_query,
+			            array(
+				            'post_type'              => 'product',
+				            'numberposts'            => - 1,
+				            'post_status'            => 'publish',
+				            'meta_query'             => is_object( $current_wp_query ) ? $current_wp_query->meta_query : array(),
+				            'fields'                 => 'ids',
+				            'no_found_rows'          => true,
+				            'update_post_meta_cache' => false,
+				            'update_post_term_cache' => false,
+				            'pagename'               => '',
+				            'wc_query'               => 'get_products_in_view', //Only for WC <= 2.6.x
+				            'suppress_filters'       => true,
+			            )
+		            );
 
-                if( $hide_out_of_stock_items ){
-                    $unfiltered_args['meta_query'][] = array(
-                        'key' => '_stock_status',
-                        'value' => 'instock',
-                        'compare' => 'AND'
-                    );
-                }
+		            $hide_out_of_stock_items = apply_filters( 'yith_wcan_hide_out_of_stock_items', 'yes' == get_option( 'woocommerce_hide_out_of_stock_items' ) ? true : false );
 
-	            $unfiltered_args = apply_filters( 'yith_wcan_unfiltered_args', $unfiltered_args );
-                $this->unfiltered_product_ids = apply_filters( 'yith_wcan_unfiltered_product_ids', get_posts( $unfiltered_args ), $query, $current_wp_query );
-                $this->filtered_product_ids   = $queried_post_ids;
+		            if( $hide_out_of_stock_items ){
+			            $unfiltered_args['meta_query'][] = array(
+				            'key' => '_stock_status',
+				            'value' => 'instock',
+				            'compare' => 'AND'
+			            );
+		            }
 
-                // Also store filtered posts ids...
-                if ( sizeof( $queried_post_ids ) > 0 ) {
-                    $this->filtered_product_ids = array_intersect( $this->unfiltered_product_ids, $queried_post_ids );
-                } else {
-                    $this->filtered_product_ids = $this->unfiltered_product_ids;
-                }
+		            $unfiltered_args = apply_filters( 'yith_wcan_unfiltered_args', $unfiltered_args );
+		            $this->unfiltered_product_ids = apply_filters( 'yith_wcan_unfiltered_product_ids', get_posts( $unfiltered_args ), $query, $current_wp_query );
+		            $this->filtered_product_ids   = $queried_post_ids;
 
-                if ( sizeof( $this->layered_nav_post__in ) > 0 ) {
-                    $this->layered_nav_product_ids = array_intersect( $this->unfiltered_product_ids, $this->layered_nav_post__in );
-                } else {
-                    $this->layered_nav_product_ids = $this->unfiltered_product_ids;
-                }
+		            // Also store filtered posts ids...
+		            if ( sizeof( $queried_post_ids ) > 0 ) {
+			            $this->filtered_product_ids = array_intersect( $this->unfiltered_product_ids, $queried_post_ids );
+		            } else {
+			            $this->filtered_product_ids = $this->unfiltered_product_ids;
+		            }
+
+		            if ( sizeof( $this->layered_nav_post__in ) > 0 ) {
+			            $this->layered_nav_product_ids = array_intersect( $this->unfiltered_product_ids, $this->layered_nav_post__in );
+		            } else {
+			            $this->layered_nav_product_ids = $this->unfiltered_product_ids;
+		            }
+            	}
             }
             return $posts;
         }
@@ -325,7 +329,7 @@ if ( ! class_exists( 'YITH_WCAN_Frontend' ) ) {
                                         'terms' 	=> $value,
                                         'field' 	=> YITH_WCAN()->filter_term_field
                                     )
-                                )
+                                ),
                             );
 
                             $args = yit_product_visibility_meta( $args );
@@ -392,16 +396,29 @@ if ( ! class_exists( 'YITH_WCAN_Frontend' ) ) {
                     'fields'           => 'ids',
                     'no_found_rows'    => true,
                     'suppress_filters' => true,
-                    'tax_query'        => array()
+                    'tax_query'        => array(),
+                    'meta_query' => array()
                 );
 
                 if( $is_product_taxonomy ){
                     $args['tax_query'][] = $is_product_taxonomy;
                 }
 
+                if( isset( $_GET['min_price'] ) && isset( $_GET['max_price'] ) ){
+                	$min_price = sanitize_text_field( $_GET['min_price'] );
+                	$max_price = sanitize_text_field( $_GET['max_price'] );
+                	$args['meta_query'][] =  array(
+		                'key' => '_price',
+		                'value' => array($min_price, $max_price),
+		                'compare' => 'BETWEEN',
+		                'type' => 'NUMERIC'
+	                );
+                }
+
                 $args = yit_product_visibility_meta( $args );
 
-                $queried_object = is_object( get_queried_object() ) ? get_queried_object() : false;
+                global $wp_query;
+                $queried_object = function_exists( 'get_queried_object' ) && is_callable( array( $wp_query, 'get_queried_object' ) ) ? get_queried_object() : false;
 
                 $taxonomy   = $queried_object && property_exists( $queried_object, 'taxonomy' ) ? $queried_object->taxonomy : false;
                 $slug       = $queried_object && property_exists( $queried_object, 'slug' ) ? $queried_object->slug : false;

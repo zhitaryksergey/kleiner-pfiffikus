@@ -28,10 +28,10 @@ function wc_gzd_cart_product_differential_taxation_mark( $title, $cart_item, $ca
 	$product      = false;
 	$product_mark = '';
 
-	if ( isset( $cart_item['data'] ) ) {
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		$product = $cart_item->get_product();
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 	}
 
 	if ( $product ) {
@@ -101,20 +101,20 @@ function wc_gzd_cart_product_item_desc( $title, $cart_item, $cart_item_key = '' 
 		$echo          = true;
 	}
 
-	if ( isset( $cart_item['data'] ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+		$product = $cart_item->get_product();
+
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_gzd_product( $product )->get_mini_desc() ) {
+			$product_desc = wc_gzd_get_gzd_product( $product )->get_formatted_cart_description();
+		}
+	} elseif ( isset( $cart_item['data'] ) ) {
 		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 
-		if ( wc_gzd_get_product( $product )->get_cart_description() ) {
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->get_cart_description() ) {
 			$product_desc = wc_gzd_get_product( $product )->get_formatted_cart_description();
 		}
 	} elseif ( isset( $cart_item['item_desc'] ) ) {
 		$product_desc = $cart_item['item_desc'];
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
-		$product = $cart_item->get_product();
-
-		if ( $product && wc_gzd_get_gzd_product( $product )->get_mini_desc() ) {
-			$product_desc = wc_gzd_get_gzd_product( $product )->get_formatted_cart_description();
-		}
 	}
 
 	if ( ! empty( $product_desc ) ) {
@@ -131,12 +131,15 @@ function wc_gzd_cart_product_item_desc( $title, $cart_item, $cart_item_key = '' 
 function wc_gzd_cart_product_attributes( $title, $cart_item, $cart_item_key = '' ) {
 	$item_data = array();
 
-	if ( isset( $cart_item['data'] ) ) {
-		$product   = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-		$item_data = wc_gzd_get_gzd_product( $product )->get_checkout_attributes( array(), isset( $cart_item['variation'] ) ? $cart_item['variation'] : array() );
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		if ( $product = $cart_item->get_product() ) {
 			$item_data = wc_gzd_get_product( $product )->get_checkout_attributes();
+		}
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+		if ( is_a( $product, 'WC_Product' ) ) {
+			$item_data = wc_gzd_get_gzd_product( $product )->get_checkout_attributes( array(), isset( $cart_item['variation'] ) ? $cart_item['variation'] : array() );
 		}
 	}
 
@@ -188,21 +191,21 @@ function wc_gzd_cart_product_delivery_time( $title, $cart_item, $cart_item_key =
 		$echo          = true;
 	}
 
-	if ( isset( $cart_item['data'] ) ) {
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-
-		if ( wc_gzd_get_product( $product )->get_delivery_time_term() ) {
-			$delivery_time = wc_gzd_get_product( $product )->get_delivery_time_html();
-		}
-
-	} elseif ( isset( $cart_item['delivery_time'] ) ) {
-		$delivery_time = $cart_item['delivery_time'];
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		$product = $cart_item->get_product();
 
 		if ( $product && wc_gzd_get_product( $product )->get_delivery_time_term() ) {
 			$delivery_time = wc_gzd_get_product( $product )->get_delivery_time_html();
 		}
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->get_delivery_time_term() ) {
+			$delivery_time = wc_gzd_get_product( $product )->get_delivery_time_html();
+		}
+
+	} elseif ( isset( $cart_item['delivery_time'] ) ) {
+		$delivery_time = $cart_item['delivery_time'];
 	}
 
 	if ( ! empty( $delivery_time ) ) {
@@ -235,20 +238,20 @@ function wc_gzd_cart_product_unit_price( $price, $cart_item, $cart_item_key = ''
 		$echo          = true;
 	}
 
-	if ( isset( $cart_item['data'] ) ) {
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-
-		if ( wc_gzd_get_product( $product )->has_unit() ) {
-			$unit_price = wc_gzd_get_product( $product )->get_unit_price_html( false );
-		}
-	} elseif ( isset( $cart_item['unit_price'] ) ) {
-		$unit_price = $cart_item['unit_price'];
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		$product = $cart_item->get_product();
 
 		if ( $product && wc_gzd_get_product( $product )->has_unit() ) {
 			$unit_price = wc_gzd_get_product( $product )->get_unit_price_html( false );
 		}
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->has_unit() ) {
+			$unit_price = wc_gzd_get_product( $product )->get_unit_price_html( false );
+		}
+	} elseif ( isset( $cart_item['unit_price'] ) ) {
+		$unit_price = $cart_item['unit_price'];
 	}
 
 	if ( ! empty( $unit_price ) ) {
@@ -281,20 +284,20 @@ function wc_gzd_cart_product_units( $title, $cart_item, $cart_item_key = '' ) {
 		$echo          = true;
 	}
 
-	if ( isset( $cart_item['data'] ) ) {
-		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
-
-		if ( wc_gzd_get_product( $product )->has_unit_product() ) {
-			$units = wc_gzd_get_gzd_product( $product )->get_unit_product_html();
-		}
-	} elseif ( isset( $cart_item['units'] ) ) {
-		$units = $cart_item['units'];
-	} elseif ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		$product = $cart_item->get_product();
 
 		if ( $product && wc_gzd_get_product( $product )->has_unit_product() ) {
 			$units = wc_gzd_get_product( $product )->get_unit_product_html();
 		}
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->has_unit_product() ) {
+			$units = wc_gzd_get_gzd_product( $product )->get_unit_product_html();
+		}
+	} elseif ( isset( $cart_item['units'] ) ) {
+		$units = $cart_item['units'];
 	}
 
 	if ( ! empty( $units ) ) {
@@ -326,7 +329,7 @@ function wc_gzd_cart_needs_age_verification( $items = false ) {
 				$_product = apply_filters( 'woocommerce_cart_item_product', $values['data'], $values, $cart_item_key );
 			}
 
-			if ( $_product && wc_gzd_needs_age_verification( $_product ) ) {
+			if ( is_a( $_product, 'WC_Product' ) && wc_gzd_needs_age_verification( $_product ) ) {
 				$needs_age_verification = true;
 			}
 		}
@@ -378,7 +381,7 @@ function wc_gzd_cart_get_age_verification_min_age( $items = false ) {
 				$_product = apply_filters( 'woocommerce_cart_item_product', $values['data'], $values, $cart_item_key );
 			}
 
-			if ( $_product ) {
+			if ( is_a( $_product, 'WC_Product' ) ) {
 				$_gzd_product = wc_gzd_get_gzd_product( $_product );
 
 				if ( wc_gzd_needs_age_verification( $_product ) ) {
@@ -423,6 +426,62 @@ function wc_gzd_cart_get_age_verification_min_age( $items = false ) {
 	}
 }
 
+function wc_gzd_item_is_tax_share_exempt( $item, $type = 'shipping', $key = false ) {
+	$exempt   = false;
+	$_product = false;
+	$is_cart  = false;
+
+	if ( is_a( $item, 'WC_Order_Item' ) ) {
+		$_product = $item->get_product();
+	} elseif ( isset( $item['data'] ) ) {
+		$_product = apply_filters( 'woocommerce_cart_item_product', $item['data'], $item, $key );
+		$is_cart  = true;
+	}
+
+	if ( is_a( $_product, 'WC_Product' ) ) {
+
+	    if ( 'shipping' === $type ) {
+		    if ( $_product->is_virtual() || wc_gzd_get_product( $_product )->is_virtual_vat_exception() ) {
+			    $exempt = true;
+		    }
+        }
+
+		$tax_status = $_product->get_tax_status();
+		$tax_class  = $_product->get_tax_class();
+
+		if ( 'none' === $tax_status || 'zero-rate' === $tax_class ) {
+			$exempt = true;
+		}
+    }
+
+	if ( $is_cart ) {
+		/**
+		 * Filter whether cart item supports tax share calculation or not.
+		 *
+		 * @param bool   $exempt True if it is an exempt. False if not.
+		 * @param array  $item The cart item.
+		 * @param string $key The cart item hash if existent.
+		 * @param string $type The tax calculation type e.g. shipping or fees.
+		 *
+		 * @since 1.7.5
+		 */
+		$exempt = apply_filters( 'woocommerce_gzd_cart_item_not_supporting_tax_share', $exempt, $item, $key, $type );
+    } else {
+		/**
+		 * Filter whether order item supports tax share calculation or not.
+		 *
+		 * @param bool          $exempt True if it is an exempt. False if not.
+		 * @param WC_Order_Item $item The order item.
+		 * @param string        $type The tax calculation type e.g. shipping or fees.
+		 *
+		 * @since 3.1.2
+		 */
+		$exempt = apply_filters( 'woocommerce_gzd_order_item_tax_share_exempt', $exempt, $item, $type );
+	}
+
+	return $exempt;
+}
+
 /**
  * Calculates tax share for shipping/fees
  *
@@ -434,60 +493,37 @@ function wc_gzd_get_cart_tax_share( $type = 'shipping', $cart_contents = array()
 	$cart        = empty( $cart_contents ) ? WC()->cart->cart_contents : $cart_contents;
 	$tax_shares  = array();
 	$item_totals = 0;
+	$is_cart     = true;
 
 	// Get tax classes and tax amounts
 	if ( ! empty( $cart ) ) {
 		foreach ( $cart as $key => $item ) {
-			/**
-			 * @var WC_Product $_product
-			 */
-			$_product = apply_filters( 'woocommerce_cart_item_product', $item['data'], $item, $key );
 
-			/**
-			 * Cart item tax share product.
-			 *
-			 * Filters the product containing shipping information for cart item tax share calculation.
-			 *
-			 * @param WC_Product $_product The product object.
-			 * @param array $item The cart item.
-			 * @param string $key The cart item hash.
-			 * @param string $type The tax calculation type e.g. shipping or fees.
-			 *
-			 * @since 2.0.2
-			 *
-			 */
-			$_product_shipping = apply_filters( 'woocommerce_gzd_cart_item_tax_share_product', $_product, $item, $key, $type );
-			$no_shipping       = false;
+			if ( is_a( $item, 'WC_Order_Item' ) ) {
+				$class      = $item->get_tax_class();
+				$line_total = $item->get_total();
+				$line_tax   = $item->get_total_tax();
+				$taxes      = $item->get_taxes();
+				$tax_rate   = key( $taxes['total'] );
 
-			if ( 'shipping' === $type ) {
-				if ( $_product_shipping->is_virtual() || wc_gzd_get_product( $_product_shipping )->is_virtual_vat_exception() ) {
-					$no_shipping = true;
-				}
-
-				$tax_status = $_product->get_tax_status();
-				$tax_class  = $_product->get_tax_class();
-
-				if ( 'none' === $tax_status || 'zero-rate' === $tax_class ) {
-					$no_shipping = true;
-				}
+				// Search for the first non-empty tax rate
+				foreach( $taxes['total'] as $rate_id => $tax ) {
+				    if ( ! empty( $tax ) ) {
+				        $tax_rate = $rate_id;
+				        break;
+                    }
+                }
+			} elseif ( isset( $item['data'] ) ) {
+				$_product   = apply_filters( 'woocommerce_cart_item_product', $item['data'], $item, $key );
+				$class      = $_product->get_tax_class();
+				$line_total = $item['line_total'];
+				$line_tax   = $item['line_tax'];
+				$tax_rate   = key( $item['line_tax_data']['total'] );
 			}
 
-			/**
-			 * Filter whether cart item supports tax share calculation or not.
-			 *
-			 * @param bool $no_shipping True if supports calculation. False otherwise.
-			 * @param array $item The cart item.
-			 * @param string $key The cart item hash.
-			 * @param string $type The tax calculation type e.g. shipping or fees.
-			 *
-			 * @since 1.7.5
-			 *
-			 */
-			if ( apply_filters( 'woocommerce_gzd_cart_item_not_supporting_tax_share', $no_shipping, $item, $key, $type ) ) {
-				continue;
-			}
-
-			$class = $_product->get_tax_class();
+			if ( wc_gzd_item_is_tax_share_exempt( $item, $type, $key ) ) {
+			    continue;
+            }
 
 			if ( ! isset( $tax_shares[ $class ] ) ) {
 				$tax_shares[ $class ]          = array();
@@ -496,10 +532,10 @@ function wc_gzd_get_cart_tax_share( $type = 'shipping', $cart_contents = array()
 			}
 
 			// Does not contain pricing data in case of recurring Subscriptions
-			$tax_shares[ $class ]['total'] += ( $item['line_total'] + $item['line_tax'] );
-			$tax_shares[ $class ]['key']   = key( $item['line_tax_data']['total'] );
+			$tax_shares[ $class ]['total'] += ( $line_total + $line_tax );
+			$tax_shares[ $class ]['key']   = $tax_rate;
 
-			$item_totals += ( $item['line_total'] + $item['line_tax'] );
+			$item_totals += ( $line_total + $line_tax );
 		}
 	}
 

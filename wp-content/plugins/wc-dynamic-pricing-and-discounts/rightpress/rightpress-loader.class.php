@@ -1,14 +1,12 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Version Control
  */
-$version = '1011';
+$version = '1019';
 
 global $rightpress_version;
 
@@ -17,16 +15,16 @@ if (!$rightpress_version || $rightpress_version < $version) {
 }
 
 // Check if class has already been loaded
-if (!class_exists('RightPress_Loader_1011')) {
+if (!class_exists('RightPress_Loader_1019')) {
 
     /**
      * Main Loader Class
      *
-     * @class RightPress_Loader_1011
+     * @class RightPress_Loader_1019
      * @package RightPress
      * @author RightPress
      */
-    final class RightPress_Loader_1011
+    final class RightPress_Loader_1019
     {
 
         /**
@@ -44,6 +42,8 @@ if (!class_exists('RightPress_Loader_1011')) {
 
         /**
          * Load classes used in all RightPress plugins
+         *
+         * Note: Plugins must call this during plugins_loaded action
          *
          * @access public
          * @return void
@@ -63,9 +63,18 @@ if (!class_exists('RightPress_Loader_1011')) {
             // Load utility classes
             require_once self::get_path('classes/utility/rightpress-datetime.class.php');
             require_once self::get_path('classes/utility/rightpress-exception.class.php');
+            require_once self::get_path('classes/utility/rightpress-main-site-controller.class.php');
+            require_once self::get_path('classes/utility/rightpress-scheduler.class.php');
+            require_once self::get_path('classes/utility/rightpress-legacy.class.php');
+            require_once self::get_path('classes/utility/rightpress-time.class.php');
 
-            // Load legacy class
-            require_once self::get_path('classes/rightpress-legacy.class.php');
+            // Load library legacy class
+            require_once self::get_path('classes/rightpress-library-legacy.class.php');
+
+            // Indicate that system is ready for use after init position 9
+            add_action('init', function() {
+                do_action('rightpress_init');
+            }, 9);
         }
 
         /**
@@ -84,23 +93,8 @@ if (!class_exists('RightPress_Loader_1011')) {
             // Iterate over collection names
             foreach ((array) $names as $name) {
 
-                // Initialize directory iterator
-                $directory_iterator = new RecursiveDirectoryIterator(self::get_path('class-collections/' . $name));
-
-                // Initialize iterator iterator
-                $iterator_iterator = new RecursiveIteratorIterator($directory_iterator);
-
-                // Get list of all PHP files in current collection
-                $file_names = new RegexIterator($iterator_iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
-
-                // Require all files
-                foreach ($file_names as $file_name) {
-
-                    // Some sanity checks (little experience with SPL Iterators)
-                    if (isset($file_name[0]) && is_string($file_name[0]) && file_exists($file_name[0])) {
-                        require_once $file_name[0];
-                    }
-                }
+                // Load class collection loader file
+                require_once self::get_path('class-collections/' . $name . '/loader.php');
             }
         }
 
@@ -221,7 +215,10 @@ if (!class_exists('RightPress_Loader_1011')) {
             self::init();
 
             // Get component url
-            return RIGHTPRESS_LIBRARY_URL . '/components/' . $name . '/' . ltrim($suffix, '/');
+            $url = RIGHTPRESS_LIBRARY_URL . '/components/' . $name . '/' . ltrim($suffix, '/');
+
+            // Set correct scheme
+            return set_url_scheme($url);
         }
 
         /**
@@ -243,7 +240,8 @@ if (!class_exists('RightPress_Loader_1011')) {
 
             // Define library url
             if (!defined('RIGHTPRESS_LIBRARY_URL')) {
-                define('RIGHTPRESS_LIBRARY_URL', plugins_url('', __FILE__));
+                $library_url = defined('RIGHTPRESS_DEVELOPMENT_ENVIRONMENT') ? 'http://localhost/rightpress' : plugins_url('', __FILE__);
+                define('RIGHTPRESS_LIBRARY_URL', $library_url);
             }
         }
     }

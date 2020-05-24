@@ -1,45 +1,36 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
- * Cached pre-calculated prices are stored in wp_options in the following format.
+ * Cached pre-calculated prices are stored in product meta in the following format
  * Note: Prices can be cached raw or prepared for display (tax adjusted) in which case they simply get a distinct {price_hash}.
  *
  * Generic format:
  *
- *      'rightpress_prices_{product_id}' = array(
  *          {system_hash} => array(
- *              {price_type} => array(
+ *              {price_type_key} => array(                                              'p' - price, 's' - sale_price, 'r' - regular_price
  *                  {price_hash} => array(
  *                      'p' => {price},
- *                      't' => {timestamp},
+ *                      't' => {timestamp},                                             Cache entry expiration timestamp
  *                  ),
  *              ),
  *          )
- *      )
  *
  * Variable products:
  *
- *      'rightpress_prices_{product_id}' = array(
  *          {system_hash} => array(
- *              {price_type} => array(
+ *              {price_type_key} => array(                                              'p' - price, 's' - sale_price, 'r' - regular_price
  *                  {variation_id} => array(
  *                      {price_hash|variable_product_prices_hash} => array(
  *                          'p' => {price},
- *                          't' => {timestamp},
+ *                          't' => {timestamp},                                         Cache entry expiration timestamp
  *                      ),
  *                  ),
  *              ),
  *          )
- *      )
  */
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price_Shop')) {
 
 /**
  * RightPress Shared Product Price Shop
@@ -51,7 +42,7 @@ if (!class_exists('RightPress_Product_Price_Shop')) {
 final class RightPress_Product_Price_Shop
 {
 
-    // TBD: Maybe we need to do this in a more controlled fashion - when any price type is requested, we do all three in one call?
+    // TODO: Maybe only store $changes instead of $cache - cache can be referenced directly from reference product meta? This way we wouldn't copy the same data two times.
 
     private $cache  = array();
     private $store  = false;
@@ -63,19 +54,8 @@ final class RightPress_Product_Price_Shop
 
     private $visible_variations_prices = array();
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -86,24 +66,28 @@ final class RightPress_Product_Price_Shop
     public function __construct()
     {
 
-        // No plugin uses this functionality
-        if (!has_filter('rightpress_product_price_shop_cache_hash_data')) {
+        // Check if functionality of this class is used by any plugin
+        if (!RightPress_Product_Price_Shop::is_used()) {
             return;
         }
 
-        // Set up price hooks
-        RightPress_Product_Price::add_late_filter('woocommerce_product_get_price', array($this, 'maybe_change_product_price'), 2);
-        RightPress_Product_Price::add_late_filter('woocommerce_product_get_sale_price', array($this, 'maybe_change_product_price'), 2);
-        RightPress_Product_Price::add_late_filter('woocommerce_product_get_regular_price', array($this, 'maybe_change_product_price'), 2);
-        RightPress_Product_Price::add_late_filter('woocommerce_product_variation_get_price', array($this, 'maybe_change_product_price'),  2);
-        RightPress_Product_Price::add_late_filter('woocommerce_product_variation_get_sale_price', array($this, 'maybe_change_product_price'), 2);
-        RightPress_Product_Price::add_late_filter('woocommerce_product_variation_get_regular_price', array($this, 'maybe_change_product_price'), 2);
-
         // Override WooCommerce variable product variation prices
-        RightPress_Product_Price::add_late_filter('woocommerce_variation_prices', array($this, 'maybe_change_variable_product_variation_prices'), 3);
+        RightPress_Help::add_early_filter('woocommerce_variation_prices', array($this, 'maybe_change_variable_product_variation_prices'), 3);
 
         // Clear price cache when WooCommerce does the same
         add_action('woocommerce_delete_product_transients', array('RightPress_Product_Price_Shop', 'clear_cache_for_product'));
+    }
+
+    /**
+     * Check if functionality of this class is used by any plugin
+     *
+     * @access public
+     * @return bool
+     */
+    public static function is_used()
+    {
+
+        return has_filter('rightpress_product_price_shop_cache_hash_data');
     }
 
     /**
@@ -111,20 +95,6 @@ final class RightPress_Product_Price_Shop
      * PRICE HOOK CALLBACKS
      * =================================================================================================================
      */
-
-    /**
-     * Maybe change product price
-     *
-     * @access public
-     * @param float $price
-     * @param object $product
-     * @return float
-     */
-    public function maybe_change_product_price($price, $product)
-    {
-
-        return $this->maybe_change_price($price, $product);
-    }
 
     /**
      * Maybe change product or variation price
@@ -145,12 +115,8 @@ final class RightPress_Product_Price_Shop
             return $price;
         }
 
-        // Skip variable products (this does not affect individual variations)
-        if ($product->is_type('variable')) {
-            return $price;
-        }
-
         // Skip products with no price set - they can't be purchased
+        // Note: Removing/modifying this check may cause issues, e.g. WCDPD issue #709
         if ($price_type === 'price' && $price === '') {
             return $price;
         }
@@ -160,7 +126,7 @@ final class RightPress_Product_Price_Shop
             return $price;
         }
 
-        // Skip products in cart
+        // Ensure product is not in cart
         if (!empty($product->rightpress_in_cart)) {
             return $price;
         }
@@ -179,6 +145,22 @@ final class RightPress_Product_Price_Shop
         if ($this->skip_cache($product)) {
             return $this->calculate_price($price, $price_type, $product);
         }
+
+        // Get price from cache
+        return $this->get_price_for_product($price, $price_type, $product);
+    }
+
+    /**
+     * Get price for product - either from cache or freshly calculated if not available in cache
+     *
+     * @access public
+     * @param float $price
+     * @param string $price_type
+     * @param WC_Product $product
+     * @return float
+     */
+    public function get_price_for_product($price, $price_type, $product)
+    {
 
         // Get price hash
         $price_hash = $this->get_price_hash($product, $price, $price_type);
@@ -280,6 +262,9 @@ final class RightPress_Product_Price_Shop
         // Get instance
         $instance = RightPress_Product_Price_Shop::get_instance();
 
+        // Set reference product
+        RightPress_Product_Price::set_reference_product($variable_product);
+
         // Get variable product id
         $product_id = $variable_product->get_id();
 
@@ -310,6 +295,9 @@ final class RightPress_Product_Price_Shop
                         // Load variation
                         if ($variation = wc_get_product($variation_id)) {
 
+                            // Set reference product
+                            RightPress_Product_Price::set_reference_product($variation);
+
                             // Get current variation price
                             // Note: We do not preserve changes made by 3rd parties before or during 'woocommerce_variation_prices'
                             // since we do dynamic pricing test which calls price filters again
@@ -330,16 +318,19 @@ final class RightPress_Product_Price_Shop
                         }
                     }
                     // Try to get price by variable product prices hash
-                    else if (isset($instance->cache[$product_id][$instance->get_system_hash()][$price_type][$variation_id][$variable_product_prices_hash])) {
+                    else if (isset($instance->cache[$product_id][$instance->get_system_hash()][$price_type[0]][$variation_id][$variable_product_prices_hash])) {
 
                         // Set price from cache by variable product prices hash
-                        $cached_price = $instance->cache[$product_id][$instance->get_system_hash()][$price_type][$variation_id][$variable_product_prices_hash]['p'];
+                        $cached_price = $instance->cache[$product_id][$instance->get_system_hash()][$price_type[0]][$variation_id][$variable_product_prices_hash]['p'];
                     }
                     // Get price from regular cache
                     else {
 
                         // Load variation
                         if ($variation = wc_get_product($variation_id)) {
+
+                            // Set reference product
+                            RightPress_Product_Price::set_reference_product($variation);
 
                             // Get current variation price
                             // Note: We do not preserve changes made by 3rd parties before or during 'woocommerce_variation_prices'
@@ -539,8 +530,10 @@ final class RightPress_Product_Price_Shop
     public function get_calculation_data($price, $price_type, $product)
     {
 
-        // Cast price to float
-        $price = (float) $price;
+        // Cast price to float if it's not empty
+        if ($price !== '') {
+            $price = (float) $price;
+        }
 
         // Format calculation data array
         $calculation_data = array(
@@ -606,7 +599,7 @@ final class RightPress_Product_Price_Shop
      */
 
     /**
-     * Read cached prices from database
+     * Read cached prices
      *
      * @access public
      * @param int $product_id
@@ -618,8 +611,25 @@ final class RightPress_Product_Price_Shop
         // Prices for this product not yet in memory
         if (!isset($this->cache[$product_id])) {
 
-            // Get cached prices from database and store in memory
-            $this->cache[$product_id] = array_filter((array) json_decode(strval(get_transient($this->get_transient_name($product_id))), true));
+            // Default to empty array
+            $this->cache[$product_id] = array();
+
+            // Get reference product
+            if ($reference_product = RightPress_Product_Price::get_reference_product($product_id)) {
+
+                // Get price cache value from product meta
+                if ($meta_value = $reference_product->get_meta('_rightpress_prices')) {
+
+                    // Prepare cache value
+                    $value = array_filter((array) json_decode(strval($meta_value), true));
+
+                    // Clean up cache
+                    $value = $this->cache_cleanup($value);
+
+                    // Set cache value
+                    $this->cache[$product_id] = $value;
+                }
+            }
         }
     }
 
@@ -651,20 +661,20 @@ final class RightPress_Product_Price_Shop
             $variation_id = $product->get_id();
 
             // Check if price exists in cache
-            if (isset($this->cache[$product_id][$this->get_system_hash()][$price_type][$variation_id][$price_hash]['p'])) {
+            if (isset($this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$variation_id][$price_hash]['p'])) {
 
                 // Get price from cache
-                $cached_price = $this->cache[$product_id][$this->get_system_hash()][$price_type][$variation_id][$price_hash]['p'];
+                $cached_price = $this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$variation_id][$price_hash]['p'];
             }
         }
         // Product is not variation
         else {
 
             // Check if price exists in cache
-            if (isset($this->cache[$product_id][$this->get_system_hash()][$price_type][$price_hash]['p'])) {
+            if (isset($this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$price_hash]['p'])) {
 
                 // Get price from cache
-                $cached_price = $this->cache[$product_id][$this->get_system_hash()][$price_type][$price_hash]['p'];
+                $cached_price = $this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$price_hash]['p'];
             }
         }
 
@@ -678,7 +688,7 @@ final class RightPress_Product_Price_Shop
      * @access public
      * @param float $price
      * @param string $price_type
-     * @param object $product
+     * @param WC_Product $product
      * @param string $price_hash
      * @return void
      */
@@ -686,9 +696,10 @@ final class RightPress_Product_Price_Shop
     {
 
         // Wrap price
+        // Note: By default cached prices expire in 7 days but this may be set to shorter time by plugins
         $price_data = array(
             'p' => $price,
-            't' => time(),
+            't' => apply_filters('rightpress_product_price_shop_cache_record_expiration_timestamp', (time() + (DAY_IN_SECONDS * 7)), $price, $price_type, $product, $price_hash),
         );
 
         // Product is variation
@@ -698,8 +709,13 @@ final class RightPress_Product_Price_Shop
             $product_id     = $product->get_parent_id();
             $variation_id   = $product->get_id();
 
+            // Clear product cache if new system hash is encountered (it is unlikely that the system will get to the previous state)
+            if (!isset($this->cache[$product_id][$this->get_system_hash()])) {
+                $this->cache[$product_id] = array();
+            }
+
             // Set to cache array
-            $this->cache[$product_id][$this->get_system_hash()][$price_type][$variation_id][$price_hash] = $price_data;
+            $this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$variation_id][$price_hash] = $price_data;
         }
         // Product is not variation
         else {
@@ -707,16 +723,38 @@ final class RightPress_Product_Price_Shop
             // Get product id
             $product_id = $product->get_id();
 
+            // Clear product cache if new system hash is encountered (it is unlikely that the system will get to the previous state)
+            if (!isset($this->cache[$product_id][$this->get_system_hash()])) {
+                $this->cache[$product_id] = array();
+            }
+
             // Set to cache array
-            $this->cache[$product_id][$this->get_system_hash()][$price_type][$price_hash] = $price_data;
+            $this->cache[$product_id][$this->get_system_hash()][$price_type[0]][$price_hash] = $price_data;
         }
 
         // Set flag
         $this->cache[$product_id]['_update'] = true;
 
         // Store cached prices in product meta on shutdown
+        $this->store_cached_prices_on_shutdown();
+    }
+
+    /**
+     * Store cached prices in product meta on shutdown
+     *
+     * @access public
+     * @return void
+     */
+    public function store_cached_prices_on_shutdown()
+    {
+
+        // Check if shutdown function is already registered
         if ($this->store === false) {
+
+            // Register shutdown function
             register_shutdown_function(array($this, 'store_cached_prices'));
+
+            // Set flag
             $this->store = true;
         }
     }
@@ -739,43 +777,43 @@ final class RightPress_Product_Price_Shop
                 // Remove flag
                 unset($values['_update']);
 
-                // Cleanup
-                $values = $this->cache_cleanup($values);
-
-                // Update transient
-                set_transient($this->get_transient_name($product_id), wp_json_encode($values), DAY_IN_SECONDS * 30);
+                // Save values to product meta
+                // TODO: This works as long as WooCommerce continues to use posts for products, this may change in the future and we may need to load product objects to write to product meta
+                update_post_meta($product_id, '_rightpress_prices', wp_json_encode($values));
             }
         }
     }
 
     /**
-     * Product prices cache periodic cleanup
+     * Product prices cache cleanup
      *
-     * Drop individual prices older than 30 days
-     * This is generic cleanup in case dynamic nature of some plugins generate a lot of different price hashes
+     * Removes expired prices
      *
      * @access public
-     * @param array $values
+     * @param array $value
      * @return array
      */
-    public function cache_cleanup($values)
+    public function cache_cleanup($value)
     {
 
-        // Get cutoff timestamp
-        $cutoff_timestamp = time() - (DAY_IN_SECONDS * 30);
+        // Get timestamp
+        $timestamp = time();
 
-        foreach ($values as $system_hash => $level_1) {
-            foreach ($level_1 as $price_type => $level_2) {
+        foreach ($value as $system_hash => $level_1) {
+            foreach ($level_1 as $price_type_key => $level_2) {
                 foreach ($level_2 as $key => $level_3) {
 
                     // Not product variation
                     if (isset($level_3['p'])) {
 
-                        // Check if record is older than 30 days
-                        if ($level_3['t'] < $cutoff_timestamp) {
+                        // Check if record has expired
+                        if ($level_3['t'] < $timestamp) {
 
                             // Unset record
-                            unset($values[$system_hash][$price_type][$key]);
+                            unset($value[$system_hash][$price_type_key][$key]);
+
+                            // Set update flag
+                            $value['_update'] = true;
                         }
                     }
                     // Product variation
@@ -783,51 +821,56 @@ final class RightPress_Product_Price_Shop
 
                         foreach ($level_3 as $price_hash => $level_4) {
 
-                            // Check if record is older than 30 days
-                            if ($level_4['t'] < $cutoff_timestamp) {
+                            // Check if record has expired
+                            if ($level_4['t'] < $timestamp) {
 
                                 // Unset record
-                                unset($values[$system_hash][$price_type][$key][$price_hash]);
+                                unset($value[$system_hash][$price_type_key][$key][$price_hash]);
+
+                                // Set update flag
+                                $value['_update'] = true;
                             }
                         }
 
-                        if (empty($values[$system_hash][$price_type][$key])) {
-                            unset($values[$system_hash][$price_type][$key]);
+                        if (empty($value[$system_hash][$price_type_key][$key])) {
+                            unset($value[$system_hash][$price_type_key][$key]);
                         }
                     }
                 }
 
-                if (empty($values[$system_hash][$price_type])) {
-                    unset($values[$system_hash][$price_type]);
+                if (empty($value[$system_hash][$price_type_key])) {
+                    unset($value[$system_hash][$price_type_key]);
                 }
             }
 
-            if (empty($values[$system_hash])) {
-                unset($values[$system_hash]);
+            if (empty($value[$system_hash])) {
+                unset($value[$system_hash]);
             }
         }
 
-        return $values;
+        // Store updated cache in product meta on shutdown
+        if (!empty($value['_update'])) {
+            $this->store_cached_prices_on_shutdown();
+        }
+
+        return $value;
     }
 
     /**
      * Clear cache for product
      *
      * @access public
-     * @param object|int $product
+     * @param WC_Product|int $product
      * @return void
      */
     public static function clear_cache_for_product($product)
     {
 
-        // Get instance
-        $instance = RightPress_Product_Price_Shop::get_instance();
-
         // Get product id
         $product_id = is_a($product, 'WC_Product') ? $product->get_id() : $product;
 
-        // Delete transient
-        delete_transient($instance->get_transient_name($product_id));
+        // Delete price cache from product meta
+        RightPress_WC::product_delete_meta_data($product_id, '_rightpress_prices');
     }
 
     /**
@@ -872,10 +915,11 @@ final class RightPress_Product_Price_Shop
     public function get_price_hash($product, $price, $price_type, $for_display = false)
     {
 
+        // TODO: If admin changes ('edit') prices in product settings, we don't remove cache entries and wait for the cache expiration instead; it may be nice to not only invalidate old data but to remove it completely so that it's no longer loaded
+
         // Format price hash data
         $hash_data = array(
             'rightpress' => array(
-                $price_type,
                 (float) $price,
                 (float) $product->get_price('edit'),
                 (float) $product->get_regular_price('edit'),
@@ -962,19 +1006,6 @@ final class RightPress_Product_Price_Shop
         }
 
         return $product_transient_version;
-    }
-
-    /**
-     * Get transient name
-     *
-     * @access public
-     * @param int $product_id
-     * @return string
-     */
-    public function get_transient_name($product_id)
-    {
-
-        return 'rightpress_prices_' . $product_id;
     }
 
 
@@ -1094,5 +1125,3 @@ final class RightPress_Product_Price_Shop
 }
 
 RightPress_Product_Price_Shop::get_instance();
-
-}

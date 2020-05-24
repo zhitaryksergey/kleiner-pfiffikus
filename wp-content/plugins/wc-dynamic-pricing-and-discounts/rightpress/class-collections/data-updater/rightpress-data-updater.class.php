@@ -1,12 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
-// Check if class has already been loaded
-if (!class_exists('RightPress_Data_Updater')) {
+// Load dependencies
+require_once 'rightpress-data-updater-interface.php';
 
 /**
  * Data Updater
@@ -15,7 +13,7 @@ if (!class_exists('RightPress_Data_Updater')) {
  * @package RightPress
  * @author RightPress
  */
-abstract class RightPress_Data_Updater
+abstract class RightPress_Data_Updater implements RightPress_Data_Updater_Interface
 {
 
     protected $is_installation = false;
@@ -89,7 +87,8 @@ abstract class RightPress_Data_Updater
             $this->add_capabilities();
         }
 
-        // TBD: maybe run wp_insert_term from here instead of running on each request (need to register post types / taxonomies first)
+        // Allow plugins to run custom data update procedures
+        $this->execute_custom();
     }
 
     /**
@@ -111,7 +110,7 @@ abstract class RightPress_Data_Updater
         if ($sql = $this->get_custom_tables_sql($table_prefix, $collate)) {
 
             // Load dependencies
-            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
             // Create or modify custom tables
             dbDelta($sql);
@@ -128,21 +127,22 @@ abstract class RightPress_Data_Updater
     {
 
         // Get custom taxonomy terms
-        $taxonomy_terms = $this->get_custom_terms();
+        if ($taxonomy_terms = $this->get_custom_terms()) {
 
-        // Iterate over taxonomies
-        foreach ($taxonomy_terms as $taxonomy_key => $terms) {
+            // Iterate over taxonomies
+            foreach ($taxonomy_terms as $taxonomy_key => $terms) {
 
-            // Iterate over taxonomy terms
-            foreach ($terms as $term_key => $term) {
+                // Iterate over taxonomy terms
+                foreach ($terms as $term_key => $term) {
 
-                // Check if term is missing
-                if (!term_exists($term_key, $taxonomy_key)) {
+                    // Check if term is missing
+                    if (!term_exists($term_key, $taxonomy_key)) {
 
-                    // Add term
-                    wp_insert_term($term['title'], $taxonomy_key, array(
-                        'slug' => $term_key,
-                    ));
+                        // Add term
+                        wp_insert_term($term['title'], $taxonomy_key, array(
+                            'slug' => $term_key,
+                        ));
+                    }
                 }
             }
         }
@@ -157,8 +157,6 @@ abstract class RightPress_Data_Updater
     protected function add_capabilities()
     {
 
-        // TBD: need to specify custom capability when registering post types
-
         global $wp_roles;
 
         if (!class_exists('WP_Roles')) {
@@ -169,10 +167,44 @@ abstract class RightPress_Data_Updater
             $wp_roles = new WP_Roles();
         }
 
-        // Define capabilities
+        // Get custom capabilities
         $capabilities = $this->get_custom_capabilities();
 
-        // Add custom capabilities to specific roles
+        // Generate capabilities from capability types
+        foreach ($this->get_capability_types() as $capability_type) {
+
+            // get_capability_types() is always supposed to return array with two strings - [0] is singular, [1] is plural
+            // See https://developer.wordpress.org/reference/functions/get_post_type_capabilities/
+            $singular   = $capability_type[0];
+            $plural     = $capability_type[1];
+
+            // Add to capabilities array
+            $capabilities[$singular] = array(
+
+                // Post type
+                "edit_{$singular}",
+                "read_{$singular}",
+                "delete_{$singular}",
+                "edit_{$plural}",
+                "edit_others_{$plural}",
+                "publish_{$plural}",
+                "read_private_{$plural}",
+                "delete_{$plural}",
+                "delete_private_{$plural}",
+                "delete_published_{$plural}",
+                "delete_others_{$plural}",
+                "edit_private_{$plural}",
+                "edit_published_{$plural}",
+
+                // Terms
+                "manage_{$singular}_terms",
+                "edit_{$singular}_terms",
+                "delete_{$singular}_terms",
+                "assign_{$singular}_terms",
+            );
+        }
+
+        // Add capabilities to specific roles
         foreach ($capabilities as $capability_group) {
             foreach ($capability_group as $capability) {
                 $wp_roles->add_cap('administrator', $capability);
@@ -181,9 +213,20 @@ abstract class RightPress_Data_Updater
         }
     }
 
+    /**
+     * Get capability types
+     *
+     * @access public
+     * @return array
+     */
+    public function get_capability_types()
+    {
+
+        return array();
+    }
 
 
 
 
-}
+
 }

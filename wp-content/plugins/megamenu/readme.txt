@@ -2,8 +2,8 @@
 Contributors: megamenu
 Tags: menu, megamenu, mega menu, navigation, widget, dropdown menu, drag and drop, mobile, responsive, retina, theme editor, widget, shortcode, sidebar, icons, dashicons
 Requires at least: 4.9
-Tested up to: 5.1
-Stable tag: 2.5.3.2
+Tested up to: 5.4
+Stable tag: 2.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,11 +17,23 @@ https://www.youtube.com/watch?v=44dJwP1AXT8
 
 Documentation & Demo: [https://www.megamenu.com](https://www.megamenu.com)
 
-###Features:
+[](http://coderisk.com/wp/plugin/megamenu/RIPS-1tlo19jJE_)
+
+###Mobile
+
+* Automatic support for native touch events
+* Off Canvas Mobile Menu option built in
+* Specify your own Responsive Breakpoint
+* For items with sub menus, choose between "First click opens sub menu, second click closes sub menu" or "First click opens sub menu, second click follows link"
+* Option to hide sub menus on mobile
+* Mobile Toggle Bar designer allows you to tailor the toggle bar elements to fit in with your site design
+
+###Features
 
 * Builds upon the standard WordPress menus system
 * Supports multiple menu locations each with their own configuration
-* Drag and Drop Mega Menu builder
+* Off canvas (slide in from left or right) or standard drop down mobile menu
+* Organise your sub menus into rows and columns using the Grid Layout builder
 * Display WordPress Widgets in your menu
 * Customise the styling of your menus using a built in theme editor
 * Supports Flyout (traditional) or Mega Menu sub menu styles
@@ -32,13 +44,22 @@ Documentation & Demo: [https://www.megamenu.com](https://www.megamenu.com)
 * Align menu items to the left or right of the menu bar
 * Align sub menus to left or right of parent menu item
 
+###Accessibility
+
+* Keyboard Navigation built in
+* `TAB` activates keyboard naviation and navigates through the menu
+* `ENTER` on a parent item opens a sub menu (pressing `ENTER` a second time will respect the "Second Click Behaviour" setting)
+* `ENTER` on a standard item will follow the link
+* `SPACE` toggles the sub menu visibility
+* `ESC` closes all open sub menus
+
 Max Mega Menu is developed with a focus on code quality, performance and usability.
 
 * The only mega menu plugin with zero "!important", block or inline CSS styles
 * Menus are styled using a single, static CSS file
 * Less than 2kb JavaScript (when gzipped)
 * Responsive, Touch & Retina Ready
-* Built with accessibity in mind - keyboard navigation supported
+* Built with accessibility in mind - keyboard navigation supported
 * Extensively tested in all modern desktop and mobile browsers
 * Clean code with a low memory footprint
 * Filters and actions where you need them
@@ -50,7 +71,7 @@ Max Mega Menu is developed with a focus on code quality, performance and usabili
 > * Tabbed Mega Menus
 > * Sticky Menu
 > * Vertical & Accordion Menus
-> * FontAwesome, Genericon & Custom Icons
+> * FontAwesome 5, Genericon & Custom Icons
 > * Custom Item Styling
 > * Menu Logo
 > * Search box
@@ -64,6 +85,9 @@ Max Mega Menu is developed with a focus on code quality, performance and usabili
 > Find out more: [https://www.megamenu.com/upgrade/](https://www.megamenu.com/upgrade/)
 
 == Frequently Asked Questions ==
+
+= Is it compatible with Elementor? =
+Yes! See: [https://www.megamenu.com/documentation/elementor/](https://www.megamenu.com/documentation/elementor/)
 
 = Where do I start? =
 [https://www.megamenu.com/documentation/installation/](https://www.megamenu.com/documentation/installation/)
@@ -109,6 +133,99 @@ See https://www.megamenu.com for more screenshots
 
 == Changelog ==
 
+= 2.7.7 =
+
+* Refactor: Improve method to determine the depth of a menu item (when loading menu item options in back end)
+
+= 2.7.6 =
+
+* Fix: Revert "Refactor: Improve method to determine the depth of a menu item", causing infinite loop on some installations
+
+= 2.7.5 =
+
+* Improvement: Add megamenu_javascript_handle filter
+* Improvement: Tidy up CSS for backwards compatibility with previous versions of Pro
+* Improvement: Pave the way for removing JavaScript localisation by moving hover intent options to wrap attributes
+* Improvement: Allow third level items to be distributed over 6 columns (previously 4) (requires clearing the Menu CSS Cache)
+* Improvement: Increase number of available columns for "Mega Menu - Standard Layout" from 9 to 12 (requires clearing the Menu CSS Cache)
+* Fix: Unquote font family CSS when Reset Widget Styling is enabled
+* Fix: Edge case PHP warning when using widget
+* Fix: Workaround for when wp_get_theme() fails to return name of active theme
+* Fix: Correctly sanitise theme import data and escape output. Thanks to polyplanet.de for reporting this!
+* Refactor: Decouple menu items lightbox options from nav-menus.php screen. When opening lightbox settings on nav-menus.php, use PHP to determine these values rather than JavaScript
+* Refactor: Improve method to determine the depth of a menu item
+
+= 2.7.4 =
+
+* Fix: Allow double quotes in custom font names
+* Fix: Border radius on Flyout Menus
+* Fix: PHP 7.4 warning in theme editor
+* Fix: Unable to select/paste text within HTML replacement editor using Safari
+* Fix: Intermittent issue with Image Widget settings not loading correctly in back end
+* Improvement: Add support for MEGAMENU_SCRIPTS_IN_FOOTER constant in wp-config.php
+
+= 2.7.3 =
+
+* Improvement: Styling updates for WordPress 5.3
+* Improvement: Add script localisation for spectrum
+* Improvement: Always show WooCommerce Tags and Categories meta boxes on nav-menus.php
+* Fix: Compatibility fix for TemplatesNext ToolKit (menu item settings inaccessible)
+* Fix: Default white-space to normal in menu CSS
+* Fix: Unsaved changes prompt incorrectly appears when changing menu icon
+* Fix: Disable Link cursor style
+* Fix: Edge Case PHP Warning
+
+= 2.7.2 =
+
+* Improvement: Show warning if there are unsaved changes when closing the menu item settings lightbox
+* Improvement: Admin styling updates for menu item settings
+* Improvement: Convert select "Yes/No" dropdowns to checkboxes
+* Fix: CSS compilation fails when theme directory name contains dots and spaces
+* Fix: Arrow position in FireFox - apply display: inline;
+* Fix: Remove the delay in removing the "mobile-open" body class when mobile effect is disabled
+* Fix: Add extra checks before initialising codemirror
+
+= 2.7.1.4 =
+
+* Fix: Residual styling on arrows - apply display: inline-block;
+
+= 2.7.1.3 =
+
+* Fix: Arrow drops onto new line in IE11 and in some other situations
+
+= 2.7.1.2 =
+
+* Fix: Menu item alignment when top padding has been applied to top level menu items
+
+= 2.7.1.1 =
+
+* Fix: Sub Menu Box Shadow
+
+= 2.7.1 =
+
+* Fix: Mobile Sub Menu - Force Width setting
+
+= 2.7 =
+
+* Change: No longer use ":after" pseudo element to display arrows. Use 'span.mega-indicator' instead. This allows the arrows to control the sub menu independently of the menu text. Custom CSS targeting `a.mega-menu-link:after` should be updated to target `a.mega-menu-link > span.mega-indicator:after`.
+
+* New: Off canvas mobile options under Appearance > Menus > Max Mega Menu Settings > Effect (Mobile). Remember to clear any CSS caching or minification plugins if you have problems activating this functionality.
+* New: "Collapse sub menu" option to hide third/fourth level items within mega menus
+* New: Option to distribute third level items over multiple columns within mega menus
+* New: Options in the theme editor: Border & Text Align options for Second & Third Level Menu Items, Mobile Sub Menu Padding, Toggle Bar Border Radius, Off Canvas Menu Width & Padding
+* New: 31 new Dashicons introduced in WordPress 5.2
+* Improvement: Allow comma separated values for Active Menu Instance
+* Improvement: Add checks around loading CodeMirror to avoid conflicts
+* Improvement: Allow Panel Width (Inner) to be specified in pixels (grid layout only)
+* Improvement: Default "Second Click Behaviour" to "First click opens sub menu, second click follows link"
+* Improvement: Add support for 'MEGA_MENU_HIDE_CSS_NAG' constant
+* Fix: Allow space in input boxes when using tab navigation
+* Fix: Very long titles make save button inaccessible in menu item options
+* Fix: Select2 conflict with WP Job Manager
+* Fix: Mobile sub menu animation sometimes "jumps" when using slide animation
+
+We hope you enjoy Max Mega Menu and the new updates. If you have a spare moment please leave us a quick [review](https://wordpress.org/support/plugin/megamenu/reviews/#new-post). Thanks!
+
 = 2.6 =
 
 * Improvement: Use core version of CodeMirror (requires WordPress 4.9+)
@@ -117,12 +234,12 @@ See https://www.megamenu.com for more screenshots
 * Improvement: Allow a container_id to be specified as an Active Menu Instance
 * Improvement: Swap out admin menu icon from font icon to SVG
 * Fix: JS Lint JavaScript
-* Fix: Compatiblity with ACF Pro Select2 fields
+* Fix: Compatibility with ACF Pro Select2 fields
 * Fix: WPML Language selector. Language selector position now respects the position set in the WPML options
 * Fix: Apply 'no-headers' styling to grid layout sub menus
 * Fix: 'Hide Sub Menu on mobile' option doesn't apply to mega menus
 * Fix: Prevent CSS from being auto loaded
-* Fix: Grid Layout: Title and descriprion are pushed below the icon when the description wraps onto two lines
+* Fix: Grid Layout: Title and description are pushed below the icon when the description wraps onto two lines
 * Change: Always show mega-indicator arrow on mobile (allows for unbinding events from the link itself)
 
 = 2.5.3.2 =
@@ -159,7 +276,7 @@ See https://www.megamenu.com for more screenshots
 
 * Improvement: Redirect to theme editor page after importing a menu theme
 * Improvement: Show a warning if attempting to edit a menu theme that is not actually applied to a menu
-* Improvement: Add warning to the auto generated style.css file not to manually edit auto generated CSS
+* Improvement: Add warning to the auto generated style.css file not to manually edit auto-generated CSS
 * Improvement: Add clearfix to mobile menu
 * Improvement: Add notice to Navigation Menu widget to let users know that the Max Mega Menu widget should be used, if the intention is to display a mega menu
 * Improvement: Rename admin JS and CSS handles to "maxmegamenu" (from "mega-menu") to avoid conflicts
@@ -192,7 +309,7 @@ See https://www.megamenu.com for more screenshots
 * Improvement: Add Mobile Font (Hover) and Mobile Menu Item Background (Hover) options to theme editor
 * Fix: Add vendor prefixes to toggle block CSS to improve compatibility for old iPhones
 * Fix: Desktop menu visibility when Mobile Effect is set to slide and the browser is resized between desktop - mobile - desktop
-* Fix: Indent forth and fifth level menu items in grid layout sub menus
+* Fix: Indent fourth and fifth level menu items in grid layout sub menus
 * Fix: Remove webkit tap highlight color on mobile toggle bar
 * Improvement: Enable dynamic_sidebar_params filter when MEGAMENU_DYNAMIC_SIDEBAR_PARAMS constant is true
 * Improvement: CSS overrides/resets - word-wrap on menu item titles, transitions on anchors, visibility on h4 elements
@@ -277,7 +394,7 @@ See https://www.megamenu.com for more screenshots
 = 2.3.7 [06/07/17] =
 
 * Compatibility with WordPress 4.8 Text and Media Widgets
-* Fix: Compatiblity with SiteOrigin Page Builder Layout builder
+* Fix: Compatibility with SiteOrigin Page Builder Layout builder
 * Improvement: Add support for MEGAMENU_SHARE_THEMES_MULTISITE constant
 * Improvement: Process shortcodes in mobile toggle block open and closed text
 
@@ -347,7 +464,7 @@ See https://www.megamenu.com for more screenshots
 * New Feature: Menu Item Description support added
 * New Feature: Add "Active Menu Instance" setting to allow mega menu to only be applied to an individual instance of a wp_nav_menu call (rather than all of them)
 * Fix: Hover not working on some devices with touch screens. This has been tested for Hover, Hover Intent and Click on:
-Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iPad Chrome/Safari, Andoid Default/Chrome. If you have problems with touch or hover, please post in the support forums detailing exactly which Operating System, Browser and Event you are using so that I can reproduce the issue here.
+Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iPad Chrome/Safari, Android Default/Chrome. If you have problems with touch or hover, please post in the support forums detailing exactly which Operating System, Browser and Event you are using so that I can reproduce the issue here.
 * Fix: Mobile menu now always switches to click, even on desktops
 * Fix: Responsive Breakpoint validation
 * Fix: Swiping background on touch devices hides sub menus
@@ -372,7 +489,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 * Fix: Apply animation to closing sub menus
 * Fix: Bring megamenu button forward on nav-menus page
 * Fix: Replace deprecated jQuery 'addSelf' with 'andBack'
-* Improvement: Theme Editor usability. Add color pallete to color picker. Add Copy Color option
+* Improvement: Theme Editor usability. Add color palette to color picker. Add Copy Color option
 * Improvement: Only prompt for SCSS compilation when current CSS is outdated
 * Change: Indicate whether style.css file was generated from core or custom version of megamenu.scss
 
@@ -468,14 +585,14 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 * New feature: Mobile Styling options added to theme editor
 * Improvement: Styling updated throughout
 * Improvement: Theme Editor accordionised
-* Improvement: Move JS to footer, unbind previously binded events from menu (for improved theme compatibility)
+* Improvement: Move JS to footer, unbind previously bound events from menu (for improved theme compatibility)
 * Improvement: Basic validation added to Theme Editor
 * New feature: Hide on mobile, Hide on desktop and Hide submenu on mobile options added
 * Improvement: Display column count on widgets within the mega menu builder
 * Fix: Getting started message displayed every time plugin is deactivated/activated
 * Improvement: Clear cache nag now clears the cache instead of taking user to the Tools page
 * Fix: Polylang fixes
-* Improvement: Getting started link takes user to menus page and highlights mega menu options
+* Improvement: Getting started link takes the user to menus page and highlights mega menu options
 * Improvement: Dropdown theme selector now displays which menu locations the theme is applied to
 
 = 1.9.1 [20/10/2015] =
@@ -518,7 +635,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 * New feature: French Language pack added (thanks to Pierre_02!)
 * Change: Check MMM is enabled for the menu before enabling the Mega Menu button on each menu item
 * Change: Add '300' and 'inherit' options to font weight, add 'megamenu_font_weights' filter
-* Change: Move mega menu settings page from under Appearance to it's own Top Level menu item (since the plugin options are no longer purely appearance related)
+* Change: Move mega menu settings page from under Appearance to its own Top Level menu item (since the plugin options are no longer purely appearance related)
 * Fix: Second row menu items not correctly being forced onto a new line
 * Fix: PHP warning when widget cannot be found (due to being uninstalled)
 * Fix: Remove borders and excess padding from mobile menu (regardless of theme settings)
@@ -537,7 +654,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 
 * Change: Add filters for before_title, after_title, before_widget, after_widget
 * Change: Add widget classes to menu list items
-* Fix: Detect protocol when enqueueing CSS file from FS
+* Fix: Detect protocol when enqueuing CSS file from FS
 * Fix: Compatibility with WP Widget Cache
 * Change: Convert 'enable mega menu' checkbox into a select for clarity
 
@@ -549,7 +666,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 * Fix: Save spinners not appearing in WordPress 4.2
 * Fix: Empty mega menu settings lightbox (caused by conflicting plugins outputting PHP warnings)
 * Fix: Incompatibility with Ultimate Member
-* Fix: Icon colours in Advada Theme
+* Fix: Icon colours in Avada Theme
 * Change: Default CSS Output set to Filesystem
 * Add max_mega_menu_is_enabled function for easier theme integration
 
@@ -596,7 +713,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 * New feature: Add text decoration option to fonts in theme editor
 * New feature: Allow jQuery selector to be used as the basis of the mega menu width
 * New feature: Add menu items align option to theme editor
-* New feature: Add hightlight selected menu item option to theme editor
+* New feature: Add highlight selected menu item option to theme editor
 * New feature: Add flyout border radius option to theme editor
 * New feature: Add menu item divider option to theme editor
 * New feature: Add second click behaviour option to general settings
@@ -658,7 +775,7 @@ Mac FireFox/Safari/Chrome, Windows Edge/IE9/IE10/IE11/FireFox/Chrome, iPhone, iP
 = 1.3.3 =
 
 * Fix: theme warnings (thanks to armandsdz!)
-* Update: compatibile version number updated to 4.1
+* Update: compatible version number updated to 4.1
 
 = 1.3.2 =
 

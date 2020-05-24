@@ -43,8 +43,22 @@ class WC_GZDP_WPML_Helper {
 		add_filter( 'woocommerce_gzd_wpml_email_ids', array( $this, 'register_emails' ), 10 );
 		add_filter( 'wcml_emails_text_keys_to_translate', array( $this, 'add_custom_email_strings' ), 20, 2 );
 
+		add_filter( 'woocommerce_gzd_wpml_email_lang', array( $this, 'email_invoice_lang' ), 10, 2 );
+
 		// Multistep step name refresh after init
 		$this->refresh_step_names();
+	}
+
+	public function email_invoice_lang( $lang, $email ) {
+		$object = $email->object;
+
+		if ( is_a( $object, 'WC_GZDP_Invoice' ) ) {
+			if ( $order = $object->get_order() ) {
+				$lang = $order->get_meta( 'wpml_language', true );
+			}
+		}
+
+		return $lang;
 	}
 
 	public function add_custom_email_strings( $keys ) {

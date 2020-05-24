@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Shipping_Methods')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Shipping_Methods extends RightPress_Condition_Field_Multiselect_Shipping_Methods
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Multiselect_Shipping_Methods extends RightPress_C
 }
 
 RP_WCDPD_Condition_Field_Multiselect_Shipping_Methods::get_instance();
-
-}

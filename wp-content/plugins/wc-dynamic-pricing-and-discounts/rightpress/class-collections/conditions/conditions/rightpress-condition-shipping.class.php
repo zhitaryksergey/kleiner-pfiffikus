@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition')) {
-    require_once('rightpress-condition.class.php');
-}
+require_once 'rightpress-condition.class.php';
 
 /**
  * Condition Group: Shipping
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Shipping')) {
-
 abstract class RightPress_Condition_Shipping extends RightPress_Condition
 {
 
@@ -65,7 +59,7 @@ abstract class RightPress_Condition_Shipping extends RightPress_Condition
         $value = null;
 
         // Attempt to get value
-        if (is_object(WC()->customer)) {
+        if (RightPress_Help::is_request('frontend') && is_object(WC()->customer)) {
             $value = $this->get_shipping_value(WC()->customer);
         }
 
@@ -76,5 +70,4 @@ abstract class RightPress_Condition_Shipping extends RightPress_Condition
 
 
 
-}
 }

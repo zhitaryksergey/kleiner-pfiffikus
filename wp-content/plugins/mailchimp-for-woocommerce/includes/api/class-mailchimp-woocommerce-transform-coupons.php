@@ -27,8 +27,8 @@ class MailChimp_WooCommerce_Transform_Coupons
         );
 
         if ((($coupons = $this->getCouponPosts($page, $limit)) && !empty($coupons))) {
-            foreach ($coupons as $post) {
-                $response->items[] = $this->transform($post->ID);
+            foreach ($coupons as $post_id) {
+                $response->items[] = $post_id;
                 $response->count++;
             }
         }
@@ -65,6 +65,8 @@ class MailChimp_WooCommerce_Transform_Coupons
 
         switch ($resource->get_discount_type()) {
             case 'fixed_product':
+            // Support to Woocommerce Free Gift Coupon Plugin 
+            case 'free_gift':
                 $rule->setTypeFixed();
                 $rule->setTargetTypePerItem();
                 break;
@@ -106,26 +108,27 @@ class MailChimp_WooCommerce_Transform_Coupons
      */
     public function getCouponPosts($page = 1, $posts = 5)
     {
-        $coupons = get_posts(array(
+        $offset = 0;
+        if ($page > 1) {
+            $offset = (($page - 1) * $posts);
+        }
+
+        $args = array(
             'post_type' => array_merge(array_keys(wc_get_product_types()), array('shop_coupon')),
             'posts_per_page' => $posts,
-            'paged' => $page,
+            'offset' => $offset,
             'orderby' => 'ID',
             'order' => 'ASC',
-        ));
+            'fields' => 'ids'
+        );
+
+        $coupons = get_posts($args);
 
         if (empty($coupons)) {
 
             sleep(2);
 
-            $coupons = get_posts(array(
-                'post_type' => array_merge(array_keys(wc_get_product_types()), array('shop_coupon')),
-                'posts_per_page' => $posts,
-                'paged' => $page,
-                'orderby' => 'ID',
-                'order' => 'ASC',
-            ));
-
+            $coupons = get_posts($args);
             if (empty($coupons)) {
                 return false;
             }

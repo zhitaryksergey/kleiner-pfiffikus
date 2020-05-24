@@ -12,10 +12,12 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Settings')) {
-
 class RP_WCDPD_Settings
 {
+
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     // Track settings structure versions
     protected static $version = '1';
 
@@ -41,20 +43,6 @@ class RP_WCDPD_Settings
     protected static $group_quantities_based_on_methods = null;
     protected static $exclusivity_methods = array();
     protected static $receive_products_methods = null;
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -2458,5 +2446,3 @@ class RP_WCDPD_Settings
 }
 
 RP_WCDPD_Settings::get_instance();
-
-}

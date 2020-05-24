@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Exception')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Exception Class
@@ -39,7 +34,7 @@ class RightPress_Exception extends Exception
         // Get numeric code
         $numeric_code = is_int($code) ? $code : 0;
 
-        // Construct parent
+        // Call parent constructor
         parent::__construct($message, $numeric_code);
     }
 
@@ -83,5 +78,4 @@ class RightPress_Exception extends Exception
 
 
 
-}
 }

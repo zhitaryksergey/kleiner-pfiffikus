@@ -10,13 +10,12 @@
     jQuery.fn.rightpress_product_settings_control = function(params) {
 
         var selector_checkbox_simple    = 'input#' + params.key;
-        var selector_checkbox_variable  = 'input.' + params.key + '_variable';
+        var selector_checkbox_variable  = 'input.' + params.key + '-variable';
 
-        var selector_settings_simple    = '.show_if' + params.key + '_simple';
-        var selector_settings_variable  = '.show_if' + params.key + '_variable';
+        var selector_settings_simple    = '.show-if-' + params.key + '-simple';
+        var selector_settings_variable  = '.show-if-' + params.key + '-variable';
 
-        var unprefixed_key      = params.key.slice(1);
-        var class_flag_variable = unprefixed_key + '_variable_flag';
+        var class_flag_variable = params.key + '-flag';
 
         /**
          * Toggle settings fields for simple product

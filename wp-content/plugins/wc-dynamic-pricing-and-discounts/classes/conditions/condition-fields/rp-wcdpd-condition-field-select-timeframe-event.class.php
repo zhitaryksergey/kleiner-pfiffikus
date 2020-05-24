@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Select_Timeframe_Event')) {
-
 class RP_WCDPD_Condition_Field_Select_Timeframe_Event extends RightPress_Condition_Field_Select_Timeframe_Event
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Select_Timeframe_Event extends RightPress_Conditi
 }
 
 RP_WCDPD_Condition_Field_Select_Timeframe_Event::get_instance();
-
-}

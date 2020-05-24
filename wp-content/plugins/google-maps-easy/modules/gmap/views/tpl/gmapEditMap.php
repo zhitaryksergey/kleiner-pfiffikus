@@ -636,7 +636,14 @@
 															'value' => $this->editMap && isset($this->map['params']['markers_list_collapse']['mobile']) ? $this->map['params']['markers_list_collapse']['mobile'] : false,
 															'attrs' => 'id="map_opts_markers_list_collapse_mobile"'))?>
 													</div>
-													<div class="sup-col sup-w-50"></div>
+													<div class="sup-col sup-w-50">
+                                                        <label for="map_opts_markers_list_loop">
+                                                            <?php _e('Enable markers list loop', GMP_LANG_CODE)?>
+                                                        </label><br />
+                                                        <?php echo htmlGmp::checkboxHiddenVal('map_opts[markers_list_loop]', array(
+                                                            'value' => $this->editMap && isset($this->map['params']['markers_list_loop']) ? $this->map['params']['markers_list_loop'] : false,
+                                                            'attrs' => 'id="map_opts_markers_list_loop"'))?>
+                                                    </div>
 												</div>
 												<div style="clear: both;">
 													<div class="sup-col" style="width: 100%;">
@@ -1285,7 +1292,7 @@
 										</th>
 										<td>
 											<?php echo htmlGmp::selectbox('map_opts[marker_infownd_type]', array(
-												'options' => array('' => __('Default', GMP_LANG_CODE), 'rounded_edges' => __('Rounded Edges', GMP_LANG_CODE),),
+												'options' => dispatcherGmp::applyFilters('addInfoWindowStyles', array('' => __('Default', GMP_LANG_CODE), 'rounded_edges' => __('Rounded Edges', GMP_LANG_CODE))),
 												'value' => $this->editMap && isset($this->map['params']['marker_infownd_type']) ? $this->map['params']['marker_infownd_type'] : 'default',
 												'attrs' => 'style="width: 100%;" id="map_opts_marker_infownd_type"'))?>
 											<div id="gmpMarkerInfoWndTypeSubOpts">
@@ -1565,6 +1572,7 @@
 										<?php echo htmlGmp::hidden('marker_opts[description]', array('value' => ''))?>
 									</th>
 								</tr>
+								<?php dispatcherGmp::doAction('addEditMapPart', 'gmapEditMapMarkerListDesc');?>
 								<tr>
 									<th scope="row">
 										<label class="label-big" for="gmpMarkerIconBtn">

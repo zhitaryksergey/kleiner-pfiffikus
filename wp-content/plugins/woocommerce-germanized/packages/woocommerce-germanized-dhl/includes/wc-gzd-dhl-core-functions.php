@@ -27,7 +27,7 @@ use Vendidero\Germanized\Shipments\ShipmentFactory;
 
 defined( 'ABSPATH' ) || exit;
 
-function wc_gzd_dhl_aformat_preferred_api_time( $time ) {
+function wc_gzd_dhl_format_preferred_api_time( $time ) {
 	return str_replace( array( ':', '-' ), '', $time );
 }
 
@@ -100,10 +100,8 @@ function wc_gzd_dhl_get_ident_min_ages() {
 	return wc_gzd_dhl_get_visual_min_ages();
 }
 
-function wc_gzd_dhl_get_label_reference( $reference_type, $placeholders = array() ) {
-	$text = $reference_type;
-
-	return str_replace( array_keys( $placeholders ), array_values( $placeholders ), $text );
+function wc_gzd_dhl_get_label_reference( $reference_text, $placeholders = array() ) {
+	return str_replace( array_keys( $placeholders ), array_values( $placeholders ), $reference_text );
 }
 
 function wc_gzd_dhl_get_label_customer_reference( $label, $shipment ) {
@@ -119,24 +117,23 @@ function wc_gzd_dhl_get_label_customer_reference( $label, $shipment ) {
 	 */
 	$ref = apply_filters( 'woocommerce_gzd_dhl_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Shipment #{shipment_id} to order {order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
 
-	return substr( $ref, 0, 35 );
+	return sanitize_text_field( substr( $ref, 0, 35 ) );
 }
 
-function wc_gzd_dhl_get_return_label_customer_reference( $label, $shipment, $parent_shipment ) {
+function wc_gzd_dhl_get_return_label_customer_reference( $label, $shipment ) {
 	/**
 	 * Filter to adjust the customer reference field placed on the DHL return label. Maximum characeter length: 30.
 	 *
 	 * @param string         $text The customer reference text.
 	 * @param Label          $label The label instance.
 	 * @param ReturnShipment $shipment The shipment instance.
-	 * @param SimpleShipment $parent_shipment The parent shipment instance.
 	 *
 	 * @since 3.0.0
 	 * @package Vendidero/Germanized/DHL
 	 */
-	$ref = apply_filters( 'woocommerce_gzd_dhl_return_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Return #{shipment_id} to shipment #{original_shipment_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{original_shipment_id}' => $parent_shipment->get_id() ) ), $label, $shipment, $parent_shipment );
+	$ref = apply_filters( 'woocommerce_gzd_dhl_return_label_customer_reference', wc_gzd_dhl_get_label_reference( _x( 'Return #{shipment_id} to order {order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
 
-	return substr( $ref, 0, 30 );
+	return sanitize_text_field( substr( $ref, 0, 30 ) );
 }
 
 function wc_gzd_dhl_get_inlay_return_label_reference( $label, $shipment ) {
@@ -152,7 +149,7 @@ function wc_gzd_dhl_get_inlay_return_label_reference( $label, $shipment ) {
 	 */
 	$ref = apply_filters( 'woocommerce_gzd_dhl_inlay_return_label_reference', wc_gzd_dhl_get_label_reference( _x( 'Return shipment #{shipment_id} to order #{order_id}', 'dhl', 'woocommerce-germanized' ), array( '{shipment_id}' => $shipment->get_id(), '{order_id}' => $shipment->get_order_number() ) ), $label, $shipment );
 
-	return substr( $ref, 0, 35 );
+	return sanitize_text_field( substr( $ref, 0, 35 ) );
 }
 
 /**
@@ -178,6 +175,13 @@ function wc_gzd_dhl_get_current_shipping_method() {
 	}
 
 	return false;
+}
+
+function wc_gzd_dhl_get_international_services() {
+	return array(
+		'Premium',
+		'GoGreen'
+	);
 }
 
 function wc_gzd_dhl_get_services() {
@@ -536,14 +540,12 @@ function wc_gzd_dhl_shipment_needs_label( $shipment, $check_status = true ) {
 	}
 
 	// In case it is a return shipment - make sure that retoures are enabled
-	if ( 'return' === $shipment->get_type() ) {
-		if ( 'no' === Package::get_setting( 'label_retoure_enable' ) ) {
-			$needs_label = false;
-		}
+	if ( ! $shipment->supports_label() ) {
+		$needs_label = false;
 	}
 
 	// If label already exists
-	if ( $label = wc_gzd_dhl_get_shipment_label( $shipment ) ) {
+	if ( $label = $shipment->get_label() ) {
 		$needs_label = false;
 	}
 
@@ -765,6 +767,18 @@ function wc_gzd_dhl_get_label_default_args( $dhl_order, $shipment ) {
 				$defaults['has_inlay_return'] = 'yes';
 			}
 		}
+	}
+
+	if( ! Package::is_shipping_domestic( $shipment->get_country() ) ) {
+
+		foreach( wc_gzd_dhl_get_international_services() as $service ) {
+			if ( 'yes' === Package::get_setting( 'label_service_' . $service, $dhl_shipping_method ) ) {
+				$defaults['services'][] = $service;
+			}
+		}
+
+		// Demove duplicates
+		$defaults['services'] = array_unique( $defaults['services'] );
 	}
 
 	return $defaults;

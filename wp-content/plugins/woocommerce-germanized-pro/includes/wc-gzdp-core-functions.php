@@ -22,6 +22,30 @@ function wc_gzdp_get_privacy_policy_text() {
 	return $plain_text;
 }
 
+function wc_gzdp_get_eu_vat_countries() {
+	$countries     = WC()->countries;
+	$vat_countries = array();
+	$woo_version   = WC_GZDP_Dependencies::instance()->get_plugin_version( 'woocommerce' );
+
+	/**
+	 * in Woo 4.0 there the $type parameter for get_european_union_countries was deprecated.
+	 * This was reverted in 4.1.
+	 */
+	if ( version_compare( $woo_version, '4.1', '>=' ) ) {
+		$vat_countries = $countries->get_european_union_countries( 'eu_vat' );
+	} elseif ( is_callable( array( $countries, 'get_vat_countries' ) ) ) {
+		$vat_countries = $countries->get_vat_countries();
+		$eu_countries  = $countries->get_european_union_countries();
+
+		// Include EU VAT countries only
+		$vat_countries = array_intersect( $vat_countries, $eu_countries );
+	} else {
+		$vat_countries = $countries->get_european_union_countries( 'eu_vat' );
+	}
+
+	return $vat_countries;
+}
+
 function wc_gzdp_upload_file( $filename, $stream, $filename_exists = false, $relative = false ) {
 	$path = false;
 

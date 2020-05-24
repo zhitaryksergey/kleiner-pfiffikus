@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce Germanized Pro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-12 14:34+0100\n"
-"PO-Revision-Date: 2019-12-12 14:34+0100\n"
+"POT-Creation-Date: 2020-04-09 16:37+0200\n"
+"PO-Revision-Date: 2020-04-09 16:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE@formal\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
@@ -44,18 +44,18 @@ msgid "Total Invoice Amount: %s"
 msgstr "Rechnungsbetrag: %s"
 
 # @ woocommerce-germanized-pro
-#: includes/abstracts/abstract-wc-gzdp-invoice.php:311
-#: includes/abstracts/abstract-wc-gzdp-invoice.php:339
+#: includes/abstracts/abstract-wc-gzdp-invoice.php:314
+#: includes/abstracts/abstract-wc-gzdp-invoice.php:348
 msgid "Total net"
 msgstr "Nettobetrag"
 
-#: includes/abstracts/abstract-wc-gzdp-invoice.php:339
+#: includes/abstracts/abstract-wc-gzdp-invoice.php:348
 #, php-format
 msgid "Net %s"
 msgstr "%s Netto"
 
 # @ woocommerce-germanized-pro
-#: includes/abstracts/abstract-wc-gzdp-pdf.php:127
+#: includes/abstracts/abstract-wc-gzdp-pdf.php:131
 #: includes/class-wc-gzdp-pdf-helper.php:362
 #, php-format
 msgctxt "pdf"
@@ -98,12 +98,12 @@ msgstr ""
 "betrifft. Bitte nutze den %s erneut, um fehlerhafte Rechtstexte zu "
 "verhindern."
 
-#: includes/admin/class-wc-gzdp-admin-generator.php:231
+#: includes/admin/class-wc-gzdp-admin-generator.php:252
 msgid "mandatory"
 msgstr "Pflichtangabe"
 
 # @ woocommerce-germanized-pro
-#: includes/admin/class-wc-gzdp-admin-generator.php:355
+#: includes/admin/class-wc-gzdp-admin-generator.php:387
 msgctxt "generator"
 msgid "Please register Germanized Pro to enable the Generator."
 msgstr ""
@@ -111,7 +111,7 @@ msgstr ""
 "Generator nutzen zu können."
 
 # @ woocommerce-germanized-pro
-#: includes/admin/class-wc-gzdp-admin-generator.php:367
+#: includes/admin/class-wc-gzdp-admin-generator.php:399
 msgctxt "generator"
 msgid ""
 "Seems like the Generator Version is not up to date. Please refresh before "
@@ -121,7 +121,7 @@ msgstr ""
 "aktualisiere diese Seite bevor du die Generierung startest."
 
 # @ woocommerce-germanized-pro
-#: includes/admin/class-wc-gzdp-admin-generator.php:399
+#: includes/admin/class-wc-gzdp-admin-generator.php:431
 msgctxt "generator"
 msgid ""
 "There seems to be a problem while generating. Is your update flatrate still "
@@ -131,7 +131,7 @@ msgstr ""
 "Flatrate noch gültig?"
 
 # @ default
-#: includes/admin/class-wc-gzdp-admin-invoice-export.php:151
+#: includes/admin/class-wc-gzdp-admin-invoice-export.php:157
 msgctxt "invoices"
 msgid "no"
 msgstr "nein"
@@ -246,20 +246,36 @@ msgstr "Zurück zu WP Admin"
 msgid "Vendidero Helper"
 msgstr "Vendidero Helper"
 
+#: includes/admin/class-wc-gzdp-admin.php:73
+msgid "Clear generator cache"
+msgstr "Generator Cache leeren"
+
+#: includes/admin/class-wc-gzdp-admin.php:74
+msgid ""
+"In case the terms generator does not work as expected you might want to "
+"clear the cache manually."
+msgstr ""
+"Falls der Generator für Mustertexte nicht funktionieren sollte, können Sie "
+"hier den Cache manuell löschen."
+
+#: includes/admin/class-wc-gzdp-admin.php:76
+msgid "Clear cache"
+msgstr "Cache leeren"
+
 # @ legal-page
 #. Plugin Name of the plugin/theme
-#: includes/admin/class-wc-gzdp-admin.php:70
+#: includes/admin/class-wc-gzdp-admin.php:93
 msgid "Germanized for WooCommerce Pro"
 msgstr "Germanized für WooCommerce Pro"
 
 # @ woocommerce-germanized-pro
-#: includes/admin/class-wc-gzdp-admin.php:193
+#: includes/admin/class-wc-gzdp-admin.php:216
 msgctxt "admin-field"
 msgid "Select or upload attachment"
 msgstr "Anhang auswählen oder hochladen"
 
 # @ woocommerce
-#: includes/admin/class-wc-gzdp-admin.php:543
+#: includes/admin/class-wc-gzdp-admin.php:566
 msgid "Select a page&hellip;"
 msgstr "Wähle eine Seite&hellip;"
 
@@ -449,21 +465,20 @@ msgstr "Widerrufsbelehrung Generator"
 #: includes/api/class-wc-gzdp-rest-customers-controller.php:68
 #: includes/api/class-wc-gzdp-rest-orders-controller.php:90
 #: includes/api/class-wc-gzdp-rest-orders-controller.php:96
-#: includes/class-wc-gzdp-vat-helper.php:104
-#: includes/class-wc-gzdp-vat-helper.php:709
-#: includes/class-wc-gzdp-vat-helper.php:714
-#: includes/class-wc-gzdp-vat-helper.php:725
-#: includes/class-wc-gzdp-vat-helper.php:735
-#: includes/class-wc-gzdp-vat-helper.php:902
-#: includes/class-wc-gzdp-vat-helper.php:903
+#: includes/class-wc-gzdp-vat-helper.php:134
+#: includes/class-wc-gzdp-vat-helper.php:771
+#: includes/class-wc-gzdp-vat-helper.php:776
+#: includes/class-wc-gzdp-vat-helper.php:787
+#: includes/class-wc-gzdp-vat-helper.php:797
+#: includes/class-wc-gzdp-vat-helper.php:1006
+#: includes/class-wc-gzdp-vat-helper.php:1007
 #: templates/myaccount/form-register-vat-id.php:23
 msgid "VAT ID"
 msgstr "USt.-ID"
 
-# @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:21
-msgid "VAT Check"
-msgstr "USt.-ID Check"
+msgid "Check"
+msgstr "Prüfung"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:22
@@ -486,12 +501,13 @@ msgstr ""
 "findest du <a href=\"%s\" target=\"_blank\">hier</a>."
 
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:29
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:89
 msgid "Mandatory"
 msgstr "Pflichtangabe"
 
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:30
 msgid "VAT ID field shall be mandatory."
-msgstr "USt.-ID als Pflichtfeld abfragen."
+msgstr "USt.-ID als Pflichtfeld während des Kaufs abfragen"
 
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:37
 msgid ""
@@ -513,10 +529,9 @@ msgstr ""
 "Fügen Sie hier ihre eigene USt.-ID ein. Die ID wird bei der Prüfung "
 "übertragen um als Bestätigung eine Request ID zu erhalten."
 
-# @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:52
-msgid "VAT ID Cache"
-msgstr "USt.-ID Cache"
+msgid "Cache"
+msgstr "Cache"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:53
@@ -534,10 +549,9 @@ msgstr ""
 "USt.-IDs während des hier eingestellten Zeitraumes erneut überprüft werden "
 "(kürzere Ladezeiten). Lasse das Feld leer, um den Cache zu deaktivieren."
 
-# @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:65
-msgid "VAT Check Login"
-msgstr "USt.-ID Check Login"
+msgid "On Login"
+msgstr "Login"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:66
@@ -553,10 +567,9 @@ msgstr ""
 "Diese Option entfernt die USt. im gesamten Shop für Benutzer, die eine "
 "valide USt.-ID hinterlegt haben direkt nach dem Login."
 
-# @ woocommerce-germanized-pro
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:77
-msgid "VAT Check Register"
-msgstr "USt.-ID Registrierung"
+msgid "Registration"
+msgstr "Registrierung"
 
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:78
 msgid "Enable VAT ID check within registration form."
@@ -570,15 +583,25 @@ msgstr ""
 "Diese Option fügt das USt.-ID-Feld in das Registrierungsformular ein und "
 "validiert die ID, insofern der Kunde eine ID angibt."
 
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:89
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:90
+msgid "VAT ID field shall be mandatory for registration."
+msgstr "USt.-ID als Pflichtfeld während der Registrierung abfragen."
+
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:98
+msgid "You may require a valid VAT ID to complete registration."
+msgstr ""
+"Diese Option sorgt dafür, dass der Kunde die Registrierung nur mit einer "
+"gültigen USt.-ID abschließen kann."
+
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:102
 msgid "Base country"
 msgstr "Basisland"
 
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:90
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:103
 msgid "Enable VAT ID Check for your base country."
 msgstr "Aktiviere die Überprüfung der USt.-ID deines Basislandes."
 
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:97
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:110
 msgid ""
 "You may want to check VAT IDs for your base country as well. The customer "
 "will not turn into a vat exempt."
@@ -587,19 +610,19 @@ msgstr ""
 "Basislandes aktivieren. Die USt. wird für diese Kunden nicht abgezogen."
 
 # @ woocommerce-germanized-pro
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:101
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:114
 msgid "Virtual Products B2B"
 msgstr "Virtuelle Produkte"
 
 # @ woocommerce-germanized-pro
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:102
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:115
 msgid ""
 "Do only sell virtual products to EU customers if they own a valid VAT ID."
 msgstr ""
 "Verkauf virtueller Produkte in das EU-Ausland nur mit gültiger USt.-ID."
 
 # @ woocommerce-germanized-pro
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:102
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:115
 msgid ""
 "This option will help you to stop selling virtual products to private "
 "customers from EU. You might want to choose this option to avoid "
@@ -611,7 +634,7 @@ msgstr ""
 "Verbraucher, profitierst aber von einem geringeren administrativen Aufwand."
 
 # @ woocommerce-germanized-pro
-#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:120
+#: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:133
 msgid ""
 "To enable VAT check PHP 5.0.1 has to be installed (SoapClient is needed)"
 msgstr ""
@@ -936,9 +959,9 @@ msgstr "Bei der Verarbeitung des Lieferscheins ist ein Fehler aufgetreten."
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-ajax.php:215
-#: includes/class-wc-gzdp-vat-helper.php:337
-#: includes/class-wc-gzdp-vat-helper.php:478
-#: includes/class-wc-gzdp-vat-helper.php:829
+#: includes/class-wc-gzdp-vat-helper.php:473
+#: includes/class-wc-gzdp-vat-helper.php:928
+#: includes/class-wc-gzdp-vat-helper.php:930
 msgid "VAT ID seems to be invalid."
 msgstr "Die USt.-ID scheint leider nicht gültig zu sein."
 
@@ -1020,19 +1043,19 @@ msgid "Order accpetance manually sent to customer."
 msgstr "Bestellannahme manuell an den Kunden versendet."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-contract-helper.php:497
-#: includes/class-wc-gzdp-contract-helper.php:528
+#: includes/class-wc-gzdp-contract-helper.php:516
+#: includes/class-wc-gzdp-contract-helper.php:547
 msgid "Confirm Order"
 msgstr "Bestellung bestätigen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-contract-helper.php:518
+#: includes/class-wc-gzdp-contract-helper.php:537
 msgid "Unconfirmed"
 msgstr "unbestätigt"
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-download-handler.php:46
-#: includes/class-wc-gzdp-invoice-helper.php:1768
+#: includes/class-wc-gzdp-invoice-helper.php:1778
 #: includes/class-wc-gzdp-legal-page-helper.php:133
 msgid "Cheatin huh?"
 msgstr "Cheatin huh?"
@@ -1065,14 +1088,14 @@ msgstr "Farbe"
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-install.php:220
-#: includes/wc-gzdp-invoice-functions.php:10
+#: includes/wc-gzdp-invoice-functions.php:67
 msgctxt "invoices"
 msgid "Invoice"
 msgstr "Rechnung"
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-install.php:221
-#: includes/wc-gzdp-invoice-functions.php:16
+#: includes/wc-gzdp-invoice-functions.php:73
 msgctxt "invoices"
 msgid "Cancellation"
 msgstr "Rechnungskorrektur"
@@ -1080,7 +1103,7 @@ msgstr "Rechnungskorrektur"
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-invoice-cancellation-refund.php:150
 #: includes/class-wc-gzdp-invoice-cancellation.php:150
-#: includes/class-wc-gzdp-invoice-helper.php:1842
+#: includes/class-wc-gzdp-invoice-helper.php:1852
 #, php-format
 msgid "Cancel %s"
 msgstr "%s stornieren"
@@ -1103,7 +1126,7 @@ msgstr "%s <span class=\"number-smaller\">zu %s</span>"
 msgid "New %s"
 msgstr "Neue %s"
 
-#: includes/class-wc-gzdp-invoice-helper.php:255
+#: includes/class-wc-gzdp-invoice-helper.php:259
 msgid ""
 "This invoice attachment should not be deleted because it belongs to an "
 "active invoice."
@@ -1112,14 +1135,14 @@ msgstr ""
 "Rechnungsdokument gehört."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:453
-msgid "Generate packing slips"
-msgstr "Lieferscheine erzeugen"
+#: includes/class-wc-gzdp-invoice-helper.php:461
+msgid "Generate and download packing slips"
+msgstr "Lieferscheine erstellen und downloaden"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:462
-#: includes/class-wc-gzdp-invoice-helper.php:742
-#: includes/class-wc-gzdp-invoice-helper.php:754
+#: includes/class-wc-gzdp-invoice-helper.php:470
+#: includes/class-wc-gzdp-invoice-helper.php:750
+#: includes/class-wc-gzdp-invoice-helper.php:763
 #: templates/invoice/download.php:24
 #, php-format
 msgctxt "invoices"
@@ -1127,19 +1150,19 @@ msgid "Download %s"
 msgstr "%s downloaden"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:469
+#: includes/class-wc-gzdp-invoice-helper.php:477
 #: includes/class-wc-gzdp-invoice-packing-slip.php:188
 msgid "Generate Packing Slip"
 msgstr "Lieferschein erstellen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:518
+#: includes/class-wc-gzdp-invoice-helper.php:526
 #, php-format
 msgid "Print %s"
 msgstr "%s drucken"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:715
+#: includes/class-wc-gzdp-invoice-helper.php:723
 #: includes/class-wc-gzdp-legal-page-helper.php:216
 msgctxt "invoices"
 msgid ""
@@ -1152,20 +1175,20 @@ msgstr ""
 "com/pdfconvert/) zu Version 1.4."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1039
+#: includes/class-wc-gzdp-invoice-helper.php:1049
 msgctxt "invoices"
 msgid "Invoices & Packing Slips"
 msgstr "Rechnungen & Lieferscheine"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1075
+#: includes/class-wc-gzdp-invoice-helper.php:1085
 #, php-format
 msgctxt "invoices"
 msgid "Order status (%s)"
 msgstr "Bestellstatus (%s)"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1076
+#: includes/class-wc-gzdp-invoice-helper.php:1086
 msgctxt "invoices"
 msgid ""
 "Optionally choose an order status on which the invoice should be generated "
@@ -1174,31 +1197,31 @@ msgstr ""
 "Wähle optional einen Bestellstatus für diese Zahlungsart bei dessen "
 "erreichen die Rechnung erzeugt werden soll."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1083
+#: includes/class-wc-gzdp-invoice-helper.php:1093
 msgctxt "invoices"
 msgid "Same as general option"
 msgstr "Entspricht der globalen Option"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1102
+#: includes/class-wc-gzdp-invoice-helper.php:1112
 msgctxt "invoices"
 msgid "Enable"
 msgstr "Aktivieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1103
+#: includes/class-wc-gzdp-invoice-helper.php:1113
 msgctxt "invoices"
 msgid "Enable Invoices & Packing Slips."
 msgstr "Rechnungen & Lieferscheine aktivieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1110
+#: includes/class-wc-gzdp-invoice-helper.php:1120
 msgctxt "invoices"
 msgid "Sender address (short)"
 msgstr "Absender Adresse"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1111
+#: includes/class-wc-gzdp-invoice-helper.php:1121
 msgctxt "invoices"
 msgid ""
 "Choose an address which will be used as address sender. This address will be "
@@ -1210,7 +1233,7 @@ msgstr ""
 "jedes Adress-Element."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1114
+#: includes/class-wc-gzdp-invoice-helper.php:1124
 msgid ""
 "Musterfirma\n"
 "Max Mustermann\n"
@@ -1223,13 +1246,13 @@ msgstr ""
 "12209 Musterstadt"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1120
+#: includes/class-wc-gzdp-invoice-helper.php:1130
 msgctxt "invoices"
 msgid "Sender address (detailed)"
 msgstr "Absender Adresse (Details)"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1121
+#: includes/class-wc-gzdp-invoice-helper.php:1131
 msgctxt "invoices"
 msgid ""
 "This is your detailed sender address which by default appears on the right "
@@ -1241,7 +1264,7 @@ msgstr ""
 "Steuernummer). Nutze eine neue Zeile für jedes Adresselement."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1123
+#: includes/class-wc-gzdp-invoice-helper.php:1133
 msgid ""
 "Musterfirma\n"
 "Tel.: +49 (30) 123 456\n"
@@ -1254,19 +1277,19 @@ msgstr ""
 "USt.-ID: DE 123 456 78"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1130
+#: includes/class-wc-gzdp-invoice-helper.php:1140
 msgctxt "invoices"
 msgid "Gross prices"
 msgstr "Bruttopreise"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1131
+#: includes/class-wc-gzdp-invoice-helper.php:1141
 msgctxt "invoices"
 msgid "Show gross item prices instead of net item prices within invoice."
 msgstr "Zeige in der Rechnung Brutto- anstatt Nettopreise."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1132
+#: includes/class-wc-gzdp-invoice-helper.php:1142
 msgctxt "invoices"
 msgid ""
 "This option will display gross item prices instead of net prices within your "
@@ -1278,12 +1301,12 @@ msgstr ""
 "enthaltene MwSt. und der Nettopreis wird unterhalb der Gesamtsumme angezeigt."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1139
+#: includes/class-wc-gzdp-invoice-helper.php:1149
 msgctxt "invoices"
 msgid "Show net totals"
 msgstr "Nettobeträge"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1140
+#: includes/class-wc-gzdp-invoice-helper.php:1150
 msgctxt "invoices"
 msgid ""
 "Always show net totals per tax rate or do only show in case of an order > "
@@ -1292,39 +1315,39 @@ msgstr ""
 "Zeige Nettobeträge je Steuersatz immer oder nur bei einem Bestellwert > "
 "250,00 Euro an."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1146
+#: includes/class-wc-gzdp-invoice-helper.php:1156
 msgid "Always"
 msgstr "Immer"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1146
+#: includes/class-wc-gzdp-invoice-helper.php:1156
 msgid "Order total > 250,00"
 msgstr "Bestellwert > 250,00"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1146
+#: includes/class-wc-gzdp-invoice-helper.php:1156
 msgid "Never"
 msgstr "Nie"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1151
+#: includes/class-wc-gzdp-invoice-helper.php:1161
 msgctxt "invoices"
 msgid "Frontend Download"
 msgstr "Kundenbereich"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1152
+#: includes/class-wc-gzdp-invoice-helper.php:1162
 msgctxt "invoices"
 msgid "Enable download for certain invoice types within customer account."
 msgstr "Aktiviere den Download von bestimmten Dokumenten im Kundenbereich."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1162
+#: includes/class-wc-gzdp-invoice-helper.php:1172
 msgctxt "invoices"
 msgid "Force Download"
 msgstr "Download erzwingen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1163
+#: includes/class-wc-gzdp-invoice-helper.php:1173
 msgctxt "invoices"
 msgid ""
 "Force invoice download instead opening PDF invoice directly within browser."
@@ -1332,31 +1355,31 @@ msgstr ""
 "Erzwinge den Download der PDF-Rechnungen anstatt der Anzeige im Browser."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1170
+#: includes/class-wc-gzdp-invoice-helper.php:1180
 msgctxt "invoices"
 msgid "Default status"
 msgstr "Standard Status"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1171
+#: includes/class-wc-gzdp-invoice-helper.php:1181
 msgctxt "invoices"
 msgid "Choose a default invoice status."
 msgstr "Wähle hier den Standard Status der Rechnung aus."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1183
+#: includes/class-wc-gzdp-invoice-helper.php:1193
 msgctxt "invoices"
 msgid "Numbering"
 msgstr "Nummernkreise"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1186
+#: includes/class-wc-gzdp-invoice-helper.php:1196
 msgctxt "invoices"
 msgid "Number format"
 msgstr "Format"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1187
+#: includes/class-wc-gzdp-invoice-helper.php:1197
 msgctxt "invoices"
 msgid ""
 "Choose a format to display your invoice number. Use {type} as placeholder "
@@ -1372,20 +1395,20 @@ msgstr ""
 "Jahr, {m} für Monat (numerisch) und {d} für Tag nutzen."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1191
+#: includes/class-wc-gzdp-invoice-helper.php:1201
 #, php-format
 msgctxt "invoices"
 msgid "%s %s"
 msgstr "%s %s"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1195
+#: includes/class-wc-gzdp-invoice-helper.php:1205
 msgctxt "invoices"
 msgid "Cancellation format"
 msgstr "Stornierungen Format"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1196
+#: includes/class-wc-gzdp-invoice-helper.php:1206
 msgctxt "invoices"
 msgid ""
 "You may want to specifically set the cancellation number format to a "
@@ -1396,13 +1419,13 @@ msgstr ""
 "verwenden, lasse das Feld leer."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1204
+#: includes/class-wc-gzdp-invoice-helper.php:1214
 msgctxt "invoices"
 msgid "Packing Slip format"
 msgstr "Lieferscheine Format"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1205
+#: includes/class-wc-gzdp-invoice-helper.php:1215
 msgctxt "invoices"
 msgid ""
 "You may want to specifically set the packing slip number format to a "
@@ -1416,26 +1439,26 @@ msgstr ""
 "{order_number} als Platzhalter für die Sendungsnummer nutzen."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1213
+#: includes/class-wc-gzdp-invoice-helper.php:1223
 msgctxt "invoices"
 msgid "Leading zeros"
 msgstr "Mit Nullen auffüllen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1214
+#: includes/class-wc-gzdp-invoice-helper.php:1224
 msgctxt "invoices"
 msgid "Optionally choose number of leading zeros for invoice numbers."
 msgstr ""
 "Wähle die Anzahl der führenden (auffüllenden) Nullen (z.B. 4 für 0040)."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1222
+#: includes/class-wc-gzdp-invoice-helper.php:1232
 msgctxt "invoices"
 msgid "Last invoice number"
 msgstr "Letzte Rechnungsnummer"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1223
+#: includes/class-wc-gzdp-invoice-helper.php:1233
 msgctxt "invoices"
 msgid ""
 "Use this option to reset invoice numbering. Set to 0 to start from scratch. "
@@ -1447,33 +1470,33 @@ msgstr ""
 "Wertes, da diese Option zu Inkonsistenzen bei den fortlaufenden "
 "Rechnungsnummern führen kann."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1228
-#: includes/class-wc-gzdp-invoice-helper.php:1247
-#: includes/class-wc-gzdp-invoice-helper.php:1268
+#: includes/class-wc-gzdp-invoice-helper.php:1238
+#: includes/class-wc-gzdp-invoice-helper.php:1257
+#: includes/class-wc-gzdp-invoice-helper.php:1278
 msgctxt "invoices"
 msgid "Force Reset"
 msgstr "Zurücksetzen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1232
+#: includes/class-wc-gzdp-invoice-helper.php:1242
 msgctxt "invoices"
 msgid "Numbers for cancellations"
 msgstr "Storno-Nummerierung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1233
+#: includes/class-wc-gzdp-invoice-helper.php:1243
 msgctxt "invoices"
 msgid "Check if you want to use different numbering for invoice cancellations."
 msgstr "Gesonderter Rechnungsnummernkreis für Stornierungen."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1240
+#: includes/class-wc-gzdp-invoice-helper.php:1250
 msgctxt "invoices"
 msgid "Last cancellation number"
 msgstr "Letzte Stornierungsnummer"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1241
+#: includes/class-wc-gzdp-invoice-helper.php:1251
 msgctxt "invoices"
 msgid ""
 "Use this option to reset cancellation numbering. Set to 0 to start from "
@@ -1486,13 +1509,13 @@ msgstr ""
 "Rechnungsnummern führen kann."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1253
+#: includes/class-wc-gzdp-invoice-helper.php:1263
 msgctxt "invoices"
 msgid "Numbering for packing slips"
 msgstr "Lieferschein-Nummerierung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1254
+#: includes/class-wc-gzdp-invoice-helper.php:1264
 msgctxt "invoices"
 msgid ""
 "Enable numbering for packing slips. By default shipment number is being used."
@@ -1501,13 +1524,13 @@ msgstr ""
 "Sendungsnummer."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1261
+#: includes/class-wc-gzdp-invoice-helper.php:1271
 msgctxt "invoices"
 msgid "Last packing slip number"
 msgstr "Letzte Lieferscheinnummer"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1262
+#: includes/class-wc-gzdp-invoice-helper.php:1272
 msgctxt "invoices"
 msgid ""
 "Use this option to reset packing slip numbering. Set to 0 to start from "
@@ -1520,25 +1543,25 @@ msgstr ""
 "Lieferscheinnummern führen kann."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1275
+#: includes/class-wc-gzdp-invoice-helper.php:1285
 msgctxt "invoices"
 msgid "Automation"
 msgstr "Automatisierung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1278
+#: includes/class-wc-gzdp-invoice-helper.php:1288
 msgctxt "invoices"
 msgid "Generate invoices"
 msgstr "Rechnungen erstellen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1279
+#: includes/class-wc-gzdp-invoice-helper.php:1289
 msgctxt "invoices"
 msgid "Automatically generate invoices for orders"
 msgstr "Automatisch Rechnungen zu Bestellungen generieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1281
+#: includes/class-wc-gzdp-invoice-helper.php:1291
 msgctxt "invoices"
 msgid ""
 "Choose this option to automatically generate an invoice to an order after a "
@@ -1547,14 +1570,14 @@ msgstr ""
 "Erstelle automatisch Rechnungen zu Bestellungen mit entsprechendem Status."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1287
-#: includes/class-wc-gzdp-invoice-helper.php:1373
+#: includes/class-wc-gzdp-invoice-helper.php:1297
+#: includes/class-wc-gzdp-invoice-helper.php:1383
 msgctxt "invoices"
 msgid "Order status"
 msgstr "Bestellstatus"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1288
+#: includes/class-wc-gzdp-invoice-helper.php:1298
 msgctxt "invoices"
 msgid ""
 "Optionally choose an order status on which the invoice should be generated "
@@ -1565,19 +1588,19 @@ msgstr ""
 "werden soll."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1294
+#: includes/class-wc-gzdp-invoice-helper.php:1304
 msgctxt "invoices"
 msgid "Directly after order"
 msgstr "Direkt nach der Bestellung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1303
+#: includes/class-wc-gzdp-invoice-helper.php:1313
 msgctxt "invoices"
 msgid "Payment gateways"
 msgstr "Zahlungsarten"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1304
+#: includes/class-wc-gzdp-invoice-helper.php:1314
 msgctxt "invoices"
 msgid ""
 "Optionally choose which payment gateways should be activated to "
@@ -1588,17 +1611,17 @@ msgstr ""
 "Rechnung generiert."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1310
+#: includes/class-wc-gzdp-invoice-helper.php:1320
 msgctxt "invoices"
 msgid "Every payment gateway"
 msgstr "Alle Zahlungsarten"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1319
+#: includes/class-wc-gzdp-invoice-helper.php:1329
 msgctxt "invoices"
 msgid "Gateway specific statuses"
 msgstr "Status je Zahlungsart"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1320
+#: includes/class-wc-gzdp-invoice-helper.php:1330
 msgctxt "invoices"
 msgid "Activate this option to choose gateway specific order statuses."
 msgstr ""
@@ -1606,38 +1629,38 @@ msgstr ""
 "konfigurieren."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1335
-#: includes/class-wc-gzdp-invoice-helper.php:1388
+#: includes/class-wc-gzdp-invoice-helper.php:1345
+#: includes/class-wc-gzdp-invoice-helper.php:1398
 msgctxt "invoices"
 msgid "Sent to customer"
 msgstr "Dem Kunden zustellen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1336
+#: includes/class-wc-gzdp-invoice-helper.php:1346
 msgctxt "invoices"
 msgid "Automatically send invoices to the customer by email after generation"
 msgstr "E-Mail mit Anhang an den Kunden sobald die Rechnung generiert wurde"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1343
+#: includes/class-wc-gzdp-invoice-helper.php:1353
 msgctxt "invoices"
 msgid "Stop for free"
 msgstr "Kostenlose Bestellungen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1344
+#: includes/class-wc-gzdp-invoice-helper.php:1354
 msgctxt "invoices"
 msgid "Do not generate invoices for free orders."
 msgstr "Keine Rechnungen für kostenlose Bestellungen generieren."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1351
+#: includes/class-wc-gzdp-invoice-helper.php:1361
 msgctxt "invoices"
 msgid "Mark as paid"
 msgstr "Als bezahlt markieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1352
+#: includes/class-wc-gzdp-invoice-helper.php:1362
 msgctxt "invoices"
 msgid ""
 "Optionally choose to automatically mark an invoice as paid if a certain "
@@ -1647,25 +1670,25 @@ msgstr ""
 "automatisch als bezahlt markiert werden soll."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1357
+#: includes/class-wc-gzdp-invoice-helper.php:1367
 msgctxt "invoices"
 msgid "Never"
 msgstr "Niemals"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1364
+#: includes/class-wc-gzdp-invoice-helper.php:1374
 msgctxt "invoices"
 msgid "Generate cancellations"
 msgstr "Stornierungen erstellen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1365
+#: includes/class-wc-gzdp-invoice-helper.php:1375
 msgctxt "invoices"
 msgid "Automatically generate cancellations for cancelled orders"
 msgstr "Erstelle automatisch Stornierungen zu Bestellungen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1368
+#: includes/class-wc-gzdp-invoice-helper.php:1378
 msgctxt "invoices"
 msgid ""
 "Choose this option to automatically generate a cancellation to an order "
@@ -1674,7 +1697,7 @@ msgstr ""
 "Erstelle automatisch Stornierungen zu Bestellungen mit entsprechendem Status."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1374
+#: includes/class-wc-gzdp-invoice-helper.php:1384
 msgctxt "invoices"
 msgid ""
 "Optionally choose an order status on which the cancellation should be "
@@ -1685,23 +1708,23 @@ msgstr ""
 "werden soll."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1389
+#: includes/class-wc-gzdp-invoice-helper.php:1399
 msgctxt "invoices"
 msgid "Automatically send cancellations to the customer by email"
 msgstr "E-Mail mit Anhang an den Kunden sobald die Stornierung generiert wurde"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1399
+#: includes/class-wc-gzdp-invoice-helper.php:1409
 msgctxt "invoices"
 msgid "Generate partial cancellations"
 msgstr "Teilstornierungen erstellen"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1400
+#: includes/class-wc-gzdp-invoice-helper.php:1410
 msgctxt "invoices"
 msgid "Automatically generate partial cancellations for refunded orders."
 msgstr ""
 "Erstelle automatisch Teilstornierungen für Rückerstattungen einer Bestellung."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1403
+#: includes/class-wc-gzdp-invoice-helper.php:1413
 msgctxt "invoices"
 msgid ""
 "Choose this option to automatically generate a partial cancellation if a "
@@ -1713,19 +1736,19 @@ msgstr ""
 "unterstützt."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1408
+#: includes/class-wc-gzdp-invoice-helper.php:1418
 msgctxt "invoices"
 msgid "Generate packing slips"
 msgstr "Lieferscheine erstellen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1409
+#: includes/class-wc-gzdp-invoice-helper.php:1419
 msgctxt "invoices"
 msgid "Automatically generate packing slips for shipments"
 msgstr "Automatisch Lieferscheine zu Sendungen generieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1412
+#: includes/class-wc-gzdp-invoice-helper.php:1422
 msgctxt "invoices"
 msgid ""
 "Choose this option to automatically generate a packing slip for a shipment "
@@ -1734,13 +1757,13 @@ msgstr ""
 "Erstelle automatisch Lieferscheine zu Sendungen mit entsprechendem Status."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1417
+#: includes/class-wc-gzdp-invoice-helper.php:1427
 msgctxt "invoices"
 msgid "Shipment status"
 msgstr "Sendungsstatus"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1418
+#: includes/class-wc-gzdp-invoice-helper.php:1428
 msgctxt "invoices"
 msgid ""
 "Optionally choose a shipment status on which the packing slip should be "
@@ -1750,25 +1773,25 @@ msgstr ""
 "automatisch generiert werden soll."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1444
+#: includes/class-wc-gzdp-invoice-helper.php:1454
 msgctxt "invoices"
 msgid "Print sender address"
 msgstr "Absender Adresse"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1445
+#: includes/class-wc-gzdp-invoice-helper.php:1455
 msgctxt "invoices"
 msgid "Show the sender address right above the recipient address."
 msgstr "Zeige die Absender Adresse direkt über der Rechnungsempfänger Adresse."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1452
+#: includes/class-wc-gzdp-invoice-helper.php:1462
 msgctxt "invoices"
 msgid "Print sender address (detailed)"
 msgstr "Absender Adresse (Details)"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1453
+#: includes/class-wc-gzdp-invoice-helper.php:1463
 msgctxt "invoices"
 msgid ""
 "Show the detailed sender address right above the invoice date field on the "
@@ -1778,23 +1801,23 @@ msgstr ""
 "Seite."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1460
+#: includes/class-wc-gzdp-invoice-helper.php:1470
 msgctxt "invoices"
 msgid "Print tax rate"
 msgstr "Steuersatz"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1461
+#: includes/class-wc-gzdp-invoice-helper.php:1471
 msgctxt "invoices"
 msgid "Add a column with the item tax rate to the invoice."
 msgstr "Füge eine Spalte mit dem Steuersatz des jeweiligen Produktes hinzu."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1468
+#: includes/class-wc-gzdp-invoice-helper.php:1478
 msgctxt "invoices"
 msgid "Line discounts"
 msgstr "Zeilenweise Rabatte"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1469
+#: includes/class-wc-gzdp-invoice-helper.php:1479
 msgctxt "invoices"
 msgid ""
 "Adds a column next to the unit price which prints the discount per line. "
@@ -1803,18 +1826,18 @@ msgstr ""
 "Fügt eine Spalte neben dem Preis ein, die den Rabatt pro Zeile anzeigt. Der "
 "Gesamtbetrag pro Zeile entspricht dem reduzierten Gesamtbetrag."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1470
+#: includes/class-wc-gzdp-invoice-helper.php:1480
 msgctxt "invoices"
 msgid "Show line discount amounts instead of total discount."
 msgstr "Zeige Rabatte zeilenweise anstatt im Gesamtbetrag an."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1477
+#: includes/class-wc-gzdp-invoice-helper.php:1487
 msgctxt "invoices"
 msgid "Differential taxation"
 msgstr "Differenzbesteuerung"
 
-#: includes/class-wc-gzdp-invoice-helper.php:1478
+#: includes/class-wc-gzdp-invoice-helper.php:1488
 msgctxt "invoices"
 msgid "Mark products if differential taxation applies and show notice."
 msgstr ""
@@ -1822,25 +1845,25 @@ msgstr ""
 "Hinweis ein."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1485
+#: includes/class-wc-gzdp-invoice-helper.php:1495
 msgctxt "invoices"
 msgid "Print sku"
 msgstr "Artikelnummer"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1486
+#: includes/class-wc-gzdp-invoice-helper.php:1496
 msgctxt "invoices"
 msgid "Print product sku next to the product title."
 msgstr "Zeige die Artikelnummer neben dem Produkttitel."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1493
+#: includes/class-wc-gzdp-invoice-helper.php:1503
 msgctxt "invoices"
 msgid "Print variation attributes"
 msgstr "Eigenschaften"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1494
+#: includes/class-wc-gzdp-invoice-helper.php:1504
 msgctxt "invoices"
 msgid "Print variation attributes beneath the product title."
 msgstr ""
@@ -1848,114 +1871,114 @@ msgstr ""
 "rot)"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1501
+#: includes/class-wc-gzdp-invoice-helper.php:1511
 msgctxt "invoices"
 msgid "Print item cart description"
 msgstr "Kurzbeschreibung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1502
+#: includes/class-wc-gzdp-invoice-helper.php:1512
 msgctxt "invoices"
 msgid "Print item cart description beneath the product title."
 msgstr "Zeige die Warenkorb-Kurzbeschreibung unter dem Titel an."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1509
+#: includes/class-wc-gzdp-invoice-helper.php:1519
 msgctxt "invoices"
 msgid "Print delivery time"
 msgstr "Lieferzeit anzeigen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1510
+#: includes/class-wc-gzdp-invoice-helper.php:1520
 msgctxt "invoices"
 msgid "Print delivery time (if available) beneath the product title."
 msgstr "Zeige bei die Lieferzeit unter dem Produkttitel an."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1517
+#: includes/class-wc-gzdp-invoice-helper.php:1527
 msgctxt "invoices"
 msgid "Print unit price"
 msgstr "Einheitspreis"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1518
+#: includes/class-wc-gzdp-invoice-helper.php:1528
 msgctxt "invoices"
 msgid "Print unit price (if available) beneath the product title."
 msgstr "Zeige bei den Einheitspreis (insofern verfügbar) unter dem Titel an."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1525
+#: includes/class-wc-gzdp-invoice-helper.php:1535
 msgctxt "invoices"
 msgid "Print product units"
 msgstr "Produkteinheiten"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1526
+#: includes/class-wc-gzdp-invoice-helper.php:1536
 msgctxt "invoices"
 msgid "Print product units beneath the product title."
 msgstr "Zeige die Produkteinheiten unter dem Produkttitel."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1533
+#: includes/class-wc-gzdp-invoice-helper.php:1543
 msgctxt "invoices"
 msgid "Date format"
 msgstr "Datumformat"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1534
+#: includes/class-wc-gzdp-invoice-helper.php:1544
 msgctxt "invoices"
 msgid "Choose date format to be used to format the invoice date."
 msgstr "Wähle ein Format für das Rechnungsdatum."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1538
+#: includes/class-wc-gzdp-invoice-helper.php:1548
 msgctxt "invoices"
 msgid "d.m.Y"
 msgstr "d.m.Y"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1542
+#: includes/class-wc-gzdp-invoice-helper.php:1552
 msgctxt "invoices"
 msgid "Packing slip number"
 msgstr "Lieferscheinnummer"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1543
+#: includes/class-wc-gzdp-invoice-helper.php:1553
 msgctxt "invoices"
 msgid "Print number on packing slips as it is done for invoices."
 msgstr ""
 "Drucke die Lieferscheinnummer (Standard: Bestellnummer) auf dem Lieferschein."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1557
+#: includes/class-wc-gzdp-invoice-helper.php:1567
 msgctxt "invoices"
 msgid "Address top margin"
 msgstr "Adresse Abstand"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1558
+#: includes/class-wc-gzdp-invoice-helper.php:1568
 msgctxt "invoices"
 msgid "Choose if you wish to have a margin for the address output."
 msgstr "Setze optional einen Abstand (von oben) für die Adresse."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1566
+#: includes/class-wc-gzdp-invoice-helper.php:1576
 msgctxt "invoices"
 msgid "Date top margin"
 msgstr "Datum Abstand"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1567
+#: includes/class-wc-gzdp-invoice-helper.php:1577
 msgctxt "invoices"
 msgid "Choose if you wish to have a margin for the date output."
 msgstr "Setze optional einen Abstand (von oben) für das Datum."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1575
+#: includes/class-wc-gzdp-invoice-helper.php:1585
 msgctxt "invoices"
 msgid "Title top margin"
 msgstr "Titel Abstand"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1576
+#: includes/class-wc-gzdp-invoice-helper.php:1586
 msgctxt "invoices"
 msgid ""
 "Choose if you wish to have a relative margin from last element to the title."
@@ -1965,13 +1988,13 @@ msgstr ""
 "möchtest."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1584
+#: includes/class-wc-gzdp-invoice-helper.php:1594
 msgctxt "invoices"
 msgid "Table top margin"
 msgstr "Tabelle Abstand"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1585
+#: includes/class-wc-gzdp-invoice-helper.php:1595
 msgctxt "invoices"
 msgid ""
 "Choose if you wish to have a relative margin from last element to the table."
@@ -1980,13 +2003,13 @@ msgstr ""
 "letzten, darüber liegenden Element einstellen möchtest."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1599
+#: includes/class-wc-gzdp-invoice-helper.php:1609
 msgctxt "invoices"
 msgid "Table header background"
 msgstr "Hintergrund Tabellenkopf"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1600
+#: includes/class-wc-gzdp-invoice-helper.php:1610
 msgctxt "invoices"
 msgid ""
 "Choose a color which will be used as background color for the header of the "
@@ -1994,40 +2017,40 @@ msgid ""
 msgstr "Wähle eine Hintergrundfarbe für den Tabellenkopf der Produkttabelle."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1608
+#: includes/class-wc-gzdp-invoice-helper.php:1618
 msgctxt "invoices"
 msgid "Table header font color"
 msgstr "Schriftfarbe Tabellenkopf"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1609
+#: includes/class-wc-gzdp-invoice-helper.php:1619
 msgctxt "invoices"
 msgid "Choose a font color for your table header."
 msgstr "Wähle eine Schriftfarbe für deinen Tabellenkopf."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1617
+#: includes/class-wc-gzdp-invoice-helper.php:1627
 msgctxt "invoices"
 msgid "Table border"
 msgstr "Tabellenumrandung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1618
+#: includes/class-wc-gzdp-invoice-helper.php:1628
 msgctxt "invoices"
 msgid ""
 "Choose a color which will be used as border color for the product table."
 msgstr "Wähle eine Farbe der Tabellenumrandung von der Produkttabelle."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1633
+#: includes/class-wc-gzdp-invoice-helper.php:1643
 msgctxt "invoices"
 msgid "Before table"
 msgstr "Vor der Tabelle"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1634
-#: includes/class-wc-gzdp-invoice-helper.php:1660
-#: includes/class-wc-gzdp-invoice-helper.php:1692
+#: includes/class-wc-gzdp-invoice-helper.php:1644
+#: includes/class-wc-gzdp-invoice-helper.php:1670
+#: includes/class-wc-gzdp-invoice-helper.php:1702
 #, php-format
 msgctxt "invoices"
 msgid ""
@@ -2042,15 +2065,15 @@ msgstr ""
 "diesen Bereich hinzugefügt."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1642
+#: includes/class-wc-gzdp-invoice-helper.php:1652
 msgctxt "invoices"
 msgid "After table"
 msgstr "Nach der Tabelle"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1643
-#: includes/class-wc-gzdp-invoice-helper.php:1672
-#: includes/class-wc-gzdp-invoice-helper.php:1704
+#: includes/class-wc-gzdp-invoice-helper.php:1653
+#: includes/class-wc-gzdp-invoice-helper.php:1682
+#: includes/class-wc-gzdp-invoice-helper.php:1714
 #, php-format
 msgctxt "invoices"
 msgid ""
@@ -2065,60 +2088,60 @@ msgstr ""
 "diesen Bereich hinzugefügt."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1651
+#: includes/class-wc-gzdp-invoice-helper.php:1661
 msgctxt "invoices"
 msgid "Different on cancellations"
 msgstr "Für Stornierungen"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1652
+#: includes/class-wc-gzdp-invoice-helper.php:1662
 msgctxt "invoices"
 msgid "Check if you want to use different content for cancellations."
 msgstr "Abweichenden Text für Stornierungen hinterlegen."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1659
+#: includes/class-wc-gzdp-invoice-helper.php:1669
 msgctxt "invoices"
 msgid "Cancellation before table"
 msgstr "Stornierung vorher"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1671
+#: includes/class-wc-gzdp-invoice-helper.php:1681
 msgctxt "invoices"
 msgid "Cancellation after table"
 msgstr "Stornierung nachher"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1683
+#: includes/class-wc-gzdp-invoice-helper.php:1693
 msgctxt "invoices"
 msgid "Different on packing slips"
 msgstr "Für Lieferscheine"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1684
+#: includes/class-wc-gzdp-invoice-helper.php:1694
 msgctxt "invoices"
 msgid "Check if you want to use different content for packing slips."
 msgstr "Abweichenden Text für Lieferscheine festlegen."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1691
+#: includes/class-wc-gzdp-invoice-helper.php:1701
 msgctxt "invoices"
 msgid "Packing slip before table"
 msgstr "Lieferschein vorher"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1703
+#: includes/class-wc-gzdp-invoice-helper.php:1713
 msgctxt "invoices"
 msgid "Packing slip after table"
 msgstr "Lieferschein nachher"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1715
+#: includes/class-wc-gzdp-invoice-helper.php:1725
 msgid "Reverse Charge Text"
 msgstr "Reverse Charge Text"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1716
+#: includes/class-wc-gzdp-invoice-helper.php:1726
 msgid ""
 "Choose a Plain Text which will be used for the shortcode [reverse_charge]."
 msgstr ""
@@ -2126,16 +2149,16 @@ msgstr ""
 "wurde und anwendbar ist."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1718
+#: includes/class-wc-gzdp-invoice-helper.php:1728
 msgid "Tax liability of the recipient of the services (reverse charge)"
 msgstr "Steuerschuldnerschaft des Leistungsempfängers (Reverse-charge)."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1725
+#: includes/class-wc-gzdp-invoice-helper.php:1735
 msgid "Third Party Text"
 msgstr "Drittland Hinweis"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1726
+#: includes/class-wc-gzdp-invoice-helper.php:1736
 msgid ""
 "Choose a Plain Text which will be used for the shortcode "
 "[third_party_country] which will be shown to third party country customers."
@@ -2144,17 +2167,17 @@ msgstr ""
 "eingesetzt wurde und der Kunde aus einem Drittland kommt und keine "
 "Mehrwertsteuer berechnet wurde."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1728
+#: includes/class-wc-gzdp-invoice-helper.php:1738
 msgid "Tax free export"
 msgstr "Steuerfreie Ausfuhrlieferung"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1735
+#: includes/class-wc-gzdp-invoice-helper.php:1745
 msgid "Differential Taxation Text"
 msgstr "Differenzbesteuerung Text"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1736
+#: includes/class-wc-gzdp-invoice-helper.php:1746
 msgid ""
 "Choose a Plain Text which will be used as differential taxation notice (if "
 "applicable)."
@@ -2162,12 +2185,12 @@ msgstr ""
 "Wähle einen Text der als Hinweis zur Differenzbesteuerung (insofern "
 "verfügbar) angezeigt werden soll."
 
-#: includes/class-wc-gzdp-invoice-helper.php:1738
+#: includes/class-wc-gzdp-invoice-helper.php:1748
 msgid "Differential Taxation according to §25a UStG."
 msgstr "Differenzbesteuert nach §25a UStG."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-helper.php:1775
+#: includes/class-wc-gzdp-invoice-helper.php:1785
 msgid "Missing permissions to download invoice"
 msgstr "Fehlende Berechtigung um die Rechnung herunterzuladen"
 
@@ -2177,37 +2200,37 @@ msgid "Regenerate Packing Slip"
 msgstr "Lieferschein aktualisieren"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:19
+#: includes/class-wc-gzdp-invoice-preview.php:23
 msgctxt "invoices-preview"
 msgid "Max"
 msgstr "Max"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:20
+#: includes/class-wc-gzdp-invoice-preview.php:24
 msgctxt "invoices-preview"
 msgid "Mustermann"
 msgstr "Mustermann"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:24
+#: includes/class-wc-gzdp-invoice-preview.php:28
 msgctxt "invoices-preview"
 msgid "Max Mustermann"
 msgstr "Max Mustermann"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:25
+#: includes/class-wc-gzdp-invoice-preview.php:29
 msgctxt "invoices-preview"
 msgid "Musterstraße 35"
 msgstr "Musterstraße 35"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:26
+#: includes/class-wc-gzdp-invoice-preview.php:30
 msgctxt "invoices-preview"
 msgid "12209 Musterstadt"
 msgstr "12209 Musterstadt"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-invoice-preview.php:52
+#: includes/class-wc-gzdp-invoice-preview.php:56
 msgctxt "invoices-preview"
 msgid "Testprodukt"
 msgstr "Testprodukt"
@@ -3149,55 +3172,55 @@ msgstr "USt.-ID Rechnungsadresse"
 msgid "Shipping VAT ID"
 msgstr "USt.-ID Lieferadresse"
 
-#: includes/class-wc-gzdp-vat-helper.php:92
+#: includes/class-wc-gzdp-vat-helper.php:122
 msgid "VAT ID validation result"
 msgstr "USt.-ID Validierungsprotokoll"
 
-#: includes/class-wc-gzdp-vat-helper.php:106
+#: includes/class-wc-gzdp-vat-helper.php:136
 msgid "Name"
 msgstr "Name"
 
-#: includes/class-wc-gzdp-vat-helper.php:109
+#: includes/class-wc-gzdp-vat-helper.php:139
 msgid "Request ID"
 msgstr "Request ID"
 
-#: includes/class-wc-gzdp-vat-helper.php:112
+#: includes/class-wc-gzdp-vat-helper.php:142
 msgid "Company"
 msgstr "Firma"
 
 # @ woocommerce
-#: includes/class-wc-gzdp-vat-helper.php:115
+#: includes/class-wc-gzdp-vat-helper.php:145
 msgid "Address"
 msgstr "Adresse"
 
-#: includes/class-wc-gzdp-vat-helper.php:123
+#: includes/class-wc-gzdp-vat-helper.php:153
 msgid "Date"
 msgstr "Datum"
 
-#: includes/class-wc-gzdp-vat-helper.php:229
+#: includes/class-wc-gzdp-vat-helper.php:256
 msgid "A valid VAT ID is required to register."
 msgstr "Eine gültige USt.-ID wird benötigt zur Registrierung."
 
-#: includes/class-wc-gzdp-vat-helper.php:239
+#: includes/class-wc-gzdp-vat-helper.php:266
 #, php-format
 msgid "Sorry but we do not support VAT IDs within %s."
 msgstr "Leider unterstützen wir keine USt.-IDs in %s."
 
-#: includes/class-wc-gzdp-vat-helper.php:241
+#: includes/class-wc-gzdp-vat-helper.php:268
 msgid "Sorry but we do not support VAT IDs within your country."
 msgstr "Leider unterstützen wir keine USt.-IDs aus Ihrem Land."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-vat-helper.php:246
+#: includes/class-wc-gzdp-vat-helper.php:273
 msgid "Sorry but the provided VAT ID seems to be invalid."
 msgstr "Die USt.-ID scheint leider nicht gültig zu sein."
 
-#: includes/class-wc-gzdp-vat-helper.php:490
+#: includes/class-wc-gzdp-vat-helper.php:485
 msgid "Please choose a shipping country before saving your VAT ID."
 msgstr "Bitte wählen Sie ein Lieferland bevor Sie Ihre USt.-ID speichern."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-vat-helper.php:703
+#: includes/class-wc-gzdp-vat-helper.php:765
 msgid ""
 "VAT ID seems to be invalid but was still saved. Please check the ID again."
 msgstr ""
@@ -3232,11 +3255,11 @@ msgstr "{invoice_number} zu {invoice_number_parent}"
 
 #: includes/emails/class-wc-gzdp-email-customer-invoice-cancellation.php:197
 #: includes/emails/class-wc-gzdp-email-customer-invoice-cancellation.php:198
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:294
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:307
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:315
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:330
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:338
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:295
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:308
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:316
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:331
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:339
 #, php-format
 msgid "Available placeholders: %s"
 msgstr "Verfügbare Platzhalter: %s"
@@ -3256,61 +3279,61 @@ msgid ""
 msgstr "E-Mail beinhaltet die PDF-Rechnung zu einer Bestellung."
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:156
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:157
 msgctxt "invoices"
 msgid "{invoice_number} for order {order_number} from {order_date}"
 msgstr "{invoice_number} zur Bestellung {order_number} am {order_date}"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:158
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:159
 msgctxt "invoices"
 msgid "Invoice for order {order_number} from {order_date}"
 msgstr "Rechnung zur Bestellung {order_number} vom {order_date}"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:178
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:179
 msgctxt "invoices"
 msgid "{invoice_number} for order {order_number}"
 msgstr "{invoice_number} zur Bestellung {order_number}"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:180
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:181
 msgctxt "invoices"
 msgid "Invoice for order {order_number}"
 msgstr "Rechnung zur Bestellung {order_number}"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:298
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:299
 msgid "Enable/Disable"
 msgstr "Aktivieren/Deaktivieren"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:300
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:301
 msgid "Enable this email notification"
 msgstr "Diese E-Mail-Benachrichtigung aktivieren"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:304
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:305
 msgid "Email Subject"
 msgstr "Betreff"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:312
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:313
 msgid "Email Heading"
 msgstr "E-Mail Kopfzeile"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:320
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:321
 msgid "Show pay link"
 msgstr "Bezahlen Link anzeigen"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:322
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:323
 msgid "Enable pay link in Email"
 msgstr "Bezahlen Link in E-Mail einfügen"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:323
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:324
 msgid ""
 "Show order pay link in invoice PDF Email if order status is set to pending."
 msgstr ""
@@ -3318,36 +3341,36 @@ msgstr ""
 "\"Zahlung ausstehend\" lautet."
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:327
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:328
 msgid "Email Subject (no PDF)"
 msgstr "E-Mail-Betreff (keine PDF)"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:335
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:336
 msgid "Email Heading (no PDF)"
 msgstr "E-Mail-Kopfzeile (keine PDF)"
 
 # @ woocommerce-germanized-pro
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:343
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:344
 msgid "Additional content"
 msgstr "Zusätzlicher Inhalt"
 
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:344
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:345
 msgid "Text to appear below the main email content."
 msgstr "Text der unterhalb des Inhalts der E-Mail angezeigt werden soll."
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:346
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:347
 msgid "N/A"
 msgstr "n.a."
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:352
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:353
 msgid "Email type"
 msgstr "E-Mail-Typ"
 
 # @ woocommerce
-#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:354
+#: includes/emails/class-wc-gzdp-email-customer-invoice-simple.php:355
 msgid "Choose which format of email to send."
 msgstr "Format für E-Mail-Versand auswählen."
 
@@ -3392,49 +3415,49 @@ msgid "Thank you for your order"
 msgstr "Vielen Dank für Ihre Bestellung"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:11
+#: includes/wc-gzdp-invoice-functions.php:68
 msgctxt "invoices"
 msgid "New invoice"
 msgstr "Neue Rechnung"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:17
+#: includes/wc-gzdp-invoice-functions.php:74
 msgctxt "invoices"
 msgid "New cancellation"
 msgstr "Neue Stornierung"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:22
+#: includes/wc-gzdp-invoice-functions.php:79
 msgctxt "invoices"
 msgid "Packing Slip"
 msgstr "Lieferschein"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:23
+#: includes/wc-gzdp-invoice-functions.php:80
 msgctxt "invoices"
 msgid "New packing slip"
 msgstr "Neuer Lieferschein"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:75
+#: includes/wc-gzdp-invoice-functions.php:132
 msgctxt "invoices"
 msgid "Pending"
 msgstr "Auf Zahlungseingang wartend"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:76
+#: includes/wc-gzdp-invoice-functions.php:133
 msgctxt "invoices"
 msgid "Paid"
 msgstr "Bezahlt"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:77
+#: includes/wc-gzdp-invoice-functions.php:134
 msgctxt "invoices"
 msgid "Cancelled"
 msgstr "Storniert"
 
 # @ woocommerce-germanized-pro
-#: includes/wc-gzdp-invoice-functions.php:108
+#: includes/wc-gzdp-invoice-functions.php:165
 #, php-format
 msgid "VAT %s"
 msgstr "%s MwSt."
@@ -3458,45 +3481,42 @@ msgstr "n.a."
 #: templates/checkout/multistep/data.php:65
 #: templates/checkout/multistep/data.php:88
 #: themes/flatsome/templates/checkout/multistep/data.php:28
-#: themes/flatsome/templates/checkout/multistep/data.php:48
-#: themes/flatsome/templates/checkout/multistep/data.php:55
-#: themes/flatsome/templates/checkout/multistep/data.php:70
-#: themes/flatsome/templates/checkout/multistep/data.php:79
-#: themes/flatsome/templates/checkout/multistep/data.php:84
+#: themes/flatsome/templates/checkout/multistep/data.php:53
+#: themes/flatsome/templates/checkout/multistep/data.php:75
 msgctxt "multistep"
 msgid "edit"
 msgstr "bearbeiten"
 
 # @ woocommerce-germanized-pro
 #: templates/checkout/multistep/data.php:60
-#: themes/flatsome/templates/checkout/multistep/data.php:79
+#: themes/flatsome/templates/checkout/multistep/data.php:75
 msgctxt "multistep"
 msgid "Payment Method"
 msgstr "Zahlungsart"
 
 # @ woocommerce
 #: templates/checkout/multistep/data.php:74
-#: themes/flatsome/templates/checkout/multistep/data.php:55
+#: themes/flatsome/templates/checkout/multistep/data.php:53
 msgctxt "multistep"
 msgid "Shipping Address"
 msgstr "Lieferadresse"
 
 # @ woocommerce-germanized-pro
 #: templates/checkout/multistep/data.php:79
-#: themes/flatsome/templates/checkout/multistep/data.php:61
+#: themes/flatsome/templates/checkout/multistep/data.php:59
 msgctxt "multistep"
 msgid "Same as billing address"
 msgstr "Entspricht der Rechnungsadresse"
 
 # @ woocommerce-germanized-pro
-#: templates/checkout/multistep/submit.php:29
+#: templates/checkout/multistep/submit.php:28
 #, php-format
 msgctxt "multistep"
 msgid "Back to step %s"
 msgstr "Zurück zu Schritt %s"
 
 # @ woocommerce-germanized-pro
-#: templates/checkout/multistep/submit.php:37
+#: templates/checkout/multistep/submit.php:34
 #, php-format
 msgctxt "multistep"
 msgid "Continue with step %s"
@@ -3579,8 +3599,8 @@ msgstr "Rabatt"
 msgid "Price"
 msgstr "Gesamtsumme"
 
-#: themes/class-wc-gzdp-theme-astra.php:55
 #: themes/class-wc-gzdp-theme-astra.php:67
+#: themes/class-wc-gzdp-theme-astra.php:79
 msgid "Astra After Price"
 msgstr "Astra - Preis - nachher"
 
@@ -3653,6 +3673,22 @@ msgstr "Vendidero"
 #. Author URI of the plugin/theme
 msgid "https://vendidero.de"
 msgstr "https://vendidero.de"
+
+# @ woocommerce-germanized-pro
+#~ msgid "VAT Check"
+#~ msgstr "USt.-ID Check"
+
+# @ woocommerce-germanized-pro
+#~ msgid "VAT ID Cache"
+#~ msgstr "USt.-ID Cache"
+
+# @ woocommerce-germanized-pro
+#~ msgid "VAT Check Login"
+#~ msgstr "USt.-ID Check Login"
+
+# @ woocommerce-germanized-pro
+#~ msgid "VAT Check Register"
+#~ msgstr "USt.-ID Registrierung"
 
 # @ woocommerce-germanized-pro
 #~ msgid "Download Packing Slip"

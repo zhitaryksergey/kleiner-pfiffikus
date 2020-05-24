@@ -15,8 +15,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Custom_Taxonomy')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Custom_Taxonomy extends RightPress_Condition_Field_Multiselect_Custom_Taxonomy
 {
 
@@ -44,5 +42,4 @@ class RP_WCDPD_Condition_Field_Multiselect_Custom_Taxonomy extends RightPress_Co
 
 
 
-}
 }

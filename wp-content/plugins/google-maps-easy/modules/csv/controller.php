@@ -267,7 +267,8 @@ class csvControllerGmp extends controllerGmp {
 							if(isset($marker['id']) && !$markerModel->existsId($marker['id'])) {
 								unset($marker['id']);
 							}
-							$markerModel->save($marker);
+							$update = false;
+							$markerModel->save($marker, $update, true);
 						}
 						break;
 						case 'figures':
@@ -394,4 +395,4 @@ class csvControllerGmp extends controllerGmp {
 			),
 		);
 	}
-} 
+}

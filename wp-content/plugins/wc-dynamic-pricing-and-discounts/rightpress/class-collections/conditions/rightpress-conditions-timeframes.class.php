@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Timeframes management class
@@ -12,26 +10,13 @@ if (!defined('ABSPATH')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Conditions_Timeframes')) {
-
 final class RightPress_Conditions_Timeframes
 {
 
     protected $timeframes = null;
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Get timeframes
@@ -190,5 +175,3 @@ final class RightPress_Conditions_Timeframes
 }
 
 RightPress_Conditions_Timeframes::get_instance();
-
-}

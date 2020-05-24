@@ -11,7 +11,39 @@ class Install {
 
 	public static function install() {
 		self::create_upload_dir();
+		self::create_tables();
+		self::maybe_create_return_reasons();
 
+		do_action( 'woocommerce_flush_rewrite_rules' );
+	}
+
+	private static function maybe_create_return_reasons() {
+		$reasons = get_option( 'woocommerce_gzd_shipments_return_reasons', null );
+
+		if ( is_null( $reasons ) ) {
+			$default_reasons = array(
+				array(
+					'order'  => 1,
+					'code'   => 'wrong-product',
+					'reason' => _x( 'Wrong product or size ordered', 'shipments', 'woocommerce-germanized' ),
+				),
+				array(
+					'order'  => 2,
+					'code'   => 'not-needed',
+					'reason' => _x( 'Product no longer needed', 'shipments', 'woocommerce-germanized' ),
+				),
+				array(
+					'order'  => 3,
+					'code'   => 'look',
+					'reason' => _x( 'Don\'t like the look', 'shipments', 'woocommerce-germanized' ),
+				)
+			);
+
+			update_option( 'woocommerce_gzd_shipments_return_reasons', $default_reasons );
+		}
+	}
+
+	private static function create_tables() {
 		global $wpdb;
 
 		$wpdb->hide_errors();
@@ -84,6 +116,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_gzd_shipments (
   shipment_country varchar(2) NOT NULL DEFAULT '',
   shipment_tracking_id varchar(200) NOT NULL DEFAULT '',
   shipment_type varchar(200) NOT NULL DEFAULT '',
+  shipment_search_index longtext NOT NULL DEFAULT '',
   shipment_shipping_provider varchar(200) NOT NULL DEFAULT '',
   shipment_shipping_method varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY  (shipment_id),

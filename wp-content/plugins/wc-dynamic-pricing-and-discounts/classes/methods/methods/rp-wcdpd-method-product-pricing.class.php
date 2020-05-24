@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing')) {
-
 abstract class RP_WCDPD_Method_Product_Pricing extends RP_WCDPD_Method
 {
 
@@ -153,12 +151,13 @@ abstract class RP_WCDPD_Method_Product_Pricing extends RP_WCDPD_Method
      */
     public function get_base_price_for_reference_amount_calculation($cart_item_key, $cart_item)
     {
-        // Get price changes second stage reference price
-        $second_stage_reference_price = RightPress_Product_Price_Changes::get_second_stage_reference_price($cart_item_key);
 
-        // Use second stage reference price
-        if ($second_stage_reference_price !== null) {
-            return $second_stage_reference_price;
+        // Get intermediate reference price
+        $intermediate_reference_price = RightPress_Product_Price_Changes::get_intermediate_reference_price($cart_item_key);
+
+        // Use intermediate reference price if available
+        if ($intermediate_reference_price !== null) {
+            return $intermediate_reference_price;
         }
         // Get base price from product
         else {
@@ -326,5 +325,4 @@ abstract class RP_WCDPD_Method_Product_Pricing extends RP_WCDPD_Method
 
 
 
-}
 }

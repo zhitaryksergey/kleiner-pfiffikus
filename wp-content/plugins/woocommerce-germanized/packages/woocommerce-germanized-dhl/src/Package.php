@@ -20,7 +20,7 @@ class Package {
      *
      * @var string
      */
-    const VERSION = '1.1.2';
+    const VERSION = '1.2.5';
 
     public static $upload_dir_suffix = '';
 
@@ -49,11 +49,15 @@ class Package {
 
 	    // Add shipping provider
 	    add_filter( 'woocommerce_gzd_shipping_provider_class_names', array( __CLASS__, 'add_shipping_provider_class_name' ), 10, 1 );
-	    add_action( 'woocommerce_gzd_admin_settings_before_save_dhl', array( __CLASS__, 'before_update_settings' ) );
+	    add_action( 'woocommerce_gzd_admin_settings_before_save_dhl', array( __CLASS__, 'before_update_settings' ), 10, 2 );
 
 	    // Password Settings
 	    add_filter( 'woocommerce_admin_settings_sanitize_option_woocommerce_gzd_dhl_api_sandbox_password', array( __CLASS__, 'sanitize_password_field' ), 10, 3 );
 	    add_filter( 'woocommerce_admin_settings_sanitize_option_woocommerce_gzd_dhl_api_password', array( __CLASS__, 'sanitize_password_field' ), 10, 3 );
+
+	    add_filter( 'woocommerce_admin_settings_sanitize_option_woocommerce_gzd_dhl_api_username', array( __CLASS__, 'sanitize_user_field' ), 10, 3 );
+	    add_filter( 'woocommerce_admin_settings_sanitize_option_woocommerce_gzd_dhl_api_sandbox_username', array( __CLASS__, 'sanitize_user_field' ), 10, 3 );
+
 
 	    if ( self::is_enabled() ) {
 	        self::init_hooks();
@@ -63,7 +67,7 @@ class Package {
     }
 
     public static function has_dependencies() {
-    	return ( class_exists( 'WooCommerce' ) && class_exists( '\Vendidero\Germanized\Shipments\Package' ) && self::base_country_is_supported() );
+    	return ( class_exists( 'WooCommerce' ) && class_exists( '\Vendidero\Germanized\Shipments\Package' ) && self::base_country_is_supported() && apply_filters( 'woocommerce_gzd_dhl_enabled', true ) );
     }
 
     public static function base_country_is_supported() {
@@ -193,8 +197,6 @@ class Package {
 	        	ParcelServices::init();
 	        }
 
-	        Ajax::init();
-	        Emails::init();
 	        ShipmentLabelWatcher::init();
 	        LabelWatcher::init();
 	        Automation::init();
@@ -207,17 +209,30 @@ class Package {
 	    add_filter( 'woocommerce_gzd_shipping_provider_method_admin_settings', array( __CLASS__, 'add_shipping_provider_settings' ), 10, 1 );
 		add_filter( 'woocommerce_gzd_shipping_provider_method_clean_settings', array( __CLASS__, 'clean_shipping_provider_settings' ), 10, 2 );
 
-	    // Filter email templates
+	    // Filter templates
 	    add_filter( 'woocommerce_gzd_default_plugin_template', array( __CLASS__, 'filter_templates' ), 10, 3 );
 
 	    // Maybe force street number during checkout
 	    add_action( 'woocommerce_after_checkout_validation', array( __CLASS__, 'maybe_force_street_number' ), 10, 2 );
+
+	    // add_action( 'admin_init', array( __CLASS__, 'test' ) );
+    }
+
+    public static function test() {
+    	$label = wc_gzd_dhl_get_label( 289 );
+
+    	$api = self::get_api()->get_label( $label );
+    	exit();
     }
 
 	public static function sanitize_password_field( $value, $option, $raw_value ) {
 		$value = is_null( $raw_value ) ? '' : addslashes( $raw_value );
 
 		return trim( $value );
+	}
+
+	public static function sanitize_user_field( $value, $option, $raw_value ) {
+		return strtolower( wc_clean( $value ) );
 	}
 
 	/**
@@ -380,6 +395,7 @@ class Package {
 	 */
     public static function get_cig_user() {
     	$debug_user = defined( 'WC_GZD_DHL_SANDBOX_USER' ) ? WC_GZD_DHL_SANDBOX_USER : self::get_setting( 'api_sandbox_username' );
+		$debug_user = strtolower( $debug_user );
 
         return self::is_debug_mode() ? $debug_user : self::get_app_id();
     }
@@ -401,7 +417,9 @@ class Package {
 	 * @return mixed|string|void
 	 */
     public static function get_gk_api_user() {
-	    return self::is_debug_mode() ? '2222222222_01' : self::get_setting( 'api_username' );
+	    $user = self::is_debug_mode() ? '2222222222_01' : self::get_setting( 'api_username' );
+
+	    return strtolower( $user );
     }
 
 	/**
@@ -419,7 +437,9 @@ class Package {
 	 * @return mixed|string|void
 	 */
 	public static function get_retoure_api_user() {
-		return self::is_debug_mode() ? '2222222222_Customer' : self::get_setting( 'api_username' );
+		$user = self::is_debug_mode() ? '2222222222_Customer' : self::get_setting( 'api_username' );
+
+		return strtolower( $user );
 	}
 
 	public static function get_return_receivers() {
@@ -564,6 +584,145 @@ class Package {
 
     public static function set_upload_dir_filter() {
         add_filter( 'upload_dir', array( __CLASS__, "filter_upload_dir" ), 150, 1 );
+    }
+
+    public static function get_file_by_path( $file ) {
+	    // If the file is relative, prepend upload dir.
+	    if ( $file && 0 !== strpos( $file, '/' ) && ( ( $uploads = Package::get_upload_dir() ) && false === $uploads['error'] ) ) {
+		    $file = $uploads['basedir'] . "/$file";
+
+		    return $file;
+	    } else {
+		    return $file;
+	    }
+    }
+
+    public static function get_wsdl_file( $wsdl_link ) {
+	    $main_file       = basename( $wsdl_link );
+	    $required_files  = array( $main_file );
+
+	    // Some WSDLs may require multiple files
+	    if ( strpos( $wsdl_link, 'geschaeftskundenversand-api' ) !== false ) {
+		    $required_files = array(
+			    $main_file,
+			    str_replace( '.wsdl', '-schema-cis_base.xsd', $main_file ),
+			    str_replace( '.wsdl', '-schema-bcs_base.xsd', $main_file ),
+		    );
+	    }
+
+	    $file_link       = $wsdl_link;
+	    $transient       = 'wc_gzd_dhl_wsdl_' . sanitize_key( $main_file );
+	    $new_file_name   = $main_file;
+	    $files_exist     = true;
+	    $is_zip          = false;
+
+	    // Renew files every 14 days
+	    $transient_valid = DAY_IN_SECONDS * 14;
+
+	    if ( sizeof( $required_files ) > 1 ) {
+	    	$file_link     = str_replace( '.wsdl', '.zip', $file_link );
+	    	$new_file_name = str_replace( '.wsdl', '.zip', $new_file_name );
+	    	$is_zip        = true;
+	    }
+
+	    /**
+	     * Check if all required files exist locally
+	     */
+	    foreach( $required_files as $file ) {
+		    $transient = 'wc_gzd_dhl_wsdl_' . sanitize_key( $file );
+
+		    if ( ( $file_path = get_transient( $transient ) ) && file_exists( $file_path ) ) {
+
+		    } else {
+		    	$files_exist = false;
+		    }
+	    }
+
+	    $file_path = get_transient( $transient );
+
+	    /**
+	     * This filter may be used to force loading an alternate (local) WSDL file
+	     * for a certain API endpoint. By default we are trying to locally store necessary files
+	     * to reduce API calls. Transients/files are renewed once per day.
+	     *
+	     * @param boolean|string $alternate_file In case an alternate file should be used this must be the absolute path.
+	     * @param string         $wsdl_link The link to the original WSDL file.
+	     *
+	     * @since 3.1.2
+	     * @package Vendidero/Germanized/DHL
+	     */
+	    $alternate_file = apply_filters( 'woocommerce_gzd_dhl_alternate_wsdl_file', false, $wsdl_link );
+
+	    if ( ( $files_exist && $file_path ) || $alternate_file ) {
+		    $wsdl_link = $alternate_file ? $alternate_file : self::get_file_by_path( $file_path );
+	    } else {
+
+	    	if ( ! function_exists( 'download_url' ) ) {
+				include_once( ABSPATH . 'wp-admin/includes/file.php' );
+		    }
+
+		    if ( function_exists( 'download_url' ) && function_exists( 'unzip_file' ) ) {
+			    $tmp_file = download_url( $file_link );
+
+			    if ( ! is_wp_error( $tmp_file ) ) {
+
+				    $uploads    = Package::get_upload_dir();
+				    $new_file   = $uploads['path'] . "/$new_file_name";
+				    $has_copied = @copy( $tmp_file, $new_file );
+
+				    if ( $has_copied ) {
+
+				    	if ( $is_zip ) {
+						    global $wp_filesystem;
+
+						    if ( ! $wp_filesystem ) {
+							    WP_Filesystem();
+						    }
+
+						    $unzipfile = unzip_file( $new_file, $uploads['path'] );
+
+						    if ( ! is_wp_error( $unzipfile ) ) {
+							    $files_exist   = true;
+							    $new_wsdl_link = false;
+
+							    foreach( $required_files as $file ) {
+								    $transient = 'wc_gzd_dhl_wsdl_' . sanitize_key( $file );
+								    $file_path = $uploads['path'] . "/$file";
+
+								    if ( file_exists( $file_path ) ) {
+									    set_transient( $transient, self::get_relative_upload_dir( $file_path ), $transient_valid );
+
+									    if ( $file === $main_file ) {
+										    $new_wsdl_link = $file_path;
+									    }
+								    } else {
+									    $files_exist = false;
+								    }
+							    }
+
+							    if ( $files_exist && $new_wsdl_link ) {
+								    $wsdl_link = $new_wsdl_link;
+							    }
+						    }
+
+						    @unlink( $new_file );
+					    } else {
+						    $transient = 'wc_gzd_dhl_wsdl_' . sanitize_key( $main_file );
+						    $file_path = $uploads['path'] . "/$main_file";
+
+						    if ( file_exists( $file_path ) ) {
+							    set_transient( $transient, self::get_relative_upload_dir( $file_path ), $transient_valid );
+							    $wsdl_link = $file_path;
+						    }
+					    }
+
+					    @unlink( $tmp_file );
+				    }
+			    }
+		    }
+	    }
+
+	    return $wsdl_link;
     }
 
     public static function unset_upload_dir_filter() {
@@ -737,7 +896,12 @@ class Package {
 		}
 	}
 
-	public static function before_update_settings( $settings ) {
+	public static function before_update_settings( $settings, $current_section = '' ) {
+
+		if ( ! empty( $current_section ) ) {
+			return;
+		}
+
 		$currently_enabled = self::get_setting( 'enable' ) === 'yes';
 
 		if ( ! $currently_enabled && isset( $_POST['woocommerce_gzd_dhl_enable'] ) && ! empty( $_POST['woocommerce_gzd_dhl_enable'] ) ) {

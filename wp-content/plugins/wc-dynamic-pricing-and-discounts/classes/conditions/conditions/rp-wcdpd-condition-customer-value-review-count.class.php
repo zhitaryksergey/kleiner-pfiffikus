@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Customer_Value_Review_Count')) {
-
 class RP_WCDPD_Condition_Customer_Value_Review_Count extends RightPress_Condition_Customer_Value_Review_Count
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Customer_Value_Review_Count extends RightPress_Conditio
 }
 
 RP_WCDPD_Condition_Customer_Value_Review_Count::get_instance();
-
-}

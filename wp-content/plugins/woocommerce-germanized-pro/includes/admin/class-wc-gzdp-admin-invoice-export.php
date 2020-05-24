@@ -75,6 +75,7 @@ class WC_GZDP_Admin_Invoice_Export {
 			'address',
 			'customer',
 			'status',
+            'vat_id',
             'parent',
 		);
 
@@ -139,9 +140,14 @@ class WC_GZDP_Admin_Invoice_Export {
 		
 		$order    = $invoice->get_order();
 		$customer = '';
+		$vat_id   = '';
 
 		if ( $order && is_callable( array( $order, 'get_customer_id' ) ) ) {
 			$customer = $order->get_customer_id();
+		}
+
+		if ( $order && WC_GZDP_VAT_Helper::instance()->order_supports_vat_id( $order ) ) {
+			$vat_id = WC_GZDP_VAT_Helper::instance()->get_order_vat_id( $order );
 		}
 		
 		$return = array(
@@ -152,6 +158,7 @@ class WC_GZDP_Admin_Invoice_Export {
 			'address'   => str_replace( '<br/>', ";", $invoice->get_address() ),
 			'customer'  => $customer,
 			'status'    => $status,
+            'vat_id'    => $vat_id,
             'parent'    => $invoice->parent_id
 		);
 		

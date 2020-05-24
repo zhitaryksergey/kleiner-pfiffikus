@@ -148,13 +148,15 @@ table.wc-gzd-shipping-providers {
   }
 }
 
-.shipment-status, .order-shipping-status {
+.shipment-status, .order-shipping-status, .order-return-status {
   background: #eee;
   padding: .2em .5em;
   font-size: .9em;
   border-radius: 3px;
+  display: inline-flex;
+  white-space: nowrap;
 
-  &.status-draft, &.status-processing, &.status-partially-shipped {
+  &.status-draft, &.status-processing, &.status-requested, &.status-partially-shipped, &.status-open, &.status-partially-returned {
     background: #f8dda7;
     color: #94660c;
   }
@@ -164,9 +166,14 @@ table.wc-gzd-shipping-providers {
     color: #761919;
   }
 
-  &.status-delivered, &.status-shipped, &.status-shipped {
+  &.status-delivered, &.status-shipped, &.status-shipped, &.status-returned {
     background: #c6e1c6;
     color: #5b841b;
+  }
+
+  &.shipment-type-return-status.status-shipped {
+    background: #f8dda7;
+    color: #94660c;
   }
 }
 
@@ -294,6 +301,10 @@ table.wc-gzd-shipping-providers {
       th {
         padding: .5em 1em;
 
+        &.sortable a, &.sorted a {
+          padding: 0;
+        }
+
         &:last-child {
           padding-right: 2em;
         }
@@ -394,6 +405,10 @@ table.wc-gzd-shipping-providers {
           content: "\f147";
         }
 
+        &.confirm::after {
+          content: "\f147";
+        }
+
         &.generate::after {
           content: "\f502";
         }
@@ -468,6 +483,10 @@ table.wc-gzd-shipping-providers {
   .hndle, .handlediv {
     display: none;
   }
+
+  .hide-default {
+    display: none;
+  }
 }
 
 .germanized-shipments {
@@ -480,6 +499,12 @@ table.wc-gzd-shipping-providers {
 
     .panel-inner {
       padding: 0 24px;
+    }
+
+    .panel-title-inner {
+      padding-left: 0;
+      margin-top: 1em;
+      padding-right: 0;
     }
 
     .panel-title {
@@ -507,6 +532,16 @@ table.wc-gzd-shipping-providers {
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-between;
+
+        .shipment-actions-left {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+
+          .button {
+            margin-right: 1em;
+          }
+        }
       }
 
       #order-shipments-save {
@@ -514,7 +549,7 @@ table.wc-gzd-shipping-providers {
       }
     }
 
-    #order-shipment-add {
+    #order-shipment-add, #order-return-shipment-add {
       display: none;
     }
     
@@ -523,6 +558,15 @@ table.wc-gzd-shipping-providers {
         display: block;
       }
       #order-shipment-add {
+        display: block;
+      }
+    }
+
+    &.needs-returns {
+      .panel-footer {
+        display: block;
+      }
+      #order-return-shipment-add {
         display: block;
       }
     }
@@ -541,6 +585,11 @@ table.wc-gzd-shipping-providers {
     }
 
     .order-shipment {
+      a {
+        .woocommerce-help-tip {
+          margin-right: 3px;
+        }
+      }
       .handlediv {
         display: inline-block;
         float: none;
@@ -594,9 +643,22 @@ table.wc-gzd-shipping-providers {
       }
 
       .shipment-footer {
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
+        margin-top: 1em;
+
+        .shipment-footer-inner {
+          display: flex;
+          flex-wrap: nowrap;
+          justify-content: flex-end;
+          padding: 0 .5em;
+
+          a.shipment-footer-action {
+            margin-right: 1em;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
       }
 
       .shipment-header {
@@ -677,9 +739,7 @@ table.wc-gzd-shipping-providers {
 
           h4 {
             margin-bottom: .7em;
-            text-transform: uppercase;
             color: #999;
-            font-size: .9em;
 
             a {
               color: #999;
@@ -687,6 +747,10 @@ table.wc-gzd-shipping-providers {
             }
           }
         }
+      }
+
+      .column-shipment-documents {
+
       }
 
       .shipment-items {
@@ -697,9 +761,15 @@ table.wc-gzd-shipping-providers {
 
           .shipment-item-quantity {
             input {
-              width: 100%;
+              width: 50px;
               text-align: center;
-              padding: 0 4px;
+            }
+          }
+
+          .shipment-item-name {
+            p.form-row {
+              margin-bottom: 0;
+              margin-top: .5em;
             }
           }
 
@@ -707,10 +777,20 @@ table.wc-gzd-shipping-providers {
             padding: .5em;
             color: #999;
             background: #f8f8f8;
+            font-weight: 600;
           }
 
           .shipment-item {
-            padding: .7em .5em;
+            padding: .5em;
+            border-bottom: 1px solid #dfdfdf;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &:nth-child(2n) {
+              background: #f8f8f8;
+            }
 
             .columns {
               align-items: center;
@@ -723,6 +803,7 @@ table.wc-gzd-shipping-providers {
         display: flex;
         padding: .7em .5em;
         flex-wrap: nowrap;
+        justify-content: flex-end;
         border-top: 1px solid #dfdfdf;
 
         .add-items {

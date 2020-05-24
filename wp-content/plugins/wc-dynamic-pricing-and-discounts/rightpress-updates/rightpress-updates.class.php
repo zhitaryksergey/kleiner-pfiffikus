@@ -42,7 +42,7 @@ final class RightPress_Updates_7119279
      */
 
     // Version number
-    private static $rightpress_updates_version = '1.8';
+    private static $rightpress_updates_version = '1.9';
 
     // Object properties
     private $endpoint_url;
@@ -89,7 +89,7 @@ final class RightPress_Updates_7119279
         $this->purchase_code    = $this->get_purchase_code();
 
         // Register plugin with WordPress updater
-        add_filter('pre_set_site_transient_update_plugins', array($this, 'register_plugin'));
+        add_filter('pre_set_site_transient_update_plugins', array($this, 'register_plugin'), 3);
 
         // Override WordPress.org Plugin Install API
         add_filter('plugins_api', array($this, 'plugins_api_actions'), 10, 3);

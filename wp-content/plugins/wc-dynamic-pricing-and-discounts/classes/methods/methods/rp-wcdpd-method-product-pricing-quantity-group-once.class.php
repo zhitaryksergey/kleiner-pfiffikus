@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_Group')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_Group_Once')) {
-
 class RP_WCDPD_Method_Product_Pricing_Quantity_Group_Once extends RP_WCDPD_Method_Product_Pricing_Quantity_Group
 {
 
@@ -60,5 +58,3 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_Group_Once extends RP_WCDPD_Metho
 }
 
 RP_WCDPD_Method_Product_Pricing_Quantity_Group_Once::get_instance();
-
-}

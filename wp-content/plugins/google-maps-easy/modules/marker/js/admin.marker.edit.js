@@ -146,6 +146,7 @@ jQuery(document).ready(function(){
 			jQuery('#gmpMarkerForm input[name="marker_opts[map_id]"]').val( currentMapId );
 		}
 		jQuery('#gmpMarkerForm input[name="marker_opts[description]"]').val( gmpGetTxtEditorVal('markerDescription') );
+		jQuery('#gmpMarkerForm input[name="marker_opts[params][marker_list_desc_text]"]').val( gmpGetTxtEditorVal('markerDescriptionList') );
 		if(coordX == '' && coordY == '') {
 			_gmpCreateNewMapMarker();
 		}
@@ -322,6 +323,13 @@ function gmpResetMarkerForm() {
 	gmpCheckUpdate( jQuery('#gmpMarkerForm input[name="marker_opts[params][marker_list_def_img]"]') );
 	jQuery('#gmpMarkerForm input[name="marker_opts[params][marker_list_def_img]"]').trigger('change');
 
+	var listDesc = jQuery('#gmpMarkerForm input[name="marker_opts[params][marker_list_desc]"]');
+	if(listDesc.length > 0) {
+		listDesc.prop('checked', false);
+		gmpCheckUpdate(listDesc);
+		listDesc.trigger('change');
+	}
+
 	gmpSetIconImg();
 	gmpAddLinkOptions();
 
@@ -427,6 +435,14 @@ function gmpOpenMarkerEdit(id) {
 			markerListDefImg.prop('checked', true);
 			gmpCheckUpdate( markerListDefImg );
 			markerListDefImg.trigger('change');
+		}
+		if(parseInt(markerParams.params.marker_list_desc)) {
+			var markerListDesc = jQuery('#gmpMarkerForm input[name="marker_opts[params][marker_list_desc]"]');
+			gmpSetTxtEditorVal('markerDescriptionList', markerParams.params.marker_list_desc_text);
+			
+			markerListDesc.prop('checked', true);
+			gmpCheckUpdate( markerListDesc );
+			markerListDesc.trigger('change');
 		}
 		gmpAddLinkOptions();
 		gmpSetIconImg();

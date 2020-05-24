@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Field_Number')) {
-    require_once('rightpress-condition-field-number.class.php');
-}
+require_once 'rightpress-condition-field-number.class.php';
 
 /**
  * Condition Field: Number - Number
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Field_Number')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Field_Number_Number')) {
-
 abstract class RightPress_Condition_Field_Number_Number extends RightPress_Condition_Field_Number
 {
 
@@ -42,5 +36,4 @@ abstract class RightPress_Condition_Field_Number_Number extends RightPress_Condi
 
 
 
-}
 }

@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Conditions controller
@@ -12,8 +10,6 @@ if (!defined('ABSPATH')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Controller_Conditions')) {
-
 abstract class RightPress_Controller_Conditions extends RightPress_Item_Controller
 {
 
@@ -41,7 +37,7 @@ abstract class RightPress_Controller_Conditions extends RightPress_Item_Controll
             exit;
         }
 
-        // Construct parent
+        // Call parent constructor
         parent::__construct();
 
         // Generate custom taxonomy conditions
@@ -1183,5 +1179,4 @@ abstract class RightPress_Controller_Conditions extends RightPress_Item_Controll
 
 
 
-}
 }

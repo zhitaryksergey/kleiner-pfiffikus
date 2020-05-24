@@ -144,6 +144,10 @@ ul.products .product .av-product-class-minimal-overlay .wc-gzd-additional-info {
  * SINGLE PRODUCT
  */
 
+.single-product .single-product-summary div[itemprop="offers"] {
+  display: inline;
+}
+
 .single-product .price-unit {
   margin-left: 1em;
 }

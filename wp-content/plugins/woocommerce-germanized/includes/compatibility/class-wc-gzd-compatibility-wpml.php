@@ -17,6 +17,8 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 
 	protected $email_locale = false;
 
+	protected $email_old_lang = false;
+
 	protected $email_lang = false;
 
 	public static function get_name() {
@@ -86,8 +88,17 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 	public function switch_email_lang( $lang ) {
 		global $woocommerce_wpml, $sitepress;
 
+		$current_language = $sitepress->get_current_language();
+
+		if ( empty( $current_language ) ) {
+			$current_language = $sitepress->get_default_language();
+		}
+
+		$this->email_old_lang = $current_language;
+
 		if ( isset( $woocommerce_wpml->emails ) && is_callable( array( $woocommerce_wpml->emails, 'change_email_language' ) ) ) {
 			$woocommerce_wpml->emails->change_email_language( $lang );
+
 			$this->email_locale = $sitepress->get_locale( $lang );
 			$this->reload_locale();
 		}
@@ -165,7 +176,42 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 			 * the send method.
 			 */
 			$email->init_settings();
+
+			/**
+			 * Manually adjust subject + heading option which does seem to cause problems
+			 * for custom emails such as invoice and cancellation email.
+			 */
+			if ( $subject = $this->translate_email_setting( $email->id, 'subject' ) ) {
+				$email->settings['subject'] = $subject;
+			}
+
+			if ( $heading = $this->translate_email_setting( $email->id, 'heading' ) ) {
+				$email->settings['heading'] = $heading;
+			}
+
+			/**
+			 * This action fires as soon as the WPML email language has been switched by the Germanized compatibility script.
+			 *
+			 * @param string   $lang Language e.g. en
+			 * @param WC_Email $email The email instance.
+			 *
+			 * @since 3.1.2
+			 */
+			do_action( 'woocommerce_gzd_wpml_switched_email_language', $this->email_lang, $email );
 		}
+	}
+
+	protected function translate_email_setting( $email_id, $option_name = 'heading' ) {
+		global $woocommerce_wpml;
+
+		if ( ! is_callable( array( $woocommerce_wpml->emails, 'wcml_get_translated_email_string' ) ) ) {
+			return false;
+		}
+
+		$domain     = 'admin_texts_woocommerce_' . $email_id . '_settings';
+		$namePrefix = '[woocommerce_' . $email_id . '_settings]';
+
+		return $woocommerce_wpml->emails->wcml_get_translated_email_string( $domain, $namePrefix . $option_name, false, $this->email_lang );
 	}
 
 	/**
@@ -176,12 +222,15 @@ class WC_GZD_Compatibility_WPML extends WC_GZD_Compatibility {
 
 		if ( $this->email_locale ) {
 
-			$sitepress->switch_lang( $sitepress->get_default_language() );
+			$old_lang = $this->email_old_lang ? $this->email_old_lang : $sitepress->get_default_language();
+
+			$sitepress->switch_lang( $old_lang );
 			remove_filter( 'plugin_locale', array( $this, 'filter_email_locale' ), 50 );
 			remove_filter( 'wcml_email_language', array( $this, 'filter_email_lang' ), 10 );
 
-			$this->email_lang   = false;
-			$this->email_locale = false;
+			$this->email_lang     = false;
+			$this->email_old_lang = false;
+			$this->email_locale   = false;
 
 			$this->reload_locale();
 		}

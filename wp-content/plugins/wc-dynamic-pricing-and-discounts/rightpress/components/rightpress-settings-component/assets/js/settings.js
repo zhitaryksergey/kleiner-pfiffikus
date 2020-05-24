@@ -4,6 +4,6 @@
 
 jQuery(document).ready(function() {
 
-    // TBD
+    // TODO: Add something or remove file
 
 });

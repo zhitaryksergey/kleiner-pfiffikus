@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Pricing_Method_Fixed')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Pricing_Method_Fixed_Price')) {
-
 class RP_WCDPD_Pricing_Method_Fixed_Price extends RP_WCDPD_Pricing_Method_Fixed
 {
 
@@ -75,5 +73,3 @@ class RP_WCDPD_Pricing_Method_Fixed_Price extends RP_WCDPD_Pricing_Method_Fixed
 }
 
 RP_WCDPD_Pricing_Method_Fixed_Price::get_instance();
-
-}

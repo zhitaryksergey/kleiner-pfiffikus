@@ -110,7 +110,7 @@ class WC_GZDP_Invoice_Shortcodes {
             return;
         }
 
-        $eu        = WC()->countries->get_european_union_countries( 'eu_vat' );
+        $eu        = wc_gzdp_get_eu_vat_countries();
         $return    = '';
         $total_tax = $order->get_total_tax();
 
@@ -244,7 +244,9 @@ class WC_GZDP_Invoice_Shortcodes {
             $return  = implode( ', ', $coupons );
 
         } elseif ( $meta == 'has_shipping_address' ) {
-            $return = wc_gzdp_order_has_differing_shipping_address( $order );
+	        $return = wc_gzdp_order_has_differing_shipping_address( $order );
+        } elseif( $meta == 'customer_note' ) {
+        	$return = is_callable( array( $order, 'get_customer_note' ) ) ? wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ) : '';
         } else {
             $data = self::get_order_meta_data( $order, $meta );
 

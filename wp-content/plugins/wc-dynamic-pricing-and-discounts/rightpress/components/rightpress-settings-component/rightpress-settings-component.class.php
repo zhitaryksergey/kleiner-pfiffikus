@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Settings_Component')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Settings Component
@@ -18,19 +13,8 @@ if (!class_exists('RightPress_Settings_Component')) {
 final class RightPress_Settings_Component
 {
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -44,9 +28,6 @@ final class RightPress_Settings_Component
         // Load classes
         require_once __DIR__ . '/classes/rightpress-plugin-settings.class.php';
         require_once __DIR__ . '/classes/rightpress-settings-exception.class.php';
-
-        // Load interfaces
-        require_once __DIR__ . '/interfaces/rightpress-settings-interface.php';
     }
 
 
@@ -54,5 +35,3 @@ final class RightPress_Settings_Component
 }
 
 RightPress_Settings_Component::get_instance();
-
-}

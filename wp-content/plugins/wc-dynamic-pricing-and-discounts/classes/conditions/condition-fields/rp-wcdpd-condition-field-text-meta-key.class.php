@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Text_Meta_Key')) {
-
 class RP_WCDPD_Condition_Field_Text_Meta_Key extends RightPress_Condition_Field_Text_Meta_Key
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Text_Meta_Key extends RightPress_Condition_Field_
 }
 
 RP_WCDPD_Condition_Field_Text_Meta_Key::get_instance();
-
-}

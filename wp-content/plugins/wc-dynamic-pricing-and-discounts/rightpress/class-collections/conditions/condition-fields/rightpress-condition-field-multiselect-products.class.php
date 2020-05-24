@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Field_Multiselect')) {
-    require_once('rightpress-condition-field-multiselect.class.php');
-}
+require_once 'rightpress-condition-field-multiselect.class.php';
 
 /**
  * Condition Field: Multiselect - Products
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Field_Multiselect')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Field_Multiselect_Products')) {
-
 abstract class RightPress_Condition_Field_Multiselect_Products extends RightPress_Condition_Field_Multiselect
 {
 
@@ -68,5 +62,4 @@ abstract class RightPress_Condition_Field_Multiselect_Products extends RightPres
 
 
 
-}
 }

@@ -36,7 +36,9 @@ interface ShipmentLabel {
 	public function download( $args = array() );
 
 	/**
-	 * Returns the local absolute path to the label file.
+	 * Returns the (local) label file path. False in case the label is not stored locally.
+	 *
+	 * @return bool|string
 	 */
 	public function get_file();
 

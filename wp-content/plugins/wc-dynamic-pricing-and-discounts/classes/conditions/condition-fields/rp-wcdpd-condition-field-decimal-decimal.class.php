@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Decimal_Decimal')) {
-
 class RP_WCDPD_Condition_Field_Decimal_Decimal extends RightPress_Condition_Field_Decimal_Decimal
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Decimal_Decimal extends RightPress_Condition_Fiel
 }
 
 RP_WCDPD_Condition_Field_Decimal_Decimal::get_instance();
-
-}

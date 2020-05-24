@@ -7,6 +7,10 @@ class WC_GZDP_Invoice_Preview extends WC_GZDP_Invoice {
 
 	public $number;
 
+	protected $tax_totals = array();
+
+	protected $items = array();
+
 	public function __construct() {
 		
 		$this->content_type = 'invoice';
@@ -26,9 +30,9 @@ class WC_GZDP_Invoice_Preview extends WC_GZDP_Invoice {
 			_x( '12209 Musterstadt', 'invoices-preview', 'woocommerce-germanized-pro' ),
 		) );
 		
-		$base_rate = WC_Tax::get_shop_base_rate();
+		$base_rate    = WC_Tax::get_base_tax_rates();
 		$base_rate_id = key( $base_rate );
-		$calc_tax = true;
+		$calc_tax     = true;
 		
 		if ( get_option( 'woocommerce_gzd_small_enterprise' ) == 'yes' )
 			$calc_tax = false;

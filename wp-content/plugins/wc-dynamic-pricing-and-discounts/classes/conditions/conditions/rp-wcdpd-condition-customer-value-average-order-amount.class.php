@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Customer_Value_Average_Order_Amount')) {
-
 class RP_WCDPD_Condition_Customer_Value_Average_Order_Amount extends RightPress_Condition_Customer_Value_Average_Order_Amount
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Customer_Value_Average_Order_Amount extends RightPress_
 }
 
 RP_WCDPD_Condition_Customer_Value_Average_Order_Amount::get_instance();
-
-}

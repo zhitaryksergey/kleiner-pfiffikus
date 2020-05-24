@@ -5,8 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('RP_WCDPD')) {
-
 /**
  * Main plugin class
  *
@@ -16,19 +14,8 @@ if (!class_exists('RP_WCDPD')) {
 class RP_WCDPD
 {
 
-    // Singleton instance
-    private static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Class constructor
@@ -268,6 +255,9 @@ class RP_WCDPD
         require_once RP_WCDPD_PLUGIN_PATH . 'extensions/promotion-volume-pricing-table/rp-wcdpd-promotion-volume-pricing-table.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'extensions/promotion-your-price/rp-wcdpd-promotion-your-price.class.php';
 
+        // Load integrations
+        require_once RP_WCDPD_PLUGIN_PATH . 'integrations/rp-wcdpd-integration-generic-product-feed.class.php';
+
         // Load other classes
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-ajax.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-assets.class.php';
@@ -279,10 +269,39 @@ class RP_WCDPD
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-product-pricing.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-rules.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-wc-cart.class.php';
+        require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-wc-checkout.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-wc-order.class.php';
 
-        // Load settings class in the end so that other classes can register their settings
+        // These classes must always be loaded after other classes are loaded
+        require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-data-updater.class.php';
         require_once RP_WCDPD_PLUGIN_PATH . 'classes/rp-wcdpd-settings.class.php';
+
+        // Load includes
+        require_once RP_WCDPD_PLUGIN_PATH . 'includes/functions.php';
+    }
+
+    /**
+     * Checks if developer functions are ready to use, throws exception if not
+     *
+     * @access public
+     * @param string $function
+     * @return bool
+     */
+    public static function ready_or_fail($function)
+    {
+
+        // Wait for rightpress_init
+        if (!did_action('rightpress_init') || doing_action('rightpress_init')) {
+            throw new Exception("Function $function can only be called after WordPress init action position 9.");
+        }
+
+        // Wait for cart to be loaded from session
+        if (!did_action('woocommerce_cart_loaded_from_session')) {
+            throw new Exception("Function $function can only be called after WooCommerce cart is loaded from session.");
+        }
+
+        // Ready
+        return true;
     }
 
     /**
@@ -306,7 +325,7 @@ class RP_WCDPD
     public static function get_admin_capability()
     {
 
-        return apply_filters('rp_wcdpd_capability', 'manage_woocommerce');
+        return apply_filters('rp_wcdpd_capability', RP_WCDPD_ADMIN_CAPABILITY);
     }
 
     /**
@@ -423,5 +442,3 @@ class RP_WCDPD
 }
 
 RP_WCDPD::get_instance();
-
-}

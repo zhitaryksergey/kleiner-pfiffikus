@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Controller_Conditions')) {
-
 class RP_WCDPD_Controller_Conditions extends RightPress_Controller_Conditions
 {
 
@@ -169,5 +167,3 @@ class RP_WCDPD_Controller_Conditions extends RightPress_Controller_Conditions
 }
 
 RP_WCDPD_Controller_Conditions::get_instance();
-
-}

@@ -153,7 +153,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		) );
 		add_action( 'woocommerce_thankyou_direct-debit', array( $this, 'thankyou_page' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'payment_scripts' ) );
-		add_filter( 'woocommerce_email_classes', array( $this, 'add_email_template' ) );
 
 		add_action( 'woocommerce_gzd_legal_checkbox_checkout_sepa_validate', array( $this, 'validate_checkbox' ) );
 		add_action( 'woocommerce_gzd_legal_checkbox_pay_for_order_sepa_validate', array(
@@ -322,11 +321,18 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 		);
 
 		if ( isset( $args['unpaid_only'] ) && $args['unpaid_only'] === 1 ) {
-			array_push( $meta_query, array(
-				'key'     => '_date_completed',
-				'value'   => '',
-				'compare' => '='
-			) );
+		    $meta_query[] = array(
+		        'relation' => 'OR',
+			    array(
+				    'key'     => '_date_completed',
+				    'compare' => 'NOT EXISTS'
+			    ),
+			    array(
+				    'key'     => '_date_completed',
+				    'compare' => '=',
+                    'value'   => '',
+			    ),
+            );
 		}
 
 		$query_args = array(
@@ -634,14 +640,14 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	}
 
 	public function send_mail( $order_id ) {
-		$order = wc_get_order( $order_id );
+	    if ( $order = wc_get_order( $order_id ) ) {
+		    if ( $order->get_payment_method() == $this->id ) {
 
-		if ( $order->get_payment_method() == $this->id ) {
-
-			if ( $mail = WC_germanized()->emails->get_email_instance_by_id( 'customer_sepa_direct_debit_mandate' ) ) {
-				$mail->trigger( $order );
-			}
-		}
+			    if ( $mail = WC_germanized()->emails->get_email_instance_by_id( 'customer_sepa_direct_debit_mandate' ) ) {
+				    $mail->trigger( $order );
+			    }
+		    }
+        }
 	}
 
 	public function clean_whitespaces( $str ) {
@@ -661,7 +667,7 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 	        return;
         }
 
-		if ( ! $order->get_payment_method() === $this->id ) {
+		if ( $order->get_payment_method() !== $this->id ) {
 			return;
 		}
 
@@ -720,12 +726,6 @@ Please notice: Period for pre-information of the SEPA direct debit is shortened 
 			 */
 			do_action( 'woocommerce_gzd_direct_debit_user_data_updated', $order, $user_id, $this );
 		}
-	}
-
-	public function add_email_template( $mails ) {
-		$mails['WC_GZD_Email_Customer_SEPA_Direct_Debit_Mandate'] = include WC_germanized()->plugin_path() . '/includes/emails/class-wc-gzd-email-customer-sepa-direct-debit-mandate.php';
-
-		return $mails;
 	}
 
 	public function generate_mandate() {

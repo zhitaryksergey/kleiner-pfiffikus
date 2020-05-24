@@ -39,73 +39,15 @@ class WC_Gateway_PPEC_With_PayPal_Addons extends WC_Gateway_PPEC_With_PayPal {
 
 		add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array( $this, 'scheduled_subscription_payment' ), 10, 2 );
 		add_action( 'woocommerce_subscription_failing_payment_method_' . $this->id, array( $this, 'update_failing_payment_method' ) );
-		add_filter( 'woocommerce_payment_gateways_renewal_support_status_html', array( $this, 'subscription_tooltip' ), 10, 2 );
-		add_filter( 'woocommerce_available_payment_gateways', array( $this, 'get_available_gataways_for_subscriptions' ), 20 );
-	}
 
-	/**
-	 * Filter for Subscriptions info tooltip html for this gateway
-	 *
-	 * @since 1.6.12
-	 *
-	 * @param string             $html HTML of the tooltip
-	 * @param WC_Payment_Gateway $gateway Payment gateway to filter for
-	 *
-	 * @return string Filtered HTML
-	 */
-	public function subscription_tooltip( $html, $gateway ) {
-		if ( $gateway->id !== $this->id ) {
-			return $html;
-		}
-		if ( 'no' === $gateway->get_option( 'require_billing', 'no' ) ) {
-			$tool_tip = esc_attr__( 'You must enable the "Require billing address" option to support this gateway\'s features for virtual subscriptions.', 'woocommerce-gateway-paypal-express-checkout' );
-			$status = esc_html__( 'Maybe', 'woocommerce-gateway-paypal-express-checkout' );
-			$html = sprintf( '<span class="payment-method-features-info tips" data-tip="%1$s">%2$s</span>',
-				$tool_tip,
-				$status );
-		}
-		return $html;
-	}
+		// When changing the payment method for a WooCommerce Subscription to PayPal Checkout, let WooCommerce Subscription
+		// know that the payment method for that subscription should not be changed immediately. Instead, it should
+		// wait for the IPN notification, after the user confirmed the payment method change with PayPal.
+		add_filter( 'woocommerce_subscriptions_update_payment_via_pay_shortcode', array( $this, 'indicate_async_payment_method_update' ), 10, 2 );
 
-	/**
-	 * Filter determining whether to show this gateway during checkout
-	 *
-	 * @since 1.6.12
-	 *
-	 * @param array $gateways Array of payment gateways
-	 *
-	 * @return array Filtered array of payment gateways
-	 */
-	public function get_available_gataways_for_subscriptions( $gateways ) {
-		if ( ! $this->should_display_buttons_at_checkout() ) {
-			unset( $gateways['ppec_paypal'] );
-		}
-		return $gateways;
-	}
-
-	/**
-	 * Checks if smart payment buttons can be displayed during the checkout
-	 *
-	 * @since 1.6.12
-	 *
-	 * @return bool True if buttons can be displayed
-	 */
-	public function should_display_buttons_at_checkout() {
-		if ( ! class_exists( 'WC_Subscriptions_Product' )
-			|| ! WC()->cart
-			|| 'yes' === $this->get_option( 'require_billing', 'no' ) ) {
-			return true;
-		}
-		$cart_contents = WC()->cart->cart_contents;
-		if ( empty( $cart_contents ) ) {
-			return true;
-		}
-		foreach ( WC()->cart->cart_contents as $cart_item ) {
-			if ( WC_Subscriptions_Product::is_subscription( $cart_item['data'] ) && ! $cart_item['data']->needs_shipping() ) {
-				return false;
-			}
-		}
-		return true;
+		// Add extra parameter when updating the subscription payment method to PayPal.
+		add_filter( 'woocommerce_paypal_express_checkout_set_express_checkout_params_get_return_url', array( $this, 'add_query_param_to_url_subscription_payment_method_change' ), 10, 2 );
+		add_filter( 'woocommerce_paypal_express_checkout_set_express_checkout_params_get_cancel_url', array( $this, 'add_query_param_to_url_subscription_payment_method_change' ), 10, 2 );
 	}
 
 	/**
@@ -122,6 +64,31 @@ class WC_Gateway_PPEC_With_PayPal_Addons extends WC_Gateway_PPEC_With_PayPal {
 	}
 
 	/**
+	 * Checks whether the order associated with the given order_id is
+	 * for changing a payment method for a WooCommerce Subscription.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param int $order_id Order ID.
+	 *
+	 * @return bool Returns true if the order is changing the payment method for a subscription.
+	 */
+	private function is_order_changing_payment_method_for_subscription( $order_id ) {
+		$order = wc_get_order( $order_id );
+		return (
+			is_callable( array( $order, 'get_type' ) )
+			&& 'shop_subscription' === $order->get_type()
+			&& isset( $_POST['_wcsnonce'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['_wcsnonce'] ), 'wcs_change_payment_method' )
+			&& isset( $_POST['woocommerce_change_payment'] )
+			&& $order->get_id() === absint( $_POST['woocommerce_change_payment'] )
+			&& isset( $_GET['key'] )
+			&& $order->get_order_key() === $_GET['key']
+			&& 0 === $order->get_total() // WooCommerce Subscriptions uses $0 orders to update payment method for the subscription.
+		);
+	}
+
+	/**
 	 * Process payment.
 	 *
 	 * @since 1.2.0
@@ -132,6 +99,11 @@ class WC_Gateway_PPEC_With_PayPal_Addons extends WC_Gateway_PPEC_With_PayPal {
 	 */
 	public function process_payment( $order_id ) {
 		if ( $this->is_subscription( $order_id ) ) {
+			// Is this a subscription payment method change?
+			if ( $this->is_order_changing_payment_method_for_subscription( $order_id ) ) {
+				return $this->change_subscription_payment_method( $order_id );
+			}
+			// Otherwise, it's a subscription payment.
 			return $this->process_subscription( $order_id );
 		}
 
@@ -267,5 +239,76 @@ class WC_Gateway_PPEC_With_PayPal_Addons extends WC_Gateway_PPEC_With_PayPal {
 	 */
 	public function update_failing_payment_method( $subscription, $renewal_order ) {
 		update_post_meta( is_callable( array( $subscription, 'get_id' ) ) ? $subscription->get_id() : $subscription->id, '_ppec_billing_agreement_id', $renewal_order->ppec_billing_agreement_id );
+	}
+
+	/**
+	 * Indicate to WooCommerce Subscriptions that the payment method change for PayPal Checkout
+	 * should be asynchronous.
+	 *
+	 * WC_Subscriptions_Change_Payment_Gateway::change_payment_method_via_pay_shortcode uses the
+	 * result to decide whether or not to change the payment method information on the subscription
+	 * right away or not.
+	 *
+	 * In our case, the payment method will not be updated until after the user confirms the
+	 * payment method change with PayPal. Once that's done, we'll take care of finishing
+	 * the payment method update with the subscription.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param bool   $should_update Current value of whether the payment method should be updated immediately.
+	 * @param string $new_payment_method The new payment method name.
+	 *
+	 * @return bool Whether the subscription's payment method should be updated on checkout or async when a response is returned.
+	 */
+	public function indicate_async_payment_method_update( $should_update, $new_payment_method ) {
+		if ( 'ppec_paypal' === $new_payment_method ) {
+			$should_update = false;
+		}
+		return $should_update;
+	}
+
+	/**
+	 * Start the process to update the payment method for a WooCommerce Subscriptions.
+	 *
+	 * This function is called by `process_payment` when changing a payment method for WooCommerce Subscriptions.
+	 * When it's successful, `WC_Subscriptions_Change_Payment_Gateway::change_payment_method_via_pay_shortcode` will
+	 * redirect to the redirect URL provided and the user will be prompted to confirm the payment update.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param int $order_id Order ID.
+	 *
+	 * @return array Array used by WC_Subscriptions_Change_Payment_Gateway::change_payment_method_via_pay_shortcode.
+	 */
+	public function change_subscription_payment_method( $order_id ) {
+		try {
+			return array(
+				'result'   => 'success',
+				'redirect' => wc_gateway_ppec()->checkout->start_checkout_from_order( $order_id, false ),
+			);
+		} catch ( PayPal_API_Exception $e ) {
+			wc_add_notice( $e->getMessage(), 'error' );
+			return array(
+				'result' => 'failure',
+			);
+		}
+	}
+
+	/**
+	 * Add query param to return and cancel URLs when making a payment change for
+	 * a WooCommerce Subscription.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param string $url The original URL.
+	 * @param int    $order_id Order ID.
+	 *
+	 * @return string The new URL.
+	 */
+	public function add_query_param_to_url_subscription_payment_method_change( $url, $order_id ) {
+		if ( $this->is_order_changing_payment_method_for_subscription( $order_id ) ) {
+			return add_query_arg( 'update_subscription_payment_method', 'true', $url );
+		}
+		return $url;
 	}
 }

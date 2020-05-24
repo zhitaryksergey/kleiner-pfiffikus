@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Shipping')) {
-    require_once('rightpress-condition-shipping.class.php');
-}
+require_once 'rightpress-condition-shipping.class.php';
 
 /**
  * Condition: Shipping - Zone
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Shipping')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Shipping_Zone')) {
-
 abstract class RightPress_Condition_Shipping_Zone extends RightPress_Condition_Shipping
 {
 
@@ -82,5 +76,4 @@ abstract class RightPress_Condition_Shipping_Zone extends RightPress_Condition_S
 
 
 
-}
 }

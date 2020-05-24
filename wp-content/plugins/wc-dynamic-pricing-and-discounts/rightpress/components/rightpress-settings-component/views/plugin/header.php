@@ -1,13 +1,11 @@
 <?php
 
+// Exit if accessed directly
+defined('ABSPATH') || exit;
+
 /**
  * Settings page header view
  */
-
-// Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
 
 ?>
 

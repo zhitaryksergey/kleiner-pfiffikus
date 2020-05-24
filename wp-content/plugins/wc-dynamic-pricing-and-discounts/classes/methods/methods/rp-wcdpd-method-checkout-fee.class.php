@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Checkout_Fee')) {
-
 abstract class RP_WCDPD_Method_Checkout_Fee extends RP_WCDPD_Method
 {
 
@@ -83,5 +81,4 @@ abstract class RP_WCDPD_Method_Checkout_Fee extends RP_WCDPD_Method
 
 
 
-}
 }

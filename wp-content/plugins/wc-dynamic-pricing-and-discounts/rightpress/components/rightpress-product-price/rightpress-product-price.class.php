@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Shared Product Price Component
@@ -18,19 +13,11 @@ if (!class_exists('RightPress_Product_Price')) {
 final class RightPress_Product_Price
 {
 
-    // Singleton instance
-    protected static $instance = false;
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Save references to products for access to price caches
+    private $reference_products = array();
 
     /**
      * Constructor
@@ -74,6 +61,9 @@ final class RightPress_Product_Price
         require_once __DIR__ . '/classes/rightpress-product-price-live-update.class.php';
         require_once __DIR__ . '/classes/rightpress-product-price-shop.class.php';
         require_once __DIR__ . '/classes/rightpress-product-price-test.class.php';
+
+        // This class calls other classes directly from constructor so we load it last
+        require_once __DIR__ . '/classes/rightpress-product-price-router.class.php';
     }
 
     /**
@@ -86,7 +76,7 @@ final class RightPress_Product_Price
     public function flag_product_in_cart($cart_item_data)
     {
 
-        $cart_item_data['data']->rightpress_in_cart = true;
+        $cart_item_data['data']->rightpress_in_cart = $cart_item_data['key'];
         return $cart_item_data;
     }
 
@@ -110,57 +100,6 @@ final class RightPress_Product_Price
 
         // Enqueue styles
         RightPress_Help::enqueue_or_inject_stylesheet('rightpress-product-price-styles', RIGHTPRESS_LIBRARY_URL . '/components/rightpress-product-price/assets/styles.css', $rightpress_version);
-    }
-
-
-    /**
-     * =================================================================================================================
-     * LATE HOOK CONTROL
-     * =================================================================================================================
-     */
-
-    /**
-     * Add late action
-     *
-     * @access public
-     * @param string $hook
-     * @param mixed $callback
-     * @param int $accepted_args
-     * @return void
-     */
-    public static function add_late_action($hook, $callback, $accepted_args = 1)
-    {
-
-        add_action($hook, $callback, RightPress_Product_Price::get_late_hook_priority($hook, $callback), $accepted_args);
-    }
-
-    /**
-     * Add late filter
-     *
-     * @access public
-     * @param string $hook
-     * @param mixed $callback
-     * @param int $accepted_args
-     * @return void
-     */
-    public static function add_late_filter($hook, $callback, $accepted_args = 1)
-    {
-
-        add_filter($hook, $callback, RightPress_Product_Price::get_late_hook_priority($hook, $callback), $accepted_args);
-    }
-
-    /**
-     * Get late hook priority
-     *
-     * @access public
-     * @param string $hook
-     * @param mixed $callback
-     * @return int
-     */
-    public static function get_late_hook_priority($hook, $callback)
-    {
-
-        return (int) apply_filters('rightpress_product_price_late_hook_priority', PHP_INT_MAX, $hook, $callback);
     }
 
 
@@ -233,12 +172,17 @@ final class RightPress_Product_Price
      * Check if prices differ in a float-safe way
      *
      * @access public
-     * @param float $first_price
-     * @param float $second_price
+     * @param float|string $first_price
+     * @param float|string $second_price
      * @return bool
      */
     public static function prices_differ($first_price, $second_price)
     {
+
+        // Special case - one of the prices is an empty string
+        if (($first_price === '' && $second_price !== '') || ($first_price !== '' && $second_price === '')) {
+            return true;
+        }
 
         return (abs((float) $first_price - (float) $second_price) > 0.000001);
     }
@@ -287,6 +231,69 @@ final class RightPress_Product_Price
 
     /**
      * =================================================================================================================
+     * PRODUCT REFERENCES
+     * =================================================================================================================
+     */
+
+    /**
+     * Set reference product
+     *
+     * @access public
+     * @param WC_Product $product
+     * @return void
+     */
+    public static function set_reference_product($product)
+    {
+
+        // Get instance
+        $instance = RightPress_Product_Price::get_instance();
+
+        // Check product
+        if (is_a($product, 'WC_Product') && $product->get_id()) {
+
+            // Check if reference product is missing
+            if (!isset($instance->reference_products[$product->get_id()])) {
+
+                // Set reference product
+                $instance->reference_products[$product->get_id()] = $product;
+            }
+        }
+    }
+
+    /**
+     * Get reference product
+     *
+     * @access public
+     * @param WC_Product|int $product
+     * @return WC_Product|false
+     */
+    public static function get_reference_product($product)
+    {
+
+        // Get instance
+        $instance = RightPress_Product_Price::get_instance();
+
+        // Get product id
+        $product_id = is_a($product, 'WC_Product') ? $product->get_id() : $product;
+
+        // Reference product is not set
+        if (!isset($instance->reference_products[$product_id])) {
+
+            // Load reference product
+            if ($reference_product = wc_get_product($product_id)) {
+
+                // Set reference product
+                RightPress_Product_Price::set_reference_product($reference_product);
+            }
+        }
+
+        // Return either a valid reference product or false
+        return isset($instance->reference_products[$product_id]) ? $instance->reference_products[$product_id] : false;
+    }
+
+
+    /**
+     * =================================================================================================================
      * OTHER METHODS
      * =================================================================================================================
      */
@@ -301,7 +308,13 @@ final class RightPress_Product_Price
     public static function get_price_key($price)
     {
 
-        return number_format($price, RightPress_Product_Price::get_price_decimals());
+        $price_key = '';
+
+        if ($price !== '') {
+            $price_key = number_format($price, RightPress_Product_Price::get_price_decimals());
+        }
+
+        return $price_key;
     }
 
     /**
@@ -320,6 +333,36 @@ final class RightPress_Product_Price
         return $hooks;
     }
 
+    /**
+     * Subtract tax from product prices and checkout fees by tax class when WooCommerce adds taxes on top of the amount
+     *
+     * @access public
+     * @param float $amount
+     * @param string $tax_class
+     * @return float
+     */
+    public static function maybe_subtract_tax_from_amount($amount, $tax_class)
+    {
+
+        $result = $amount;
+
+        // Check if tax class is set
+        if ($tax_class !== false && $tax_class !== null) {
+
+            // Check if WooCommerce product prices include tax
+            if (wc_prices_include_tax()) {
+
+                // Calculate tax amount
+                $tax_amount = array_sum(WC_Tax::calc_inclusive_tax($amount, WC_Tax::get_rates($tax_class)));
+
+                // Subtract tax from amount
+                $result -= $tax_amount;
+            }
+        }
+
+        return $result;
+    }
+
 
 
 
@@ -327,5 +370,3 @@ final class RightPress_Product_Price
 }
 
 RightPress_Product_Price::get_instance();
-
-}

@@ -4,8 +4,8 @@ Author URI: https://supsystic.com/
 Plugin URI: https://supsystic.com/plugins/google-maps-plugin
 Donate link: https://supsystic.com/plugins/google-maps-plugin
 Tags: google map, map, Google Maps, map markers, location
-Tested up to: 5.2
-Stable tag: 1.9.18
+Tested up to: 5.3
+Stable tag: 1.9.28
 
 Google Maps with markers, locations and clusterization, KML layers and filters. Custom Google map markers with text, images, videos, links.
 
@@ -293,6 +293,53 @@ Google Maps Easy plugin admin area. Add a marker to the google map.
 
 
 == Changelog ==
+
+= Google Map Plugin v1.9.28 / 23.01.2020 =
+ * Remove phpmailer code
+ * Remove footer map title
+
+= Google Map Plugin v1.9.27 / 20.11.2019 =
+ * Minor fixes
+
+= Google Map Plugin v1.9.26 / 13.11.2019 =
+ * Minor fixes
+ 
+= Google Map Plugin v1.9.25 / 29.10.2019 =
+ * Minor fixes
+
+= Google Map Plugin v1.9.24 / 15.10.2019 =
+ * small code fix for custom
+ * Minor fixes
+
+= Google Map Plugin v1.9.23 / 02.10.2019 =
+ * Fix CSS
+ * Fix markers list styles
+ * small code fixes
+
+= Google Map Plugin v1.9.22 / 18.09.2019 =
+ * Added Slide InfoWindow and Description for Marker List
+ * Fixed markers background
+ * Added get markers by user id
+ * Fixed user_id shortcode option
+
+= Google Map Plugin v1.9.21 / 28.08.2019 =
+ * Language switch notice fix
+ * Small code fixes
+
+= Google Map Plugin v1.9.20 / 30.07.2019 =
+ * Fixed direction form positions issue
+ * Fixed custom controls category height issue
+ * Fixed group list in custom controls issue
+ * Add marker list loop option, link from marker list thumbnails, change custom controls style issue
+ * Fix for custom filter
+ * Hotfix in connectLang function
+ * Remove promo img's
+ * small code fixes
+
+= Google Map Plugin v1.9.19 / 11.06.2019 =
+ * Fix custom controls find btn issue
+ * Fixes for new wp translations
+ * Rewrite text domain and naming languages for WP
 
 = Google Map Plugin v1.9.18 / 22.05.2019 =
  * Add KML support and change CDN path

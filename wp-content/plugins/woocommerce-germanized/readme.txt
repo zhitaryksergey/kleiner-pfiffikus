@@ -2,10 +2,10 @@
 Contributors: vendidero, vdwoocommercesupport
 Tags: woocommerce, woocommerce german, woocommerce DE, woocommerce germany, woocommerce deutsch, woo, woocommerce deutschland, woocommerce germanized, woocommerce addon, woocommerce plugin, woocommerce german addon, woocommerce germany addon, woocommerce dhl, dhl, shipments
 Requires at least: 4.9
-Tested up to: 5.3
+Tested up to: 5.4
 WC requires at least: 3.4
-WC tested up to: 3.9
-Stable tag: 3.0.8
+WC tested up to: 4.1
+Stable tag: 3.1.6
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -68,6 +68,10 @@ Furthermore you may attach legally relevant pages (e.g. Terms & Conditions) as P
 = Shipments =
 Germanized adds a new abstraction layer to WooCommerce to make it easier for you to send your parcels to your customers. With Germanized you'll be able to generate (multiple) shipments to an order.
 You can then manage your shipments and it's statuses independently from your orders. Let your customers receive a notification email as soon as a shipment has been marked as shipped including tracking information from a built-in or manually added shipping provider. Learn more about our [Shipments for WooCommerce](https://vendidero.de/woocommerce-germanized/features#shipments "Shipments for WooCommerce") integration and find out how to automate your shipping process.
+
+= Returns =
+Managing returns can be a time-consuming challenge. By using Germanized you might let your customers create return requests through their customer panel. All you need to do is confirm the request through your return dashboard and your customers will receive an email containing further steps on how to return their product(s).
+In case you are using our DHL integration you might as well (automatically) create a label to the return which will be attached to the email sent to the customer.
 
 = DHL Integration =
 With the help of our built-in DHL integration you can easily create labels for your shipments and add tracking information to the notification emails. Furthermore you can offer Wunschpaket Services to your customers including shipping to Packstation or choosing a preferred location, day and/or time within the checkout.
@@ -185,6 +189,82 @@ Bug reports may be filed via our [GitHub repository](https://github.com/vendider
 5. Manage shipments for orders
 
 == Changelog ==
+= 3.1.6 =
+* Feature: WC 4.1 support
+* Improvement: Removed default shipping costs hiding option within checkout
+* Improvement: Order by order id within shipments table
+* Improvement: Added new columns to shipment table (hidden by default)
+* Improvement: By default do not create shipments to orders containing local pickup method
+* Fix: Removed DHL Wunschzeit - service was terminated on 2020/05/01
+
+= 3.1.5 =
+* Improvement: By default disable DOI feature to make sure admins receive warning upon activation
+* Improvement: Better revocation exempt check. Added new filter woocommerce_gzd_product_is_revocation_exempt
+* Improvement: Double check order when order paid notification is queued
+* Improvement: Klarna Checkout compatibility script to enable Germanized checkboxes (+ validation) during checkout
+* Improvement: Move email class registration away from payment method implementation
+* Improvement: Shipment weight + unit formatting
+* Tweak: Enqueue variable product JS file as soon as Woo's file is included
+* Fix: REST API delivery, unit price update for variations
+* Fix: PHP 7.4 deprecated Unparenthesized warning
+
+= 3.1.4 =
+* Improvement: Woo 4.0 support
+* Improvement: WP 5.4 support
+* Improvement: Added better admin note integration with WC Admin
+* Improvement: Added deeper shipments search for newly created shipments
+* Improvement: Hardened DOI schedule check
+* Improvement: Added new subscription features to invoice gateway
+* Improvement: DHL better parcel number validation
+* Improvement: DHL force lowercase on usernames within settings
+* Improvement: DHL support international services in default arguments
+* Fix: DHL fixed customs per item weight/net total calculation
+* Fix: Fixed customer added return request reason and quantity input
+
+= 3.1.3 =
+* Improvement: PayPal Express Checkout compatibility
+* Improvement: Tax share calculation code cleanup
+* Improvement: Make sure that gzd-requested is not selectable as shipment status in settings
+* Improvement: Added open return request count to admin menu
+* Improvement: Use global $product_object in product meta boxes
+* Improvement: Prevent debugging error output during AJAX requests to prevent malformed JSON
+* Improvement: DHL try to locally cache WSDL files to reduce SOAP calls to the DHL API
+* Improvement: Maybe hide order_payment_heading in case no payment methods are available
+* Improvement: Added warning to admin when activating DOI
+* Fix: Shipment, DHL label automation race-condition leading to missing tracking links
+* Fix: Touchstart, keypress event support for label modals
+
+= 3.1.2 =
+* Fix: Return shipments customer item quantity
+* Fix: Cast chosen shipping methods to array while retrieving session data
+* Improvement: Woo Subscription 3.0 compatibility
+* Improvement: WPML email subject/heading translation fallback
+* Improvement: Do not force clear cart within customer cancellation prevention option
+
+
+= 3.1.1 =
+* Improvement: Return request customer notices
+* Improvement: Explicitly support v3 REST API
+* Improvement: Use woocommerce_before_product_object_save to prevent re-saving product
+* Improvement: DHL explicitly check whether shipping method instance supports instance settings
+* Improvement: Maybe output Woo notices for guests when adding return requests
+* Improvement: Maybe delete shipments when the order has failed
+* Fix: DHL added missing inlay participation number option
+* Fix: DHL prevent default shipping provider adjustment override
+* Fix: Readded hidden shipping costs product type options
+
+= 3.1.0 =
+* Feature: Optionally let customers create return requests, see https://vendidero.de/dokument/retouren-konfigurieren-und-verwalten
+* Improvement: Create returns to orders instead to shipments
+* Improvement: New email notification as soon as a return is marked as delivered
+* Improvement: Optionally choose a return reason for each item returned
+* Improvement: DHL use 0 as placeholder street number in case it is a non-domestic shipment
+* Improvement: DHL reference sanitizing
+* Improvement: DHL parcel locator shipping method fallback handling
+* Improvement: Replace data for non-purchasable variations as well
+* Improvement: Order completed date check in direct debit SEPA XML exporter
+* Improvement: Restore WPML email language to the language chosen before
+* Fix: Free shipping auto select session handling
 
 = 3.0.8 =
 * Improvement: WPML email translation compatibility

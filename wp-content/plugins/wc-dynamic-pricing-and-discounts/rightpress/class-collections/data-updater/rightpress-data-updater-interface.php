@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if interface has already been loaded
-if (!interface_exists('RightPress_Data_Updater_Interface')) {
+defined('ABSPATH') || exit;
 
 /**
  * Data Updater Interface
@@ -79,5 +74,4 @@ interface RightPress_Data_Updater_Interface
 
 
 
-}
 }

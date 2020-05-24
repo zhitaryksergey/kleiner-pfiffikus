@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Rules')) {
-
 class RP_WCDPD_Rules
 {
 
@@ -86,6 +84,7 @@ class RP_WCDPD_Rules
      */
     public static function filter_by_exclusivity($context, $adjustments)
     {
+
         // Nothing to do
         if (count($adjustments) < 2) {
             return $adjustments;
@@ -140,6 +139,7 @@ class RP_WCDPD_Rules
      */
     public static function filter_by_selection_method($context, $adjustments)
     {
+
         // Get rule selection method
         $selection_method = RP_WCDPD_Settings::get($context . '_rule_selection_method');
 
@@ -216,6 +216,7 @@ class RP_WCDPD_Rules
      */
     public static function rules_have_condition_groups($contexts, $condition_group_keys)
     {
+
         // Iterate over contexts
         foreach ($contexts as $context) {
 
@@ -244,6 +245,7 @@ class RP_WCDPD_Rules
      */
     public static function get_public_descriptions($context, $rule_uids)
     {
+
         $descriptions = array();
 
         $rule_uids = (array) $rule_uids;
@@ -274,6 +276,7 @@ class RP_WCDPD_Rules
      */
     public static function get_rule_uids_from_adjustments($adjustments)
     {
+
         $rule_uids = array();
 
         foreach ($adjustments as $adjustment) {
@@ -285,5 +288,6 @@ class RP_WCDPD_Rules
 
 
 
-}
+
+
 }

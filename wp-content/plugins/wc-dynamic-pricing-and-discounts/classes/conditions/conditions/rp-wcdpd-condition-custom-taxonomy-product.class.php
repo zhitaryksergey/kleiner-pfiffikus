@@ -15,8 +15,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Custom_Taxonomy_Product')) {
-
 class RP_WCDPD_Condition_Custom_Taxonomy_Product extends RightPress_Condition_Custom_Taxonomy_Product
 {
 
@@ -48,5 +46,4 @@ class RP_WCDPD_Condition_Custom_Taxonomy_Product extends RightPress_Condition_Cu
 
 
 
-}
 }

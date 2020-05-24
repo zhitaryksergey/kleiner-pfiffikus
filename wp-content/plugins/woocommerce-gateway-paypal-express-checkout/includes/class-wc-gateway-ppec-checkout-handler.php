@@ -37,8 +37,6 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		add_action( 'init', array( $this, 'init' ) );
 		add_filter( 'the_title', array( $this, 'endpoint_page_titles' ) );
 		add_action( 'woocommerce_checkout_init', array( $this, 'checkout_init' ) );
-		add_filter( 'woocommerce_default_address_fields', array( $this, 'filter_default_address_fields' ) );
-		add_filter( 'woocommerce_billing_fields', array( $this, 'filter_billing_fields' ) );
 		add_action( 'woocommerce_checkout_process', array( $this, 'copy_checkout_details_to_post' ) );
 
 		add_action( 'wp', array( $this, 'maybe_return_from_paypal' ) );
@@ -101,11 +99,15 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		remove_action( 'woocommerce_checkout_billing', array( $checkout, 'checkout_form_billing' ) );
 		remove_action( 'woocommerce_checkout_shipping', array( $checkout, 'checkout_form_shipping' ) );
 
-		// Lastly, let's add back in 1) displaying customer details from PayPal, 2) allow for
+		// Secondly, let's add back in 1) displaying customer details from PayPal, 2) allow for
 		// account registration and 3) shipping details from PayPal
 		add_action( 'woocommerce_checkout_billing', array( $this, 'paypal_billing_details' ) );
 		add_action( 'woocommerce_checkout_billing', array( $this, 'account_registration' ) );
 		add_action( 'woocommerce_checkout_shipping', array( $this, 'paypal_shipping_details' ) );
+
+		// Lastly make address fields optional depending on PayPal settings.
+		add_filter( 'woocommerce_default_address_fields', array( $this, 'filter_default_address_fields' ) );
+		add_filter( 'woocommerce_billing_fields', array( $this, 'filter_billing_fields' ) );
 	}
 
 	/**
@@ -128,8 +130,8 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			return $fields;
 		}
 
-		if ( method_exists( WC()->cart, 'needs_shipping' ) && ! WC()->cart->needs_shipping() ) {
-			$not_required_fields = array( 'address_1', 'city', 'postcode', 'country' );
+		if ( method_exists( WC()->cart, 'needs_shipping' ) && ! WC()->cart->needs_shipping() && 'no' === wc_gateway_ppec()->settings->require_billing ) {
+			$not_required_fields = array( 'first_name', 'last_name', 'company', 'address_1', 'address_2', 'city', 'postcode', 'country' );
 			foreach ( $not_required_fields as $not_required_field ) {
 				if ( array_key_exists( $not_required_field, $fields ) ) {
 					$fields[ $not_required_field ]['required'] = false;
@@ -210,7 +212,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			// Set flag so that WC copies billing to shipping
 			$_POST['ship_to_different_address'] = 0;
 
-			$copyable_keys = array( 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' );
+			$copyable_keys = array( 'first_name', 'last_name', 'address_1', 'address_2', 'city', 'state', 'postcode', 'country' );
 			foreach ( $copyable_keys as $copyable_key ) {
 				if ( array_key_exists( $copyable_key, $shipping_details ) ) {
 					$billing_details[ $copyable_key ] = $shipping_details[ $copyable_key ];
@@ -246,32 +248,31 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			wc_add_notice( $e->getMessage(), 'error' );
 			return;
 		}
+
+		if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
+			$fields = WC()->checkout->checkout_fields['billing'];
+		} else {
+			$fields = WC()->checkout->get_checkout_fields( 'billing' );
+		}
 		?>
 		<h3><?php _e( 'Billing details', 'woocommerce-gateway-paypal-express-checkout' ); ?></h3>
 		<ul>
-			<?php if ( $checkout_details->payer_details->billing_address ) : ?>
+			<?php if ( ! empty( $checkout_details->payer_details->billing_address ) ) : ?>
 				<li><strong><?php _e( 'Address:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong></br><?php echo WC()->countries->get_formatted_address( $this->get_mapped_billing_address( $checkout_details ) ); ?></li>
-			<?php else : ?>
+			<?php elseif ( ! empty( $checkout_details->payer_details->first_name ) && ! empty( $checkout_details->payer_details->last_name ) ) : ?>
 				<li><strong><?php _e( 'Name:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->first_name . ' ' . $checkout_details->payer_details->last_name ); ?></li>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $checkout_details->payer_details->email ) ) : ?>
 				<li><strong><?php _e( 'Email:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->email ); ?></li>
+			<?php else : ?>
+				<li><?php woocommerce_form_field( 'billing_email', $fields['billing_email'], WC()->checkout->get_value( 'billing_email' ) ); ?></li>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $checkout_details->payer_details->phone_number ) ) : ?>
 				<li><strong><?php _e( 'Phone:', 'woocommerce-gateway-paypal-express-checkout' ) ?></strong> <?php echo esc_html( $checkout_details->payer_details->phone_number ); ?></li>
 			<?php elseif ( 'yes' === wc_gateway_ppec()->settings->require_phone_number ) : ?>
-				<li>
-				<?php
-				if ( version_compare( WC_VERSION, '3.0', '<' ) ) {
-					$fields = WC()->checkout->checkout_fields['billing'];
-				} else {
-					$fields = WC()->checkout->get_checkout_fields( 'billing' );
-				}
-				woocommerce_form_field( 'billing_phone', $fields['billing_phone'], WC()->checkout->get_value( 'billing_phone' ) );
-				?>
-				</li>
+				<li><?php woocommerce_form_field( 'billing_phone', $fields['billing_phone'], WC()->checkout->get_value( 'billing_phone' ) ); ?></li>
 			<?php endif; ?>
 		</ul>
 		<?php
@@ -293,7 +294,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			if ( $checkout->enable_guest_checkout ) {
 				?>
 				<p class="form-row form-row-wide create-account">
-					<input class="input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'woocommerce_create_account_default_checked', false ) ) ), true) ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php _e( 'Create an account?', '' ); ?></label>
+					<input class="input-checkbox" id="createaccount" <?php checked( ( true === $checkout->get_value( 'createaccount' ) || ( true === apply_filters( 'woocommerce_create_account_default_checked', false ) ) ), true) ?> type="checkbox" name="createaccount" value="1" /> <label for="createaccount" class="checkbox"><?php _e( 'Create an account?', 'woocommerce-gateway-paypal-express-checkout' ); ?></label>
 				</p>
 				<?php
 			}
@@ -302,7 +303,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 				?>
 				<div class="create-account">
 
-					<p><?php _e( 'Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woocommerce' ); ?></p>
+					<p><?php _e( 'Create an account by entering the information below. If you are a returning customer please login at the top of the page.', 'woocommerce-gateway-paypal-express-checkout' ); ?></p>
 
 					<?php foreach ( $checkout->checkout_fields['account'] as $key => $field ) : ?>
 
@@ -402,10 +403,9 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$name       = explode( ' ', $checkout_details->payments[0]->shipping_address->getName() );
 		$first_name = array_shift( $name );
 		$last_name  = implode( ' ', $name );
-		return array(
+		$result = array(
 			'first_name'    => $first_name,
 			'last_name'     => $last_name,
-			'company'       => $checkout_details->payer_details->business_name,
 			'address_1'     => $checkout_details->payments[0]->shipping_address->getStreet1(),
 			'address_2'     => $checkout_details->payments[0]->shipping_address->getStreet2(),
 			'city'          => $checkout_details->payments[0]->shipping_address->getCity(),
@@ -413,18 +413,30 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			'postcode'      => $checkout_details->payments[0]->shipping_address->getZip(),
 			'country'       => $checkout_details->payments[0]->shipping_address->getCountry(),
 		);
+		if ( ! empty( $checkout_details->payer_details ) && property_exists( $checkout_details->payer_details, 'business_name' ) ) {
+			$result['company'] = $checkout_details->payer_details->business_name;
+		}
+		return $result;
 	}
 
 	/**
 	 * Checks data is correctly set when returning from PayPal Checkout
 	 */
 	public function maybe_return_from_paypal() {
-		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) || empty( $_GET['PayerID'] ) ) {
+		if (
+			isset( $_GET['woo-paypal-return'] )
+			&& isset( $_GET['update_subscription_payment_method'] )
+			&& 'true' === $_GET['update_subscription_payment_method']
+		) {
+			$this->handle_subscription_payment_change_success();
+			return;
+		}
+
+		if ( empty( $_GET['woo-paypal-return'] ) || empty( $_GET['token'] ) ) {
 			return;
 		}
 
 		$token                    = $_GET['token'];
-		$payer_id                 = $_GET['PayerID'];
 		$create_billing_agreement = ! empty( $_GET['create-billing-agreement'] );
 		$session                  = WC()->session->get( 'paypal' );
 
@@ -435,8 +447,15 @@ class WC_Gateway_PPEC_Checkout_Handler {
 
 		// Store values in session.
 		$session->checkout_completed = true;
-		$session->payer_id           = $payer_id;
 		$session->token              = $token;
+
+		if ( ! empty( $_GET['PayerID'] ) ) {
+			$session->payer_id = $_GET['PayerID'];
+		} elseif ( $create_billing_agreement ) {
+			$session->create_billing_agreement = true;
+		} else {
+			return;
+		}
 
 		// Update customer addresses here from PayPal selection so they can be used to calculate local taxes.
 		$this->update_customer_addresses_from_paypal( $token );
@@ -457,7 +476,11 @@ class WC_Gateway_PPEC_Checkout_Handler {
 				}
 
 				// Complete the payment now.
-				$this->do_payment( $order, $session->token, $session->payer_id );
+				if ( ! empty( $session->payer_id ) ) {
+					$this->do_payment( $order, $session->token, $session->payer_id );
+				} elseif ( $order->get_total() <= 0 ) {
+					$order->payment_complete();
+				}
 
 				// Clear Cart
 				WC()->cart->empty_cart();
@@ -506,12 +529,14 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$customer = WC()->customer;
 
 		// Update billing/shipping addresses.
-		$customer->set_billing_address( $billing_details['address_1'] );
-		$customer->set_billing_address_2( $billing_details['address_2'] );
-		$customer->set_billing_city( $billing_details['city'] );
-		$customer->set_billing_postcode( $billing_details['postcode'] );
-		$customer->set_billing_state( $billing_details['state'] );
-		$customer->set_billing_country( $billing_details['country'] );
+		if ( ! empty( $billing_details ) ) {
+			$customer->set_billing_address( $billing_details['address_1'] );
+			$customer->set_billing_address_2( $billing_details['address_2'] );
+			$customer->set_billing_city( $billing_details['city'] );
+			$customer->set_billing_postcode( $billing_details['postcode'] );
+			$customer->set_billing_state( $billing_details['state'] );
+			$customer->set_billing_country( $billing_details['country'] );
+		}
 
 		if ( ! empty( $shipping_details ) ) {
 			$customer->set_shipping_address( $shipping_details['address_1'] );
@@ -550,7 +575,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		// If the cart total is zero (e.g. because of a coupon), don't allow this gateway.
 		// We do this only if we're on the checkout page (is_checkout), but not on the order-pay page (is_checkout_pay_page)
 		if ( is_cart() || ( is_checkout() && ! is_checkout_pay_page() ) ) {
-			if ( isset( $gateways['ppec_paypal'] ) && ( 0 >= WC()->cart->total ) ) {
+			if ( isset( $gateways['ppec_paypal'] ) && ! WC()->cart->needs_payment() ) {
 				unset( $gateways['ppec_paypal'] );
 			}
 		}
@@ -584,6 +609,15 @@ class WC_Gateway_PPEC_Checkout_Handler {
 	 * Clears the session data and display notice.
 	 */
 	public function maybe_cancel_checkout_with_paypal() {
+		if (
+			isset( $_GET['update_subscription_payment_method'] )
+			&& 'true' === $_GET['update_subscription_payment_method']
+			&& isset( $_GET['woo-paypal-cancel'] )
+		) {
+			$this->handle_subscription_payment_change_failure();
+			return;
+		}
+
 		if ( is_cart() && ! empty( $_GET['wc-gateway-ppec-clear-session'] ) ) {
 			$this->maybe_clear_session_data();
 
@@ -633,7 +667,7 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		}
 
 		$session = WC()->session->paypal;
-		return ( is_a( $session, 'WC_Gateway_PPEC_Session_Data' ) && $session->payer_id && $session->expiry_time > time() );
+		return ( is_a( $session, 'WC_Gateway_PPEC_Session_Data' ) && ( $session->payer_id || ! empty( $session->create_billing_agreement ) ) && $session->expiry_time > time() );
 	}
 
 	/**
@@ -1012,8 +1046,13 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$needs_billing_agreement = false;
 
 		if ( empty( $args['order_id'] ) ) {
-			if ( class_exists( 'WC_Subscriptions_Cart' ) ) {
-				$needs_billing_agreement = WC_Subscriptions_Cart::cart_contains_subscription();
+			if ( class_exists( 'WC_Subscriptions_Cart' ) && function_exists( 'wcs_cart_contains_renewal' ) ) {
+				// Needs a billing agreement if the cart contains a subscription
+				// or a renewal of a subscription
+				$needs_billing_agreement = (
+					WC_Subscriptions_Cart::cart_contains_subscription()
+					|| wcs_cart_contains_renewal()
+				);
 			}
 		} else {
 			if ( function_exists( 'wcs_order_contains_subscription' ) ) {
@@ -1022,9 +1061,13 @@ class WC_Gateway_PPEC_Checkout_Handler {
 			if ( function_exists( 'wcs_order_contains_renewal' ) ) {
 				$needs_billing_agreement = ( $needs_billing_agreement || wcs_order_contains_renewal( $args['order_id'] ) );
 			}
+			// If the order is a subscription, we're updating the payment method.
+			if ( function_exists( 'wcs_is_subscription' ) ) {
+				$needs_billing_agreement = ( $needs_billing_agreement || wcs_is_subscription( $args['order_id'] ) );
+			}
 		}
 
-		return $needs_billing_agreement;
+		return apply_filters( 'woocommerce_paypal_express_checkout_needs_billing_agreement', $needs_billing_agreement );
 	}
 
 	/**
@@ -1084,5 +1127,84 @@ class WC_Gateway_PPEC_Checkout_Handler {
 		$params['wc_ajax_url'] = add_query_arg( 'wc-ajax', '%%endpoint%%', $params['wc_ajax_url'] );
 
 		return $params;
+	}
+
+	/**
+	 * Handles a success payment method change for a WooCommerce Subscription.
+	 *
+	 * The user has returned back from PayPal after confirming the payment method change.
+	 * This updates the payment method for the subscription and redirects the user back to the
+	 * subscription update page.
+	 *
+	 * @since 1.7.0
+	 */
+	public function handle_subscription_payment_change_success() {
+		try {
+			$session = WC()->session->get( 'paypal' );
+
+			if ( isset( $_GET['token'] ) ) {
+				$token = sanitize_text_field( wp_unslash( $_GET['token'] ) );
+			} elseif ( isset( $session->token ) ) {
+				$token = $session->token;
+			}
+
+			if ( ! isset( $token ) ) {
+				return;
+			}
+
+			if ( empty( $session ) || $this->session_has_expired( $token ) ) {
+				wc_add_notice( __( 'Your PayPal checkout session has expired. Please check out again.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+				return;
+			}
+
+			// Get the info we need and create the billing agreement.
+			$order            = wc_get_order( $session->order_id );
+			$checkout_details = $this->get_checkout_details( $token );
+			$this->create_billing_agreement( $order, $checkout_details );
+
+			// Update the payment method for the current subscription.
+			WC_Subscriptions_Change_Payment_Gateway::update_payment_method( $order, 'ppec_paypal' );
+			$success_notice = __( 'The payment method was updated for this subscription.', 'woocommerce-gateway-paypal-express-checkout' );
+
+			// Update the payment method for all subscriptions if that checkbox was checked.
+			if ( wcs_is_subscription( $order ) && WC_Subscriptions_Change_Payment_Gateway::will_subscription_update_all_payment_methods( $order ) ) {
+				WC_Subscriptions_Change_Payment_Gateway::update_all_payment_methods_from_subscription( $order, $payment_method->id );
+				$success_notice = __( 'The payment method was updated for all your current subscriptions.', 'woocommerce-gateway-paypal-express-checkout' );
+			}
+
+			wc_clear_notices();
+			wc_add_notice( $success_notice );
+			wp_safe_redirect( $order->get_view_order_url() );
+			exit;
+		} catch ( PayPal_API_Exception $e ) {
+			wc_clear_notices();
+			wc_add_notice( __( 'There was a problem updating your payment method. Please try again later or use a different payment method.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+			wp_safe_redirect( $order->get_view_order_url() );
+			exit;
+		}
+	}
+
+	/**
+	 * Handles the cancellation of a WooCommerce Subscription payment method change.
+	 *
+	 * The user has returned back from PayPal after cancelling the payment method change.
+	 * This redirects the user back to the subscription page with an error message.
+	 *
+	 * @since 1.7.0
+	 */
+	public function handle_subscription_payment_change_failure() {
+		$session      = WC()->session->get( 'paypal' );
+		$order        = isset( $session->order_id )
+			? wc_get_order( $session->order_id )
+			: false;
+		$redirect_url = is_callable( array( $order, 'get_view_order_url' ) )
+			? $order->get_view_order_url()
+			: false;
+		wc_clear_notices();
+		wc_add_notice( __( 'You have cancelled Checkout with PayPal. The payment method was not updated.', 'woocommerce-gateway-paypal-express-checkout' ), 'error' );
+		if ( $redirect_url ) {
+			wp_safe_redirect( $redirect_url );
+			exit;
+		}
 	}
 }

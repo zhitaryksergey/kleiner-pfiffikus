@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Help')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Helper
@@ -191,7 +186,9 @@ final class RightPress_Help
      */
     public static function current_user_capabilities()
     {
-        return is_user_logged_in() ? RightPress_Help::user_capabilities(get_current_user_id()) : array();
+
+        $capabilities = is_user_logged_in() ? RightPress_Help::user_capabilities(get_current_user_id()) : array();
+        return apply_filters('rightpress_current_user_capabilities', $capabilities);
     }
 
     /**
@@ -1960,6 +1957,9 @@ final class RightPress_Help
     /**
      * Get WooCommerce cart
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @return object|bool
      */
@@ -1967,7 +1967,6 @@ final class RightPress_Help
     {
 
         // Check if cart is loaded
-        // TBD: Can we safely load it by ourselves if not yet loaded? This should not normally happen but might happen if some 3rd party plugin calls frontend hooks in backend etc.
         if (isset(WC()->cart) && is_a(WC()->cart, 'WC_Cart')) {
 
             return WC()->cart;
@@ -1980,6 +1979,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart items
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @return array
@@ -2000,6 +2002,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart subtotal
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @param bool $include_tax
@@ -2022,6 +2027,9 @@ final class RightPress_Help
     /**
      * Calculate our own cart subtotal since in some cases it may not be available yet
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * Note: looks like line_subtotal and line_subtotal_tax are not always set
      * when this is called, however calculating by adding $product->get_price()
      * is not a good idea. Need to monitor if it affects anything from the users
@@ -2034,7 +2042,7 @@ final class RightPress_Help
     public static function calculate_subtotal($include_tax = false)
     {
 
-        $subtotal = 0;
+        $subtotal = 0.0;
 
         // Iterate over cart items
         foreach (RightPress_Help::get_wc_cart_items() as $cart_item) {
@@ -2056,6 +2064,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart contents weight
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @param array $cart_items
@@ -2083,6 +2094,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart applied coupon ids
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @return array
@@ -2146,6 +2160,9 @@ final class RightPress_Help
 
     /**
      * Get sum of WooCommerce cart item subtotals
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @param array $params
@@ -2519,6 +2536,9 @@ final class RightPress_Help
     /**
      * Get WooCommerce cart product ids
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @param array $cart_items
      * @return array
@@ -2556,6 +2576,9 @@ final class RightPress_Help
     /**
      * Get WooCommerce cart product variation ids
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @param array $cart_items
      * @return array
@@ -2590,6 +2613,9 @@ final class RightPress_Help
     /**
      * Get WooCommerce cart product category ids
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @param array $cart_items
      * @return array
@@ -2605,6 +2631,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart product attribute ids
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @param array $cart_items
@@ -2637,6 +2666,9 @@ final class RightPress_Help
     /**
      * Get WooCommerce cart product tag ids
      *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
+     *
      * @access public
      * @param array $cart_items
      * @return array
@@ -2652,6 +2684,9 @@ final class RightPress_Help
 
     /**
      * Get WooCommerce cart product shipping class ids
+     *
+     * Note: This method might be called in the backend or during API calls where cart is not available
+     * and must continue checking for cases like that to prevent errors
      *
      * @access public
      * @param array $cart_items
@@ -3188,7 +3223,24 @@ final class RightPress_Help
      */
     public static function get_literal_start_of_week()
     {
-        $weekdays = array(
+
+        $weekdays = RightPress_Help::get_weekday_names();
+
+        $start_of_week = RightPress_Help::get_start_of_week();
+
+        return $weekdays[$start_of_week];
+    }
+
+    /**
+     * Get list of weekday names starting from Sunday
+     *
+     * @access public
+     * @return array
+     */
+    public static function get_weekday_names()
+    {
+
+        return array(
             0 => 'sunday',
             1 => 'monday',
             2 => 'tuesday',
@@ -3197,10 +3249,6 @@ final class RightPress_Help
             5 => 'friday',
             6 => 'saturday',
         );
-
-        $start_of_week = RightPress_Help::get_start_of_week();
-
-        return $weekdays[$start_of_week];
     }
 
     /**
@@ -3242,7 +3290,7 @@ final class RightPress_Help
         // Order statuses
         if (!empty($params['status'])) {
             $config['status'] = array_map(function($status) {
-                return (substr($status, 0, 3) === 'wc-') ? substr($status, 3) : $status;
+                return RightPress_Help::clean_wc_status($status);
             }, (array) $params['status']);
         }
 
@@ -3251,6 +3299,19 @@ final class RightPress_Help
 
         // Return order ids
         return is_array($order_ids) ? $order_ids : array();
+    }
+
+    /**
+     * Clean WooCommerce order status
+     *
+     * @access public
+     * @param string $status
+     * @return string
+     */
+    public static function clean_wc_status($status)
+    {
+
+        return RightPress_Help::unprefix_string($status, 'wc-');
     }
 
     /**
@@ -3803,7 +3864,289 @@ final class RightPress_Help
         return false;
     }
 
+    /**
+     * WooCommerce product has childern (i.e. is of type that can have children)
+     *
+     * @access public
+     * @param object|int $product
+     * @return bool
+     */
+    public static function wc_product_has_children($product)
+    {
+
+        // Load product
+        if (!is_a($product, 'WC_Product')) {
+            $product = wc_get_product($product);
+        }
+
+        // Check if product has children
+        return ($product->is_type('variable') || $product->is_type('grouped') || $product->get_children());
+    }
+
+    /**
+     * Add early action
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $accepted_args
+     * @param int $priority_modifier
+     * @return void
+     */
+    public static function add_early_action($hook, $callback, $accepted_args = 1, $priority_modifier = 0)
+    {
+
+        add_action($hook, $callback, RightPress_Help::get_early_hook_priority($hook, $callback, $priority_modifier), $accepted_args);
+    }
+
+    /**
+     * Add late action
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $accepted_args
+     * @param int $priority_modifier
+     * @return void
+     */
+    public static function add_late_action($hook, $callback, $accepted_args = 1, $priority_modifier = 0)
+    {
+
+        add_action($hook, $callback, RightPress_Help::get_late_hook_priority($hook, $callback, $priority_modifier), $accepted_args);
+    }
+
+    /**
+     * Add early filter
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $accepted_args
+     * @param int $priority_modifier
+     * @return void
+     */
+    public static function add_early_filter($hook, $callback, $accepted_args = 1, $priority_modifier = 0)
+    {
+
+        add_filter($hook, $callback, RightPress_Help::get_early_hook_priority($hook, $callback, $priority_modifier), $accepted_args);
+    }
+
+    /**
+     * Add late filter
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $accepted_args
+     * @param int $priority_modifier
+     * @return void
+     */
+    public static function add_late_filter($hook, $callback, $accepted_args = 1, $priority_modifier = 0)
+    {
+
+        add_filter($hook, $callback, RightPress_Help::get_late_hook_priority($hook, $callback, $priority_modifier), $accepted_args);
+    }
+
+    /**
+     * Get early hook priority
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $priority_modifier
+     * @return int
+     */
+    public static function get_early_hook_priority($hook, $callback, $priority_modifier = 0)
+    {
+
+        return (int) apply_filters('rightpress_early_hook_priority', (RightPress_Help::get_php_int_min() + $priority_modifier), $hook, $callback, $priority_modifier);
+    }
+
+    /**
+     * Get late hook priority
+     *
+     * @access public
+     * @param string $hook
+     * @param mixed $callback
+     * @param int $priority_modifier
+     * @return int
+     */
+    public static function get_late_hook_priority($hook, $callback, $priority_modifier = 0)
+    {
+
+        return (int) apply_filters('rightpress_late_hook_priority', (PHP_INT_MAX + $priority_modifier), $hook, $callback, $priority_modifier);
+    }
+
+    /**
+     * Check if WordPress user exists by id
+     *
+     * @access public
+     * @param int $user_id
+     * @return bool
+     */
+    public static function wp_user_exists($user_id)
+    {
+
+        global $wpdb;
+
+        $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $wpdb->users WHERE ID = %d", $user_id));
+
+        return $count == 1;
+    }
+
+    /**
+     * Format html list from values array
+     *
+     * @access public
+     * @param array $values
+     * @param bool $ordered
+     * @param string $class
+     * @return string
+     */
+    public static function array_to_html_list($values, $ordered = false, $class = null)
+    {
+
+        $html = '';
+
+        if (!empty($values)) {
+
+            // Format class attribute
+            $class = $class !== null ? ('class="' . $class . '"') : '';
+
+            // Open list
+            $html .= $ordered ? "<ol $class>" : "<ul $class>";
+
+            // Iterate over values
+            foreach ($values as $value) {
+
+                // Append value
+                $html .= '<li>' . $value . '</li>';
+            }
+
+            // Close list
+            $html .= $ordered ? '</ol>' : '</ul>';
+        }
+
+        return $html;
+    }
+
+    /**
+     * Check if WooCommerce order has product
+     *
+     * @access public
+     * @param WC_Order|int $order
+     * @param WC_Product|int $product
+     * @return bool
+     */
+    public static function wc_order_has_product($order, $product)
+    {
+
+        // Load order object
+        if (!is_a($order, 'WC_Order')) {
+            $order = wc_get_order($order);
+        }
+
+        // Invalid order
+        if (!is_a($order, 'WC_Order')) {
+            return false;
+        }
+
+        // Get product id
+        $product_id = is_a($product, 'WC_Product') ? $product->get_id() : $product;
+
+        // Iterate over order items
+        foreach ($order->get_items() as $order_item) {
+
+            // Order has product
+            if ($product_id === $order_item->get_variation_id() || $product_id === $order_item->get_product_id()) {
+                return true;
+            }
+        }
+
+        // Order does not have product
+        return false;
+    }
+
+    /**
+     * Check if cart contains product
+     *
+     * @access public
+     * @param WC_Product|int $product
+     * @return bool
+     */
+    public static function wc_cart_contains_product($product)
+    {
+
+        // Get product id
+        $product_id = is_a($product, 'WC_Product') ? $product->get_id() : $product;
+
+        // Get cart items
+        $cart_items = RightPress_Help::get_wc_cart_items();
+
+        // Iterate over cart items
+        foreach ($cart_items as $cart_item) {
+
+            // Product found in cart
+            if ($cart_item['variation_id'] === $product_id || $cart_item['product_id'] == $product_id) {
+                return true;
+            }
+        }
+
+        // Product not found in cart
+        return false;
+    }
+
+    /**
+     * Get min integer available on the system
+     *
+     * @access public
+     * @return int
+     */
+    public static function get_php_int_min()
+    {
+
+        return RightPress_Help::php_version_gte('7.0') ? PHP_INT_MIN : (-PHP_INT_MAX + 10);
+    }
+
+    /**
+     * Remove prefix from string
+     *
+     * @access public
+     * @param string $string
+     * @param string $prefix
+     * @return string
+     */
+    public static function unprefix_string($string, $prefix)
+    {
+
+        // Check if string contains prefix
+        if (substr($string, 0, strlen($prefix)) === $prefix) {
+
+            // Unprefix string
+            $string = substr($string, strlen($prefix));
+        }
+
+        return $string;
+    }
+
+    /**
+     * Get WooCommerce session in a safe way
+     *
+     * @access public
+     * @return object|false
+     */
+    public static function get_wc_session()
+    {
+
+        if (is_callable('WC') && isset(WC()->session) && is_object(WC()->session)) {
+            return WC()->session;
+        }
+
+        return false;
+    }
 
 
-}
+
+
+
 }

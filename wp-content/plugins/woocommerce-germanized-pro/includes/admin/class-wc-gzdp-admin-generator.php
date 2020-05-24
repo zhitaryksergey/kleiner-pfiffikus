@@ -208,27 +208,49 @@ class WC_GZDP_Admin_Generator {
 		$custom_types = WC_GZDP_Admin::instance()->get_custom_setting_types();
 
 		if ( ! empty( $settings ) ) {
-			foreach ( $settings as $key => $setting ) {
+			// Is error
+			if ( array_key_exists( 'errors', $settings ) ) {
+				$new_settings = array(
+					array( 'title' => '', 'type' => 'title', 'id' => 'gzdp_generator_error' ),
+				);
 
-				if ( isset( $setting['type'] ) && in_array( $setting['type'], $custom_types ) ) {
-					$settings[ $key ]['type'] = 'gzdp_' . $settings[ $key ]['type'];
+				foreach( $settings['errors'] as $key => $error ) {
+					$new_settings[] = array(
+						'type'        => 'gzdp_notice',
+						'notice_type' => 'warning',
+						'id'          => 'warning_' . $key,
+						'custom_attributes' => array(
+							'data-custom-desc' => $error[0]
+						),
+					);
 				}
 
-				$setting_name = str_replace( '[]', '', $setting['id'] );
+				$new_settings[] = array( 'type' => 'sectionend', 'id' => 'gzdp_generator_error' );
 
-				if ( isset( $setting['default_wc_option'] ) && ! empty( $setting['default_wc_option'] ) ) {
-					if ( ! get_option( $setting_name ) ) {
-						update_option( $setting_name, get_option( $setting['default_wc_option'] ) );
+				$settings = $new_settings;
+			} else {
+				foreach ( $settings as $key => $setting ) {
+
+					if ( isset( $setting['type'] ) && in_array( $setting['type'], $custom_types ) ) {
+						$settings[ $key ]['type'] = 'gzdp_' . $settings[ $key ]['type'];
 					}
-				}
 
-				// Remove default if option exists
-				if ( get_option( $setting_name ) && isset( $setting['default'] ) ) {
-				    unset( $settings[ $key ]['default'] );
-                }
+					$setting_name = str_replace( '[]', '', $setting['id'] );
 
-				if ( isset( $setting['mandatory'] ) && $setting['mandatory'] ) {
-					$settings[ $key ]['custom_attributes']['data-mandatory'] = '<span class="wc-gzdp-mandatory">' . __( 'mandatory', 'woocommerce-germanized-pro' ) . '</span>';
+					if ( isset( $setting['default_wc_option'] ) && ! empty( $setting['default_wc_option'] ) ) {
+						if ( ! get_option( $setting_name ) ) {
+							update_option( $setting_name, get_option( $setting['default_wc_option'] ) );
+						}
+					}
+
+					// Remove default if option exists
+					if ( get_option( $setting_name ) && isset( $setting['default'] ) ) {
+						unset( $settings[ $key ]['default'] );
+					}
+
+					if ( isset( $setting['mandatory'] ) && $setting['mandatory'] ) {
+						$settings[ $key ]['custom_attributes']['data-mandatory'] = '<span class="wc-gzdp-mandatory">' . __( 'mandatory', 'woocommerce-germanized-pro' ) . '</span>';
+					}
 				}
 			}
 		}
@@ -238,6 +260,15 @@ class WC_GZDP_Admin_Generator {
 
 	public function get_version( $generator ) {
 		return get_option( 'woocommerce_gzdp_generator_version_' . $generator, '1.0.0' );
+	}
+
+	public function clear_caches() {
+		foreach( $this->generator as $generator => $data ) {
+			delete_option( 'woocommerce_gzdp_generator_' . $generator );
+			delete_option( 'woocommerce_gzdp_generator_current_settings_' . $generator );
+			delete_option( 'woocommerce_gzdp_generator_settings_' . $generator );
+			delete_option( 'woocommerce_gzdp_generator_version_' . $generator );
+		}
 	}
 
 	public function get_generator( $generator ) {
@@ -265,11 +296,12 @@ class WC_GZDP_Admin_Generator {
         }
 
 		$generator_data = get_option( 'woocommerce_gzdp_generator_' . $generator, array() );
+
 		$settings       = array( 'api_version' => $this->api_version );
 		$settings       = array_merge( $settings, $this->get_options( 'woocommerce_', $settings_required ) );
 
 		// Update generator data if remote version is newer than local version
-		if ( version_compare( $version, $remote_version, "<" ) || empty( $generator_data ) ) {
+		if ( version_compare( $version, $remote_version, "<" ) || empty( $generator_data ) || ( ! empty( $generator_data ) && array_key_exists( 'errors', $generator_data ) ) ) {
 			$generator_data = VD()->api->to_array( VD()->api->generator_check( $product, $generator, $settings ) );
 
 			if ( $generator_data ) {

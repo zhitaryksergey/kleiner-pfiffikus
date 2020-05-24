@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Checkout')) {
-    require_once('rightpress-condition-checkout.class.php');
-}
+require_once 'rightpress-condition-checkout.class.php';
 
 /**
  * Condition: Checkout - Shipping Method
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Checkout')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Checkout_Shipping_Method')) {
-
 abstract class RightPress_Condition_Checkout_Shipping_Method extends RightPress_Condition_Checkout
 {
 
@@ -65,18 +59,22 @@ abstract class RightPress_Condition_Checkout_Shipping_Method extends RightPress_
     public function get_value($params)
     {
 
-        // Get chosen shipping methods
-        if ($shipping_methods = WC()->session->get('chosen_shipping_methods')) {
+        // Get WooCommerce session
+        if ($session = RightPress_Help::get_wc_session()) {
 
-            // Get single shipping method
-            // TBD: We should introduce multiple shipping method support
-            $shipping_method = array_shift($shipping_methods);
+            // Get chosen shipping methods
+            if ($shipping_methods = $session->get('chosen_shipping_methods')) {
 
-            // Return shipping method as both parent shipping method id and combined instance identifier
-            return array(
-                $shipping_method,
-                strtok($shipping_method, ':'),
-            );
+                // Get single shipping method
+                // TODO: We should introduce multiple shipping method support
+                $shipping_method = array_shift($shipping_methods);
+
+                // Return shipping method as both parent shipping method id and combined instance identifier
+                return array(
+                    $shipping_method,
+                    strtok($shipping_method, ':'),
+                );
+            }
         }
 
         return null;
@@ -86,5 +84,4 @@ abstract class RightPress_Condition_Checkout_Shipping_Method extends RightPress_
 
 
 
-}
 }

@@ -12,27 +12,14 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Promotion_Your_Price')) {
-
 class RP_WCDPD_Promotion_Your_Price
 {
 
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     // RightPress Product Price component hook position
     private $rightpress_hook_position = 50;
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -172,5 +159,3 @@ class RP_WCDPD_Promotion_Your_Price
 }
 
 RP_WCDPD_Promotion_Your_Price::get_instance();
-
-}

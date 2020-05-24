@@ -14,8 +14,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Rule_Notifications')) {
-
 abstract class RP_WCDPD_Rule_Notifications
 {
     protected $current_register = null;
@@ -236,5 +234,4 @@ abstract class RP_WCDPD_Rule_Notifications
 
 
 
-}
 }

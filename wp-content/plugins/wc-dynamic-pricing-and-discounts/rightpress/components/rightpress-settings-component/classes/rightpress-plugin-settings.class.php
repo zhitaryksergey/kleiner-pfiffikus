@@ -1,14 +1,11 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Settings')) {
-    require_once('rightpress-settings.class.php');
-}
+require_once 'rightpress-settings.class.php';
+require_once 'interfaces/rightpress-plugin-settings-interface.php';
 
 /**
  * =================================================================================================================
@@ -46,7 +43,7 @@ if (!class_exists('RightPress_Settings')) {
  *  after            optional        text displayed right of the field
  *  default          optional
  *  class            optional        extra css classes for input element
- *  validation       optional        supported validation rules: required, number_min_0, number_natural, number_min_1, number_whole     TBD: need to change from data-rightpress-settings-validation, data-rp-wcdpd-validation
+ *  validation       optional        supported validation rules: required, number_min_0, number_natural, number_min_1, number_whole     TODO: need to change from data-rightpress-settings-validation, data-rp-wcdpd-validation
  *  stored           optional        default=true, whether to sanitize and store field value (e.g. link is for display only)
  *  hint             optional
  *  conditions       optional        array defining conditions related to other settings for this setting to be visible/enabled
@@ -58,7 +55,7 @@ if (!class_exists('RightPress_Settings')) {
  *  options          required
  *
  * Attributes for link:
- *  link_label       required        TBD: maybe use description or something like that?
+ *  link_label       required        TODO: maybe use description or something like that?
  *  link_url         required
  *
  * =================================================================================================================
@@ -84,7 +81,7 @@ if (!class_exists('RightPress_Settings')) {
  * Format:
  *     'conditions' => array(
  *         {parent_setting_key} => array(
- *             {condition_method} => {condition_options},
+ *             {condition_method} => {condition_value},
  *             ... other conditions if child has multiple conditions for the same parent ...
  *         ),
  *         ... other parent settings if child setting depends on multiple parents ...
@@ -95,10 +92,7 @@ if (!class_exists('RightPress_Settings')) {
  *
  */
 
-// Check if class has already been loaded
-if (!class_exists('RightPress_Plugin_Settings')) {
-
-    // TBD: Maybe prepare to handle checkbox and radio buttons sets (i.e. multiple checkboxes/radios per field)
+    // TODO: Maybe prepare to handle checkbox and radio buttons sets (i.e. multiple checkboxes/radios per field)
 
 /**
  * RightPress Plugin Settings Class
@@ -107,7 +101,7 @@ if (!class_exists('RightPress_Plugin_Settings')) {
  * @package RightPress
  * @author RightPress
  */
-abstract class RightPress_Plugin_Settings extends RightPress_Settings
+abstract class RightPress_Plugin_Settings extends RightPress_Settings implements RightPress_Plugin_Settings_Interface
 {
 
     // Define settings structure
@@ -133,6 +127,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function __construct()
     {
+
         // Set up settings import and export
         $this->set_up_import_export();
 
@@ -152,6 +147,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'), 20);
     }
 
+
     /**
      * =================================================================================================================
      * METHODS FOR EXTERNAL ACCESS
@@ -168,6 +164,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function is($key, $value_to_check = null)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -185,6 +182,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function get($key, $default = null)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -200,6 +198,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function get_all()
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -215,6 +214,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function update($key, $value)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -244,6 +244,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function get_options($key)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -259,6 +260,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function get_tab()
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -275,6 +277,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function get_tab_title($key)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -300,6 +303,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     final public static function tab_has_settings($tab)
     {
+
         foreach ($tab['children'] as $section_key => $section) {
             if (self::section_has_settings($section)) {
                 return true;
@@ -318,6 +322,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     final public static function section_has_settings($section)
     {
+
         return !empty($section['children']);
     }
 
@@ -330,6 +335,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public static function print_settings_field($field_key)
     {
+
         // Get instance
         $instance = self::get_child_instance(get_called_class());
 
@@ -366,6 +372,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     private static function get_child_instance($called_class)
     {
+
         // Methods calling this method must be called through a child class
         if ($called_class === __CLASS__) {
             RightPress_Help::doing_it_wrong(__METHOD__, 'This method must be called through a child class.', '1.0');
@@ -390,6 +397,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     private function load_settings()
     {
+
         // Load stored settings
         $stored = get_option($this->get_settings_key(), array());
 
@@ -431,6 +439,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_settings_key()
     {
+
         return $this->get_plugin_private_prefix() . 'settings';
     }
 
@@ -443,6 +452,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_settings_group_key($tab_key)
     {
+
         return $this->get_settings_key() . '_group_' . $tab_key;
     }
 
@@ -455,6 +465,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_settings_page_id($tab_key)
     {
+
         return str_replace('_', '-', $this->get_plugin_private_prefix()) . 'admin-' . str_replace('_', '-', $tab_key);
     }
 
@@ -466,6 +477,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_structure()
     {
+
         if ($this->structure === null) {
 
             // Define settings structure
@@ -486,6 +498,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function register_capability()
     {
+
         foreach ($this->get_structure() as $tab_key => $tab) {
             add_filter(('option_page_capability_' . $this->get_settings_key() . '_' . $tab_key), array($this, 'get_capability'));
         }
@@ -499,6 +512,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function is_settings_page()
     {
+
         return (strpos($_SERVER['REQUEST_URI'], ('page=' . $this->get_settings_key()))) !== false;
     }
 
@@ -512,6 +526,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function setting_value_is($key, $value_to_check = null)
     {
+
         // Get setting value
         $value = $this->get_setting_value($key, false);
 
@@ -544,6 +559,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_setting_value($key, $default = null)
     {
+
         // Get setting value
         $value = isset($this->settings[$key]) ? $this->settings[$key] : $default;
 
@@ -559,6 +575,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     private function store()
     {
+
         update_option($this->get_settings_key(), array(
             $this->version => $this->settings
         ));
@@ -573,6 +590,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_setting_options($key)
     {
+
         // Return options or empty array
         return isset($this->options[$key]) ? $this->options[$key] : array();
     }
@@ -585,6 +603,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function register_settings()
     {
+
         // Check if current user has administrative capability
         if (!current_user_can($this->get_capability())) {
             return;
@@ -610,8 +629,8 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
             // Iterate over sections
             foreach ($tab['children'] as $section_key => $section) {
 
-                // Section has no settings
-                if (!self::section_has_settings($section)) {
+                // Section has no settings and empty section should not be displayed
+                if (!self::section_has_settings($section) && empty($section['print_empty'])) {
                     continue;
                 }
 
@@ -654,6 +673,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function add_to_menu()
     {
+
         // Register
         add_submenu_page(
             apply_filters(($this->get_plugin_private_prefix() . 'parent_menu_key'), $this->parent_menu_key),
@@ -673,7 +693,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
     /**
      * Get settings page url
      *
-     * TBD: Other plugins that have $parent_menu_key set to something else but URL path, must override this method
+     * TODO: Other plugins that have $parent_menu_key set to something else but URL path, must override this method
      *
      * @access protected
      * @param array $query_vars
@@ -681,6 +701,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_settings_page_url($query_vars = array())
     {
+
         // Get base url
         $url = $this->parent_menu_key;
 
@@ -699,6 +720,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_notice_key()
     {
+
         return ($this->get_plugin_private_prefix() . 'notice');
     }
 
@@ -710,6 +732,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function get_current_settings_tab()
     {
+
         // Get settings structure
         $structure = $this->get_structure();
 
@@ -723,6 +746,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
             return array_shift($array_keys);
         }
     }
+
 
     /**
      * =================================================================================================================
@@ -738,6 +762,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_settings_page()
     {
+
         // Get current tab
         $current_tab = $this->get_current_settings_tab();
 
@@ -771,6 +796,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function enqueue_assets()
     {
+
         // Not settings page
         if (!$this->is_settings_page()) {
             return;
@@ -796,6 +822,13 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         // Enqueue styles
         wp_enqueue_style('rightpress-settings-styles', ($base_url . 'css/settings.css'), array(), $version);
         wp_enqueue_style('rightpress-plugin-settings-styles', ($base_url . 'css/plugin-settings.css'), array(), $version);
+
+        // Enqueue Select2 related scripts and styles
+        wp_enqueue_script('rightpress-settings-select2-scripts', ($base_url . 'select2/js/select2.full.min.js'), array('jquery'), '4.0.12');
+        wp_enqueue_style('rightpress-settings-select2-styles', ($base_url . 'select2/css/select2.min.css'), array(), '4.0.12');
+
+        // Print scripts before WordPress takes care of it automatically (helps load our version of Select2 before any other plugin does it)
+        add_action('wp_print_scripts', array($this, 'print_select2'));
 
         // Define data to be passed to JavaScript
         $data = array(
@@ -827,6 +860,12 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         // Pass data to JavaScript
         wp_localize_script('rightpress-plugin-settings', 'rightpress_plugin_settings', $data);
 
+        // Pass labels to JavaScript
+        wp_localize_script('rightpress-plugin-settings', 'rightpress_plugin_settings_labels', array(
+            'select2_tags_placeholder'   => __('Add values', 'rightpress'),
+            'select2_tags_no_results'    => __('Start typing...', 'rightpress'),
+        ));
+
         // Pass data to validation script
         wp_localize_script('rightpress-plugin-settings-validation', 'rightpress_plugin_settings_validation', array(
             'error_messages' => array(
@@ -840,6 +879,21 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
     }
 
     /**
+     * Print Select2 scripts
+     *
+     * Note: We do this to avoid conflicts with other versions of Select2 loaded on the same page
+     *
+     * @access public
+     * @return void
+     */
+    public function print_select2()
+    {
+
+        remove_action('wp_print_scripts', array($this, 'print_select2'));
+        wp_print_scripts('rightpress-settings-select2-scripts');
+    }
+
+    /**
      * Print section info
      *
      * @access public
@@ -848,6 +902,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_section_info($section)
     {
+
         foreach ($this->get_structure() as $tab_key => $tab) {
             if (!empty($tab['children'][$section['id']]['info'])) {
                 echo '<p>' . $tab['children'][$section['id']]['info'] . '</p>';
@@ -865,6 +920,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_text($args = array(), $field_type = 'text')
     {
+
         // Print field
         RightPress_Forms::$field_type(array_merge($this->prepare_field_config($args), array(
             'value' => htmlspecialchars($this->get_setting_value($args['field_key'])),
@@ -883,6 +939,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_number($args = array())
     {
+
         self::print_field_text($args, 'number');
     }
 
@@ -895,6 +952,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_decimal($args = array())
     {
+
         self::print_field_text($args, 'decimal');
     }
 
@@ -907,6 +965,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_textarea($args = array())
     {
+
         // Print field
         RightPress_Forms::textarea(array_merge($this->prepare_field_config($args), array(
             'value' => htmlspecialchars($this->get_setting_value($args['field_key'])),
@@ -925,6 +984,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_checkbox($args = array())
     {
+
         // Print field
         RightPress_Forms::checkbox(array_merge($this->prepare_field_config($args), array(
             'checked' => (bool) $this->get_setting_value($args['field_key']),
@@ -941,27 +1001,32 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      * @param array $args
      * @param bool $is_multiselect
      * @param bool $is_grouped
+     * @param bool $is_tags
      * @return void
      */
-    public function print_field_select($args = array(), $is_multiselect = false, $is_grouped = false)
+    public function print_field_select($args = array(), $is_multiselect = false, $is_grouped = false, $is_tags = false)
     {
+
+        // Get options
+        $options = $this->get_setting_options($args['field_key']);
+
+        // Get value
+        $value = $this->get_setting_value($args['field_key']);
+
+        // Set options to value if no options are set and tags are used
+        if ($is_tags && empty($options)) {
+            $options = $value;
+        }
+
         // Print field
         RightPress_Forms::select(array_merge($this->prepare_field_config($args, '', $is_multiselect), array(
-            'options'   => $this->get_setting_options($args['field_key']),
-            'value'     => $this->get_setting_value($args['field_key']),
+            'options'               => $options,
+            'value'                 => $value,
+            'data-select-2-tags'    => true,
         )), $is_multiselect, $is_grouped);
 
         // Print hint
         $this->print_hint($args);
-
-
-
-// TBD: Had this in WCDPD
-// Fix multiselect options
-// Note: this is designed to work with user-entered "tags" with no predefined options list
-/* if ($is_multiselect && empty($options)) {
-    $options = $value;
-}*/
     }
 
     /**
@@ -973,6 +1038,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_grouped_select($args = array())
     {
+
         self::print_field_select($args, false, true);
     }
 
@@ -985,7 +1051,21 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_multiselect($args = array())
     {
+
         self::print_field_select($args, true);
+    }
+
+    /**
+     * Print tags field
+     *
+     * @access public
+     * @param array $args
+     * @return void
+     */
+    public function print_field_tags($args = array())
+    {
+
+        self::print_field_select($args, true, false, true);
     }
 
     /**
@@ -997,6 +1077,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_file($args = array())
     {
+
         self::print_field_text($args, 'file');
     }
 
@@ -1009,6 +1090,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_field_link($args = array())
     {
+
         // Get properties
         $label = !empty($args['field']['link_label']) ? $args['field']['link_label'] : $args['field']['link_url'];
 
@@ -1025,6 +1107,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function print_hint($args)
     {
+
         if (!empty($args['field']['hint'])) {
             echo '<div class="rightpress-plugin-settings-hint">' . $args['field']['hint'] . '</div>';
         }
@@ -1033,7 +1116,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
     /**
      * Prepare field config
      *
-     * TBD: When adapting this to other plugins, need to check for any Javascript logic that was based on field's id, name or class as these may have changed
+     * TODO: When adapting this to other plugins, need to check for any Javascript logic that was based on field's id, name or class as these may have changed
      *
      * @access protected
      * @param array $args
@@ -1043,6 +1126,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function prepare_field_config($args, $custom_class = '', $is_multiple = false)
     {
+
         // Reference field data
         $field_key = $args['field_key'];
         $field = $args['field'];
@@ -1058,13 +1142,23 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
             'placeholder'                   => (isset($field['placeholder']) && !RightPress_Help::is_empty($field['placeholder'])) ? $field['placeholder'] : null,
         );
 
+        // Content before field
+        if (!empty($args['field']['before'])) {
+            $config['before'] = ' ' . $args['field']['before'];
+        }
+
+        // Content after field
+        if (!empty($args['field']['after'])) {
+            $config['after'] = ' ' . $args['field']['after'];
+        }
+
         // Flag fields for visibility control
         if (!empty($args['field']['conditions'])) {
             $config['class'] .= ' rightpress-plugin-settings-has-conditions';
         }
 
         // Flag fields for frontend validation
-        // TBD: We should also do corresponding validation in the backend! Right now we don't do that except for 'required'
+        // TODO: We should also do corresponding validation in the backend! Right now we don't do that except for 'required'
         if (!empty($args['field']['validation'])) {
             $config['class'] .= ' rightpress-plugin-settings-has-validation';
         }
@@ -1072,6 +1166,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         // Return field config
         return $config;
     }
+
 
     /**
      * =================================================================================================================
@@ -1088,6 +1183,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function sanitize_settings($input)
     {
+
         // Get settings structure
         $structure = $this->get_structure();
 
@@ -1107,6 +1203,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         $output = $this->settings;
 
         // Store errors
+// TODO: Do we really need WP_Error here?
         $errors = new WP_Error();
 
         // Check if request came from a correct page
@@ -1171,7 +1268,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
 
                     add_settings_error(
                         $this->get_notice_key(),
-                        $this->get_settings_key() . '_sanitization_failed', // TBD: We should append error codes or something like that since multiple errors would result in elements with identical ids
+                        $this->get_settings_key() . '_sanitization_failed', // TODO: We should append error codes or something like that since multiple errors would result in elements with identical ids
                         $message
                     );
                 }
@@ -1192,20 +1289,21 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         $this->processed = true;
 
         // Return sanitized settings array
-        // TBD: Shouldn't we skip storing options if we have errors?
+        // TODO: Shouldn't we skip storing options if we have errors?
         return array($this->version => $output);
     }
 
     /**
      * Get posted serialized settings
      *
-     * TBD: Test this functionality when adapting to WCDPD (it wasn't tested when it was first moved to RightPress_Plugin_Settings)
+     * TODO: Test this functionality when adapting to WCDPD (it wasn't tested when it was first moved to RightPress_Plugin_Settings)
      *
      * @access private
      * @return array|bool
      */
     private function get_posted_serialized_settings()
     {
+
         $unserialized_settings = array();
 
         // Check if serialized values were posted
@@ -1237,6 +1335,8 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      *
      * Boolean false return value is reserved to indicate that value was not sanitized
      *
+     * TODO: Find some other way to indicate that value was not sanitized instead of using false (false could then be used as actual value)
+     *
      * @access protected
      * @param array $input
      * @param string $field_key
@@ -1248,6 +1348,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_custom($input, $field_key, $prefixed_key, $current_value, $output, $field)
     {
+
         return false;
     }
 
@@ -1262,6 +1363,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function post_sanitization($output, $input, $current_tab)
     {
+
         return $output;
     }
 
@@ -1277,8 +1379,9 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_text($input, $prefixed_key, $current_value, $field)
     {
-        // TBD: WCDPD needs special handling here
-        // TBD: Shouldn't we reset value to empty string if it's not set in $input instead of preserving current value?
+
+        // TODO: WCDPD needs special handling here
+        // TODO: Shouldn't we reset value to empty string if it's not set in $input instead of preserving current value?
         return isset($input[$prefixed_key]) ? esc_attr(trim($input[$prefixed_key])) : $current_value;
     }
 
@@ -1294,6 +1397,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_number($input, $prefixed_key, $current_value, $field)
     {
+
         return (isset($input[$prefixed_key]) && is_numeric($input[$prefixed_key])) ? (int) esc_attr(trim($input[$prefixed_key])) : '';
     }
 
@@ -1309,6 +1413,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_decimal($input, $prefixed_key, $current_value, $field)
     {
+
         return isset($input[$prefixed_key]) && is_numeric($input[$prefixed_key]) ? (float) esc_attr(trim($input[$prefixed_key])) : '';
     }
 
@@ -1324,6 +1429,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_textarea($input, $prefixed_key, $current_value, $field)
     {
+
         return $this->sanitize_field_text($input, $prefixed_key, $current_value, $field);
     }
 
@@ -1339,6 +1445,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_checkbox($input, $prefixed_key, $current_value, $field)
     {
+
         return empty($input[$prefixed_key]) ? '0' : '1';
     }
 
@@ -1354,7 +1461,8 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_select($input, $prefixed_key, $current_value, $field)
     {
-        // TBD: Shouldn't we reset value if it's not set in $input instead of preserving current value?
+
+        // TODO: Shouldn't we reset value if it's not set in $input instead of preserving current value?
         return (isset($input[$prefixed_key]) && isset($field['options'][$input[$prefixed_key]])) ? $input[$prefixed_key] : $current_value;
     }
 
@@ -1370,7 +1478,8 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_grouped_select($input, $prefixed_key, $current_value, $field)
     {
-        // TBD: Shouldn't we reset value if it's not set in $input instead of preserving current value?
+
+        // TODO: Shouldn't we reset value if it's not set in $input instead of preserving current value?
         $value = $current_value;
 
         if (isset($input[$prefixed_key])) {
@@ -1388,8 +1497,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
     /**
      * Sanitize multiselect field
      *
-     * Note: this is designed to work with user-entered "tags" with no predefined options list
-     * TBD: maybe update this to work universally with both tags and predefined select values?
+     * TODO: Update this to use predefined options, previously this was used for tags before creating separate methods for tags
      *
      * @access protected
      * @param array $input
@@ -1400,6 +1508,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function sanitize_field_multiselect($input, $prefixed_key, $current_value, $field)
     {
+
         $output = array();
 
         if (!empty($input[$prefixed_key]) && is_array($input[$prefixed_key])) {
@@ -1413,21 +1522,50 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
     }
 
     /**
-     * Sanitize file field
+     * Sanitize tags field
+     *
+     * Note: this is designed to work with user-entered "tags" with no predefined options list
      *
      * @access protected
-     * @param tbd $value
-     * @return tbd
+     * @param array $input
+     * @param string $prefixed_key
+     * @param mixed $current_value
+     * @param array $field
+     * @return array
      */
-    protected function sanitize_field_file($value)
+    protected function sanitize_field_tags($input, $prefixed_key, $current_value, $field)
     {
-        // TBD: How do we handle this? Maybe we should skip import file completely from validation since it's handled elsewhere?
-        return $value;
+
+        $output = array();
+
+        if (!empty($input[$prefixed_key]) && is_array($input[$prefixed_key])) {
+            foreach ($input[$prefixed_key] as $tag_value) {
+                $sanitized_value = sanitize_key($tag_value);
+                $output[$sanitized_value] = $sanitized_value;
+            }
+        }
+
+        return array_unique($output);
     }
 
     /**
+     * Sanitize file field
+     *
+     * @access protected
+     * @param mixed $value  // TODO: What value this really is?
+     * @return mixed
+     */
+    protected function sanitize_field_file($value)
+    {
+
+        // TODO: How do we handle this? Maybe we should skip import file completely from validation since it's handled elsewhere?
+        return $value;
+    }
+
+
+    /**
      * =================================================================================================================
-     * SETTINGS IMPORT & EXPORT - TBD: review all code with clear head
+     * SETTINGS IMPORT & EXPORT - TODO: review and test all code, relatively little testing went into this
      * =================================================================================================================
      */
 
@@ -1439,6 +1577,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     protected function set_up_import_export()
     {
+
         // Plugin does not support settings import and export
         if (!$this->import_export_tab_key) {
             return;
@@ -1453,7 +1592,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
         add_filter(($this->get_plugin_private_prefix() . 'settings_structure'), array($this, 'add_import_export_settings'), 99);
 
         // Export request
-        // TBD: changed from prefix_export_settings to prefix_settings_export (important when adapting for us in WCDPD)
+        // TODO: changed from prefix_export_settings to prefix_settings_export (important when adapting for us in WCDPD)
         if (!empty($_REQUEST[($this->get_settings_key() . '_export')])) {
             add_action('wp_loaded', array($this, 'export_settings'));
         }
@@ -1478,6 +1617,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function add_import_export_settings($structure)
     {
+
         // Check if tab is present
         if ($this->import_export_tab_key && isset($structure[$this->import_export_tab_key])) {
 
@@ -1517,6 +1657,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function export_settings()
     {
+
         // Get settings
         $settings = get_option($this->get_settings_key(), array());
 
@@ -1545,6 +1686,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function import_settings()
     {
+
         try {
 
             // Check if file was uploaded correctly
@@ -1605,6 +1747,7 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
      */
     public function print_settings_import_notice()
     {
+
         // Success notice
         if ($_REQUEST[($this->get_settings_key() . '_imported')] === '1') {
 
@@ -1650,8 +1793,4 @@ abstract class RightPress_Plugin_Settings extends RightPress_Settings
 
 
 
-
-
-
-}
 }

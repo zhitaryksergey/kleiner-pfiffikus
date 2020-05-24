@@ -36,6 +36,7 @@
 .gmp_map_opts img, .gmp_map_opts img {
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
+	background: transparent;
 }
 .gmp_map_opts .filterRight{
 	overflow-y: auto;

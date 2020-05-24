@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Product_Other')) {
-    require_once('rightpress-condition-product-other.class.php');
-}
+require_once 'rightpress-condition-product-other.class.php';
 
 /**
  * Condition: Product Other - WooCommerce Coupons Applied
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Product_Other')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Product_Other_WC_Coupons_Applied')) {
-
 abstract class RightPress_Condition_Product_Other_WC_Coupons_Applied extends RightPress_Condition_Product_Other
 {
 
@@ -71,7 +65,7 @@ abstract class RightPress_Condition_Product_Other_WC_Coupons_Applied extends Rig
         do_action('rightpress_conditions_get_coupons_start');
 
         // Get applied coupons
-        $coupons = WC()->cart->get_coupons();
+        $coupons = RightPress_Help::is_request('frontend') ? WC()->cart->get_coupons() : array();
 
         // Circular reference prevention
         do_action('rightpress_conditions_get_coupons_end');
@@ -92,5 +86,4 @@ abstract class RightPress_Condition_Product_Other_WC_Coupons_Applied extends Rig
 
 
 
-}
 }

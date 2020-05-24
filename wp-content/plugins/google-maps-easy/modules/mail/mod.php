@@ -20,15 +20,13 @@ class mailGmp extends moduleGmp {
 	}
 	public function getMailErrors() {
 		global $ts_mail_errors;
-		global $phpmailer;
+
 		// Clear prev. send errors at first
 		$ts_mail_errors = array();
 
 		// Let's try to get errors about mail sending from WP
 		if (!isset($ts_mail_errors)) $ts_mail_errors = array();
-		if (isset($phpmailer)) {
-			$ts_mail_errors[] = $phpmailer->ErrorInfo;
-		}
+	
 		if(empty($ts_mail_errors)) {
 			$ts_mail_errors[] = __('Can not send email - problem with send server');
 		}

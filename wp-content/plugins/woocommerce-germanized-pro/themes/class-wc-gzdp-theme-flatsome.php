@@ -30,6 +30,10 @@ class WC_GZDP_Theme_Flatsome extends WC_GZDP_Theme {
 
     public function custom_hooks() {
 
+		if ( ! function_exists( 'wc_gzd_get_shopmark' ) ) {
+			return;
+		}
+
 		// Add Quick View Compatibility
 		add_action( 'flatsome_product_box_actions', array( $this, 'enqeue_variations_script' ), 60 );
 

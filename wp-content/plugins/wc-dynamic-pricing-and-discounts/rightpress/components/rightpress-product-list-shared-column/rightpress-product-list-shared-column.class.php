@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_List_Shared_Column')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Product List Shared Column
@@ -20,19 +15,8 @@ final class RightPress_Product_List_Shared_Column
 
     protected static $column_name = 'rightpress-product-list-shared-column';
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -58,9 +42,9 @@ final class RightPress_Product_List_Shared_Column
      */
     public function add_product_list_custom_column($columns)
     {
+
         // Define custom column
-        // TBD
-        $custom_column = array(self::$column_name => '<span class="rightpress_product_list_shared_column_header">TBD</span>');
+        $custom_column = array(self::$column_name => '<span class="rightpress_product_list_shared_column_header">' . __('Properties', 'rightpress') . '</span>');
 
         // Insert before date if it is set
         if (isset($columns['date'])) {
@@ -99,8 +83,8 @@ final class RightPress_Product_List_Shared_Column
 
 
 
+
+
 }
 
 RightPress_Product_List_Shared_Column::get_instance();
-
-}

@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Time')) {
-    require_once('rightpress-condition-time.class.php');
-}
+require_once 'rightpress-condition-time.class.php';
 
 /**
  * Condition: Time - Date
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Time')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Time_Date')) {
-
 abstract class RightPress_Condition_Time_Date extends RightPress_Condition_Time
 {
 
@@ -74,5 +68,4 @@ abstract class RightPress_Condition_Time_Date extends RightPress_Condition_Time
 
 
 
-}
 }

@@ -124,7 +124,11 @@ gmpGoogleMarker.prototype.showInfoWnd = function( forceUpdateInfoWnd, forceShow 
 		if(parseInt(this.getMap().getParam('center_on_cur_marker_infownd')) && !GMP_DATA.isAdmin) {
 			this.getMap().setCenter(this.getMarkerParam('position'));
 		}
-		this._infoWindow.open(this._map.getRawMapInstance(), this._markerObj);
+		if(this._map.getParam('marker_infownd_type') == 'slide' && (typeof(this.showInfoWndSlide) == 'function')) {
+			this.showInfoWndSlide();
+		} else {
+			this._infoWindow.open(this._map.getRawMapInstance(), this._markerObj);
+		}
 		this._infoWndOpened = true;
 	}
 };

@@ -13,7 +13,7 @@
     define('GMP_CLASSES_DIR', GMP_DIR. 'classes'. DS);
     define('GMP_TABLES_DIR', GMP_CLASSES_DIR. 'tables'. DS);
 	define('GMP_HELPERS_DIR', GMP_CLASSES_DIR. 'helpers'. DS);
-    define('GMP_LANG_DIR', GMP_DIR. 'lang'. DS);
+    define('GMP_LANG_DIR', GMP_DIR. 'languages'. DS);
     define('GMP_IMG_DIR', GMP_DIR. 'img'. DS);
     define('GMP_TEMPLATES_DIR', GMP_DIR. 'templates'. DS);
     define('GMP_MODULES_DIR', GMP_DIR. 'modules'. DS);
@@ -48,7 +48,7 @@
 	define('GMP_EOL', "\n");    
     
     define('GMP_PLUGIN_INSTALLED', true);
-    define('GMP_VERSION_PLUGIN', '1.9.18');	//GMP_VERSION is pre-defined constant for PHP GMP module http://php.net/manual/en/book.gmp.php
+    define('GMP_VERSION_PLUGIN', '1.9.28');	//GMP_VERSION is pre-defined constant for PHP GMP module http://php.net/manual/en/book.gmp.php
     define('GMP_USER', 'user');
     
     define('GMP_CLASS_PREFIX', 'gmpc');     
@@ -72,7 +72,7 @@
 	 */
 	define('GMP_CODE', 'gmp');
 
-	define('GMP_LANG_CODE', 'gmp_lng');
+	define('GMP_LANG_CODE', 'google-maps-easy');
 	/**
 	 * Plugin name
 	 */

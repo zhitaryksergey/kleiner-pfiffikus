@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_BOGO')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XY')) {
-
 class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XY extends RP_WCDPD_Method_Product_Pricing_Quantity_BOGO
 {
 
@@ -53,7 +51,7 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XY extends RP_WCDPD_Method_P
         $quantity_groups = $this->group_quantities($cart_items_desc, $rule);
 
         // Prepare target quantity group
-        $receive_quantity_group = $this->get_target_quantity_group($rule, $cart_items);
+        $receive_quantity_group = $this->get_target_quantity_group($rule, $cart_items_desc);
 
         // Track cart item quantities that can no longer be considered (i.e. were either used to trigger rule or adjustment was applied to them)
         $used_quantities = array();
@@ -81,7 +79,7 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XY extends RP_WCDPD_Method_P
                     $temporary_used_quantities = $this->merge_cart_item_quantities($used_quantities, $quantities_to_purchase);
 
                     // Get quantities to receive at adjusted price
-                    if ($quantities_to_receive = $this->reserve_quantities($receive_quantity_group, $temporary_used_quantities, $rule['bogo_receive_quantity'])) {
+                    if ($quantities_to_receive = $this->reserve_quantities($receive_quantity_group, $temporary_used_quantities, $rule['bogo_receive_quantity'], false, true)) {
 
                         // Mark quantities used
                         $used_quantities = $this->merge_cart_item_quantities($temporary_used_quantities, $quantities_to_receive);
@@ -141,5 +139,4 @@ class RP_WCDPD_Method_Product_Pricing_Quantity_BOGO_XY extends RP_WCDPD_Method_P
     }
 
 
-}
 }

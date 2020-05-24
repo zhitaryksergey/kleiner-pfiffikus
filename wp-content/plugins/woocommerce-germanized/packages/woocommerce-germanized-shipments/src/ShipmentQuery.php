@@ -189,6 +189,25 @@ class ShipmentQuery extends WC_Object_Query {
                 $this->args['search_columns'] = array();
             }
         }
+
+	    if ( isset( $this->args['orderby'] ) ) {
+		    if ( 'weight' === $this->args['orderby'] ) {
+			    $this->args['meta_query'][] = array(
+				    'relation' => 'OR',
+				    array(
+					    'key' => '_weight',
+					    'compare' => 'NOT EXISTS',
+				    ),
+				    array(
+					    'key'     => '_weight',
+					    'compare' => '>=',
+					    'value'   => 0,
+				    ),
+			    );
+
+			    $this->args['orderby'] = 'meta_value_num';
+		    }
+	    }
     }
 
     /**
@@ -302,7 +321,7 @@ class ShipmentQuery extends WC_Object_Query {
             $search_columns = array();
 
             if ( $this->args['search_columns'] ) {
-                $search_columns = array_intersect( $this->args['search_columns'], array( 'shipment_id', 'shipment_country', 'shipment_tracking_id', 'shipment_order_id', 'shipment_shipping_provider', 'shipment_shipping_method' ) );
+                $search_columns = array_intersect( $this->args['search_columns'], array( 'shipment_id', 'shipment_country', 'shipment_tracking_id', 'shipment_order_id', 'shipment_shipping_provider', 'shipment_shipping_method', 'shipment_search_index' ) );
             }
 
             if ( ! $search_columns ) {
@@ -311,7 +330,7 @@ class ShipmentQuery extends WC_Object_Query {
                 } elseif ( strlen( $search ) === 2 ) {
                     $search_columns = array( 'shipment_country' );
                 } else {
-                    $search_columns = array( 'shipment_id', 'shipment_country', 'shipment_tracking_id', 'shipment_order_id' );
+                    $search_columns = array( 'shipment_id', 'shipment_country', 'shipment_tracking_id', 'shipment_order_id', 'shipment_search_index' );
                 }
             }
 
@@ -469,10 +488,9 @@ class ShipmentQuery extends WC_Object_Query {
         global $wpdb;
 
         $meta_query_clauses = $this->meta_query->get_clauses();
+        $_orderby           = '';
 
-        $_orderby = '';
-
-        if ( in_array( $orderby, array( 'country', 'status', 'tracking_id', 'date_created' ) ) ) {
+        if ( in_array( $orderby, array( 'country', 'status', 'tracking_id', 'date_created', 'order_id' ) ) ) {
 	        $_orderby = 'shipment_' . $orderby;
         } elseif( 'date' == $orderby ) {
 	        $_orderby = 'shipment_date_created';

@@ -1,13 +1,13 @@
 <?php
 /**
  * Framework Name: YIT Plugin Framework
- * Version: 3.2.1
- * Author: YITHEMES
+ * Version: 3.4.19
+ * Author: YITH
  * Text Domain: yith-plugin-fw
  * Domain Path: /languages/
  *
  * @author  Your Inspiration Themes
- * @version 3.1.26
+ * @version 3.4.19
  */
 /**
  * This file belongs to the YIT Plugin Framework.
@@ -21,6 +21,8 @@
 if ( ! defined ( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
+
+
 
 if ( ! function_exists ( 'yit_maybe_plugin_fw_loader' ) ) {
     /**

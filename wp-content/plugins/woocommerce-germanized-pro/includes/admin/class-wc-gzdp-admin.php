@@ -61,7 +61,30 @@ class WC_GZDP_Admin {
 
 		add_filter( 'woocommerce_gzd_template_check', array( $this, 'add_template_check' ), 10, 1 );
 
+		add_action( 'woocommerce_gzd_status_after_tools', array( $this, 'generator_cache_clean' ), 10 );
+		add_action( 'admin_init', array( $this, 'check_clear_generator_cache' ) );
+
         $this->wizward = require 'class-wc-gzdp-admin-setup-wizard.php';
+	}
+
+	public function generator_cache_clean() {
+	    ?>
+        <tr>
+            <td><?php _e( 'Clear generator cache', 'woocommerce-germanized-pro' ); ?></td>
+            <td class="help"><?php echo wc_help_tip( esc_attr( __( 'In case the terms generator does not work as expected you might want to clear the cache manually.', 'woocommerce-germanized-pro' ) ) ); ?></td>
+            <td>
+                <a href="<?php echo wp_nonce_url( add_query_arg( array( 'clear-generator-cache' => true ) ), 'wc-gzdp-clear-generator-cache' ); ?>" class="button button-secondary"><?php _e( 'Clear cache', 'woocommerce-germanized-pro' ); ?></a></td>
+            </td>
+        </tr>
+        <?php
+    }
+
+	public function check_clear_generator_cache() {
+		if ( current_user_can( 'manage_woocommerce' ) && isset( $_GET['clear-generator-cache'] ) && isset( $_GET['_wpnonce'] ) && check_admin_referer( 'wc-gzdp-clear-generator-cache' ) ) {
+		    WC_GZDP_Admin_Generator::instance()->clear_caches();
+
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=germanized' ) );
+		}
 	}
 
 	public function add_template_check( $check ) {

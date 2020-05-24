@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Limit')) {
-
 abstract class RP_WCDPD_Limit
 {
     protected $total_limit          = null;
@@ -351,5 +349,4 @@ abstract class RP_WCDPD_Limit
 
 
 
-}
 }

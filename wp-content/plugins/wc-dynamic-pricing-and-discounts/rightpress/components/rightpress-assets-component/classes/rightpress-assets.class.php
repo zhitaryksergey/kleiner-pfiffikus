@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Assets')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Assets Class
@@ -228,5 +223,4 @@ abstract class RightPress_Assets
 
 
 
-}
 }

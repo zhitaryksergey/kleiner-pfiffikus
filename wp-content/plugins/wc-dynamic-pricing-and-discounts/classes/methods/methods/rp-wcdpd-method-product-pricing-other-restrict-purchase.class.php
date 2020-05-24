@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing_Other')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Other_Restrict_Purchase')) {
-
 class RP_WCDPD_Method_Product_Pricing_Other_Restrict_Purchase extends RP_WCDPD_Method_Product_Pricing_Other
 {
 
@@ -134,5 +132,3 @@ class RP_WCDPD_Method_Product_Pricing_Other_Restrict_Purchase extends RP_WCDPD_M
 }
 
 RP_WCDPD_Method_Product_Pricing_Other_Restrict_Purchase::get_instance();
-
-}

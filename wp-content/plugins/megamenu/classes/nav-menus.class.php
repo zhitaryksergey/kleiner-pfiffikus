@@ -31,7 +31,9 @@ class Mega_Menu_Nav_Menus {
             'icon_position' => 'left',
             'panel_columns' => 6, // total number of columns displayed in the panel
             'mega_menu_columns' => 1, // for sub menu items, how many columns to span in the panel,
-            'mega_menu_order' => 0
+            'mega_menu_order' => 0,
+            'collapse_children' => 'false',
+            'submenu_columns' => 1
         );
 
         return apply_filters( "megamenu_menu_item_defaults", $defaults );
@@ -110,6 +112,12 @@ class Mega_Menu_Nav_Menus {
                 if ( $value == 'mega_menu_meta_box' ) {
                     unset( $hidden[$key] );
                 }
+                if ( $value == 'add-product_cat' ) {
+                    unset( $hidden[$key] );
+                }
+                if ( $value == 'add-product_tag' ) {
+                    unset( $hidden[$key] );
+                }
             }
         }
 
@@ -184,6 +192,10 @@ class Mega_Menu_Nav_Menus {
         wp_deregister_script('wmu-colorbox-js');
         wp_deregister_style('wmu-colorbox-css');
 
+        // Compatibility fix for TemplatesNext ToolKit
+        wp_deregister_script('tx-main');
+        wp_deregister_style('tx-toolkit-admin-style');
+
         wp_enqueue_style( 'colorbox', MEGAMENU_BASE_URL . 'js/colorbox/colorbox.css', false, MEGAMENU_VERSION );
         wp_enqueue_style( 'maxmegamenu', MEGAMENU_BASE_URL . 'css/admin/admin.css', false, MEGAMENU_VERSION );
 
@@ -225,11 +237,8 @@ class Mega_Menu_Nav_Menus {
      * @since 1.0
      */
     public function metabox_contents() {
-
         $menu_id = $this->get_selected_menu_id();
-
         $this->print_enable_megamenu_options( $menu_id );
-
     }
 
 
@@ -239,27 +248,21 @@ class Mega_Menu_Nav_Menus {
      * @since 1.0
      */
     public function save() {
-
         check_ajax_referer( 'megamenu_edit', 'nonce' );
 
         if ( isset( $_POST['menu'] ) && $_POST['menu'] > 0 && is_nav_menu( $_POST['menu'] ) && isset( $_POST['megamenu_meta'] ) ) {
-
             $raw_submitted_settings = $_POST['megamenu_meta'];
-
             $parsed_submitted_settings = json_decode( stripslashes( $raw_submitted_settings ), true );
-
             $submitted_settings = array();
 
             foreach ( $parsed_submitted_settings as $index => $value ) {
                 $name = $value['name'];
 
-                // find values between square brackets
-                preg_match_all( "/\[(.*?)\]/", $name, $matches );
+                preg_match_all( "/\[(.*?)\]/", $name, $matches ); // find values between square brackets
 
                 if ( isset( $matches[1][0] ) && isset( $matches[1][1] ) ) {
                     $location = $matches[1][0];
                     $setting = $matches[1][1];
-
                     $submitted_settings[$location][$setting] = $value['value'];
                 }
             }
@@ -267,27 +270,19 @@ class Mega_Menu_Nav_Menus {
             $submitted_settings = apply_filters("megamenu_submitted_settings_meta", $submitted_settings);
 
             if ( ! get_option( 'megamenu_settings' ) ) {
-
                 update_option( 'megamenu_settings', $submitted_settings );
-
             } else {
-
                 $existing_settings = get_option( 'megamenu_settings' );
-
                 $new_settings = array_merge( $existing_settings, $submitted_settings );
 
                 update_option( 'megamenu_settings', $new_settings );
-
             }
 
             do_action( "megamenu_after_save_settings" );
-
             do_action( "megamenu_delete_cache" );
-
         }
 
         wp_die();
-
     }
 
 
@@ -298,30 +293,22 @@ class Mega_Menu_Nav_Menus {
      * @since 1.0
      */
     public function print_enable_megamenu_options( $menu_id ) {
-
         $tagged_menu_locations = $this->get_tagged_theme_locations_for_menu_id( $menu_id );
         $theme_locations = get_registered_nav_menus();
-
         $saved_settings = get_option( 'megamenu_settings' );
 
         if ( ! count( $theme_locations ) ) {
-
             $link = '<a href="https://www.megamenu.com/documentation/widget/?utm_source=free&amp;utm_medium=link&amp;utm_campaign=pro" target="_blank">' . __("here", "megamenu") . '</a>';
 
             echo "<p>" . __("This theme does not register any menu locations.", "megamenu") . "</p>";
             echo "<p>" . __("You will need to create a new menu location and use the Max Mega Menu widget or shortcode to display the menu on your site.", "megamenu") . "</p>";
             echo "<p>" . str_replace( "{link}", $link, __("Click {link} for instructions.", "megamenu") ) . "</p>";
-
         } else if ( ! count ( $tagged_menu_locations ) ) {
-
             echo "<p>" . __("Please assign this menu to a theme location to enable the Mega Menu settings.", "megamenu") . "</p>";
-
             echo "<p>" . __("To assign this menu to a theme location, scroll to the bottom of this page and tag the menu to a 'Display location'.", "megamenu") . "</p>";
-
         } else { ?>
 
             <?php if ( count( $tagged_menu_locations ) == 1 ) : ?>
-
                 <?php
 
                 $locations = array_keys( $tagged_menu_locations );
@@ -332,33 +319,20 @@ class Mega_Menu_Nav_Menus {
                 }
 
                 ?>
-
             <?php else: ?>
-
                 <div id='megamenu_accordion'>
-
                     <?php foreach ( $theme_locations as $location => $name ) : ?>
-
                         <?php if ( isset( $tagged_menu_locations[ $location ] ) ): ?>
-
                             <h3 class='theme_settings'><?php echo esc_html( $name ); ?></h3>
-
                             <div class='accordion_content' style='display: none;'>
                                 <?php $this->settings_table( $location, $saved_settings ); ?>
                             </div>
-
                         <?php endif; ?>
-
                     <?php endforeach;?>
                 </div>
-
             <?php endif; ?>
 
-            <?php
-
-            submit_button( __( 'Save' ), 'max-mega-menu-save button-primary alignright');
-
-            ?>
+            <?php submit_button( __( 'Save' ), 'max-mega-menu-save button-primary alignright'); ?>
 
             <span class='spinner'></span>
 
@@ -454,7 +428,7 @@ class Mega_Menu_Nav_Menus {
             <tr>
                 <td><?php _e("Effect (Mobile)", "megamenu") ?></td>
                 <td>
-                    <select name='megamenu_meta[<?php echo $location ?>][effect_mobile]'>
+                    <select class='megamenu_effect_mobile' name='megamenu_meta[<?php echo $location ?>][effect_mobile]'>
                     <?php
 
                         $selected = isset( $settings[$location]['effect_mobile'] ) ? $settings[$location]['effect_mobile'] : 'disabled';
@@ -465,8 +439,16 @@ class Mega_Menu_Nav_Menus {
                                 'selected' => $selected == 'disabled',
                             ),
                             "slide" => array(
-                                'label' => __("Slide", "megamenu"),
+                                'label' => __("Slide Down", "megamenu"),
                                 'selected' => $selected == 'slide',
+                            ),
+                            "slide_left" => array(
+                                'label' => __("Slide Left (Off Canvas)", "megamenu"),
+                                'selected' => $selected == 'slide_left',
+                            ),
+                            "slide_right" => array(
+                                'label' => __("Slide Right (Off Canvas)", "megamenu"),
+                                'selected' => $selected == 'slide_right',
                             )
                         ), $selected );
 
@@ -509,7 +491,7 @@ class Mega_Menu_Nav_Menus {
                             $selected_theme = isset( $settings[$location]['theme'] ) ? $settings[$location]['theme'] : 'default';
 
                             foreach ( $themes as $key => $theme ) {
-                                echo "<option value='{$key}' " . selected( $selected_theme, $key ) . ">{$theme['title']}</option>";
+                                echo "<option value='{$key}' " . selected( $selected_theme, $key ) . ">" . esc_html( $theme['title'] ) . "</option>";
                             }
                         ?>
                     </select>

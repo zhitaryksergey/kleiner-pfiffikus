@@ -12,27 +12,14 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Product_Pricing')) {
-
 class RP_WCDPD_Product_Pricing
 {
 
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     // RightPress Product Price component hook position
     private $rightpress_hook_position = 50;
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -95,6 +82,7 @@ class RP_WCDPD_Product_Pricing
      */
     public function maybe_add_public_rule_description_to_cart_item_display_price($display_price, $price_data, $full_price)
     {
+
         // Check if any pricing rules were applied to this price
         if (!empty($price_data['all_changes']['rp_wcdpd'])) {
 
@@ -125,6 +113,7 @@ class RP_WCDPD_Product_Pricing
      */
     public static function filter_items_by_rules($cart_items, $rules)
     {
+
         $filtered = array();
         $keys_added = array();
 
@@ -166,6 +155,7 @@ class RP_WCDPD_Product_Pricing
      */
     public static function get_applicable_rules_for_product($product, $methods = null, $skip_cart_conditions = false, $reference_amount_callback = null)
     {
+
         // Maybe exclude products already on sale
         if (RP_WCDPD_Settings::get('product_pricing_sale_price_handling') === 'exclude' && RP_WCDPD_Product_Pricing::product_is_on_sale($product)) {
             return false;
@@ -192,7 +182,7 @@ class RP_WCDPD_Product_Pricing
                     // Filter rules by exclusivity settings
                     if ($mockup_adjustments = RP_WCDPD_Rules::filter_by_exclusivity('product_pricing', RP_WCDPD_Product_Pricing::get_mockup_adjustments($rules, $product, $reference_amount_callback))) {
 
-                        // Exctract rules and return
+                        // Extract rules and return
                         return wp_list_pluck($mockup_adjustments, 'rule');
                     }
                 }
@@ -218,6 +208,7 @@ class RP_WCDPD_Product_Pricing
      */
     public static function get_mockup_adjustments($rules, $product, $reference_amount_callback = null)
     {
+
         $adjustments = array();
 
         // Check if reference amount is needed
@@ -277,6 +268,7 @@ class RP_WCDPD_Product_Pricing
      */
     public static function product_is_on_sale($product)
     {
+
         // Special case
         if (RP_WCDPD_Settings::get('product_pricing_change_display_prices')) {
             return $product->is_on_sale('edit');
@@ -287,6 +279,47 @@ class RP_WCDPD_Product_Pricing
         }
     }
 
+    /**
+     * Apply simple product pricing rules to product price
+     *
+     * @access public
+     * @param float $price
+     * @param object $product
+     * @return float
+     */
+    public static function apply_simple_product_pricing_rules_to_product_price($price, $product)
+    {
+
+        $controller = RP_WCDPD_Controller_Methods_Product_Pricing::get_instance();
+
+        // Get simple product pricing rules applicable to this product
+        $applicable_rules = RP_WCDPD_Product_Pricing::get_applicable_rules_for_product($product, array('simple'));
+
+        // Apply applicable adjustments
+        if (is_array($applicable_rules) && !empty($applicable_rules)) {
+            foreach ($applicable_rules as $applicable_rule) {
+
+                // Load method from rule
+                if ($method = $controller->get_method_from_rule($applicable_rule)) {
+
+                    // Generate prices array
+                    $prices = RightPress_Product_Price_Breakdown::generate_prices_array($price, 1, $product);
+
+                    // Apply adjustments to prices array
+                    $prices = $method->apply_adjustment_to_prices($prices, array('rule' => $applicable_rule));
+
+                    // Incorporate new changes for cart item
+                    RightPress_Product_Price_Changes::incorporate_new_changes_for_cart_item($prices);
+
+                    // Get price from prices array
+                    $price = RightPress_Product_Price_Breakdown::get_price_from_prices_array($prices, $price, $product);
+                }
+            }
+        }
+
+        return $price;
+    }
+
 
 
 
@@ -294,5 +327,3 @@ class RP_WCDPD_Product_Pricing
 }
 
 RP_WCDPD_Product_Pricing::get_instance();
-
-}

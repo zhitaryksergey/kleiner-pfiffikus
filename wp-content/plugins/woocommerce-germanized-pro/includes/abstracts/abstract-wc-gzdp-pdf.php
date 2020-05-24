@@ -22,6 +22,10 @@ if ( ! defined( 'K_PATH_IMAGES' ) && ini_get( 'open_basedir' ) ) {
     }
 }
 
+if ( ! defined( 'K_PATH_CACHE' ) ) {
+	define( 'K_PATH_CACHE', get_temp_dir() );
+}
+
 if ( ! class_exists( 'TCPDF' ) ) {
 	include_once( WC_germanized_pro()->plugin_path() . '/includes/libraries/tcpdf/tcpdf.php' );
 }

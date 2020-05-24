@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Field_Decimal')) {
-    require_once('rightpress-condition-field-decimal.class.php');
-}
+require_once 'rightpress-condition-field-decimal.class.php';
 
 /**
  * Condition Field: Decimal - Decimal
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Field_Decimal')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Field_Decimal_Decimal')) {
-
 abstract class RightPress_Condition_Field_Decimal_Decimal extends RightPress_Condition_Field_Decimal
 {
 
@@ -42,5 +36,4 @@ abstract class RightPress_Condition_Field_Decimal_Decimal extends RightPress_Con
 
 
 
-}
 }

@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer')) {
-    require_once('rightpress-condition-customer.class.php');
-}
+require_once 'rightpress-condition-customer.class.php';
 
 /**
  * Condition: Customer - Logged In
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Logged_In')) {
-
 abstract class RightPress_Condition_Customer_Logged_In extends RightPress_Condition_Customer
 {
 
@@ -57,17 +51,22 @@ abstract class RightPress_Condition_Customer_Logged_In extends RightPress_Condit
      *
      * @access public
      * @param array $params
-     * @return mixed
+     * @return bool
      */
     public function get_value($params)
     {
 
-        return is_user_logged_in();
+        $value = false;
+
+        if (RightPress_Help::is_request('frontend')) {
+            $value = is_user_logged_in();
+        }
+
+        return $value;
     }
 
 
 
 
 
-}
 }

@@ -1,13 +1,11 @@
 .step {
-  display: -webkit-box;
   display: flex;
   flex-wrap: nowrap;
   list-style: none;
   margin: 0.2rem 0;
   width: 100%; }
   .step .step-item {
-    -webkit-box-flex: 1;
-            flex: 1 1 0;
+    flex: 1 1 0;
     margin-top: 0;
     min-height: 1rem;
     text-align: center;
@@ -35,8 +33,7 @@
         left: 50%;
         position: absolute;
         top: 0.2rem;
-        -webkit-transform: translateX(-50%);
-                transform: translateX(-50%);
+        transform: translateX(-50%);
         width: 0.6rem;
         z-index: 1; }
     .step .step-item.active a::before {
@@ -56,10 +53,8 @@ body {
   padding: 0; }
 
 .wc-gzd-setup .logo-wrapper {
-  display: -webkit-box;
   display: flex;
-  -webkit-box-pack: center;
-          justify-content: center; }
+  justify-content: center; }
   .wc-gzd-setup .logo-wrapper .logo {
     display: inline-block;
     text-indent: -9999px;
@@ -146,19 +141,14 @@ body {
         height: auto;
         margin-top: 1em; }
   .wc-gzd-setup-content .wc-gzd-setup-grid {
-    display: -webkit-box;
     display: flex;
     flex-wrap: wrap;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-direction: row;
-    -webkit-box-pack: start;
-            justify-content: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
     margin-left: -.5rem;
     margin-right: -.5rem; }
     .wc-gzd-setup-content .wc-gzd-setup-grid .wc-gzd-setup-grid-item {
-      -webkit-box-flex: 0;
-              flex: none;
+      flex: none;
       width: 50%;
       max-width: 100%;
       padding-left: .5rem;
@@ -174,11 +164,9 @@ body {
   margin-top: 1em;
   padding-bottom: 1.5em; }
   .wc-gzd-setup-footer .wc-gzd-setup-links {
-    display: -webkit-box;
     display: flex;
     flex-wrap: wrap;
-    -webkit-box-pack: end;
-            justify-content: flex-end; }
+    justify-content: flex-end; }
   .wc-gzd-setup-footer .wc-gzd-setup-link {
     text-decoration: none; }
     .wc-gzd-setup-footer .wc-gzd-setup-link.wc-gzd-setup-link-skip {

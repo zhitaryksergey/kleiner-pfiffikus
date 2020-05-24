@@ -31,9 +31,6 @@
 			<hr />
 			<div id="gmpMgrTbl"></div>
 			<div id="gmpMgrTblNav"></div>
-			<div id="gmpMgrTblEmptyMsg" style="display: none;">
-				<h3><?php printf(__("You have no Marker Categories for now. <a href='%s' style='font-style: italic;'>Create</a> your first Marker Category!", GMP_LANG_CODE), $this->addNewLink)?></h3>
-			</div>
 		</div>
 		<div style="clear: both;"></div>
 	</div>

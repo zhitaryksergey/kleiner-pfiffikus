@@ -17,28 +17,16 @@ if (!class_exists('RP_WCDPD_Limit')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Limit_Product_Pricing')) {
-
 class RP_WCDPD_Limit_Product_Pricing extends RP_WCDPD_Limit
 {
+
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     protected $context = 'product_pricing';
 
     protected $price_limit          = array();
     protected $price_limit_snapshot = array();
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -348,5 +336,3 @@ class RP_WCDPD_Limit_Product_Pricing extends RP_WCDPD_Limit
 }
 
 RP_WCDPD_Limit_Product_Pricing::get_instance();
-
-}

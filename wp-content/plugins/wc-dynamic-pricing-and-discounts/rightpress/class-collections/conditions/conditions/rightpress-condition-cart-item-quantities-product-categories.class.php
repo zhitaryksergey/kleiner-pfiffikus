@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Cart_Item_Quantities')) {
-    require_once('rightpress-condition-cart-item-quantities.class.php');
-}
+require_once 'rightpress-condition-cart-item-quantities.class.php';
 
 /**
  * Condition: Cart Item Quantities - Product Categories
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Cart_Item_Quantities')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Cart_Item_Quantities_Product_Categories')) {
-
 abstract class RightPress_Condition_Cart_Item_Quantities_Product_Categories extends RightPress_Condition_Cart_Item_Quantities
 {
 
@@ -61,5 +55,4 @@ abstract class RightPress_Condition_Cart_Item_Quantities_Product_Categories exte
 
 
 
-}
 }

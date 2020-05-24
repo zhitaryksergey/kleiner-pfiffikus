@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Pricing_Method_Fee')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Pricing_Method_Fee_Percentage')) {
-
 class RP_WCDPD_Pricing_Method_Fee_Percentage extends RP_WCDPD_Pricing_Method_Fee
 {
 
@@ -75,5 +73,3 @@ class RP_WCDPD_Pricing_Method_Fee_Percentage extends RP_WCDPD_Pricing_Method_Fee
 }
 
 RP_WCDPD_Pricing_Method_Fee_Percentage::get_instance();
-
-}

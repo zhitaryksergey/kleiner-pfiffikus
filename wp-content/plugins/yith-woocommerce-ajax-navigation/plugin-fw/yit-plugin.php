@@ -39,6 +39,8 @@ include_once( 'lib/yit-debug.php');
 include_once( 'lib/yith-dashboard.php' );
 include_once( 'lib/privacy/yit-privacy.php' );
 include_once( 'lib/privacy/yit-privacy-plugin-abstract.php' );
+include_once( 'lib/promo/yith-promo.php' );
+include_once( 'lib/yith-system-status.php' );
 
 /* === Gutenberg Support === */
 if( class_exists( 'WP_Block_Type_Registry' ) ){
@@ -156,7 +158,8 @@ if( ! function_exists( 'yit_plugin_fw_row_meta' ) ){
 			}
 
 			if( ! empty( $url ) && ! empty( $label ) ){
-				$plugin_meta[] = sprintf( '<a href="%s" target="_blank"><span class="%s"></span>%s</a>', $url, $icon, $label );
+                $url           = trailingslashit( $url );
+                $plugin_meta[] = sprintf( '<a href="%s" target="_blank"><span class="%s"></span>%s</a>', $url, $icon, $label );
 			}
 		}
 
@@ -182,6 +185,7 @@ if( ! function_exists( 'yith_add_action_links' ) ){
 	 * @use      plugin_action_links_{$plugin_file_name}
 	 */
 	function yith_add_action_links( $links, $panel_page = '', $is_premium = false ) {
+		$links = is_array( $links ) ? $links : array();
 		if( ! empty( $panel_page )  ){
 			$links[] = sprintf( '<a href="%s">%s</a>', admin_url( "admin.php?page={$panel_page}" ), _x( 'Settings', 'Action links',  'yith-plugin-fw' ) );
 		}

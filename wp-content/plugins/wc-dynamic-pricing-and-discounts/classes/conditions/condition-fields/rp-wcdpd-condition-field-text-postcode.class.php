@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Text_Postcode')) {
-
 class RP_WCDPD_Condition_Field_Text_Postcode extends RightPress_Condition_Field_Text_Postcode
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Text_Postcode extends RightPress_Condition_Field_
 }
 
 RP_WCDPD_Condition_Field_Text_Postcode::get_instance();
-
-}

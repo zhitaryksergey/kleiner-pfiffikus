@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Cart_Coupons')) {
-
 class RP_WCDPD_Condition_Cart_Coupons extends RightPress_Condition_Cart_Coupons
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Cart_Coupons extends RightPress_Condition_Cart_Coupons
 }
 
 RP_WCDPD_Condition_Cart_Coupons::get_instance();
-
-}

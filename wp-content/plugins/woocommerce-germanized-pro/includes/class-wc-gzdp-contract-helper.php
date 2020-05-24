@@ -323,6 +323,7 @@ class WC_GZDP_Contract_Helper {
 		do_action( 'woocommerce_gzdp_before_order_confirm', $order_id );
 
 		$default_status = apply_filters( 'woocommerce_default_order_status', 'pending' );
+		$default_status = apply_filters( 'woocommerce_gzdp_order_confirmed_default_status', $default_status, $order_id );
 
 		// Init mailer to remove actions
 		$mailer = WC()->mailer();
@@ -352,8 +353,9 @@ class WC_GZDP_Contract_Helper {
 		$result = false;
 
 		add_filter( 'woocommerce_can_reduce_order_stock', array( $this, 'maybe_disallow_stock_reducing' ), 10, 2 );
+		add_action( 'woocommerce_before_order_object_save', array( $this, 'maybe_prevent_failed_order_status' ), 10, 1 );
 
-		if ( isset( $gateways[ $order->get_payment_method() ] ) ) {
+		if ( $order->needs_payment() && isset( $gateways[ $order->get_payment_method() ] ) ) {
 			$gateway = $gateways[ $order->get_payment_method() ];
 			
 			if ( is_object( $gateway ) ) {
@@ -365,6 +367,7 @@ class WC_GZDP_Contract_Helper {
 		}
 
 		remove_filter( 'woocommerce_can_reduce_order_stock', array( $this, 'maybe_disallow_stock_reducing' ), 10 );
+		remove_action( 'woocommerce_before_order_object_save', array( $this, 'maybe_prevent_failed_order_status' ), 10 );
 
 		// Trigger Mail
 		if ( $mail = WC_germanized()->emails->get_email_instance_by_id( 'customer_order_confirmation' ) ) {
@@ -385,6 +388,17 @@ class WC_GZDP_Contract_Helper {
 	}
 
 	/**
+	 * @param WC_Order $order
+	 */
+	public function maybe_prevent_failed_order_status( $order ) {
+		if ( $order->has_status( 'failed' ) ) {
+			$default_status = apply_filters( 'woocommerce_default_order_status', 'pending' );
+
+			$order->set_status( $default_status );
+		}
+	}
+
+	/**
 	 * @param $is_allowed
 	 * @param WC_Order $order
 	 *
@@ -399,8 +413,10 @@ class WC_GZDP_Contract_Helper {
 	}
 
 	public function remove_gateway_redirect( $order_id ) {
-		add_filter( 'woocommerce_cart_needs_payment', array( $this, 'cart_needs_payment_filter' ) );
-		add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array( $this, 'stop_payment_completion' ), PHP_INT_MAX );
+		if ( apply_filters( 'woocommerce_gzdp_exclude_order_from_pre_payment_processing', true, $order_id ) ) {
+			add_filter( 'woocommerce_cart_needs_payment', array( $this, 'cart_needs_payment_filter' ) );
+			add_filter( 'woocommerce_valid_order_statuses_for_payment_complete', array( $this, 'stop_payment_completion' ), PHP_INT_MAX );
+		}
 	}
 
 	public function show_payment_link( $order_id ) {
@@ -457,9 +473,12 @@ class WC_GZDP_Contract_Helper {
 		}
 
 		if ( $hide_info ) {
+
 			foreach( WC()->payment_gateways()->payment_gateways() as $key => $method ) {
 				remove_all_actions( 'woocommerce_thankyou_' . $key );
 			}
+
+			remove_all_filters( 'woocommerce_thankyou_order_received_text' );
 		}
 	}
 

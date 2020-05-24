@@ -724,6 +724,7 @@ class WC_GZDP_Multistep_Checkout {
             'state',
             'postcode',
             'country',
+	        'vat_id',
         ), $this );
 
         $address = array();

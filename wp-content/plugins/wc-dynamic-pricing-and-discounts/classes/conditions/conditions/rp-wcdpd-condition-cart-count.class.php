@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Cart_Count')) {
-
 class RP_WCDPD_Condition_Cart_Count extends RightPress_Condition_Cart_Count
 {
 
@@ -47,5 +45,3 @@ class RP_WCDPD_Condition_Cart_Count extends RightPress_Condition_Cart_Count
 }
 
 RP_WCDPD_Condition_Cart_Count::get_instance();
-
-}

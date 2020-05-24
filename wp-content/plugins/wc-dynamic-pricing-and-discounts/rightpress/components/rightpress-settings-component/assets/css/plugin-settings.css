@@ -64,9 +64,11 @@
 #rightpress-plugin-settings input {
     vertical-align: middle;
 }
+#rightpress-plugin-settings input[type='text'] {
+    line-height: 33px;
+}
 #rightpress-plugin-settings select {
     line-height: 27px;
-    height: 27px;
 }
 
 #rightpress-plugin-settings .rightpress-plugin-settings-hint {

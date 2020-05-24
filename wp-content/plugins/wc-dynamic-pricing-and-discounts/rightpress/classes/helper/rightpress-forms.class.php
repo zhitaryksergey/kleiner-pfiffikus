@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Forms')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Forms Helper
@@ -477,6 +472,36 @@ final class RightPress_Forms
     }
 
     /**
+     * Print custom content before field
+     *
+     * @access public
+     * @param array $params
+     * @return string
+     */
+    private static function before($params)
+    {
+
+        if (!empty($params['before'])) {
+            echo $params['before'];
+        }
+    }
+
+    /**
+     * Print custom content after field
+     *
+     * @access public
+     * @param array $params
+     * @return string
+     */
+    private static function after($params)
+    {
+
+        if (!empty($params['after'])) {
+            echo $params['after'];
+        }
+    }
+
+    /**
      * Output field based on context
      *
      * @access public
@@ -494,11 +519,17 @@ final class RightPress_Forms
         // Print label
         self::label($params);
 
+        // Print custom content before field
+        self::before($params);
+
         // Print field
         echo $field_html;
 
+        // Print custom content after field
+        self::after($params);
+
         // Print description after field
-        self::description($params, 'after');
+        self::description($params);
 
         // Close container
         self::output_end($type);
@@ -541,5 +572,4 @@ final class RightPress_Forms
         return in_array($type, array('select', 'multiselect', 'checkbox', 'radio'));
     }
 
-}
 }

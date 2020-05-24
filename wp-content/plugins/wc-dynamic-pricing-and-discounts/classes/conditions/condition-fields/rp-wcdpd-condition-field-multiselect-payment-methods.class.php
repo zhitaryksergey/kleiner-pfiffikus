@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Field_Multiselect_Payment_Methods')) {
-
 class RP_WCDPD_Condition_Field_Multiselect_Payment_Methods extends RightPress_Condition_Field_Multiselect_Payment_Methods
 {
 
@@ -41,5 +39,3 @@ class RP_WCDPD_Condition_Field_Multiselect_Payment_Methods extends RightPress_Co
 }
 
 RP_WCDPD_Condition_Field_Multiselect_Payment_Methods::get_instance();
-
-}

@@ -1,17 +1,11 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Object_Controller')) {
-    require_once('rightpress-object-controller.class.php');
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_WP_Object_Controller')) {
+require_once 'rightpress-object-controller.class.php';
+require_once 'interfaces/rightpress-wp-object-controller-interface.php';
 
 /**
  * WordPress Object Controller
@@ -20,7 +14,7 @@ if (!class_exists('RightPress_WP_Object_Controller')) {
  * @package RightPress
  * @author RightPress
  */
-abstract class RightPress_WP_Object_Controller extends RightPress_Object_Controller
+abstract class RightPress_WP_Object_Controller extends RightPress_Object_Controller implements RightPress_WP_Object_Controller_Interface
 {
 
     /**
@@ -31,52 +25,13 @@ abstract class RightPress_WP_Object_Controller extends RightPress_Object_Control
      */
     public function __construct()
     {
-        // Construct parent
+
+        // Call parent constructor
         parent::__construct();
     }
 
-    /**
-     * Prefix status
-     *
-     * @access public
-     * @param string $status
-     * @return string
-     */
-    public function prefix_status($status)
-    {
-        return $this->get_status_prefix() . $status;
-    }
-
-    /**
-     * Remove prefix from status
-     *
-     * @access public
-     * @param string $status
-     * @return string
-     */
-    public function unprefix_status($status)
-    {
-        $prefix = $this->get_status_prefix();
-
-        if (substr($status, 0, strlen($prefix)) === $prefix) {
-            $status = substr($status, strlen($prefix));
-        }
-
-        return $status;
-    }
-
-    /**
-     * Get status prefix
-     *
-     * @access public
-     * @return string
-     */
-    public function get_status_prefix()
-    {
-        return str_replace('_', '-', $this->get_plugin_private_prefix());
-    }
 
 
 
-}
+
 }

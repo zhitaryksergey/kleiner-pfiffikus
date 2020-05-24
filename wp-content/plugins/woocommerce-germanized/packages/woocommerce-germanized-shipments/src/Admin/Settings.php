@@ -30,7 +30,7 @@ class Settings {
 			$pointers = array(
 				'pointers' => array(
 					'menu'             => array(
-						'target'       => '.wc-gzd-settings-breadcrumb .page-title-action',
+						'target'       => '.wc-gzd-settings-breadcrumb .page-title-action:last',
 						'next'         => 'default',
 						'next_url'     => '',
 						'next_trigger' => array(),
@@ -59,8 +59,8 @@ class Settings {
 					),
 					'auto'          => array(
 						'target'       => '#woocommerce_gzd_shipments_auto_enable-toggle',
-						'next'         => '',
-						'next_url'     => $next_url,
+						'next'         => 'returns',
+						'next_url'     => '',
 						'next_trigger' => array(),
 						'options'      => array(
 							'content'  => '<h3>' . esc_html_x( 'Automation', 'shipments', 'woocommerce-germanized' ) . '</h3>' .
@@ -68,6 +68,20 @@ class Settings {
 							'position' => array(
 								'edge'  => 'left',
 								'align' => 'left',
+							),
+						),
+					),
+					'returns'          => array(
+						'target'       => '#shipments_return_options-description',
+						'next'         => '',
+						'next_url'     => $next_url,
+						'next_trigger' => array(),
+						'options'      => array(
+							'content'  => '<h3>' . esc_html_x( 'Returns', 'shipments', 'woocommerce-germanized' ) . '</h3>' .
+							              '<p>' . sprintf( _x( 'Germanized can help you to minimize manual work while handling customer returns. Learn more about returns within our %s.', 'shipments', 'woocommerce-germanized' ), '<a href="https://vendidero.de/dokument/retouren-konfigurieren-und-verwalten" target="_blank">' . _x( 'documentation', 'shipments', 'woocommerce-germanized' ) .'</a>' ) . '</p>',
+							'position' => array(
+								'edge'  => 'top',
+								'align' => 'top',
 							),
 						),
 					),
@@ -79,6 +93,8 @@ class Settings {
 	}
 
 	protected static function get_general_settings() {
+
+		$statuses = array_diff_key( wc_gzd_get_shipment_statuses(), array_flip( array( 'gzd-requested' ) ) );
 
 		$settings = array(
 			array( 'title' => '', 'type' => 'title', 'id' => 'shipments_options' ),
@@ -133,7 +149,7 @@ class Settings {
 				'id' 		        => 'woocommerce_gzd_shipments_auto_default_status',
 				'default'	        => 'gzd-processing',
 				'class' 	        => 'wc-enhanced-select',
-				'options'           => wc_gzd_get_shipment_statuses(),
+				'options'           => $statuses,
 				'type'              => 'select',
 				'custom_attributes' => array(
 					'data-show_if_woocommerce_gzd_shipments_auto_enable' => '',
@@ -158,17 +174,22 @@ class Settings {
 
 			array( 'type' => 'sectionend', 'id' => 'shipments_auto_options' ),
 
-			array( 'title' => _x( 'Customer Account', 'shipments', 'woocommerce-germanized' ), 'type' => 'title', 'id' => 'shipments_customer_options' ),
+			array( 'title' => _x( 'Returns', 'shipments', 'woocommerce-germanized' ), 'type' => 'title', 'id' => 'shipments_return_options', 'desc' => sprintf( _x( 'Returns can be added manually by the shop manager or by the customer. Decide what suits you best by turning customer-added returns on or off in your %s.', 'shipments', 'woocommerce-germanized' ), '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=germanized-shipments&section=provider' ) . '">' . _x( 'shipping provider settings', 'shipments', 'woocommerce-germanized' ) . '</a>' ) ),
 
 			array(
-				'title' 	        => _x( 'List', 'shipments', 'woocommerce-germanized' ),
-				'desc' 		        => _x( 'List shipments on customer account order screen.', 'shipments', 'woocommerce-germanized' ),
-				'id' 		        => 'woocommerce_gzd_shipments_customer_account_enable',
-				'default'	        => 'yes',
-				'type' 		        => 'gzd_toggle',
+				'type' => 'shipment_return_reasons',
 			),
 
-			array( 'type' => 'sectionend', 'id' => 'shipments_customer_options' ),
+			array(
+				'title'             => _x( 'Days to return', 'shipments', 'woocommerce-germanized' ),
+				'desc'              => '<div class="wc-gzd-additional-desc">' . sprintf( _x( 'In case one of your %s supports returns added by customers you might want to limit the number of days a customer is allowed to add returns to an order. The days are counted starting with the date the order was shipped, completed or created (by checking for existance in this order).', 'shipments', 'woocommerce-germanized' ), '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=germanized-shipments&section=provider' ) . '">' . _x( 'shipping providers', 'shipments', 'woocommerce-germanized' ) . '</a>' ) . '</div>',
+				'css'               => 'max-width: 60px;',
+				'type'              => 'number',
+				'id' 		        => 'woocommerce_gzd_shipments_customer_return_open_days',
+				'default'           => '14',
+			),
+
+			array( 'type' => 'sectionend', 'id' => 'shipments_return_options' ),
 
 			array( 'title' => _x( 'Return Address', 'shipments', 'woocommerce-germanized' ), 'type' => 'title', 'id' => 'shipments_return_options' ),
 
@@ -230,6 +251,18 @@ class Settings {
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'shipments_return_options' ),
+
+			array( 'title' => _x( 'Customer Account', 'shipments', 'woocommerce-germanized' ), 'type' => 'title', 'id' => 'shipments_customer_options' ),
+
+			array(
+				'title' 	        => _x( 'List', 'shipments', 'woocommerce-germanized' ),
+				'desc' 		        => _x( 'List shipments on customer account order screen.', 'shipments', 'woocommerce-germanized' ),
+				'id' 		        => 'woocommerce_gzd_shipments_customer_account_enable',
+				'default'	        => 'yes',
+				'type' 		        => 'gzd_toggle',
+			),
+
+			array( 'type' => 'sectionend', 'id' => 'shipments_customer_options' ),
 		);
 
 		return $settings;
@@ -269,6 +302,17 @@ class Settings {
 		}
 
 		WC_Admin_Settings::save_fields( $settings );
+
+		if ( $provider->get_id() <= 0 ) {
+			if ( empty( $provider->get_tracking_desc_placeholder( 'edit' ) ) ) {
+				$provider->set_tracking_desc_placeholder( $provider->get_default_tracking_desc_placeholder() );
+			}
+
+			if ( empty( $provider->get_tracking_url_placeholder( 'edit' ) ) ) {
+				$provider->set_tracking_url_placeholder( $provider->get_default_tracking_url_placeholder() );
+			}
+		}
+
 		$provider->save();
 
 		if ( 'new' === $provider_name ) {
@@ -295,7 +339,9 @@ class Settings {
 				$provider = new ShippingProvider();
 			}
 
-			$settings = $provider->get_settings();
+			if ( $provider ) {
+				$settings = $provider->get_settings();
+			}
 		}
 
 		return $settings;

@@ -25,6 +25,10 @@ class WC_GZD_Settings_Tab_DOI extends WC_GZD_Settings_Tab {
 		return 'double_opt_in';
 	}
 
+	public function notice_on_activate() {
+		return sprintf( __( 'Caution: New customers that register within your store and do not activate their account will be deleted after %d day(s). You might adjust that behaviour within the Double-Opt-In settings.', 'woocommerce-germanized' ), get_option( 'woocommerce_gzd_customer_cleanup_interval' ), admin_url( 'admin.php?page=wc-settings&tab=germanized-double_opt_in' ) );
+	}
+
 	public function get_tab_settings( $current_section = '' ) {
 		return array(
 			array( 'title' => '', 'type' => 'title', 'id' => 'doi_options' ),
@@ -33,7 +37,7 @@ class WC_GZD_Settings_Tab_DOI extends WC_GZD_Settings_Tab {
 				'title'   => __( 'Enable', 'woocommerce-germanized' ),
 				'desc'    => __( 'Enable customer double opt in during registration.', 'woocommerce-germanized' ) . '<div class="wc-gzd-additional-desc">' . sprintf( __( 'If customer chooses to create a customer account an email with an activation link will be sent by mail. Customer account will be marked as activated if user clicks on the link within the email. More information on this topic can be found <a href="%s" target="_blank">here</a>.', 'woocommerce-germanized' ), 'http://t3n.de/news/urteil-anmeldebestatigungen-double-opt-in-pflicht-592304/' ) . '</div>',
 				'id'      => 'woocommerce_gzd_customer_activation',
-				'default' => 'yes',
+				'default' => 'no',
 				'type'    => 'gzd_toggle',
 			),
 			array(

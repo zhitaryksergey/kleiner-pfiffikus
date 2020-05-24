@@ -408,16 +408,17 @@ class WC_GZD_Emails {
 
 	public function maybe_disable_order_paid_email_notification_queued( $send, $filter, $args ) {
 		if ( isset( $args[0] ) && is_numeric( $args[0] ) ) {
-			$order = wc_get_order( absint( $args[0] ) );
 
-			if ( $order ) {
+			if ( $order = wc_get_order( absint( $args[0] ) ) ) {
 
-				$method               = $order->get_payment_method();
-				$current_status       = $order->get_status();
-				$disable_for_gateways = $this->get_gateways_disabling_paid_for_order_mail();
+				if ( is_callable( array( $order, 'get_payment_method' ) ) ) {
+					$method               = $order->get_payment_method();
+					$current_status       = $order->get_status();
+					$disable_for_gateways = $this->get_gateways_disabling_paid_for_order_mail();
 
-				if ( in_array( $method, $disable_for_gateways ) && $filter === 'woocommerce_order_status_pending_to_processing' ) {
-					return false;
+					if ( in_array( $method, $disable_for_gateways ) && $filter === 'woocommerce_order_status_pending_to_processing' ) {
+						return false;
+					}
 				}
 			}
 		}
@@ -427,15 +428,21 @@ class WC_GZD_Emails {
 
 	public function maybe_disable_order_paid_email_notification( $order_id, $order = false ) {
 		if ( $order = wc_get_order( $order_id ) ) {
-			$method               = $order->get_payment_method();
-			$disable_for_gateways = $this->get_gateways_disabling_paid_for_order_mail();
+			if ( is_callable( array( $order, 'get_payment_method' ) ) ) {
 
-			if ( in_array( $method, $disable_for_gateways ) ) {
-				$emails = WC()->mailer()->emails;
+				$method = $order->get_payment_method();
+				$disable_for_gateways = $this->get_gateways_disabling_paid_for_order_mail();
 
-				if ( isset( $emails['WC_GZD_Email_Customer_Paid_For_Order'] ) ) {
-					// Remove notification
-					remove_action( 'woocommerce_order_status_pending_to_processing_notification', array( $emails['WC_GZD_Email_Customer_Paid_For_Order'], 'trigger' ), 30 );
+				if ( in_array( $method, $disable_for_gateways ) ) {
+					$emails = WC()->mailer()->emails;
+
+					if ( isset( $emails['WC_GZD_Email_Customer_Paid_For_Order'] ) ) {
+						// Remove notification
+						remove_action( 'woocommerce_order_status_pending_to_processing_notification', array(
+							$emails['WC_GZD_Email_Customer_Paid_For_Order'],
+							'trigger'
+						), 30 );
+					}
 				}
 			}
 		}
@@ -505,6 +512,17 @@ class WC_GZD_Emails {
 		}
 
 		/**
+		 * Triggers after WooCommerce has processed the order via checkout and payment gateway has been processed.
+		 *
+		 * This hook may be used to find a uniform way to process orders after the payment method has been triggered.
+		 *
+		 * @param WC_Order $order The order object.
+		 *
+		 * @since 3.1.6
+		 */
+		do_action( 'woocommerce_gzd_checkout_order_before_confirmation', $order );
+
+		/**
 		 * Last chance to force disabling the order confirmation for a certain order object.
 		 *
 		 * @param bool $disable Whether to disable notification or not.
@@ -529,9 +547,21 @@ class WC_GZD_Emails {
 		 */
 		do_action( 'woocommerce_gzd_order_confirmation', $order );
 
-		// Always clear cart after order success
 		if ( get_option( 'woocommerce_gzd_checkout_stop_order_cancellation' ) === 'yes' && WC()->cart ) {
-			WC()->cart->empty_cart();
+
+			/**
+			 * Decide whether to clear the cart after sending the order confirmation email or not.
+			 * By default the cart is not cleared to prevent compatibility issues with payment providers
+			 * like Stripe or Klarna which depend on cart data.
+			 *
+			 * @param boolean  $clear Whether to clear cart or not.
+			 * @param WC_Order $order_id The order.
+			 *
+			 * @since 3.1.2
+			 */
+			if ( apply_filters( 'woocommerce_gzd_clear_cart_after_order_confirmation', false, $order ) ) {
+				WC()->cart->empty_cart();
+			}
 		}
 
 		return $result;
@@ -548,7 +578,6 @@ class WC_GZD_Emails {
 		 * @param integer $order_id The order id.
 		 *
 		 * @since 1.0.0
-		 *
 		 */
 		do_action( 'woocommerce_germanized_before_order_confirmation', $order_id );
 

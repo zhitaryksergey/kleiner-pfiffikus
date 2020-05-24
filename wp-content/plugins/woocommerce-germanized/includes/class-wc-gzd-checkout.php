@@ -113,6 +113,7 @@ class WC_GZD_Checkout {
 		add_action( 'wp', array( $this, 'force_pay_order_redirect' ), 15 );
 
 		if ( 'yes' === get_option( 'woocommerce_gzd_checkout_disallow_belated_payment_method_selection' ) ) {
+
 			add_filter( 'woocommerce_get_checkout_payment_url', array(
 				$this,
 				'set_payment_url_to_force_payment'
@@ -196,6 +197,7 @@ class WC_GZD_Checkout {
 	 */
 	public function order_parcel_delivery_data_transfer( $order, $posted ) {
 		if ( $checkbox = wc_gzd_get_legal_checkbox( 'parcel_delivery' ) ) {
+
 			if ( ! $checkbox->is_enabled() ) {
 				return;
 			}
@@ -279,6 +281,10 @@ class WC_GZD_Checkout {
 
 	public function force_pay_order_redirect() {
 		global $wp;
+
+		if ( ! function_exists( 'is_wc_endpoint_url' ) ) {
+			return;
+		}
 
 		if ( is_wc_endpoint_url( 'order-pay' ) && isset( $_GET['force_pay_order'] ) ) {
 
@@ -372,15 +378,27 @@ class WC_GZD_Checkout {
 		// Unset all other rates
 		if ( ! empty( $keep ) && $hide ) {
 
+			$chosen_shipping_methods = array();
+
 			// Unset chosen shipping method to avoid key errors
 			if ( isset( WC()->session ) && ! is_null( WC()->session ) ) {
-				unset( WC()->session->chosen_shipping_methods );
+				$chosen_shipping_methods = (array) WC()->session->get( 'chosen_shipping_methods' );
 			}
 
 			foreach ( $rates as $key => $rate ) {
 				if ( ! in_array( $key, $keep ) ) {
 					unset( $rates[ $key ] );
 				}
+			}
+
+			foreach( $chosen_shipping_methods as $key => $rate ) {
+				if ( ! in_array( $rate, $keep ) ) {
+					unset( $chosen_shipping_methods[ $key ] );
+				}
+			}
+
+			if ( isset( WC()->session ) && ! is_null( WC()->session ) ) {
+				WC()->session->set( 'chosen_shipping_methods', $chosen_shipping_methods );
 			}
 		}
 

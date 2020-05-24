@@ -18,7 +18,7 @@ class WC_GZDP_Settings_Tab_Taxes extends WC_GZD_Settings_Tab_Taxes {
 			array(	'title' => __( 'VAT ID', 'woocommerce-germanized-pro' ), 'type' => 'title', 'id' => 'vat_id_options' ),
 
 			array(
-				'title' 	=> __( 'VAT Check', 'woocommerce-germanized-pro' ),
+				'title' 	=> __( 'Check', 'woocommerce-germanized-pro' ),
 				'desc' 		=> __( 'Enable VAT ID check.', 'woocommerce-germanized-pro' ) . '<div class="wc-gzd-additional-desc">' . sprintf( __( 'This will add a new field within your checkout (vat number). Customers from other EU states owning a valid VAT ID will be able to remove VAT. VAT ID is being validated through the European Union VAT service API. More information can be found <a href="%s" target="_blank">here</a>.', 'woocommerce-germanized-pro' ), 'http://ec.europa.eu/taxation_customs/vies/viesdisc.do' ) . '</div>',
 				'id' 		=> 'woocommerce_gzdp_enable_vat_check',
 				'default'	=> 'no',
@@ -49,7 +49,7 @@ class WC_GZDP_Settings_Tab_Taxes extends WC_GZD_Settings_Tab_Taxes {
 			),
 
 			array(
-				'title' 	=> __( 'VAT ID Cache', 'woocommerce-germanized-pro' ),
+				'title' 	=> __( 'Cache', 'woocommerce-germanized-pro' ),
 				'desc' 		=> __( 'days', 'woocommerce-germanized-pro' ),
 				'id' 		=> 'woocommerce_gzdp_vat_check_cache',
 				'default'	=> 7,
@@ -62,7 +62,7 @@ class WC_GZDP_Settings_Tab_Taxes extends WC_GZD_Settings_Tab_Taxes {
 			),
 
 			array(
-				'title' 	=> __( 'VAT Check Login', 'woocommerce-germanized-pro' ),
+				'title' 	=> __( 'On Login', 'woocommerce-germanized-pro' ),
 				'desc' 		=> __( 'Remove VAT for users with valid VAT ID after login.', 'woocommerce-germanized-pro' ),
 				'id' 		=> 'woocommerce_gzdp_enable_vat_check_login',
 				'default'	=> 'no',
@@ -74,7 +74,7 @@ class WC_GZDP_Settings_Tab_Taxes extends WC_GZD_Settings_Tab_Taxes {
 			),
 
 			array(
-				'title' 	=> __( 'VAT Check Register', 'woocommerce-germanized-pro' ),
+				'title' 	=> __( 'Registration', 'woocommerce-germanized-pro' ),
 				'desc' 		=> __( 'Enable VAT ID check within registration form.', 'woocommerce-germanized-pro' ),
 				'id' 		=> 'woocommerce_gzdp_enable_vat_check_register',
 				'default'	=> 'no',
@@ -83,6 +83,19 @@ class WC_GZDP_Settings_Tab_Taxes extends WC_GZD_Settings_Tab_Taxes {
 					'data-show_if_woocommerce_gzdp_enable_vat_check' => '',
 				),
 				'desc_tip'	=> __( 'This option inserts a VAT ID field within the registration form and validates the ID accordingly if the customer provides one.', 'woocommerce-germanized-pro' ),
+			),
+
+			array(
+				'title' 	=> __( 'Mandatory', 'woocommerce-germanized-pro' ),
+				'desc' 		=> __( 'VAT ID field shall be mandatory for registration.', 'woocommerce-germanized-pro' ),
+				'id' 		=> 'woocommerce_gzdp_vat_id_registration_required',
+				'default'	=> 'no',
+				'type' 		=> 'gzd_toggle',
+				'custom_attributes' => array(
+					'data-show_if_woocommerce_gzdp_enable_vat_check' => '',
+					'data-show_if_woocommerce_gzdp_enable_vat_check_register' => '',
+				),
+				'desc_tip'	=> __( 'You may require a valid VAT ID to complete registration.', 'woocommerce-germanized-pro' ),
 			),
 
 			array(

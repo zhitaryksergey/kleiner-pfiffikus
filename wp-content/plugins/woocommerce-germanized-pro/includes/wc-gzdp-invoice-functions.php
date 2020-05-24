@@ -3,6 +3,63 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+function wc_gzdp_get_invoice_tax_share( $items, $type = 'shipping' ) {
+	$cart        = $items;
+	$tax_shares  = array();
+	$item_totals = 0;
+
+	// Get tax classes and tax amounts
+	if ( ! empty( $cart ) ) {
+		foreach ( $cart as $key => $item ) {
+
+			$class      = $item->get_tax_class();
+			$line_total = is_callable( array( $item, 'get_total' ) ) ? $item->get_total() : 0;
+			$line_tax   = is_callable( array( $item, 'get_total_tax' ) ) ? $item->get_total_tax() : 0;
+			$taxes      = is_callable( array( $item, 'get_taxes' ) ) ? $item->get_taxes() : array();
+
+			if ( ! isset( $taxes['total'] ) ) {
+				continue;
+			}
+
+			$tax_rate   = key( $taxes['total'] );
+
+			// Search for the first non-empty tax rate
+			foreach( $taxes['total'] as $rate_id => $tax ) {
+				if ( ! empty( $tax ) ) {
+					$tax_rate = $rate_id;
+					break;
+				}
+			}
+
+			if ( function_exists( 'wc_gzd_item_is_tax_share_exempt' ) && wc_gzd_item_is_tax_share_exempt( $item, $type, $key ) ) {
+				continue;
+			}
+
+			if ( ! isset( $tax_shares[ $tax_rate ] ) ) {
+				$tax_shares[ $tax_rate ]          = array();
+				$tax_shares[ $tax_rate ]['total'] = 0;
+				$tax_shares[ $tax_rate ]['class'] = $class;
+			}
+
+			// Does not contain pricing data in case of recurring Subscriptions
+			$tax_shares[ $tax_rate ]['total'] += ( $line_total + $line_tax );
+			$tax_shares[ $tax_rate ]['class']  = $class;
+
+			$item_totals += ( $line_total + $line_tax );
+		}
+	}
+
+	if ( ! empty( $tax_shares ) ) {
+		$default = ( $item_totals == 0 ? 1 / sizeof( $tax_shares ) : 0 );
+
+		foreach ( $tax_shares as $key => $class ) {
+			$tax_shares[ $key ]['share'] = ( $item_totals > 0 ? $class['total'] / $item_totals : $default );
+		}
+	}
+
+	return $tax_shares;
+}
+
 function wc_gzdp_get_invoice_types( $type = '' ) {
     $types = apply_filters( 'woocommerce_gzdp_invoice_types', array(
 		'simple' => array(
@@ -204,7 +261,13 @@ function wc_gzdp_get_invoice_download_url( $invoice_id ) {
 }
 
 function wc_gzdp_get_invoice( $invoice = false, $type = 'simple' ) {
-	return WC_germanized_pro()->invoice_factory->get_invoice( $invoice, $type );
+	$factory = WC_germanized_pro()->invoice_factory;
+
+	if ( ! $factory ) {
+		return false;
+	}
+
+	return $factory->get_invoice( $invoice, $type );
 }
 
 function wc_gzdp_get_invoice_frontend_types() {
@@ -269,17 +332,26 @@ function wc_gzdp_get_order_meta( $product, $item ) {
 	return $meta;
 }
 
+/**
+ * @param $product
+ * @param WC_Order_Item $item
+ *
+ * @return mixed|void
+ */
 function wc_gzdp_get_order_meta_print( $product, $item ) {
 	$print = '';
 
 	if ( is_a( $item, 'WC_Order_Item' ) ) {
-		$print = strip_tags( wc_display_item_meta( $item, array(
-			'echo' => false,
-			'before' => '',
-			'after' => '',
-			'separator' => ', ',
-			'autop' => false,
-		) ) );
+		// Make sure wc_display_item_meta does only get called if the order is available for better compatibility.
+		if ( $item->get_order() ) {
+			$print = strip_tags( wc_display_item_meta( $item, array(
+				'echo' => false,
+				'before' => '',
+				'after' => '',
+				'separator' => ', ',
+				'autop' => false,
+			) ) );
+		}
 	}
 
 	return apply_filters( 'woocommerce_gzdp_invoice_order_meta_html', $print, $product, $item );
@@ -293,17 +365,15 @@ function wc_gzdp_get_order_item_tax_rate( $item, $order ) {
 		$taxes 				 = array();
 
 		foreach ( $order_taxes as $tax ) {
-			$class = wc_get_tax_class_by_tax_id( $tax['rate_id'] );
-			$taxes[ $class ] = $tax;
-			$percent = wc_gzd_format_tax_rate_percentage( WC_Tax::get_rate_percent( $tax['rate_id'] ) );
-			$taxes[ $class ][ 'percent' ] = wc_format_decimal( $percent );
+			$class                      = wc_get_tax_class_by_tax_id( $tax['rate_id'] );
+			$taxes[ $class ]            = $tax;
+			$taxes[ $class ]['percent'] = wc_gzd_format_tax_rate_percentage( WC_Tax::get_rate_percent( $tax['rate_id'] ), true );
 		}
-
 	}
 
 	if ( ! empty( $item['line_tax' ] ) && isset( $item['tax_class'] ) && isset( $taxes[ $item['tax_class'] ] ) ) {
 	
-		return apply_filters( 'woocommerce_gzdp_invoice_item_tax_rate_html', $taxes[ $item['tax_class'] ][ 'percent' ] . '%', $item, $order );
+		return apply_filters( 'woocommerce_gzdp_invoice_item_tax_rate_html', $taxes[ $item['tax_class'] ]['percent'], $item, $order );
 	
 	} else if ( ! empty( $item['line_tax' ] ) ) {
 		
@@ -315,12 +385,12 @@ function wc_gzdp_get_order_item_tax_rate( $item, $order ) {
 			
 			if ( ! empty( $rates ) ) {
 				$tax_rate = reset( $rates );
-				return apply_filters( 'woocommerce_gzdp_invoice_item_product_tax_rate_html', wc_gzd_format_tax_rate_percentage( $tax_rate[ 'rate' ] ) . '%', $item, $order );
+				return apply_filters( 'woocommerce_gzdp_invoice_item_product_tax_rate_html', wc_gzd_format_tax_rate_percentage( $tax_rate[ 'rate' ], true ) , $item, $order );
 			}
 		}
 	}
 
-	return apply_filters( 'woocommerce_gzdp_invoice_item_no_tax_rate_html', wc_gzd_format_tax_rate_percentage( 0 ) . '%', $item, $order );
+	return apply_filters( 'woocommerce_gzdp_invoice_item_no_tax_rate_html', wc_gzd_format_tax_rate_percentage( 0, true ), $item, $order );
 }
 
 function wc_gzdp_get_invoice_unit_price_excl( $cart_item ) {

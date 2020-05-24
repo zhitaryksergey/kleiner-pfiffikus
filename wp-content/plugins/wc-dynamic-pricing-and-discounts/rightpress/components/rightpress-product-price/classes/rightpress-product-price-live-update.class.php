@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price_Live_Update')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Shared Product Price Live Update
@@ -21,19 +16,8 @@ final class RightPress_Product_Price_Live_Update
     // Flag
     private $processing_live_update_request = false;
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -65,7 +49,7 @@ final class RightPress_Product_Price_Live_Update
         $position_hook = apply_filters('rightpress_product_price_live_update_position_hook', 'woocommerce_before_add_to_cart_button');
 
         // Print container
-        RightPress_Product_Price::add_late_action($position_hook, array($this, 'print_container'));
+        RightPress_Help::add_late_action($position_hook, array($this, 'print_container'));
     }
 
     /**
@@ -184,8 +168,14 @@ final class RightPress_Product_Price_Live_Update
                         // Allow developers to hide subtotal
                         $display_subtotal = apply_filters('rightpress_product_price_live_update_display_subtotal', true, $product, $price_data);
 
+                        // Run price through a WooCommerce product price filter so that 3rd party price adjustments are applied (WCDPD issue #639)
+                        $filtered_price = apply_filters('woocommerce_product_get_price', $price_data['price'], $product);
+
+                        // Run price through our own get price filter
+                        $filtered_price = apply_filters('rightpress_product_price_live_update_price', $filtered_price, $product);
+
                         // Get display price html
-                        $price_html = RightPress_Product_Price_Display::get_cart_item_product_display_price($product, $price_data, null, $display_subtotal, $always_display_quantity);
+                        $price_html = RightPress_Product_Price_Display::get_cart_item_product_display_price($product, $price_data, null, $display_subtotal, $always_display_quantity, $filtered_price);
 
                         // Send success response
                         echo json_encode(array(
@@ -271,5 +261,3 @@ final class RightPress_Product_Price_Live_Update
 }
 
 RightPress_Product_Price_Live_Update::get_instance();
-
-}

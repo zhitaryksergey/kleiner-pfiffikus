@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Customer_Value')) {
-    require_once('rightpress-condition-customer-value.class.php');
-}
+require_once 'rightpress-condition-customer-value.class.php';
 
 /**
  * Condition: Customer Value - Amount Spent
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Customer_Value')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Customer_Value_Amount_Spent')) {
-
 abstract class RightPress_Condition_Customer_Value_Amount_Spent extends RightPress_Condition_Customer_Value
 {
 
@@ -87,5 +81,4 @@ abstract class RightPress_Condition_Customer_Value_Amount_Spent extends RightPre
 
 
 
-}
 }

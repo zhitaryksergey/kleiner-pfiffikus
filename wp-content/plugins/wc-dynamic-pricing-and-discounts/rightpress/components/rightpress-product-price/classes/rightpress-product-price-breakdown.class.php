@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Product_Price_Breakdown')) {
+defined('ABSPATH') || exit;
 
 /**
  * RightPress Shared Product Price Breakdown
@@ -30,7 +25,7 @@ final class RightPress_Product_Price_Breakdown
      * Price ranges in $prices can only be split into more granular ranges but must never be merged back
      * until the process is complete
      *
-     * WARNING! TBD! If changes are made to format of this array, they must also be made in RightPress_Product_Price_Test::merge_cart_items_price_changes()
+     * WARNING! TODO! If changes are made to format of this array, they must also be made in RightPress_Product_Price_Test::merge_cart_items_price_changes()
      *
      * @access public
      * @param float $base_price
@@ -64,7 +59,7 @@ final class RightPress_Product_Price_Breakdown
                 'base_price'    => $base_price,
                 'highest_price' => max($highest_price_candidates),
                 'new_changes'   => array(),         // Note: Each plugin must set its changes data under plugin key, key of each change must be unique if plugin needs to ensure it's not override by changes of another range or cart item when they are merged
-                'all_changes'   => array(),
+                'all_changes'   => array(),         // Note: 'new_changes' and 'all_changes' separation is legacy handling that was important before WCDPD issue #639
             ),
         ));
     }
@@ -142,7 +137,8 @@ final class RightPress_Product_Price_Breakdown
         RightPress_Product_Price_Breakdown::reset_price_ranges_sort_order($prices);
 
         // Reset pointers
-        $filtered['pointers'] = array_fill_keys(array_keys($prices['pointers']), 1);
+        $pointers_keys = array_keys($prices['pointers']);
+        $filtered['pointers'] = array_fill_keys($pointers_keys, 1);
 
         // Reverse price ranges sort order
         $prices['ranges'] = array_reverse($prices['ranges'], true);
@@ -385,15 +381,15 @@ final class RightPress_Product_Price_Breakdown
             // Get full price
             $full_price = RightPress_Product_Price_Changes::get_highest_price_from_cart_item_price_changes($price_data, $price_range);
 
-            // Get price key
-            $price_key = number_format($price, $decimals) . '-' . number_format($full_price, $decimals);
+            // Get price breakdown key
+            $price_breakdown_key = RightPress_Product_Price_Breakdown::format_price_breakdown_key($price, $full_price, $decimals);
 
             // Get price range quantity
             $price_range_quantity = RightPress_Product_Price_Breakdown::get_price_range_quantity($price_range);
 
             // Add new price to main array
-            if (!isset($breakdown[$price_key])) {
-                $breakdown[$price_key] = array(
+            if (!isset($breakdown[$price_breakdown_key])) {
+                $breakdown[$price_breakdown_key] = array(
                     'price'         => $price,
                     'full_price'    => $full_price,
                     'quantity'      => 0,
@@ -401,18 +397,18 @@ final class RightPress_Product_Price_Breakdown
             }
 
             // Increment quantity of current price
-            $breakdown[$price_key]['quantity'] += $price_range_quantity;
+            $breakdown[$price_breakdown_key]['quantity'] += $price_range_quantity;
 
             // Add change data
             foreach ($price_range['all_changes'] as $plugin_key => $plugin_changes) {
 
                 // Plugin changes array does not exists yet
-                if (!isset($breakdown[$price_key]['all_changes'][$plugin_key])) {
-                    $breakdown[$price_key]['all_changes'][$plugin_key] = array();
+                if (!isset($breakdown[$price_breakdown_key]['all_changes'][$plugin_key])) {
+                    $breakdown[$price_breakdown_key]['all_changes'][$plugin_key] = array();
                 }
 
                 // Set plugin changes
-                $breakdown[$price_key]['all_changes'][$plugin_key] = array_merge($breakdown[$price_key]['all_changes'][$plugin_key], $plugin_changes);
+                $breakdown[$price_breakdown_key]['all_changes'][$plugin_key] = array_merge($breakdown[$price_breakdown_key]['all_changes'][$plugin_key], $plugin_changes);
             }
         }
 
@@ -423,20 +419,23 @@ final class RightPress_Product_Price_Breakdown
         return $breakdown;
     }
 
+    /**
+     * Format price breakdown key
+     *
+     * @access public
+     * @param float $price
+     * @param float $full_price
+     * @param int $decimals
+     * @return string
+     */
+    public static function format_price_breakdown_key($price, $full_price, $decimals)
+    {
+
+        return number_format($price, $decimals) . '-' . number_format($full_price, $decimals);
+    }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-}
 
 }

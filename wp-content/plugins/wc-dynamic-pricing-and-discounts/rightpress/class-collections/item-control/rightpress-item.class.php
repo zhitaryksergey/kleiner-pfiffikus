@@ -1,9 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 /**
  * Parent class for various configuration items - rule types, conditions, condition methods etc.
@@ -12,8 +10,6 @@ if (!defined('ABSPATH')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Item')) {
-
 abstract class RightPress_Item
 {
 
@@ -253,5 +249,4 @@ abstract class RightPress_Item
 
 
 
-}
 }

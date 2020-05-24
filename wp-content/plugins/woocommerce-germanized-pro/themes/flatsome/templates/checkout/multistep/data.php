@@ -45,8 +45,6 @@ if ( $method && isset( $gateways[ $method ] ) )
                 <?php do_action( 'woocommerce_gzdp_multistep_confirmation_after_billing_address', $multistep ); ?>
 			</address>
 
-            <p><a href="#step-address" class="edit step-trigger" data-href="address"><?php echo _x( 'edit', 'multistep', 'woocommerce-germanized-pro' ); ?></a></p>
-
         </div><!-- /.col-1 -->
 
 		<div class="columns large-3">
@@ -67,8 +65,6 @@ if ( $method && isset( $gateways[ $method ] ) )
                 <?php do_action( 'woocommerce_gzdp_multistep_confirmation_after_shipping_address', $multistep ); ?>
 			</address>
 
-            <p><a href="#step-address" class="edit step-trigger" data-href="address"><?php echo _x( 'edit', 'multistep', 'woocommerce-germanized-pro' ); ?></a></p>
-
         </div><!-- /.col-2 -->
 
 		<?php if ( $payment_gateway ) : ?>
@@ -80,9 +76,7 @@ if ( $method && isset( $gateways[ $method ] ) )
 				</header>
 
                 <p class="wc-gzdp-payment-gateway"><?php echo $payment_gateway->get_title(); ?></p>
-
-                <p><a href="#step-payment" class="edit step-trigger" data-href="payment"><?php echo _x( 'edit', 'multistep', 'woocommerce-germanized-pro' ); ?></a></p>
-			</div>
+            </div>
 
 		<?php endif; ?>
 

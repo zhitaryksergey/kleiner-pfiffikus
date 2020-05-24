@@ -19,25 +19,13 @@ if (!class_exists('RP_WCDPD_Rule_Notifications')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Rule_Notifications_Product_Pricing')) {
-
 class RP_WCDPD_Rule_Notifications_Product_Pricing extends RP_WCDPD_Rule_Notifications
 {
+
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     protected $context = 'product_pricing';
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -88,5 +76,3 @@ class RP_WCDPD_Rule_Notifications_Product_Pricing extends RP_WCDPD_Rule_Notifica
 }
 
 RP_WCDPD_Rule_Notifications_Product_Pricing::get_instance();
-
-}

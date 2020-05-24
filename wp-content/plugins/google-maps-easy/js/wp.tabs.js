@@ -49,6 +49,12 @@
 						? $this.find('.gmpTabContent[data-tabs-for="'+ this._options.uniqId + '"]')
 						: $this.find('.gmpTabContent');
 					allTabsContent.hide();
+					if($this.find('.nav-tab-active').attr('href') != selector) {
+						gmpUnshiftButtons({
+							gmpShapeAddPointByClickBtn: 'gmpAddByClickActivated',
+							gmpHeatmapAddPointBtn: 'gmpAddActivated'
+						});
+					}
 					$this.find(selector).show();
 					navigations.removeClass('nav-tab-active');
 					$this.find('[href="'+ selector+ '"]').addClass('nav-tab-active');

@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			<?php echo implode( '<br/>', $invoice->get_sender_address() ); ?>
 		</td>
 		<td>
-			<?php echo implode( '<br/>', $invoice->get_sender_address( 'detail' ) ); ?>
+			<?php echo do_shortcode( implode( '<br/>', $invoice->get_sender_address( 'detail' ) ) ); ?>
 		</td>
 	</tr>
 </table>

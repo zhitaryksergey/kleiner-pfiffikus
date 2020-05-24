@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Order_Shipping')) {
-    require_once('rightpress-condition-order-shipping.class.php');
-}
+require_once 'rightpress-condition-order-shipping.class.php';
 
 /**
  * Condition: Order Shipping - Method
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Order_Shipping')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Order_Shipping_Method')) {
-
 abstract class RightPress_Condition_Order_Shipping_Method extends RightPress_Condition_Order_Shipping
 {
 
@@ -69,7 +63,7 @@ abstract class RightPress_Condition_Order_Shipping_Method extends RightPress_Con
         if ($shipping_methods = $this->get_order($params)->get_shipping_methods()) {
 
             // Get single shipping method
-            // TBD: We should introduce multiple shipping method support
+            // TODO: We should introduce multiple shipping method support
             $shipping_method = array_shift($shipping_methods);
 
             // Return shipping method as both parent shipping method id and combined instance identifier
@@ -86,5 +80,4 @@ abstract class RightPress_Condition_Order_Shipping_Method extends RightPress_Con
 
 
 
-}
 }

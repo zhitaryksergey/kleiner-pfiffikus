@@ -21,6 +21,7 @@ class MailChimp_WooCommerce_Customer
     protected $address;
     protected $requires_double_optin = false;
     protected $original_subscriber_status = null;
+    protected $wordpress_user = null;
 
     /**
      * @return array
@@ -260,12 +261,32 @@ class MailChimp_WooCommerce_Customer
     /**
      * @return array
      */
-    public function getMergeVars()
+    public function getMergeFields()
     {
         return array(
             'FNAME' => trim($this->getFirstName()),
             'LNAME' => trim($this->getLastName()),
         );
+    }
+
+    /**
+     * @param $user
+     * @return $this
+     */
+    public function setWordpressUser($user)
+    {
+        if ($user instanceof \WP_User) {
+            $this->wordpress_user = $user;
+        }
+        return $this;
+    }
+
+    /**
+     * @return null|\WP_User
+     */
+    public function getWordpressUser()
+    {
+        return $this->wordpress_user;
     }
 
     /**
@@ -283,7 +304,7 @@ class MailChimp_WooCommerce_Customer
             'first_name' => (string) $this->getFirstName(),
             'last_name' => (string) $this->getLastName(),
             'orders_count' => (int) $this->getOrdersCount(),
-            'total_spent' => floatval(number_format($this->getTotalSpent(), 2)),
+            'total_spent' => floatval(number_format($this->getTotalSpent(), 2, '.', '')),
             'address' => (empty($address) ? null : $address),
         ));
     }

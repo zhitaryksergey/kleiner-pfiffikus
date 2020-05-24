@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Condition_Checkout_Payment_Method')) {
-
 class RP_WCDPD_Condition_Checkout_Payment_Method extends RightPress_Condition_Checkout_Payment_Method
 {
 
@@ -46,5 +44,3 @@ class RP_WCDPD_Condition_Checkout_Payment_Method extends RightPress_Condition_Ch
 }
 
 RP_WCDPD_Condition_Checkout_Payment_Method::get_instance();
-
-}

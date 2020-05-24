@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Method_Product_Pricing')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Method_Product_Pricing_Quantity')) {
-
 abstract class RP_WCDPD_Method_Product_Pricing_Quantity extends RP_WCDPD_Method_Product_Pricing
 {
 
@@ -86,15 +84,23 @@ abstract class RP_WCDPD_Method_Product_Pricing_Quantity extends RP_WCDPD_Method_
      * @param array $used_quantities
      * @param int $reserve_quantity
      * @param bool $require_all
+     * @param bool $cheapest_first
      * @return mixed
      */
-    public function reserve_quantities($quantity_group, $used_quantities, $reserve_quantity, $require_all = false)
+    public function reserve_quantities($quantity_group, $used_quantities, $reserve_quantity, $require_all = false, $cheapest_first = false)
     {
+
         $quantities = array();
 
         // No items found
         if ($quantity_group === null) {
             return false;
+        }
+
+        // Maybe reverse quantity group element order if we need to reserve cheapest items first
+        // Note: Quantity group is always sorted from the most expensive items to cheapest
+        if ($cheapest_first) {
+            $quantity_group = array_reverse($quantity_group, true);
         }
 
         // Iterate over cart item quantities in quantity group
@@ -240,5 +246,4 @@ abstract class RP_WCDPD_Method_Product_Pricing_Quantity extends RP_WCDPD_Method_
 
 
 
-}
 }

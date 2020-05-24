@@ -1,12 +1,7 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_Meta')) {
+defined('ABSPATH') || exit;
 
 /**
  * Meta Class
@@ -120,5 +115,4 @@ class RightPress_Meta
 
 
 
-}
 }

@@ -320,6 +320,7 @@ div.rp_wcdpd_rules_settings {
     display: block;
     height: 27px;
     width: 100%;
+    max-width: initial;
 }
 .rp_wcdpd_settings .rp_wcdpd_field_half {
     width: 11.78%;
@@ -553,7 +554,6 @@ div.rp_wcdpd_rules_settings {
     max-width: 300px;
     float: right;
     margin-right: 15px;
-    margin-top: 2px;
     background-color: #f7f7f7;
 }
 

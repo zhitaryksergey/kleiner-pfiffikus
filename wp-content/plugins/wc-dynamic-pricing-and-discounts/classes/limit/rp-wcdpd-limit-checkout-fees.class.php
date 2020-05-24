@@ -17,26 +17,13 @@ if (!class_exists('RP_WCDPD_Limit')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Limit_Checkout_Fees')) {
-
 class RP_WCDPD_Limit_Checkout_Fees extends RP_WCDPD_Limit
 {
 
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
+
     protected $context = 'checkout_fees';
-
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     /**
      * Constructor
@@ -89,7 +76,8 @@ class RP_WCDPD_Limit_Checkout_Fees extends RP_WCDPD_Limit
         if (RightPress_Help::string_ends_with_substring($this->get_method(), '_amount')) {
 
             // Subtract potential tax from fee amount
-            return RP_WCDPD_Controller_Methods_Checkout_Fee::subtract_tax_from_fee_amount($value);
+            $tax_class = RP_WCDPD_Controller_Methods_Checkout_Fee::get_fee_tax_class();
+            return RightPress_Product_Price::maybe_subtract_tax_from_amount($value, $tax_class);
         }
 
         // Call parent method if no adjustments are needed
@@ -115,5 +103,3 @@ class RP_WCDPD_Limit_Checkout_Fees extends RP_WCDPD_Limit
 }
 
 RP_WCDPD_Limit_Checkout_Fees::get_instance();
-
-}

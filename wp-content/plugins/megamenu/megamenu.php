@@ -4,11 +4,11 @@
  * Plugin Name: Max Mega Menu
  * Plugin URI:  https://www.megamenu.com
  * Description: An easy to use mega menu plugin. Written the WordPress way.
- * Version:     2.6
+ * Version:     2.7.7
  * Author:      megamenu.com
  * Author URI:  https://www.megamenu.com
  * License:     GPL-2.0+
- * Copyright:   2019 Tom Hemsley (https://www.megamenu.com)
+ * Copyright:   2020 Tom Hemsley (https://www.megamenu.com)
  *
  * Max Mega Menu is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ final class Mega_Menu {
     /**
      * @var string
      */
-    public $version = '2.6';
+    public $version = '2.7.7';
 
 
     /**
@@ -61,6 +61,7 @@ final class Mega_Menu {
      * @since 1.0
      */
     public function __construct() {
+        
 
         $this->define_constants();
         $this->includes();
@@ -77,6 +78,7 @@ final class Mega_Menu {
         add_filter( 'wp_nav_menu', array( $this, 'add_responsive_toggle' ), 10, 2 );
 
         add_filter( 'wp_nav_menu_objects', array( $this, 'add_widgets_to_menu' ), apply_filters("megamenu_wp_nav_menu_objects_priority", 10), 2 );
+        add_filter( 'megamenu_nav_menu_objects_before', array( $this, 'apply_depth_to_menu_items' ), 5, 2 );
         add_filter( 'megamenu_nav_menu_objects_before', array( $this, 'setup_menu_items' ), 5, 2 );
         add_filter( 'megamenu_nav_menu_objects_after', array( $this, 'reorder_menu_items_within_megamenus' ), 6, 2 );
         add_filter( 'megamenu_nav_menu_objects_after', array( $this, 'apply_classes_to_menu_items' ), 7, 2 );
@@ -250,6 +252,7 @@ final class Mega_Menu {
             if ( ! $settings ) {
                 $settings['prefix'] = 'disabled';
                 $settings['descriptions'] = 'enabled';
+                $settings['second_click'] = 'go';
 
                 add_option( "megamenu_settings", $settings);
             }
@@ -264,6 +267,12 @@ final class Mega_Menu {
      */
     public function register_widget() {
         register_widget( 'Mega_Menu_Widget' );
+        //register_widget( 'Mega_Menu_Widget_Reusable_Block' );
+
+        // Check if Elementor installed and activated
+        //if ( did_action( 'elementor/loaded' ) ) {
+        //    register_widget( 'Mega_Menu_Widget_Elementor_Template' );
+        //}
     }
 
 
@@ -282,7 +291,7 @@ final class Mega_Menu {
             return wp_nav_menu( array( 'theme_location' => $atts['location'], 'echo' => false ) );
         }
 
-        return "<!-- menu not found [maxmegamenu location={$atts['location']}] -->";
+        return "<!-- menu not found [maxmegamenu] -->";
 
     }
 
@@ -316,15 +325,17 @@ final class Mega_Menu {
      */
     private function plugin_classes() {
         $classes = array(
-            'mega_menu_walker'            => MEGAMENU_PATH . 'classes/walker.class.php',
-            'mega_menu_widget_manager'    => MEGAMENU_PATH . 'classes/widget-manager.class.php',
-            'mega_menu_menu_item_manager' => MEGAMENU_PATH . 'classes/menu-item-manager.class.php',
-            'mega_menu_nav_menus'         => MEGAMENU_PATH . 'classes/nav-menus.class.php',
-            'mega_menu_style_manager'     => MEGAMENU_PATH . 'classes/style-manager.class.php',
-            'mega_menu_settings'          => MEGAMENU_PATH . 'classes/settings.class.php',
-            'mega_menu_widget'            => MEGAMENU_PATH . 'classes/widget.class.php',
-            'mega_menu_toggle_blocks'     => MEGAMENU_PATH . 'classes/toggle-blocks.class.php',
-            'scssc'                       => MEGAMENU_PATH . 'classes/scssc.inc.php'
+            'mega_menu_walker'                    => MEGAMENU_PATH . 'classes/walker.class.php',
+            'mega_menu_widget_manager'            => MEGAMENU_PATH . 'classes/widget-manager.class.php',
+            'mega_menu_menu_item_manager'         => MEGAMENU_PATH . 'classes/menu-item-manager.class.php',
+            'mega_menu_nav_menus'                 => MEGAMENU_PATH . 'classes/nav-menus.class.php',
+            'mega_menu_style_manager'             => MEGAMENU_PATH . 'classes/style-manager.class.php',
+            'mega_menu_settings'                  => MEGAMENU_PATH . 'classes/settings.class.php',
+            'mega_menu_widget'                    => MEGAMENU_PATH . 'classes/widget.class.php',
+            'mega_menu_widget_reusable_block'     => MEGAMENU_PATH . 'classes/widget-reusable-block.class.php',
+            'mega_menu_widget_elementor_template' => MEGAMENU_PATH . 'classes/widget-elementor-template.class.php',
+            'mega_menu_toggle_blocks'             => MEGAMENU_PATH . 'classes/toggle-blocks.class.php',
+            'scssc'                               => MEGAMENU_PATH . 'classes/scssc.inc.php'
         );
 
         return $classes;
@@ -367,12 +378,11 @@ final class Mega_Menu {
 
         switch ( $template ) {
             case "twentyseventeen":
-            case "generatepress":
-            case "twentytwelve":
             case "zerif":
                 if ( is_readable( MEGAMENU_PATH . "integration/{$template}/functions.php" ) ) {
                     require_once( MEGAMENU_PATH . "integration/{$template}/functions.php" );
                 }
+            default:
             break;
         }
 
@@ -450,12 +460,12 @@ final class Mega_Menu {
      * @since 1.3
      */
     public function add_responsive_toggle( $nav_menu, $args ) {
-
         $args = (object) $args;
         
         // make sure we're working with a Mega Menu
-        if ( ! is_a( $args->walker, 'Mega_Menu_Walker' ) )
+        if ( ! $args->walker || ! is_a( $args->walker, 'Mega_Menu_Walker' ) ) {
             return $nav_menu;
+        }
 
         $find = 'class="' . $args->container_class . '">';
 
@@ -485,7 +495,7 @@ final class Mega_Menu {
         $args = (object) $args;
 
         // make sure we're working with a Mega Menu
-        if ( ! is_a( $args->walker, 'Mega_Menu_Walker' ) ) {
+        if ( ! $args->walker || ! is_a( $args->walker, 'Mega_Menu_Walker' ) ) {
             return $items;
         }
 
@@ -749,19 +759,17 @@ final class Mega_Menu {
         return $rolling_last_menu_order + 1000;
 
     }
-
+    
 
     /**
-     * Setup the mega menu settings for each menu item
+     * Determine if menu item is a top level item or a second level item
      *
-     * @since 2.0
+     * @since 2.7.7
      * @param array $items - All menu item objects
      * @param object $args
      * @return array
      */
-    public function setup_menu_items( $items, $args ) {
-        // apply depth
-        // @todo work out a better way to do this. Suggestions welcome..!
+    public function apply_depth_to_menu_items( $items, $args ) {
         $parents = array();
 
         foreach ( $items as $key => $item ) {
@@ -778,6 +786,20 @@ final class Mega_Menu {
                 }
             }
         }
+
+        return $items;
+    }
+
+
+    /**
+     * Setup the mega menu settings for each menu item
+     *
+     * @since 2.0
+     * @param array $items - All menu item objects
+     * @param object $args
+     * @return array
+     */
+    public function setup_menu_items( $items, $args ) {
 
         // apply saved metadata to each menu item
         foreach ( $items as $item ) {
@@ -923,6 +945,14 @@ final class Mega_Menu {
                 if ( $item->megamenu_settings['disable_link'] == 'true') {
                     $item->classes[] = 'disable-link';
                 }
+
+                if ( $item->megamenu_settings['collapse_children'] == 'true' ) {
+                    $item->classes[] = 'collapse-children';
+                }
+
+                if ( absint($item->megamenu_settings['submenu_columns']) > 1 ) {
+                    $item->classes[] = absint($item->megamenu_settings['submenu_columns']) . '-columns';
+                }
             }
 
             // add column classes for second level menu items displayed in mega menus
@@ -984,14 +1014,24 @@ final class Mega_Menu {
 
         $settings = get_option( 'megamenu_settings' );
         $current_theme_location = $args['theme_location'];
+
         $active_instance = isset( $settings['instances'][$current_theme_location] ) ? $settings['instances'][$current_theme_location] : 0;
 
-        if ( $active_instance != 0 && $active_instance != $num_times_called ) {
-            return $args;
-        }
+        if ( $active_instance != '0' && strlen( $active_instance ) ) {
 
-        if ( strlen( $active_instance ) && ! is_numeric( $active_instance ) && isset( $args['container_id'] ) && $active_instance != $args['container_id'] ) {
-            return $args;
+            if ( strpos( $active_instance, "," ) || is_numeric( $active_instance ) ) {
+
+                $active_instances = explode( ",", $active_instance );
+
+                if ( ! in_array( $num_times_called, $active_instances )) {
+                    return $args;
+                }
+
+            } else if ( isset( $args['container_id'] ) && $active_instance != $args['container_id'] ) {
+
+                return $args;
+
+            }
         }
 
         $locations = get_nav_menu_locations();
@@ -1026,7 +1066,7 @@ final class Mega_Menu {
             }
 
             // as set on the main settings page
-            $second_click = isset( $settings['second_click'] ) ? $settings['second_click'] : 'close';
+            $second_click = isset( $settings['second_click'] ) ? $settings['second_click'] : 'go';
 
             if ( isset( $menu_settings['second_click'] ) ) {
                 $second_click = $menu_settings['second_click'];
@@ -1060,14 +1100,38 @@ final class Mega_Menu {
                 }
             }
 
+
+            $effect_mobile = 'disabled';
+
+            if ( isset( $menu_settings['effect_mobile'] ) ) {
+                $effect_mobile = $menu_settings['effect_mobile'];
+            }
+
+            $effect_speed_mobile = 200;
+
+            if ( isset( $menu_settings['effect_speed_mobile'] ) ) {
+                $effect_speed_mobile = $menu_settings['effect_speed_mobile'];
+            }
+
+            if ( $effect_mobile == 'disabled' ) {
+                $effect_speed_mobile = 0;
+            }
+
+            $hover_intent_params = apply_filters("megamenu_javascript_localisation", // backwards compatiblity
+                array(
+                    "timeout" => 300,
+                    "interval" => 100
+                )
+            );
+
             $wrap_attributes = apply_filters("megamenu_wrap_attributes", array(
                 "id" => '%1$s',
                 "class" => '%2$s mega-no-js',
                 "data-event" => $event,
                 "data-effect" => $effect,
                 "data-effect-speed" => isset( $menu_settings['effect_speed'] ) ? $menu_settings['effect_speed'] : '200',
-                "data-effect-mobile" => isset( $menu_settings['effect_mobile'] ) ? $menu_settings['effect_mobile'] : 'disabled',
-                "data-effect-speed-mobile" => isset( $menu_settings['effect_speed_mobile'] ) ? $menu_settings['effect_speed_mobile'] : '200',
+                "data-effect-mobile" => $effect_mobile,
+                "data-effect-speed-mobile" => $effect_speed_mobile,
                 "data-panel-width" => preg_match('/^\d/', $menu_theme['panel_width']) !== 1 ? $menu_theme['panel_width'] : '',
                 "data-panel-inner-width" => substr( $menu_theme['panel_inner_width'], -1 ) !== '%' ? $menu_theme['panel_inner_width'] : '',
                 "data-mobile-force-width" => $mobile_force_width,
@@ -1075,7 +1139,9 @@ final class Mega_Menu {
                 "data-document-click" => 'collapse',
                 "data-vertical-behaviour" => $vertical_behaviour,
                 "data-breakpoint" => absint( $menu_theme['responsive_breakpoint'] ),
-                "data-unbind" => $unbind === "disabled" ? "false" : "true"
+                "data-unbind" => $unbind === "disabled" ? "false" : "true",
+                "data-hover-intent-timeout" => absint($hover_intent_params['timeout']),
+                "data-hover-intent-interval" => absint($hover_intent_params['interval'])             
             ), $menu_id, $menu_settings, $settings, $current_theme_location );
 
             $attributes = "";
@@ -1134,6 +1200,10 @@ final class Mega_Menu {
         <?php
 
         endif;
+
+        if ( defined("MEGAMENU_HIDE_CSS_NAG") && MEGAMENU_HIDE_CSS_NAG === true ) {
+            return;
+        }
 
         $css_version = get_transient("megamenu_css_version");
         $css = get_transient("megamenu_css");
@@ -1265,6 +1335,7 @@ if ( ! function_exists( 'mmm_get_theme_for_location' ) ) {
         return $themes['default'];
     }
 }
+
 
 if ( ! function_exists( 'max_mega_menu_is_enabled' ) ) {
 

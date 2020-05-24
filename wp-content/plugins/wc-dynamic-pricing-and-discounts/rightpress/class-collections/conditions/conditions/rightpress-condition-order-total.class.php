@@ -1,14 +1,10 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Condition_Order')) {
-    require_once('rightpress-condition-order.class.php');
-}
+require_once 'rightpress-condition-order.class.php';
 
 /**
  * Condition: Order - Total
@@ -17,8 +13,6 @@ if (!class_exists('RightPress_Condition_Order')) {
  * @package RightPress
  * @author RightPress
  */
-if (!class_exists('RightPress_Condition_Order_Total')) {
-
 abstract class RightPress_Condition_Order_Total extends RightPress_Condition_Order
 {
 
@@ -73,5 +67,4 @@ abstract class RightPress_Condition_Order_Total extends RightPress_Condition_Ord
 
 
 
-}
 }

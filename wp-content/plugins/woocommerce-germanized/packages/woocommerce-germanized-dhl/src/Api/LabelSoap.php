@@ -416,7 +416,7 @@ class LabelSoap extends Soap {
                     $services[ $service ]['details'] = $label->get_preferred_day() ? $label->get_preferred_day()->date( 'Y-m-d' ) : '';
                     break;
                 case 'PreferredTime':
-                    $services[ $service ]['type'] = wc_gzd_dhl_aformat_preferred_api_time( $label->get_preferred_time() );
+                    $services[ $service ]['type'] = wc_gzd_dhl_format_preferred_api_time( $label->get_preferred_time() );
                     break;
                 case 'VisualCheckOfAge':
                     $services[ $service ]['type'] = $label->get_visual_min_age();
@@ -652,7 +652,8 @@ class LabelSoap extends Soap {
                 $item_description .= ! empty( $item_description ) ? ', ' : '';
                 $item_description .= $item->get_name();
 
-                $dhl_product = false;
+	            $product_total = floatval( ( $item->get_total() / $item->get_quantity() ) );
+                $dhl_product   = false;
 
                 if ( $product = $item->get_product() ) {
                 	$dhl_product = wc_gzd_dhl_get_product( $product );
@@ -663,8 +664,8 @@ class LabelSoap extends Soap {
                     'countryCodeOrigin'   => $dhl_product ? $dhl_product->get_manufacture_country() : '',
                     'customsTariffNumber' => $dhl_product ? $dhl_product->get_hs_code() : '',
                     'amount'              => intval( $item->get_quantity() ),
-                    'netWeightInKG'       => wc_format_decimal( floatval( wc_get_weight( $item->get_weight(), 'kg', $shipment->get_weight_unit() ) ), 2 ),
-                    'customsValue'        => wc_format_decimal( floatval( $item->get_total() ), 2 ),
+                    'netWeightInKG'       => wc_format_decimal( floatval( wc_get_weight( ( $item->get_weight() / $item->get_quantity() ), 'kg', $shipment->get_weight_unit() ) ), 2 ),
+                    'customsValue'        => wc_format_decimal( $product_total ),
                 );
 
                 array_push($customsDetails, $json_item );

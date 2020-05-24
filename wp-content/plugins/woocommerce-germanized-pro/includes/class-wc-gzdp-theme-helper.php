@@ -39,14 +39,23 @@ class WC_GZDP_Theme_Helper {
 			$this->load_theme( $current->get_template() );
         }
 
-		add_action( 'after_switch_theme', array( $this, 'refresh_shopmark_options' ), 10 );
+		add_action( 'switch_theme', array( $this, 'refresh_shopmark_options' ), 10, 3 );
 	}
 
 	/**
 	 * After switching theme: Loop through all shopmarks and make sure that custom-theme-hooks
 	 * are removed and default hooks are loaded instead.
+	 *
+	 * @param string $new_name
+	 * @param WP_Theme $new_theme
+	 * @param WP_Theme $old_theme
 	 */
-	public function refresh_shopmark_options() {
+	public function refresh_shopmark_options( $new_name, $new_theme, $old_theme ) {
+
+		if ( ! in_array( $old_theme->get_template(), $this->themes ) ) {
+			return;
+		}
+
 		foreach( Shopmarks::get_locations() as $location => $location_data ) {
 			$shopmarks = Shopmarks::get( $location );
 

@@ -12,8 +12,6 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Controller_Pricing_Methods')) {
-
 class RP_WCDPD_Controller_Pricing_Methods extends RightPress_Item_Controller
 {
 
@@ -42,5 +40,3 @@ class RP_WCDPD_Controller_Pricing_Methods extends RightPress_Item_Controller
 }
 
 RP_WCDPD_Controller_Pricing_Methods::get_instance();
-
-}

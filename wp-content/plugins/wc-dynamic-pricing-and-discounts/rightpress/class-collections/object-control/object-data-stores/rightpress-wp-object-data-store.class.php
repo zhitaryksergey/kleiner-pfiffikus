@@ -1,17 +1,11 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
 // Load dependencies
-if (!class_exists('RightPress_Object_Data_Store')) {
-    require_once('rightpress-object-data-store.class.php');
-}
-
-// Check if class has already been loaded
-if (!class_exists('RightPress_WP_Object_Data_Store')) {
+require_once 'rightpress-object-data-store.class.php';
+require_once 'interfaces/rightpress-wp-object-data-store-interface.php';
 
 /**
  * WordPress Object Data Store
@@ -20,7 +14,7 @@ if (!class_exists('RightPress_WP_Object_Data_Store')) {
  * @package RightPress
  * @author RightPress
  */
-abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_Store
+abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_Store implements RightPress_WP_Object_Data_Store_Interface
 {
 
     /**
@@ -34,6 +28,7 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function add_meta(&$object, $meta, $args = array())
     {
+
         // Sanitize value
         $value = is_string($meta->value) ? addslashes($meta->value) : $meta->value;
 
@@ -54,6 +49,7 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function read_meta(&$object, $args = array())
     {
+
         global $wpdb;
 
         $sanitized = array();
@@ -98,6 +94,7 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function update_meta(&$object, $meta, $args = array())
     {
+
         // Get meta type
         $meta_type = $this->get_meta_type($object);
 
@@ -116,54 +113,12 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function delete_meta(&$object, $meta, $args = array())
     {
+
         // Get meta type
         $meta_type = $this->get_meta_type($object);
 
         // Delete meta
         delete_metadata_by_mid($meta_type, $meta->id);
-    }
-
-    /**
-     * Prefix meta key
-     *
-     * All custom meta is prefixed with _x_ to ensure it does not clash with
-     * regular object properties that can be saved as WordPress post meta
-     *
-     * @access protected
-     * @param string $key
-     * @return string
-     */
-    protected function prefix_meta_key($key)
-    {
-        return '_x_' . $key;
-    }
-
-    /**
-     * Remove prefix from meta key
-     *
-     * @access protected
-     * @param string $key
-     * @return string
-     */
-    protected function unprefix_meta_key($key)
-    {
-        if ($this->is_true_meta_key($key)) {
-            $key = substr($key, 3);
-        }
-
-        return $key;
-    }
-
-    /**
-     * Check if key is true meta key
-     *
-     * @access protected
-     * @param string $key
-     * @return bool
-     */
-    protected function is_true_meta_key($key)
-    {
-        return RightPress_Help::string_begins_with_substring($key, '_x_');
     }
 
     /**
@@ -175,6 +130,7 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function get_table_name(&$object)
     {
+
         global $wpdb;
         return $wpdb->prefix . $this->get_meta_type($object) . 's';
     }
@@ -188,6 +144,7 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
      */
     public function get_meta_table_name(&$object)
     {
+
         global $wpdb;
         return $wpdb->prefix . $this->get_meta_type($object) . 'meta';
     }
@@ -195,5 +152,4 @@ abstract class RightPress_WP_Object_Data_Store extends RightPress_Object_Data_St
 
 
 
-}
 }

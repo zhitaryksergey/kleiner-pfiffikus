@@ -1,13 +1,11 @@
 <?php
 
+// Exit if accessed directly
+defined('ABSPATH') || exit;
+
 /**
  * View for preloader
  */
-
-// Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
 
 ?>
 

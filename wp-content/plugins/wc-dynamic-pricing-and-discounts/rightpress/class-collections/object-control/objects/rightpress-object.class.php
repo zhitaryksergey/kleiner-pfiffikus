@@ -1,12 +1,24 @@
 <?php
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) {
-    exit;
-}
+defined('ABSPATH') || exit;
 
-// Check if class has already been loaded
-if (!class_exists('RightPress_Object')) {
+// Load dependencies
+require_once 'interfaces/rightpress-object-interface.php';
+
+/**
+ * RightPress_Object
+ *  > RightPress_WP_Object
+ *     > RightPress_WP_Custom_Object
+ *     > RightPress_WP_Custom_Post_Object
+ *        > RightPress_WP_Log_Entry
+ *  > RightPress_WC_Object
+ *     > RightPress_WC_Product_Object
+ *     > RightPress_WC_Custom_Order_Object
+ * RightPress_WC_Custom_Order extends WC_Order
+ */
+
+// TODO: Any way to prevent multiple requests/processes modifying the same object at the same time and overwriting each others' changes? E.g. throw exception from save() after comparing current objects initial data to newly fetched data?
 
 /**
  * Generic Object Class
@@ -15,7 +27,7 @@ if (!class_exists('RightPress_Object')) {
  * @package RightPress
  * @author RightPress
  */
-abstract class RightPress_Object
+abstract class RightPress_Object implements RightPress_Object_Interface
 {
 
     protected $id           = 0;
@@ -25,17 +37,20 @@ abstract class RightPress_Object
     protected $meta_data    = null;
     protected $controller   = null;
     protected $data_store   = null;
-
-    protected $setting_datetime_property = false;
-    protected $getting_datetime_property = false;
+    protected $log_entry    = null;
 
     // Properties with default values
-    protected $data                 = array();
-    protected $datetime_properties  = array();
+    protected $data = array();
+
+    // Properties flagged as datetime
+    protected $datetime_properties = array();
 
     // Common properties
     protected $common_data                  = array();
     protected $common_datetime_properties   = array();
+
+    // DateTime class to use
+    protected $datetime_class = 'RightPress_DateTime';
 
     /**
      * Constructor
@@ -79,6 +94,8 @@ abstract class RightPress_Object
         }
     }
 
+    // TODO: Maybe add some magic methods (e.g. isset could check if property is set under data)
+
     /**
      * Set data store
      *
@@ -88,6 +105,7 @@ abstract class RightPress_Object
      */
     protected function set_data_store($data_store)
     {
+
         $this->data_store = $data_store;
     }
 
@@ -99,6 +117,7 @@ abstract class RightPress_Object
      */
     public function get_data_store()
     {
+
         return $this->data_store;
     }
 
@@ -111,6 +130,7 @@ abstract class RightPress_Object
      */
     public function set_controller($controller)
     {
+
         $this->controller = $controller;
     }
 
@@ -122,6 +142,7 @@ abstract class RightPress_Object
      */
     public function get_controller()
     {
+
         return $this->controller;
     }
 
@@ -134,6 +155,7 @@ abstract class RightPress_Object
      */
     public function set_id($id)
     {
+
         $this->id = absint($id);
     }
 
@@ -145,6 +167,7 @@ abstract class RightPress_Object
      */
     public function get_id()
     {
+
         return $this->id;
     }
 
@@ -157,6 +180,7 @@ abstract class RightPress_Object
      */
     public function set_data_ready($ready)
     {
+
         $this->data_ready = (bool) $ready;
     }
 
@@ -168,6 +192,7 @@ abstract class RightPress_Object
      */
     public function is_data_ready()
     {
+
         return $this->data_ready;
     }
 
@@ -179,6 +204,7 @@ abstract class RightPress_Object
      */
     public function get_default_data()
     {
+
         return $this->default_data;
     }
 
@@ -190,6 +216,7 @@ abstract class RightPress_Object
      */
     public function get_data()
     {
+
         // Merge properties and return
         return array_merge(array('id' => $this->get_id()), $this->data, array('meta_data' => $this->get_meta_data()));
     }
@@ -202,6 +229,7 @@ abstract class RightPress_Object
      */
     public function get_data_keys()
     {
+
         return array_keys($this->data);
     }
 
@@ -213,6 +241,7 @@ abstract class RightPress_Object
      */
     public function reset_data()
     {
+
         $this->data = $this->get_default_data();
         $this->changes = array();
         $this->set_data_ready(false);
@@ -226,6 +255,7 @@ abstract class RightPress_Object
      */
     public function get_changes()
     {
+
         return $this->changes;
     }
 
@@ -237,6 +267,7 @@ abstract class RightPress_Object
      */
     public function apply_changes()
     {
+
         // Merge data
         $this->data = array_replace_recursive($this->data, $this->changes);
 
@@ -260,10 +291,6 @@ abstract class RightPress_Object
      */
     public function get_property($key, $context = 'view', $args = array())
     {
-        // Datetime property handling
-        if ($this->is_property_datetime($key) && !$this->getting_datetime_property) {
-            return $this->get_datetime_property($key, $context, $args);
-        }
 
         $value = null;
 
@@ -283,36 +310,9 @@ abstract class RightPress_Object
     }
 
     /**
-     * Set property
-     *
-     * @access public
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
-    public function set_property($key, $value)
-    {
-        // Datetime property handling
-        if ($this->is_property_datetime($key) && !$this->setting_datetime_property) {
-            $this->set_datetime_property($key, $value);
-            return;
-        }
-
-        // Set property
-        if (array_key_exists($key, $this->data)) {
-            if ($this->is_data_ready()) {
-                if ($value !== $this->data[$key] || array_key_exists($key, $this->changes)) {
-                    $this->changes[$key] = $value;
-                }
-            }
-            else {
-                $this->data[$key] = $value;
-            }
-        }
-    }
-
-    /**
      * Get datetime property
+     *
+     * Clones object to avoid accidental changes after value is returned (objects are passed by reference)
      *
      * @access public
      * @param string $key
@@ -322,17 +322,21 @@ abstract class RightPress_Object
      */
     public function get_datetime_property($key, $context = 'view', $args = array())
     {
+
         // Import arguments
         extract(RightPress_Help::filter_by_keys_with_defaults($args, array('is_gmt' => true)));
 
         // Get value
-        $this->getting_datetime_property = true;
         $value = $this->get_property($key, $context, $args);
-        $this->getting_datetime_property = false;
 
         // Maybe prepare value to be stored in database
-        if ($context === 'store') {
+        if ($context === 'store' && is_a($value, 'DateTime')) {
             $value = $is_gmt ? gmdate('Y-m-d H:i:s', $value->getTimestamp()) : $value->format('Y-m-d H:i:s');
+        }
+
+        // Clone object
+        if (is_object($value)) {
+            $value = clone $value;
         }
 
         // Return value
@@ -340,108 +344,72 @@ abstract class RightPress_Object
     }
 
     /**
-     * Set datetime property
+     * Set property
      *
-     * Accepts as value:
-     * - RightPress_DateTime object
-     * - Unix timestamp
-     * - ISO 8601 string which must define timezone offset, e.g. '2018-06-17T23:17:28+01:00'
-     * - MySQL datetime which must be in local timezone, e.g. '2018-06-17 23:17:28'
+     * Throws RightPress_Exception in case of an error
      *
-     * @access public
+     * @access protected
      * @param string $key
-     * @param string|int|object $value
+     * @param mixed $value
      * @return void
      */
-    public function set_datetime_property($key, $value)
+    protected function set_property($key, $value)
     {
 
-        try {
+        // Allow developers to override value
+        $value = apply_filters($this->get_controller()->prefix_public_hook('pre_set_property'), $value, $key, $this);
+        $value = apply_filters($this->get_controller()->prefix_public_hook('pre_set_property_' . $key), $value, $this);
 
-            // Get datetime object
-            if (!empty($value)) {
+        // Property is defined
+        if (array_key_exists($key, $this->data)) {
 
-                // Value is RightPress_DateTime
-                if (is_a($value, 'RightPress_DateTime')) {
-                    $datetime = $value;
-                }
-                // Value is timestamp
-                else if (is_numeric($value)) {
-                    $datetime = new RightPress_DateTime('@' . $value);
-                }
-                // Value is ISO 8601 string
-                else if (RightPress_Help::is_date($value, DATE_ATOM)) {
-                    $datetime = new RightPress_DateTime($value);
-                }
-                // Value is MySQL datetime (must be in local time zone)
-                else if (RightPress_Help::is_date($value, 'Y-m-d H:i:s')) {
-                    $datetime = new RightPress_DateTime($value, RightPress_Help::get_time_zone());
-                }
-                // Value is not supported
-                else {
-                    // TBD: maybe we should throw error and exit from here? Maybe better to fix this before writing any further wrong data to database?
-                    RightPress_Help::doing_it_wrong((get_class($this) . '::' . __FUNCTION__), 'Datetime property value "' . strval($value) . '" is not of supported format.', '1.0');
-                    return;
-                }
+            // Setting new value after initial object load
+            if ($this->is_data_ready()) {
 
-                // Ensure correct time zone
-                $datetime->setTimezone(RightPress_Help::get_time_zone());
+                // Get current value
+                $current_value = array_key_exists($key, $this->changes) ? $this->changes[$key] : $this->data[$key];
+
+                // New value is different from current value
+                if ($value !== $current_value) {
+
+                    // Set new value
+                    $this->changes[$key] = $value;
+
+                    // Trigger action
+                    do_action($this->get_controller()->prefix_public_hook('set_property_' . $key), $value, $this);
+                }
             }
+            // Setting existing value during initial object load
             else {
-                $datetime = null;
+                $this->data[$key] = $value;
             }
-
-            // Set property
-            $this->setting_datetime_property = true;
-            $this->set_property($key, $datetime);
-            $this->setting_datetime_property = false;
-        }
-        catch (Exception $e) {
-            // TBD: handle error somehow (may be our thrown error or something from DateTime handling)
         }
     }
 
     /**
      * Set multiple properties
      *
+     * Throws RightPress_Exception in case of an error
+     *
      * @access public
-     * @param string $key
-     * @param mixed $value
-     * @return bool|array
+     * @param array $properties
+     * @return void
      */
     public function set_properties($properties)
     {
-        // Prepare to store errors
-        $errors = new WP_Error();
 
         // Iterate over properties
         foreach ($properties as $key => $value) {
 
-            try {
-
-                // Value must be set
-                // TBD: not sure if this is a good approach? had it here to avoid "setting nothing" but then this prevented from clearing values after user unset some checkbox or so
-                // if ($value === null) {
-                //     continue;
-                // }
-
-                // Unknown property, write to log and continue with other properties
-                if (!array_key_exists($key, $this->data)) {
-                    RightPress_Help::doing_it_wrong((get_class($this) . '::' . __FUNCTION__), 'Property "' . strval($key) . '" is not defined for objects of class ' . get_class($this) . '.', '1.0');
-                    continue;
-                }
-
-                // Set property
-                $setter = 'set_' . $key;
-                $this->{$setter}($value);
+            // Property does not exist
+            if (!array_key_exists($key, $this->data)) {
+                throw new RightPress_Exception($this->get_controller()->prefix_error_code('property_does_not_exist'), 'Property "' . strval($key) . '" does not exist.');
             }
-            catch (RightPress_Object_Exception $e) {
-                $errors->add($e->get_error_code(), $e->getMessage());
-            }
+
+            // Set property
+            $setter = 'set_' . $key;
+            $this->{$setter}($value);
         }
-
-        // Return true if all properties were set successfully or list of errors if some were not
-        return count($errors->get_error_codes()) ? $errors : true;
     }
 
     /**
@@ -453,6 +421,7 @@ abstract class RightPress_Object
      */
     public function is_property_datetime($key)
     {
+
         return in_array($key, $this->datetime_properties, true);
     }
 
@@ -464,17 +433,37 @@ abstract class RightPress_Object
      */
     public function save()
     {
-        // Allow developers to modify object
+
+        // Trigger before save action
         do_action($this->get_controller()->prefix_public_hook('before_save'), $this);
 
         // Existing object
         if ($this->get_id() > 0) {
+
+            // Trigger before update action
+            do_action($this->get_controller()->prefix_public_hook('before_update'), $this);
+
+            // Update existing object
             $this->data_store->update($this);
+
+            // Trigger updated action
+            do_action($this->get_controller()->prefix_public_hook('updated'), $this);
         }
         // New object
         else {
+
+            // Trigger before create action
+            do_action($this->get_controller()->prefix_public_hook('before_create'), $this);
+
+            // Create new object
             $this->data_store->create($this);
+
+            // Trigger created action
+            do_action($this->get_controller()->prefix_public_hook('created'), $this);
         }
+
+        // Trigger saved action
+        do_action($this->get_controller()->prefix_public_hook('saved'), $this);
 
         // Return object id
         return $this->get_id();
@@ -489,11 +478,15 @@ abstract class RightPress_Object
      */
     public function delete($permanently = false)
     {
-        // Let developers know
+
+        // Trigger before delete action
         do_action($this->get_controller()->prefix_public_hook('before_delete'), $this);
 
         // Delete entry
         $this->data_store->delete($this, array('permanently' => $permanently));
+
+        // Trigger deleted action
+        do_action($this->get_controller()->prefix_public_hook('deleted'), $this);
 
         // Reset id
         $this->set_id(0);
@@ -607,6 +600,7 @@ abstract class RightPress_Object
      */
     public function add_meta($key, $value, $unique = false)
     {
+
         // Check metadata support
         if (!$this->check_metadata_support()) {
             return;
@@ -647,7 +641,13 @@ abstract class RightPress_Object
         $this->maybe_read_meta_data();
 
         // Get meta index if meta id was provided
-        $index = ($meta_id !== null) ? current(array_keys(wp_list_pluck($this->meta_data, 'id'), $meta_id)) : null;
+        if ($meta_id !== null) {
+            $meta_data_keys = array_keys(wp_list_pluck($this->meta_data, 'id'), $meta_id);
+            $index = current($meta_data_keys);
+        }
+        else {
+            $index = null;
+        }
 
         // Update single meta entry by index
         if (is_numeric($index)) {
@@ -672,6 +672,7 @@ abstract class RightPress_Object
      */
     public function get_meta($key, $single = true, $context = 'view')
     {
+
         // Default value
         $value = $single ? '' : array();
 
@@ -775,8 +776,356 @@ abstract class RightPress_Object
     }
 
 
+    /**
+     * =================================================================================================================
+     * GENERIC OBJECT PROPERTY SANITIZERS
+     * =================================================================================================================
+     */
+
+    /**
+     * Sanitize int
+     *
+     * Throws error in case value is neither whole number, nor null
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return mixed
+     */
+    public function sanitize_int($value, $key)
+    {
+
+        // Convert empty string to null
+        if ($value === '') {
+            $value = null;
+        }
+
+        // Value is whole number
+        if (RightPress_Help::is_whole_number($value)) {
+
+            // Trim string
+            if (is_string($value)) {
+                $value = trim($value);
+            }
+
+            // Cast to int
+            $value = (int) $value;
+        }
+        // Value is neither whole number, nor null
+        else if ($value !== null) {
+            throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_integer_property_value"), "Invalid integer value for property {$key}.");
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sanitize float
+     *
+     * Throws error in case value is neither number, nor null
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return mixed
+     */
+    public function sanitize_float($value, $key)
+    {
+
+        // Convert empty string to null
+        if ($value === '') {
+            $value = null;
+        }
+
+        // Value is numeric
+        if (is_numeric($value)) {
+
+            // Sanitize numeric string
+            if (is_string($value)) {
+
+                // Trim spaces
+                $value = trim($value);
+
+                // Normalize decimal expression
+                $value = RightPress_Help::normalize_string_decimal($value);
+            }
+
+            // Cast to float
+            $value = (float) $value;
+        }
+        // Value is neither numeric, nor null
+        else if ($value !== null) {
+            throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_float_property_value"), "Invalid float value for property {$key}.");
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sanitize string
+     *
+     * Throws error in case value is object, array or boolean
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return mixed
+     */
+    public function sanitize_string($value, $key)
+    {
+
+        // Value is object, array or boolean
+        if (in_array(gettype($value), array('object', 'array', 'boolean'), true)) {
+            throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_string_property_value"), "Invalid string value for property {$key}.");
+        }
+
+        // Trim spaces
+        if (is_string($value)) {
+            $value = trim($value);
+        }
+
+        // Cast to string
+        if ($value !== null) {
+            $value = (string) $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sanitize datetime
+     *
+     * Accepts as value:
+     * - RightPress_DateTime object with a correct timezone already set
+     * - Unix timestamp
+     * - ISO 8601 string which must define timezone offset, e.g. '2018-06-17T23:17:28+01:00'
+     * - MySQL datetime which must be in GMT, e.g. '2018-06-17 23:17:28'
+     *
+     * Throws error in case value is not valid datetime representation
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return object|null
+     */
+    public function sanitize_datetime($value, $key)
+    {
+
+        // Convert empty string and '0000-00-00 00:00:00' to null
+        if ($value === '' || $value === '0000-00-00 00:00:00') {
+            $value = null;
+        }
+
+        // Convert non-empty value to datetime object
+        if ($value !== null) {
+
+            // Value is RightPress_DateTime
+            // Note: We clone provided datetime object value to avoid accidental changes since objects are passed by reference
+            if (is_a($value, 'RightPress_DateTime')) {
+                $value = clone $value;
+            }
+            // Value is ISO 8601 string
+            else if (RightPress_Help::is_date($value, DATE_ATOM)) {
+                $value = new $this->datetime_class($value);
+            }
+            // Value is MySQL datetime (must be in GMT)
+            else if (RightPress_Help::is_date($value, 'Y-m-d H:i:s')) {
+                $value = new $this->datetime_class($value);
+            }
+            // Value is timestamp
+            else if (is_numeric($value)) {
+                $value = new $this->datetime_class('@' . $value);
+            }
+            // Value is not supported
+            else {
+                throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_$key"), "Value for property $key is not of supported format.");
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sanitize future datetime
+     *
+     * Alias for sanitize_datetime() with extra check for future datetime
+     *
+     * Throws error in case value is not valid datetime representation
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return object|null
+     */
+    public function sanitize_future_datetime($value, $key)
+    {
+
+        // Sanitize datetime
+        $value = $this->sanitize_datetime($value, $key);
+
+        // Value must be in the future
+        // Note: We only check this on new changes since when loading existing object data future datetime may become past datetime after some time
+        if ($this->is_data_ready() && $value !== null && $value <= (new $this->datetime_class())) {
+            throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_$key"), "Datetime value for property $key must be in the future.");
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sanitize past datetime
+     *
+     * Alias for sanitize_datetime() with extra check for past datetime
+     *
+     * For practical purposes current datetime is also treated as valid (since it will be in the past momentarily)
+     *
+     * Throws error in case value is not valid datetime representation
+     *
+     * @access public
+     * @param mixed $value
+     * @param string $key
+     * @return object|null
+     */
+    public function sanitize_past_datetime($value, $key)
+    {
+
+        // Sanitize datetime
+        $value = $this->sanitize_datetime($value, $key);
+
+        // Value must not be in the future
+        if ($value !== null && $value > (new $this->datetime_class())) {
+            throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_$key"), "Datetime value for property $key must not be in the future.");
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * =================================================================================================================
+     * LOG ENTRY METHODS
+     * =================================================================================================================
+     */
+
+    /**
+     * Set log entry object
+     *
+     * @access public
+     * @param object $log_entry
+     * @return void
+     */
+    public function set_log_entry($log_entry)
+    {
+
+        // Invalid log entry object
+        if (!is_a($log_entry, 'RightPress_WP_Log_Entry')) {
+            return;
+        }
+
+        // Set log entry object
+        $this->log_entry = $log_entry;
+    }
+
+    /**
+     * Unset log entry object
+     *
+     * @access public
+     * @return void
+     */
+    public function unset_log_entry()
+    {
+
+        $this->log_entry = null;
+    }
+
+    /**
+     * Get log entry object
+     *
+     * @access public
+     * @return object
+     */
+    public function get_log_entry()
+    {
+
+        return $this->log_entry;
+    }
+
+    /**
+     * Check if object has log entry set
+     *
+     * @access public
+     * @return bool
+     */
+    public function has_log_entry()
+    {
+
+        return (bool) $this->log_entry;
+    }
+
+    /**
+     * Update log entry status
+     *
+     * @access public
+     * @param string $status
+     * @return void
+     */
+    public function update_log_entry_status($status)
+    {
+
+        // Check if log entry is set
+        if ($this->get_log_entry()) {
+
+            // Update status
+            $this->get_log_entry()->update_status($status);
+        }
+    }
+
+    /**
+     * Add log entry note
+     *
+     * Alias for add_log_entry_property() for adding notes
+     *
+     * @access public
+     * @param array|string $note
+     * @return void
+     */
+    public function add_log_entry_note($note)
+    {
+
+        $this->add_log_entry_property('note', $note);
+    }
+
+    /**
+     * Add log entry property
+     *
+     * Logger must have method add_{$key}
+     *
+     * @access public
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function add_log_entry_property($key, $value)
+    {
+
+        // Check if log entry is set
+        if ($this->get_log_entry()) {
+
+            // Format method name
+            $method = 'add_' . $key;
+
+            // Method is not defined
+            if (!method_exists($this->get_log_entry(), $method)) {
+                throw new RightPress_Exception($this->get_controller()->prefix_error_code("invalid_log_entry_property_key"), "Undefined log entry property key {$key}.");
+            }
+
+            // Add log entry property
+            $this->get_log_entry()->$method($value);
+        }
+    }
 
 
 
-}
+
+
 }

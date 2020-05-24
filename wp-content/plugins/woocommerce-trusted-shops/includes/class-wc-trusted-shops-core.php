@@ -23,8 +23,6 @@ final class WooCommerce_Trusted_Shops {
 	 */
 	protected static $_instance = null;
 
-	public $emails = null;
-
 	public $trusted_shops = null;
 
     public $compatibilities = array();
@@ -125,6 +123,7 @@ final class WooCommerce_Trusted_Shops {
 			add_filter( 'woocommerce_get_settings_pages', array( $this, 'add_settings' ) );
 		} else {
 			add_filter( 'woocommerce_email_classes', array( $this, 'add_emails' ), 10 );
+			add_filter( 'woocommerce_gzd_wpml_email_ids', array( $this, 'add_wpml_emails' ), 10 );
 		    add_filter( 'woocommerce_gzd_admin_settings_tabs', array( $this, 'add_germanized_settings_tab' ), 10, 1 );
         }
 
@@ -365,6 +364,9 @@ final class WooCommerce_Trusted_Shops {
 			$template_path = WC()->template_path();
 		}
 
+		// Make filter gzd_compatible
+		$template_name = apply_filters( 'woocommerce_trusted_shops_template_name', $template_name );
+
 		// Check Theme
 		$theme_template = locate_template(
 			array(
@@ -372,9 +374,6 @@ final class WooCommerce_Trusted_Shops {
 				$template_name
 			)
 		);
-
-		// Make filter gzd_compatible
-		$template_name = apply_filters( 'woocommerce_trusted_shops_template_name', $template_name );
 
 		// Load Default
 		if ( ! $theme_template ) {
@@ -445,6 +444,12 @@ final class WooCommerce_Trusted_Shops {
 
 		return $mails;
 	}
+
+	public function add_wpml_emails( $mails ) {
+	    $mails['WC_TS_Email_Customer_Trusted_Shops'] = 'customer_trusted_shops';
+
+	    return $mails;
+    }
 }
 
 endif;

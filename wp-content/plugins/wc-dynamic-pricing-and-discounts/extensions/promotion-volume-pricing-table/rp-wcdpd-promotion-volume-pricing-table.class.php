@@ -12,24 +12,11 @@ if (!defined('ABSPATH')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Promotion_Volume_Pricing_Table')) {
-
 class RP_WCDPD_Promotion_Volume_Pricing_Table
 {
 
-    // Singleton instance
-    protected static $instance = false;
-
-    /**
-     * Singleton control
-     */
-    public static function get_instance()
-    {
-        if (!self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
+    // Singleton control
+    protected static $instance = false; public static function get_instance() { return self::$instance ? self::$instance : (self::$instance = new self()); }
 
     /**
      * Constructor
@@ -152,13 +139,14 @@ class RP_WCDPD_Promotion_Volume_Pricing_Table
      */
     public function set_up_promotion_tool()
     {
+
+        // Load includes
+        require_once 'includes/functions.php';
+
         // Check this promotion tool is active
         if (!RP_WCDPD_Settings::get('promo_volume_pricing_table')) {
             return;
         }
-
-        // Load includes
-        require_once 'includes/functions.php';
 
         // Add hook
         add_action(RP_WCDPD_Settings::get('promo_volume_pricing_table_position'), array($this, 'maybe_display_pricing_table_hook'));
@@ -601,5 +589,3 @@ class RP_WCDPD_Promotion_Volume_Pricing_Table
 }
 
 RP_WCDPD_Promotion_Volume_Pricing_Table::get_instance();
-
-}

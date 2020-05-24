@@ -17,8 +17,6 @@ if (!class_exists('RP_WCDPD_Controller_Methods')) {
  * @package WooCommerce Dynamic Pricing & Discounts
  * @author RightPress
  */
-if (!class_exists('RP_WCDPD_Controller_Methods_Checkout_Fee')) {
-
 class RP_WCDPD_Controller_Methods_Checkout_Fee extends RP_WCDPD_Controller_Methods
 {
 
@@ -262,40 +260,6 @@ class RP_WCDPD_Controller_Methods_Checkout_Fee extends RP_WCDPD_Controller_Metho
         return RP_WCDPD_Controller_Methods_Checkout_Fee::get_fee_tax_class() !== false;
     }
 
-    /**
-     * Subtract fee tax from tax inclusive fee amount so that it's correct when WooCommerce adds taxes
-     *
-     * @access public
-     * @param float $amount
-     * @return float
-     */
-    public static function subtract_tax_from_fee_amount($amount)
-    {
-
-        $result = $amount;
-
-        // Get fee tax class
-        $tax_class = RP_WCDPD_Controller_Methods_Checkout_Fee::get_fee_tax_class();
-
-        // Check if fees are taxable
-        if ($tax_class !== false) {
-
-            // Check if prices include tax
-            if (wc_prices_include_tax()) {
-
-                // Calculate tax amount
-                $tax_amount = array_sum(WC_Tax::calc_inclusive_tax($amount, WC_Tax::get_rates($tax_class)));
-
-                // Subtract tax from fee amount
-                $result -= $tax_amount;
-            }
-        }
-
-        return $result;
-    }
-
-
-
 
 
 
@@ -303,5 +267,3 @@ class RP_WCDPD_Controller_Methods_Checkout_Fee extends RP_WCDPD_Controller_Metho
 }
 
 RP_WCDPD_Controller_Methods_Checkout_Fee::get_instance();
-
-}

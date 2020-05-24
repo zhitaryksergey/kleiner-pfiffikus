@@ -63,7 +63,7 @@ class gmapModelGmp extends modelGmp {
 					'marker_clasterer', 'marker_clasterer_icon', 'marker_clasterer_icon_width', 'marker_clasterer_icon_height', 'marker_clasterer_grid_size',
 					'marker_filter_color', 'marker_filter_button_title', 'marker_filter_show_all_parents',
 					// Maybe PRO params - but let them be here - to avoid dublications
-					'markers_list_type', 'markers_list_color', 'markers_list_autoplay', 'markers_list_hide_empty_block',
+					'markers_list_type', 'markers_list_loop', 'markers_list_color', 'markers_list_autoplay', 'markers_list_hide_empty_block',
 					'markers_list_collapse', 'is_static'));
 		return $mapOptKeys;
 	}
@@ -210,14 +210,14 @@ class gmapModelGmp extends modelGmp {
 		}
 		return false;
 	}
-	public function getMapById($id = false, $withMarkers = true, $withGroups = false, $withShapes = true, $withHeatmap = true){
+	public function getMapById($id = false, $withMarkers = true, $withGroups = false, $withShapes = true, $withHeatmap = true, $byUserId = false){
 		if(!$id){
 			return false;
 		}
 		$map = frameGmp::_()->getTable('maps')->get('*', array('id' => (int)$id), '', 'row');
 		if(!empty($map)){
 			if($withMarkers){
-			   $map['markers'] = frameGmp::_()->getModule('marker')->getModel()->getMapMarkers($map['id'], $withGroups);				
+			   $map['markers'] = frameGmp::_()->getModule('marker')->getModel()->getMapMarkers($map['id'], $withGroups, $byUserId);
 			}
 			if($withShapes && frameGmp::_()->getModule('shape')) {
 				$map['shapes'] = frameGmp::_()->getModule('shape')->getModel()->getMapShapes($map['id']);

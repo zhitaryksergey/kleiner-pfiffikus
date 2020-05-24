@@ -2,6 +2,7 @@
 
 namespace Vendidero\Germanized\Shipments;
 
+use Exception;
 use WC_Shipping;
 use WC_Shipping_Method;
 
@@ -16,12 +17,11 @@ class Package {
      *
      * @var string
      */
+    const VERSION = '1.2.6';
 
-    const VERSION = '1.1.2';
+    public static $upload_dir_suffix = '';
 
-	  public static $upload_dir_suffix = '';
-
-	  protected static $method_settings = null;
+    protected static $method_settings = null;
 
     /**
      * Init the package - load the REST API Server class.
@@ -49,12 +49,74 @@ class Package {
 	    add_action( 'woocommerce_load_shipping_methods', array( __CLASS__, 'load_shipping_methods' ), 5, 1 );
 	    add_filter( 'woocommerce_shipping_methods', array( __CLASS__, 'set_method_filters' ), 200, 1 );
 
+	    // Guest returns
+	    add_filter( 'wc_get_template', array( __CLASS__, 'add_return_shipment_guest_endpoints' ), 10, 2 );
+	    add_action( 'init', array( __CLASS__, 'register_shortcodes' ) );
+
 	    add_action( 'woocommerce_gzd_wpml_compatibility_loaded', array( __CLASS__, 'load_wpml_compatibility' ), 10 );
     }
 
-    public static function load_wpml_compatibility( $compatibility ) {
-    	WPMLHelper::init( $compatibility );
+    public static function add_return_shipment_guest_endpoints( $template, $template_name ) {
+    	global $wp;
+
+    	if ( 'myaccount/form-login.php' === $template_name ) {
+
+    		try {
+			    $key          = ( isset( $_GET['key'] ) ? wc_clean( wp_unslash( $_GET['key'] ) ) : '' );
+			    $order_id     = false;
+			    $callback     = false;
+
+			    if ( isset( $wp->query_vars['add-return-shipment'] ) ) {
+				    $callback = 'woocommerce_gzd_shipments_template_add_return_shipment';
+				    $order_id = absint( $wp->query_vars['add-return-shipment'] );
+			    }
+
+			    if ( $callback && $order_id && ( $order_shipment = wc_gzd_get_shipment_order( $order_id ) ) && ! empty( $key ) ) {
+
+				    // Order return key is invalid.
+				    if ( ! wc_gzd_customer_can_add_return_shipment( $order_id ) ) {
+					    throw new Exception( _x( 'Sorry, this order is invalid and cannot be returned.', 'shipments', 'woocommerce-germanized' ) );
+				    } else {
+				    	call_user_func_array( $callback, array( 'order_id' => $order_id ) );
+				    	$template = self::get_path() . '/templates/global/empty.php';
+				    }
+			    }
+		    } catch ( Exception $e ) {
+    			wc_add_notice( $e->getMessage(), 'error' );
+		    }
+	    }
+
+    	return $template;
     }
+
+    public static function register_shortcodes() {
+	    add_shortcode( 'gzd_return_request_form', array( __CLASS__, 'return_request_form' ) );
+    }
+
+    public static function return_request_form( $args = array() ) {
+
+    	$defaults = array(
+		    'message'  => '',
+		    'hidden'   => false,
+	    );
+
+	    $args    = wp_parse_args( $args, $defaults );
+	    $notices = function_exists( 'wc_print_notices' ) ? wc_print_notices( true ) : '';
+	    $html    = '';
+
+	    // Output notices in case notices have not been outputted yet.
+	    if ( ! empty( $notices ) ) {
+		    $html .= '<div class="woocommerce">' . $notices . '</div>';
+	    }
+
+    	$html .= wc_get_template_html( 'global/form-return-request.php', $args );
+
+    	return $html;
+    }
+
+	public static function load_wpml_compatibility( $compatibility ) {
+		WPMLHelper::init( $compatibility );
+	}
 
 	public static function set_method_filters( $methods ) {
 
@@ -116,7 +178,9 @@ class Package {
 	}
 
     public static function register_endpoints( $query_vars ) {
-    	$query_vars['view-shipment'] = get_option( 'woocommerce_myaccount_view_shipment_endpoint', 'view-shipment' );
+    	$query_vars['view-shipment']       = get_option( 'woocommerce_gzd_shipments_view_shipment_endpoint', 'view-shipment' );
+	    $query_vars['add-return-shipment'] = get_option( 'woocommerce_gzd_shipments_add_return_shipment_endpoint', 'add-return-shipment' );
+	    $query_vars['view-shipments']      = get_option( 'woocommerce_gzd_shipments_view_shipments_endpoint', 'view-shipments' );
 
     	return $query_vars;
     }
@@ -240,7 +304,7 @@ class Package {
 	}
 
 	public static function has_dependencies() {
-		return class_exists( 'WooCommerce' );
+		return class_exists( 'WooCommerce' ) && apply_filters( 'woocommerce_gzd_shipments_enabled', true );
 	}
 
     private static function includes() {
@@ -254,6 +318,7 @@ class Package {
         Emails::init();
         Validation::init();
         Api::init();
+	    FormHandler::init();
 
         if ( self::is_frontend_request() ) {
         	include_once self::get_path() . '/includes/wc-gzd-shipment-template-hooks.php';

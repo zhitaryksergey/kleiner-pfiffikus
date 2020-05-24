@@ -92,9 +92,10 @@ class WC_GZDP_Invoice_Helper {
 		}
 	}
 
-	public function recalculate_order_net_totals( $order ) {
+	public function recalculate_order_net_totals( $order, $before_discount = false ) {
 
-        $subtotals = array();
+        $subtotals       = array();
+		$tax_share_rates = wc_gzdp_get_invoice_tax_share( $order->get_items( array( 'line_item' ) ) );
 
         /**
          * Instantiate amounts per tax rate
@@ -111,8 +112,10 @@ class WC_GZDP_Invoice_Helper {
             
             foreach( $taxes['total'] as $tax_rate_id => $amount ) {
                 if ( ! empty( $amount ) && isset( $subtotals[ $tax_rate_id ] ) ) {
+                	$item_total = ( $before_discount && is_callable( array( $item, 'get_subtotal' ) ) ) ? $item->get_subtotal() : $item->get_total();
+
                     // Make sure we are losing some precision here to mock the net total amount
-                    $subtotals[ $tax_rate_id ] += wc_format_decimal( $item->get_total(), 2 );
+                    $subtotals[ $tax_rate_id ] += wc_format_decimal( $item_total, 2 );
                 }
             }
         }
@@ -123,25 +126,26 @@ class WC_GZDP_Invoice_Helper {
         $items = array_merge( $order->get_items( array( 'shipping' ) ), $order->get_items( array( 'fee' ) ) );
 
         foreach( $items as $item ) {
-            $taxes        = $item->get_taxes();
-
-            // Needs to be rounded to make sure we are having the same precision as $amount
-            $tax_total    = wc_round_tax_total( $item->get_total_tax() );
-            $net_total    = $item->get_total();
+            $taxes       = $item->get_taxes();
+            $item_total  = $item->get_total();
+            $total_gross = $item_total + $item->get_total_tax();
 
             // Do only calculate share if more than one tax rate is included
             $enable_share = sizeof( $taxes['total'] ) > 1 ? true : false;
-            $total_share = 0;
 
             foreach( $taxes['total'] as $tax_rate_id => $amount ) {
 
                 if ( ! empty( $amount ) && isset( $subtotals[ $tax_rate_id ] ) ) {
-                    // Needs to be rounded to make sure we are having the same precision as $tax_total
-                    $amount     = wc_round_tax_total( $amount );
-                    $tax_share  = $enable_share ? wc_format_decimal( ( $amount / ( $tax_total / 100 ) / 100 ) ) : 1;
+	                $tax_share   = $tax_share_rates[ $tax_rate_id ]['share'];
+	                $percentage  = WC_Tax::get_rate_percent_value( $tax_rate_id );
 
-                    $total_share += $tax_share;
-                    $net_amount = $net_total * $tax_share;
+	                if ( ! $percentage || empty( $percentage ) ) {
+	                	continue;
+	                }
+
+	                $total_share = $enable_share ? ( $total_gross * $tax_share ) : $total_gross;
+					$net_amount  = $total_share / ( ( $percentage / 100 ) + 1 );
+
                     $subtotals[ $tax_rate_id ] += wc_round_tax_total( $net_amount );
                 }
             }
@@ -278,7 +282,7 @@ class WC_GZDP_Invoice_Helper {
             $remaining_refund_items  = $order->get_remaining_refund_items();
 
             if ( $remaining_refund_amount <= 0 ) {
-                return;
+                return false;
             }
 
             $refund_item_count       = 0;
@@ -349,8 +353,12 @@ class WC_GZDP_Invoice_Helper {
 
                 // Delete the refund because it should not be persited
                 wp_delete_post( $refund->get_id(), true );
+
+                return true;
             }
         }
+
+        return false;
     }
 
     protected function create_partial_cancellation( $refund, $order, $args ) {
@@ -450,7 +458,7 @@ class WC_GZDP_Invoice_Helper {
 	}
 
 	public function shipment_table_bulk_actions( $actions ) {
-		$actions['packing_slips'] = __( 'Generate packing slips', 'woocommerce-germanized-pro' );
+		$actions['packing_slips'] = __( 'Generate and download packing slips', 'woocommerce-germanized-pro' );
 
 		return $actions;
 	}
@@ -745,17 +753,19 @@ class WC_GZDP_Invoice_Helper {
 			}
 		}
 
-		$shipments = wc_gzd_get_shipments_by_order( $order );
+		if ( function_exists( 'wc_gzd_get_shipments_by_order' ) ) {
+			$shipments = wc_gzd_get_shipments_by_order( $order );
 
-		foreach( $shipments as $shipment ) {
-		    if ( $packing_slip = wc_gzdp_get_packing_slip_by_shipment( $shipment ) ) {
-			    $actions[ 'download-packing-slip-' . $packing_slip->type . '-' . $packing_slip->number ] = array(
-				    'url'       => $packing_slip->get_pdf_url(),
-				    'name'      => sprintf( _x( 'Download %s', 'invoices', 'woocommerce-germanized-pro' ), $packing_slip->get_title() ),
-				    'action'    => "download"
-			    );
-            }
-        }
+			foreach( $shipments as $shipment ) {
+				if ( $packing_slip = wc_gzdp_get_packing_slip_by_shipment( $shipment ) ) {
+					$actions[ 'download-packing-slip-' . $packing_slip->type . '-' . $packing_slip->number ] = array(
+						'url'       => $packing_slip->get_pdf_url(),
+						'name'      => sprintf( _x( 'Download %s', 'invoices', 'woocommerce-germanized-pro' ), $packing_slip->get_title() ),
+						'action'    => "download"
+					);
+				}
+			}
+		}
 
 		return $actions;
 	}
@@ -1928,9 +1938,11 @@ class WC_GZDP_Invoice_Helper {
 				        $parent_invoice = wc_gzdp_get_invoice( absint( $data['invoice_parent'] ) );
 
 				        if ( $parent_invoice && $parent_invoice->is_partially_refunded() ) {
-				            $this->create_full_partial_cancellation( $parent_invoice );
+				            $result = $this->create_full_partial_cancellation( $parent_invoice );
 
-				            continue;
+				            if ( $result ) {
+					            continue;
+				            }
                         }
                     }
 
