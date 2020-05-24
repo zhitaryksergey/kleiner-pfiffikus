@@ -1,11 +1,20 @@
 <?php
-/*
-*	Template Variables available
-*   $shop_name : pv_shop_name
-*   $shop_description : pv_shop_description (completely sanitized)
-*   $shop_link : the vendor shop link
-*   $vendor_id  : current vendor id for customization
-*/
+/**
+ * Vendor List Template
+ *
+ * This template can be overridden by copying it to yourtheme/wc-vendors/front/vendors-list.php
+ *
+ * @author		Andy, Themes Zone
+ * @package 	WCVendors/Templates/Emails/HTML
+ * @version 	2.0.0
+ *
+ *	Template Variables available
+ *  $shop_name : pv_shop_name
+ *  $shop_description : pv_shop_description (completely sanitized)
+ *  $shop_link : the vendor shop link
+ *  $vendor_id  : current vendor id for customization
+
+ */
 
 global $wpdb;
 /* Get Logo if exists */

@@ -47,11 +47,6 @@
 							</a>
 
 							<div class="meta-data">
-								<span class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><?php _e('By ', 'handystore'); ?>
-									<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author" itemprop="url">
-										<span itemprop="name"><?php echo get_the_author();?></span>
-									</a>
-								</span>
 								<span class="date" itemprop="datePublished"><?php echo get_the_date(); ?></span>
 							</div>
 

@@ -5,7 +5,7 @@
  * Override this template by copying it to yourtheme/wc-vendors/store
  *
  * @package    WCVendors_Pro
- * @version    1.5.2
+ * @version    1.6.2
  */
 
 $store_icon_src 	= wp_get_attachment_image_src( get_user_meta( $vendor_id, '_wcv_store_icon_id', true ), 'pt-vendor-main-logo' );
@@ -151,6 +151,39 @@ $social_icons = empty( $twitter_username ) && empty( $instagram_username ) && em
 
 		</div>
 	</div>
+<div class="wcv-store-address-container wcv-store-grid ">
+
+    <div class="wcv-store-grid__col wcv-store-grid__col--2-of-4 store-address">
+        <?php if ( $address = wcv_format_store_address( $vendor_id ) ) { ?>
+        <a href="http://maps.google.com/maps?&q=<?php echo $address; ?>">
+            <address>
+                <svg class="wcv-icon wcv-icon-sm">
+                    <use xlink:href="<?php echo WCV_PRO_PUBLIC_ASSETS_URL; ?>svg/wcv-icons.svg#wcv-icon-paper-plane"></use>
+                </svg>
+                <?php echo $address; ?>
+            </address>
+            </a><?php } ?>
+    </div>
+    <div class="wcv-store-grid__col wcv-store-grid__col--1-of-4 store-phone">
+        <?php if ( $phone != '' ) { ?>
+        <a href="tel:<?php echo $phone; ?>">
+            <svg class="wcv-icon wcv-icon-sm">
+                <use xlink:href="<?php echo WCV_PRO_PUBLIC_ASSETS_URL; ?>svg/wcv-icons.svg#wcv-icon-phone"></use>
+            </svg>
+            <?php echo $phone; ?>
+            </a><?php } ?>
+    </div>
+    <?php if ( wc_string_to_bool( get_option( 'wcvendors_show_store_total_sales' ) ) ) : ?>
+        <div class="wcv-store-grid__col wcv-store-grid__col--1-of-4 store-sales">
+            <svg class="wcv-icon wcv-icon-sm">
+                <use xlink:href="<?php echo WCV_PRO_PUBLIC_ASSETS_URL; ?>svg/wcv-icons.svg#wcv-icon-info-circle"></use>
+            </svg>
+            <?php
+            $label = WCVendors_Pro_Vendor_Controller::get_total_sales_label( $vendor_id, 'store' );
+            echo do_shortcode( '[wcv_pro_vendor_totalsales vendor_id="' . $vendor_id . '" label="' . $label . '"]' );
+            ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php do_action( 'wcv_after_vendor_store_header' ); ?>

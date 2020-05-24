@@ -1,25 +1,22 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: HandyStore\n"
-"POT-Creation-Date: 2018-02-08 13:44+0200\n"
-"PO-Revision-Date: 2018-02-08 13:43+0200\n"
+"POT-Creation-Date: 2018-07-03 11:36+0100\n"
+"PO-Revision-Date: 2018-07-03 11:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.6.6\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: 404.php:7 404.php:11
 msgid "Oops! That page can't be found."
@@ -769,7 +766,20 @@ msgstr ""
 msgid "Likes: "
 msgstr ""
 
-#: inc/pt-self-install.php:183
+#: inc/pt-self-install.php:140
+msgid ""
+"If you are about to install the plugins on your existing WordPress site then "
+"please back up your site, if it is a new installation just ignore the "
+"message."
+msgstr ""
+
+#: inc/pt-self-install.php:140
+msgid ""
+"Due to high volume of piracy of our themes please contact our support with "
+"your purchase code to get your copy of Revolution Slider and Visual Composer."
+msgstr ""
+
+#: inc/pt-self-install.php:159
 msgid ""
 "After you import this demo, you will have to setup the slider and map "
 "separately. Don't forget to rebuild all of your thumbnails after import."
@@ -1132,7 +1142,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: inc/pt-tgm-plugin-activation.php:2639 woocommerce/cart/cart.php:35
+#: inc/pt-tgm-plugin-activation.php:2639 woocommerce/cart/cart.php:32
 msgid "Status"
 msgstr ""
 
@@ -1284,264 +1294,263 @@ msgstr ""
 msgid "Specify some layouts first!"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:89 inc/pt-vendors-modification.php:112
-#: inc/pt-vendors-modification.php:114
+#: inc/pt-vendors-modification.php:93 inc/pt-vendors-modification.php:116
+#: inc/pt-vendors-modification.php:118
 msgid "Sold by "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:91
+#: inc/pt-vendors-modification.php:95
 msgid "Sold by: "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:174
+#: inc/pt-vendors-modification.php:178
 msgid "Extra Vendor Options (Handy Store Modifications)"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:179 inc/pt-vendors-modification.php:231
+#: inc/pt-vendors-modification.php:183 inc/pt-vendors-modification.php:235
 msgid "Upload Logo Image"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:182 inc/pt-vendors-modification.php:233
+#: inc/pt-vendors-modification.php:186 inc/pt-vendors-modification.php:237
 #: theme-options/includes/class-options-media-uploader.php:65
 #: theme-options/includes/class-options-media-uploader.php:118
 msgid "Upload"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:187 inc/pt-vendors-modification.php:238
+#: inc/pt-vendors-modification.php:191 inc/pt-vendors-modification.php:242
 msgid "Logo Position"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:191 inc/pt-vendors-modification.php:242
+#: inc/pt-vendors-modification.php:195 inc/pt-vendors-modification.php:246
 msgid " Left"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:192 inc/pt-vendors-modification.php:243
+#: inc/pt-vendors-modification.php:196 inc/pt-vendors-modification.php:247
 msgid " Center"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:193 inc/pt-vendors-modification.php:244
+#: inc/pt-vendors-modification.php:197 inc/pt-vendors-modification.php:248
 msgid " Right"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:198 inc/pt-vendors-modification.php:249
+#: inc/pt-vendors-modification.php:202 inc/pt-vendors-modification.php:253
 msgid "Products Carousel"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:203 inc/pt-vendors-modification.php:252
-#: inc/pt-vendors-modification.php:309
+#: inc/pt-vendors-modification.php:207 inc/pt-vendors-modification.php:256
+#: inc/pt-vendors-modification.php:303
 msgid ""
 "Check if you want to add carousel with featured products to your shop page"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:209 inc/pt-vendors-modification.php:258
+#: inc/pt-vendors-modification.php:213
 msgid "Vendor question form"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:214 inc/pt-vendors-modification.php:261
-#: inc/pt-vendors-modification.php:320
+#: inc/pt-vendors-modification.php:218 inc/pt-vendors-modification.php:314
 msgid ""
 "Check if you want to add \"Ask a question about this product\" form to "
 "\"Seller Tab\" on each of your products"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:303
+#: inc/pt-vendors-modification.php:297
 msgid " extra Settings"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:331
+#: inc/pt-vendors-modification.php:325
 msgid ""
 "Check if you want to add \"Send a Message\" form to your shop page header"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:361
+#: inc/pt-vendors-modification.php:355
 msgid " extra product Settings"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:367 inc/pt-woo-modification.php:714
+#: inc/pt-vendors-modification.php:361 inc/pt-woo-modification.php:726
 msgid "Use extra gallery for this product"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:369 inc/pt-woo-modification.php:715
+#: inc/pt-vendors-modification.php:363 inc/pt-woo-modification.php:727
 msgid ""
 "Check the checkbox if you want to use extra gallery (appeared on hover) for "
 "this product. The first 3 images of the product gallery are going to be used "
 "for gallery."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:377
+#: inc/pt-vendors-modification.php:371
 msgid "Add this product to \"Special Offers\" carousel"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:379
+#: inc/pt-vendors-modification.php:373
 msgid ""
 "Check the checkbox if you want to add this product to the \"Special Offers\" "
 "carousel on your Vendor Store Page."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:426
+#: inc/pt-vendors-modification.php:420
 msgid "More Products by "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:471 inc/pt-vendors-modification.php:482
+#: inc/pt-vendors-modification.php:465 inc/pt-vendors-modification.php:476
 msgid "Vendor's Options"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:477
+#: inc/pt-vendors-modification.php:471
 msgid ""
 "Follow this link to get to the vendor dashboard, where you can control your "
 "store, add products, generate reports on accomplished deals etc."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:478
+#: inc/pt-vendors-modification.php:472
 msgid "Go to Vendor Dashboard"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:483
+#: inc/pt-vendors-modification.php:477
 msgid ""
 "Your account has not yet been approved to become a vendor. When it is, you "
 "will receive an email telling you that your account is approved!"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:516 inc/pt-vendors-modification.php:728
+#: inc/pt-vendors-modification.php:510 inc/pt-vendors-modification.php:727
 msgid "Sending e-mail, please wait..."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:533
+#: inc/pt-vendors-modification.php:527
 msgid "Ask a question about this Product"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:541 inc/pt-vendors-modification.php:755
+#: inc/pt-vendors-modification.php:535 inc/pt-vendors-modification.php:754
 msgid "Your Name "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:542 inc/pt-vendors-modification.php:552
+#: inc/pt-vendors-modification.php:536 inc/pt-vendors-modification.php:546
 msgid "Digits and Letters only."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:547 inc/pt-vendors-modification.php:761
+#: inc/pt-vendors-modification.php:541 inc/pt-vendors-modification.php:760
 msgid "Your Email "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:551
+#: inc/pt-vendors-modification.php:545
 msgid "Subject "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:552
+#: inc/pt-vendors-modification.php:546
 msgid "Question about "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:557 inc/pt-vendors-modification.php:769
+#: inc/pt-vendors-modification.php:551 inc/pt-vendors-modification.php:768
 msgid "Captcha, enter number: "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:561 inc/pt-vendors-modification.php:765
+#: inc/pt-vendors-modification.php:555 inc/pt-vendors-modification.php:764
 msgid "Your Message "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:565 inc/pt-vendors-modification.php:772
+#: inc/pt-vendors-modification.php:559 inc/pt-vendors-modification.php:771
 msgid "Send"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:602 inc/pt-vendors-modification.php:799
+#: inc/pt-vendors-modification.php:596 inc/pt-vendors-modification.php:798
 msgid "Please enter the correct number for captcha."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:609 inc/pt-vendors-modification.php:619
-#: inc/pt-vendors-modification.php:806 inc/pt-vendors-modification.php:817
+#: inc/pt-vendors-modification.php:603 inc/pt-vendors-modification.php:613
+#: inc/pt-vendors-modification.php:805 inc/pt-vendors-modification.php:816
 msgid "An unexpected error occurred."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:617 inc/pt-vendors-modification.php:815
+#: inc/pt-vendors-modification.php:611 inc/pt-vendors-modification.php:814
 msgid "Thanks for contacting me, expect a response soon."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:678 inc/pt-vendors-modification.php:875
+#: inc/pt-vendors-modification.php:676 inc/pt-vendors-modification.php:874
 msgid "Rating: "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:678 inc/pt-vendors-modification.php:875
+#: inc/pt-vendors-modification.php:676 inc/pt-vendors-modification.php:874
 msgid " based on "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:678
+#: inc/pt-vendors-modification.php:676
 #, php-format
 msgid "1 rating."
 msgid_plural "%s ratings."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/pt-vendors-modification.php:679 inc/pt-vendors-modification.php:878
+#: inc/pt-vendors-modification.php:677 inc/pt-vendors-modification.php:877
 msgid "View all ratings"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:681
+#: inc/pt-vendors-modification.php:680
 msgid "Rating: This Seller still doesn't have any ratings yet."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:745
+#: inc/pt-vendors-modification.php:744
 msgid "Message Sender"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:750
+#: inc/pt-vendors-modification.php:749
 msgid "Send Vendor a Message"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:773
+#: inc/pt-vendors-modification.php:772
 msgid "(close)"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:811
+#: inc/pt-vendors-modification.php:810
 msgid "Question from Message Sender"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:849
+#: inc/pt-vendors-modification.php:848
 msgid "Reviews"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:851
+#: inc/pt-vendors-modification.php:850
 msgid "Best Deals"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:854
+#: inc/pt-vendors-modification.php:853
 msgid "Policies"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:875
+#: inc/pt-vendors-modification.php:874
 #, php-format
 msgid "1 review."
 msgid_plural "%s reviews."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/pt-vendors-modification.php:876
+#: inc/pt-vendors-modification.php:875
 msgid "Orders in total: "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:877
+#: inc/pt-vendors-modification.php:876
 msgid "Latest reviews presented here "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:906 wc-vendors/store/store-ratings.php:47
+#: inc/pt-vendors-modification.php:905 wc-vendors/store/store-ratings.php:47
 msgid "Product: "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:910 wc-vendors/store/store-ratings.php:51
+#: inc/pt-vendors-modification.php:909 wc-vendors/store/store-ratings.php:51
 msgid "Posted on "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:911 wc-vendors/store/store-ratings.php:52
+#: inc/pt-vendors-modification.php:910 wc-vendors/store/store-ratings.php:52
 msgid " by "
 msgstr ""
 
-#: inc/pt-vendors-modification.php:923 wc-vendors/store/store-ratings.php:62
+#: inc/pt-vendors-modification.php:922 wc-vendors/store/store-ratings.php:62
 msgid "No ratings have been submitted for this vendor yet."
 msgstr ""
 
-#: inc/pt-vendors-modification.php:969
+#: inc/pt-vendors-modification.php:968
 msgid "Shipping Policy"
 msgstr ""
 
-#: inc/pt-vendors-modification.php:976
+#: inc/pt-vendors-modification.php:975
 msgid "Return Policy"
 msgstr ""
 
@@ -1553,138 +1562,142 @@ msgstr ""
 msgid "Add to cart"
 msgstr ""
 
-#: inc/pt-woo-modification.php:146
+#: inc/pt-woo-modification.php:140 inc/pt-woo-modification.php:147
 msgid "Select options"
 msgstr ""
 
-#: inc/pt-woo-modification.php:150
+#: inc/pt-woo-modification.php:161
 msgid "Buy product"
 msgstr ""
 
-#: inc/pt-woo-modification.php:190
+#: inc/pt-woo-modification.php:163
+msgid "Out of stock"
+msgstr ""
+
+#: inc/pt-woo-modification.php:202
 msgid "All Products"
 msgstr ""
 
-#: inc/pt-woo-modification.php:230
+#: inc/pt-woo-modification.php:242
 msgid "View All"
 msgstr ""
 
-#: inc/pt-woo-modification.php:234
+#: inc/pt-woo-modification.php:246
 msgid "View Less"
 msgstr ""
 
-#: inc/pt-woo-modification.php:246
+#: inc/pt-woo-modification.php:258
 msgid "Filters:"
 msgstr ""
 
-#: inc/pt-woo-modification.php:269
+#: inc/pt-woo-modification.php:281
 msgid "List View"
 msgstr ""
 
-#: inc/pt-woo-modification.php:270
+#: inc/pt-woo-modification.php:282
 msgid "Grid View"
 msgstr ""
 
-#: inc/pt-woo-modification.php:313
+#: inc/pt-woo-modification.php:325
 msgid "<i class=\"fa fa-chevron-left\"></i>"
 msgstr ""
 
-#: inc/pt-woo-modification.php:314
+#: inc/pt-woo-modification.php:326
 msgid "<i class=\"fa fa-chevron-right\"></i>"
 msgstr ""
 
-#: inc/pt-woo-modification.php:338
+#: inc/pt-woo-modification.php:350
 msgid "View details"
 msgstr ""
 
-#: inc/pt-woo-modification.php:475
+#: inc/pt-woo-modification.php:487
 msgctxt "breadcrumb"
 msgid "Home"
 msgstr ""
 
-#: inc/pt-woo-modification.php:529
+#: inc/pt-woo-modification.php:541
 msgid "Specification"
 msgstr ""
 
-#: inc/pt-woo-modification.php:584 partials/breadcrumbs.php:13
+#: inc/pt-woo-modification.php:596 partials/breadcrumbs.php:13
 #: partials/breadcrumbs.php:27
 msgid "Post navigation"
 msgstr ""
 
-#: inc/pt-woo-modification.php:586
+#: inc/pt-woo-modification.php:598
 msgid "Previous Product"
 msgstr ""
 
-#: inc/pt-woo-modification.php:587
+#: inc/pt-woo-modification.php:599
 msgid "Next Product"
 msgstr ""
 
-#: inc/pt-woo-modification.php:622
+#: inc/pt-woo-modification.php:634
 msgid "Payment Methods"
 msgstr ""
 
-#: inc/pt-woo-modification.php:632
+#: inc/pt-woo-modification.php:644
 msgid "First Name"
 msgstr ""
 
-#: inc/pt-woo-modification.php:637
+#: inc/pt-woo-modification.php:649
 msgid "Last Name"
 msgstr ""
 
-#: inc/pt-woo-modification.php:643
+#: inc/pt-woo-modification.php:655
 msgid "Company Name"
 msgstr ""
 
-#: inc/pt-woo-modification.php:647
+#: inc/pt-woo-modification.php:659
 msgid "Address"
 msgstr ""
 
-#: inc/pt-woo-modification.php:648
+#: inc/pt-woo-modification.php:660
 msgctxt "placeholder"
 msgid "Street address"
 msgstr ""
 
-#: inc/pt-woo-modification.php:653
+#: inc/pt-woo-modification.php:665
 msgid "Additional address info"
 msgstr ""
 
-#: inc/pt-woo-modification.php:654
+#: inc/pt-woo-modification.php:666
 msgctxt "placeholder"
 msgid "Apartment, suite, unit etc. (optional)"
 msgstr ""
 
-#: inc/pt-woo-modification.php:661
+#: inc/pt-woo-modification.php:673
 msgid "Country"
 msgstr ""
 
-#: inc/pt-woo-modification.php:666 inc/pt-woo-modification.php:667
+#: inc/pt-woo-modification.php:678 inc/pt-woo-modification.php:679
 msgid "Town / City"
 msgstr ""
 
-#: inc/pt-woo-modification.php:673 inc/pt-woo-modification.php:674
+#: inc/pt-woo-modification.php:685 inc/pt-woo-modification.php:686
 msgid "State / County"
 msgstr ""
 
-#: inc/pt-woo-modification.php:680 inc/pt-woo-modification.php:681
+#: inc/pt-woo-modification.php:692 inc/pt-woo-modification.php:693
 msgid "Postcode / Zip"
 msgstr ""
 
-#: inc/pt-woo-modification.php:759
+#: inc/pt-woo-modification.php:771
 msgid ""
 "This block should be used for adding custom \"Badge/Label\". Below you can "
 "enter your own text for the label & add additional class for further CSS "
 "styling"
 msgstr ""
 
-#: inc/pt-woo-modification.php:761
+#: inc/pt-woo-modification.php:773
 msgid "Label Text"
 msgstr ""
 
-#: inc/pt-woo-modification.php:765
+#: inc/pt-woo-modification.php:777
 msgid "Label Class"
 msgstr ""
 
-#: inc/pt-woo-modification.php:920
+#: inc/pt-woo-modification.php:932
 msgid "Qty: "
 msgstr ""
 
@@ -2083,63 +2096,63 @@ msgid "Store Options"
 msgstr ""
 
 #: options.php:503
-msgid "Enable Catalog Mode?"
-msgstr ""
-
-#: options.php:504
-msgid ""
-"Switch to \"ON\" if you want to switch your shop into a catalog mode (no "
-"prices, no \"add to cart\")"
-msgstr ""
-
-#: options.php:512
 msgid "Show number of products in the cart widget?"
 msgstr ""
 
-#: options.php:513
+#: options.php:504
 msgid ""
 "Switch to \"ON\" if you want to show a a number of products currently in the "
 "cart widget"
 msgstr ""
 
-#: options.php:521
+#: options.php:512
 msgid "Show store Breadcrumbs?"
 msgstr ""
 
-#: options.php:522
+#: options.php:513
 msgid ""
 "Switch to \"Off\" if you don&rsquo;t want to use breadcrumbs on store page"
 msgstr ""
 
-#: options.php:530
+#: options.php:521
 msgid "Add special sidebar for filters on Store page?"
 msgstr ""
 
-#: options.php:531
+#: options.php:522
 msgid ""
 "Switch to \"Off\" if you don&rsquo;t want to use special sidebar on products "
 "page"
 msgstr ""
 
-#: options.php:539
+#: options.php:530
 msgid "Store as Front page?"
 msgstr ""
 
-#: options.php:540
+#: options.php:531
 msgid ""
 "Switch to \"On\" if you want to display Store page on Front page. Don&rsquo;"
 "t forget to specify Products Page as static front page in WordPress "
 "\"Reading Settings\"."
 msgstr ""
 
-#: options.php:548
+#: options.php:539
 msgid "Add \"Lazyload\" to products?"
+msgstr ""
+
+#: options.php:540
+msgid ""
+"Switch to \"Off\" if you don&rsquo;t want to use Lazyload effects on "
+"products."
+msgstr ""
+
+#: options.php:548
+msgid "Hide Product Prices?"
 msgstr ""
 
 #: options.php:549
 msgid ""
-"Switch to \"Off\" if you don&rsquo;t want to use Lazyload effects on "
-"products."
+"Switch to \"ON\" if you want to switch your shop into a catalog mode (no "
+"prices, no \"add to cart\")"
 msgstr ""
 
 #: options.php:557
@@ -2269,14 +2282,6 @@ msgid ""
 "manage them from \"My Account\" page"
 msgstr ""
 
-#: options.php:728
-msgid "Enable simple feedback form for vendors?"
-msgstr ""
-
-#: options.php:729
-msgid "Form appears in Seller Info tab on each vendors product"
-msgstr ""
-
 #: page-templates/gallery-page.php:83 page-templates/portfolio-page.php:83
 msgid "Sort Gallery: "
 msgstr ""
@@ -2342,7 +2347,7 @@ msgstr ""
 
 #: theme-options/includes/class-options-media-uploader.php:67
 #: theme-options/includes/class-options-media-uploader.php:119
-#: woocommerce/cart/cart.php:38
+#: woocommerce/cart/cart.php:35
 msgid "Remove"
 msgstr ""
 
@@ -2442,18 +2447,18 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: wc-vendors/front/pro-vendor-list.php:83
+#: wc-vendors/front/pro-vendor-list.php:102
 #, php-format
 msgid "%s product"
 msgid_plural "%s products"
 msgstr[0] ""
 msgstr[1] ""
 
-#: wc-vendors/front/pro-vendor-list.php:86
+#: wc-vendors/front/pro-vendor-list.php:105
 msgid "Visit Store"
 msgstr ""
 
-#: wc-vendors/front/pro-vendor-list.php:97
+#: wc-vendors/front/pro-vendor-list.php:116
 #, php-format
 msgid "<span>%s</span> item"
 msgid_plural "<span>%s</span> items"
@@ -2490,11 +2495,11 @@ msgstr ""
 msgid "Submit Feedback"
 msgstr ""
 
-#: wc-vendors/front/vendor-list.php:54
+#: wc-vendors/front/vendor-list.php:63
 msgid "Products in total: "
 msgstr ""
 
-#: wc-vendors/front/vendor-list.php:55
+#: wc-vendors/front/vendor-list.php:64
 msgid "Visit Vendor Store"
 msgstr ""
 
@@ -2502,7 +2507,7 @@ msgstr ""
 msgid "Special Offers"
 msgstr ""
 
-#: wc-vendors/store/store-header.php:135
+#: wc-vendors/store/store-header.php:141
 msgid "Shop Owner"
 msgstr ""
 
@@ -2514,90 +2519,58 @@ msgstr ""
 msgid "Return to store"
 msgstr ""
 
-#: woocommerce/cart/cart.php:33 woocommerce/cart/cart.php:54
+#: woocommerce/cart/cart.php:30 woocommerce/cart/cart.php:51
 msgid "Product"
 msgstr ""
 
-#: woocommerce/cart/cart.php:34 woocommerce/cart/cart.php:82
+#: woocommerce/cart/cart.php:31 woocommerce/cart/cart.php:79
 msgid "Price"
 msgstr ""
 
-#: woocommerce/cart/cart.php:36
+#: woocommerce/cart/cart.php:33
 msgid "Qty"
 msgstr ""
 
-#: woocommerce/cart/cart.php:37 woocommerce/cart/cart.php:120
+#: woocommerce/cart/cart.php:34 woocommerce/cart/cart.php:117
 msgid "Total"
 msgstr ""
 
-#: woocommerce/cart/cart.php:77
+#: woocommerce/cart/cart.php:74
 msgid "Available on backorder"
 msgstr ""
 
-#: woocommerce/cart/cart.php:97
+#: woocommerce/cart/cart.php:94
 msgid "In Stock"
 msgstr ""
 
-#: woocommerce/cart/cart.php:99
+#: woocommerce/cart/cart.php:96
 msgid "Out of Stock"
 msgstr ""
 
-#: woocommerce/cart/cart.php:104
+#: woocommerce/cart/cart.php:101
 msgid "Quantity"
 msgstr ""
 
-#: woocommerce/cart/cart.php:131
+#: woocommerce/cart/cart.php:128
 msgid "Remove this item"
 msgstr ""
 
-#: woocommerce/cart/cart.php:150
+#: woocommerce/cart/cart.php:147
 msgid "Coupon:"
 msgstr ""
 
-#: woocommerce/cart/cart.php:150
+#: woocommerce/cart/cart.php:147
 msgid "Coupon code"
 msgstr ""
 
-#: woocommerce/cart/cart.php:150
+#: woocommerce/cart/cart.php:147
 msgid "Apply coupon"
 msgstr ""
 
-#: woocommerce/cart/cart.php:157
+#: woocommerce/cart/cart.php:154
 msgid "Continue shopping"
 msgstr ""
 
-#: woocommerce/cart/cart.php:160
+#: woocommerce/cart/cart.php:157
 msgid "Update cart"
-msgstr ""
-
-#. Theme Name of the plugin/theme
-msgid "HandyStore"
-msgstr ""
-
-#. Theme URI of the plugin/theme
-msgid "http://handy.themes.zone"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Multi purpose Theme."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "Themes Zone"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "http://themes.zone"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "Front Page"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "Gallery Page Template"
-msgstr ""
-
-#. Template Name of the plugin/theme
-msgid "Portfolio Page Template"
 msgstr ""

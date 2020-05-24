@@ -1,4 +1,4 @@
-<h2><?php _e( 'Settings', 'handystore' ); ?></h2>
+<h2><?php esc_html_e( 'Settings', 'handystore' ); ?></h2>
 
 <?php if ( function_exists( 'wc_print_notices' ) ) { wc_print_notices(); } ?>
 
@@ -44,5 +44,5 @@
 
 	<?php wp_nonce_field( 'save-shop-settings', 'wc-product-vendor-nonce' ); ?>
 	<input type="submit" class="btn btn-inverse btn-small" style="float:none;" name="vendor_application_submit"
-		   value="<?php _e( 'Save', 'handystore' ); ?>"/>
+		   value="<?php esc_html_e( 'Save', 'handystore' ); ?>"/>
 </form>

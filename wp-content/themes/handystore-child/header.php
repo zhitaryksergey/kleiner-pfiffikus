@@ -17,14 +17,14 @@
 
     <div class="secondary-header container">
         <div class="secondary-header-row row">
-            <div class="secondary-header-col col">
+            <div class="secondary-header-col col-xs-12 col-lg-4">
                 <p>Versandkostenfrei bestellen</p>
             </div>
-            <div class="secondary-header-col col">
+            <div class="secondary-header-col col-xs-12 col-lg-4 text-align-center">
                 <p>2% Skonto bei Vorkasse</p>
             </div>
-            <div class="secondary-header-col col">
-                <p><i class="fa fa-whatsapp" aria-hidden="true"></i> Beratung per WhatsApp: 0151 22 758 970</p>
+            <div class="secondary-header-col col-xs-12 col-lg-4 text-align-right">
+                <p><i class="fa fa-whatsapp" aria-hidden="true"></i> Beratung per WhatsApp: <a href="https://wa.me/4915122758970" title="WhatsApp Spieleberatung">0151&nbsp;22&nbsp;758&nbsp;970</a></p>
             </div>
         </div>
     </div>

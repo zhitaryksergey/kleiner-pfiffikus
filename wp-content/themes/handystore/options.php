@@ -723,15 +723,7 @@ function optionsframework_options() {
 		'type' => 'radio',
 		'options' => $on_off_array
 	);
-
-	$options[] = array(
-		'name' => esc_html__( 'Enable simple feedback form for vendors?', 'handystore' ),
-		'desc' => esc_html__( 'Form appears in Seller Info tab on each vendors product', 'handystore' ),
-		'id' => 'enable_vendors_product_feedback',
-		'std' => 'on',
-		'type' => 'radio',
-		'options' => $on_off_array
-	);
+	
 
 	return $options;
 }

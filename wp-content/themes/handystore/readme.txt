@@ -5,6 +5,18 @@ Theme Support (ticket system): http://freshdesk.themes.zone/
 
 Changelog:
 
+ver. 5.1.0:
+    - WooCommerce update
+    - WC Vendors Dashboard update
+    - WC Vendors Store Header update
+    - Small styles update
+
+ver. 5.0.14:
+    - WooCommerce 3.6.2 and WordPress 5.2 update
+    - Gutenberg support
+    - WC Vendors Dashboard fixed
+    - Small styles update
+
 ver. 5.0.13:
 	- Woocommerce cart.php template - updated
 	- Woocommerce content-product.php template - updated

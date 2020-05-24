@@ -39,7 +39,7 @@ if ( ! function_exists( 'pt_custom_media_fields' ) ) {
 		return $form_fields;
 	}
 }
-add_filter( 'attachment_fields_to_edit', 'pt_custom_media_fields', 10, 2 );
+//add_filter( 'attachment_fields_to_edit', 'pt_custom_media_fields', 10, 2 );
 
 if ( ! function_exists( 'pt_custom_media_fields_save' ) ) {
 	function pt_custom_media_fields_save( $post, $attachment ) {
@@ -97,11 +97,11 @@ if ( ! function_exists( 'pt_entry_post_tags' ) ) {
 
 if ( ! function_exists( 'pt_entry_author' ) ) {
 	function pt_entry_author() {
-	    printf( '<div class="post-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">'.__('By ', 'handystore').'<a href="%1$s" title="%2$s" rel="author" itemprop="url"><span itemprop="name">%3$s</span></a></div>',
-	      esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
-	      esc_attr( sprintf( __( 'View all posts by %s', 'handystore' ), get_the_author() ) ),
-	      get_the_author()
-	    );
+//	    printf( '<div class="post-author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person">'.__('By ', 'handystore').'<a href="%1$s" title="%2$s" rel="author" itemprop="url"><span itemprop="name">%3$s</span></a></div>',
+//	      esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
+//	      esc_attr( sprintf( __( 'View all posts by %s', 'handystore' ), get_the_author() ) ),
+//	      get_the_author()
+//	    );
 			echo '<div itemprop="publisher" itemscope="itemscope" itemtype="https://schema.org/Organization">
     				<meta itemprop="name" content="'.get_bloginfo('name').'">
 						<meta itemprop="url" content="'.home_url().'">

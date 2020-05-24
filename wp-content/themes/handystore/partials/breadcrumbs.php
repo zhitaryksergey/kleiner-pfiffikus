@@ -10,7 +10,7 @@
 					<div class="col-md-4 col-sm-6 col-xs-12">
 						<?php if ( is_single() && handy_get_option('post_pagination')=='on' && !is_attachment() ) { ?>
 							<nav class="navigation post-navigation"><!-- Post Nav -->
-								<h1 class="screen-reader-text"><?php echo __( 'Post navigation', 'handystore' ); ?></h1>
+								<h3 class="screen-reader-text"><?php echo __( 'Post navigation', 'handystore' ); ?></h3>
 								<div class="nav-links">
 									<?php previous_post_link( '%link', '<i class="fa fa-angle-left"></i>'. __( ' Previous Post', 'handystore' ) ); ?>
 									<?php next_post_link( '%link', __( 'Next Post ', 'handystore' ) . '<i class="fa fa-angle-right"></i>' ); ?>
@@ -24,7 +24,7 @@
 									return false;
 								} else { ?>
 									<nav class="navigation post-navigation"><!-- Image Nav -->
-										<h1 class="screen-reader-text"><?php echo __( 'Post navigation', 'handystore' ); ?></h1>
+										<h3 class="screen-reader-text"><?php echo __( 'Post navigation', 'handystore' ); ?></h3>
 										<div class="nav-links">
 											<?php previous_image_link( '%link', '<i class="fa fa-angle-left"></i>'.__( ' Previous Image', 'handystore' ) ); ?>
 											<?php next_image_link( '%link', __( 'Next Image ', 'handystore' ).'<i class="fa fa-angle-right"></i>' ); ?>

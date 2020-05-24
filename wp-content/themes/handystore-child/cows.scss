@@ -1,0 +1,241 @@
+@charset "UTF-8";
+@import "variables";
+
+
+body {
+  .text-align-right {
+    text-align: right !important;
+  }
+
+  .secondary-header {
+    background-color: $dark;
+    color: $white;
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+
+    a {
+      color: $white;
+
+      @include hover-focus-active {
+        color: $primary;
+      }
+    }
+
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @include breakpoint-down(w768) {
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .secondary-header-col  {
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        margin-bottom: 0 !important;
+
+        @include breakpoint-down(w768) {
+          text-align: center !important;
+        }
+
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+
+  .post-author,
+  .meta-data .author,
+  .additional-buttons {
+    display: none !important;
+  }
+
+  .product-description-wrapper .add_to_cart_button {
+    top: 10px !important;
+
+    @include breakpoint-down(w480) {
+      position: relative;
+      left: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .woocommerce-loop-product__title {
+    margin-bottom: .5rem !important;
+  }
+
+  .actions {
+    .coupon {
+      height: auto !important;
+    }
+
+    .button {
+      margin-bottom: 10px !important;
+    }
+  }
+
+  .woocommerce-cart-form__contents {
+    thead {
+      th {
+        @include breakpoint-down(w640) {
+          font-size: 1rem !important;
+          line-height: 1.4;
+        }
+
+        @include breakpoint-down(w480) {
+          font-size: .875rem !important;
+          padding: 5px;
+        }
+      }
+    }
+  }
+
+  .woocommerce-cart-form__cart-item {
+    .product-name {
+      &, a {
+
+        @include breakpoint-down(w640) {
+          font-size: .775rem !important;
+        }
+
+        @include breakpoint-down(w480) {
+          font-size: .675rem !important;
+        }
+      }
+    }
+  }
+
+
+  .cart-collaterals {
+    @include breakpoint-down(w768) {
+      display: flex !important;
+      flex-direction: column-reverse !important;
+    }
+
+    .cart_totals {
+      h2 {
+        @include breakpoint-down(w640) {
+          font-size: 1rem !important;
+        }
+
+        @include breakpoint-down(w480) {
+          font-size: .875rem !important;
+        }
+      }
+
+      table {
+        th {
+          width: 50% !important;
+
+          @include breakpoint-down(w640) {
+            font-size: 1rem !important;
+          }
+
+          @include breakpoint-down(w480) {
+            font-size: .875rem !important;
+          }
+        }
+      }
+
+      .woocommerce-shipping-methods {
+        li:only-child {
+          label {
+            &::after {
+              display: none !important;
+            }
+          }
+        }
+      }
+
+    }
+
+    .cross-sells {
+      @include breakpoint-down(w768) {
+        width: 100% !important;
+      }
+    }
+
+  }
+
+  .wc-proceed-to-checkout {
+    margin-bottom: 1.5rem;
+  }
+
+  .woocommerce {
+    .woocommerce-form-login__rememberme {
+      .extra {
+        display: none;
+      }
+
+      .woocommerce-form__input-checkbox {
+        position: static !important;
+        display: inline-block !important;
+        margin-right: .5rem !important;
+        width: 15px !important;
+        height: 15px !important;
+      }
+    }
+
+    #createaccount {
+      position: static !important;
+      display: inline-block !important;
+      margin-right: .5rem !important;
+      width: 15px !important;
+      height: 15px !important;
+    }
+
+    #customer_login {
+      .terms-privacy-policy {
+        #reg_data_privacy {
+          position: static;
+          display: inline-block;
+          margin-right: .5rem;
+          width: 15px !important;
+          height: 15px !important;
+        }
+      }
+    }
+  }
+
+  .woocommerce-shipping-methods {
+    li {
+      label {
+        &::after {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+.out-of-stock-form {
+  & + .out-of-stock {
+    display: none !important;
+  }
+
+  .wpcf7 {
+    text-align: left;
+
+    input {
+      color: #000;
+      font-family: "Open Sans", "Roboto", sans-serif;
+      background-color: #f0f0f0;
+    }
+  }
+}

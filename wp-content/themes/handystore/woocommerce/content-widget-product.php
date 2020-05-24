@@ -20,13 +20,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $product;
+
+if ( ! is_a( $product, 'WC_Product' ) ) {
+    return;
+}
+
 ?>
 <li>
 	<?php do_action( 'woocommerce_widget_product_item_start', $args ); ?>
 
 	<div class="thumb-wrapper">
 		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" title="<?php echo esc_attr( $product->get_name() ); ?>">
-			<?php echo $product->get_image(); ?>
+			<?php echo $product->get_image(); // PHPCS:Ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</a>
 	</div>
 

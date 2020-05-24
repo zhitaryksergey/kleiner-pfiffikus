@@ -5,15 +5,25 @@
  * Override this template by copying it to yourtheme/wc-vendors/front
  *
  * @package    WCVendors_Pro
- * @version    1.2.3
+ * @version    1.6.3
  */
 
 $store_icon_src 	= wp_get_attachment_image_src( get_user_meta( $vendor_id, '_wcv_store_icon_id', true ), array( 100, 100 ) );
 $store_icon 			= '';
+$store_banner_src 	= wp_get_attachment_image_src( get_user_meta( $vendor_id, '_wcv_store_banner_id', true ), 'full');
+$store_banner 		= '';
 
 // see if the array is valid
 if ( is_array( $store_icon_src ) ) {
 	$store_icon 	= '<img src="'.esc_url($store_icon_src[0]).'" alt="'.esc_attr($vendor_meta['pv_shop_name']).'" class="store-icon" />';
+}
+
+if ( is_array( $store_banner_src ) ) {
+	$store_banner	= '<img src="'. esc_url($store_banner_src[0]).'" alt="" class="store-banner" style="max-height: 200px;"/>';
+} else {
+	//  Getting default banner
+	$default_banner_src = WCVendors_Pro::get_option( 'default_store_banner_src' );
+	$store_banner	= '<img src="'. esc_url($default_banner_src).'" alt="" class="store-banner" style="max-height: 200px;"/>';
 }
 
 // Get all vendor products
@@ -27,29 +37,6 @@ $state	 				= ( array_key_exists( '_wcv_store_state', $vendor_meta ) ) ? $vendor
 $store_postcode	= ( array_key_exists( '_wcv_store_postcode', $vendor_meta ) ) ? $vendor_meta[ '_wcv_store_postcode' ]  : '';
 $address 				= ( $address1 != '') ? $address1 .', ' . $city .', '. $state .', '. $store_postcode : '';
 
-// Get Vendor socials
-$twitter_username 	= get_user_meta( $vendor_id , '_wcv_twitter_username', true );
-$instagram_username = get_user_meta( $vendor_id , '_wcv_instagram_username', true );
-$facebook_url 		  = get_user_meta( $vendor_id , '_wcv_facebook_url', true );
-$linkedin_url 		  = get_user_meta( $vendor_id , '_wcv_linkedin_url', true );
-$youtube_url 		    = get_user_meta( $vendor_id , '_wcv_youtube_url', true );
-$googleplus_url  	  = get_user_meta( $vendor_id , '_wcv_googleplus_url', true );
-$pinterest_url 		  = get_user_meta( $vendor_id , '_wcv_pinterest_url', true );
-$snapchat_username 	= get_user_meta( $vendor_id , '_wcv_snapchat_username', true );
-
-// Social list
-$social_icons_list = '<ul class="social-icons">';
-if ( $facebook_url != '') { $social_icons_list .= '<li><a href="'.$facebook_url.'" target="_blank"><i class="fa fa-facebook"></i></a></li>'; }
-if ( $instagram_username != '') { $social_icons_list .= '<li><a href="//instagram.com/'.$instagram_username.'" target="_blank"><i class="fa fa-instagram"></i></a></li>'; }
-if ( $twitter_username != '') { $social_icons_list .= '<li><a href="//twitter.com/'.$twitter_username.'" target="_blank"><i class="fa fa-twitter"></i></a></li>'; }
-if ( $googleplus_url != '') { $social_icons_list .= '<li><a href="'.$googleplus_url.'" target="_blank"><i class="fa fa-google-plus"></i></a></li>'; }
-if ( $pinterest_url != '') { $social_icons_list .= '<li><a href="'.$pinterest_url.'" target="_blank"><i class="fa fa-pinterest-square"></i></a></li>'; }
-if ( $youtube_url != '') { $social_icons_list .= '<li><a href="'.$youtube_url.'" target="_blank"><i class="fa fa-youtube"></i></a></li>'; }
-if ( $linkedin_url != '') { $social_icons_list .= '<li><a href="'.$linkedin_url.'" target="_blank"><i class="fa fa-linkedin"></i></a></li>'; }
-if ( $snapchat_username != '') { $social_icons_list .= '<li><a href="//www.snapchat.com/add/'.$snapchat_username.'" target="_blank"><i class="fa fa-snapchat" aria-hidden="true"></i></a></li>'; }
-$social_icons_list .= '</ul>';
-
-$social_icons = empty( $twitter_username ) && empty( $instagram_username ) && empty( $facebook_url ) && empty( $linkedin_url ) && empty( $youtube_url ) && empty( $googleplus_url ) && empty( $pinterst_url ) ? false : true;
 
 ?>
 
@@ -60,7 +47,12 @@ $social_icons = empty( $twitter_username ) && empty( $instagram_username ) && em
 		<div class="wcv-banner-wrapper hidden-xs col-sm-4 col-md-2">
 
 			<div class="wcv-banner-inner">
-					<?php if ($store_icon) { ?>
+
+				    <?php echo $store_banner; ?>
+
+                <div class="wcv-inner-details">
+
+                    <?php if ($store_icon) { ?>
 					<div class="wcv-icon-container">
 							<?php echo $store_icon; ?>
 					</div>
@@ -68,10 +60,11 @@ $social_icons = empty( $twitter_username ) && empty( $instagram_username ) && em
 
 					<?php if ($social_icons) { ?>
 					<div class="wcv-socials-container">
-							<?php echo $social_icons_list; ?>
+							<?php echo wcv_format_store_social_icons( $vendor_id ); ?>
 							<i class="fa fa-share-alt" aria-hidden="true"></i>
 					</div>
 					<?php } ?>
+                </div>
 			</div>
 
 		</div>

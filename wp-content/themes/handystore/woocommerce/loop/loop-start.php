@@ -32,4 +32,4 @@ if ( is_product() ) {
 	}
 }
 ?>
-<ul class="products<?php echo esc_attr($new_class); ?>" data-expand="-100">
+<ul class="products<?php echo esc_attr($new_class); ?> columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?>" data-expand="-100">

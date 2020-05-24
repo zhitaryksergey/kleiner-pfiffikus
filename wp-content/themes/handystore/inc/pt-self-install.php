@@ -152,7 +152,7 @@ if (class_exists('OCDI_Plugin')) {
 	 return array(
 			 array(
 					 'import_file_name'             => 'HandyStore Demo Import',
-           'local_import_file'            => get_template_directory() . '/required-plugins/dummy-data/handystore.xml',
+                     'local_import_file'            => get_template_directory() . '/required-plugins/dummy-data/handystore.xml',
 					 'local_import_widget_file'     => get_template_directory() . '/required-plugins/dummy-data/handy-widgets.wie',
 					 'local_import_customizer_file' => get_template_directory() . '/required-plugins/dummy-data/handystore-customizer.dat',
 					 'import_preview_image_url'     => get_template_directory() . '/screenshot.png',

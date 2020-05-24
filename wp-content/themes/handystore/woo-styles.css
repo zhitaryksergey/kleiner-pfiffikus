@@ -3361,7 +3361,7 @@ table.shop_table.cart td.actions .coupon .input-text {
     width: 100%;
     padding: 11px 80px 10px 10px;
 }
-.woocommerce-product-search input[type="submit"] {
+.woocommerce-product-search button {
     display: inline-block;
     position: absolute;
     top: 3px;
@@ -4145,4 +4145,28 @@ table.shop_table.cart td.actions .coupon .input-text {
 }
 .product.add_to_cart_inline a {
   padding: 0;
+}
+
+
+.wcv-dashboard-navigation > ul {
+
+}
+
+.wcv-dashboard-navigation > ul > li{
+    margin-right: 3px;
+    background-color: #000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+.wcv-dashboard-navigation > ul > li:hover{
+    opacity: 0.7;
+}
+
+.wcv-dashboard-navigation > ul > li > a {
+    color: #fff;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 15px;
+    display: inline-block;
+    padding: 4px 12px 5px;
 }

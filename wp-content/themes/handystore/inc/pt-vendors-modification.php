@@ -50,7 +50,8 @@ if ( class_exists('WCVendors_Pro') ) {
 }
 // Moving main header output
 if ( class_exists('WCVendors_Pro') ) {
-	WCVendors_Pro_Vendor_Controller::remove_free_headers();
+    global $wcvendors_pro;
+	$wcvendors_pro->wcvendors_pro_vendor_controller->remove_free_headers();
 	remove_action( 'wcv_after_main_header', array($wcvendors_pro->wcvendors_pro_ratings_controller, 	'ratings_link' ) );
 	remove_action( 'wcv_after_mini_header', array($wcvendors_pro->wcvendors_pro_ratings_controller, 	'ratings_link' ) );
 	remove_action( 'woocommerce_before_main_content',	array($wcvendors_pro->wcvendors_pro_vendor_controller, 	'store_main_content_header'), 30 );
@@ -255,16 +256,6 @@ if (!function_exists('pt_add_frontend_vendor_fields')) {
 	    	<input type="checkbox" class="input-checkbox" name="pt_vendor_featured_carousel" id="pt_vendor_featured_carousel" <?php checked( $value, 'on' ); ?> /><label class="checkbox" for="pt_vendor_featured_carousel"><?php esc_html_e( 'Check if you want to add carousel with featured products to your shop page', 'handystore' ) ?></label>
 		</p>
 	  </div>
-
-		<?php if ( handy_get_option('enable_vendors_product_feedback') == 'on') : ?>
-		  <div class="pt_vendor_question_form_container">
-		    <p><strong><?php esc_html_e( 'Vendor question form', 'handystore' ); ?></strong></p>
-		    <?php $value = get_user_meta( $user_id,'pt_vendor_question_form', true ); ?>
-		    <p>
-		    	<input type="checkbox" class="input-checkbox" name="pt_vendor_question_form" id="pt_vendor_question_form" <?php checked( $value, 'on' ); ?> /><label class="checkbox" for="pt_vendor_question_form"><?php esc_html_e( 'Check if you want to add "Ask a question about this product" form to "Seller Tab" on each of your products', 'handystore' ) ?></label>
-			</p>
-		  </div>
-		<?php endif; ?>
 
 	<?php }
 }
@@ -473,12 +464,15 @@ if (!function_exists('pt_add_vendors_info')) {
 			<div class="account-vendor-options">
 				<h2><?php esc_html_e("Vendor's Options", 'handystore'); ?></h2>
 			    <?php // Get url's for vendors pages
-	        	$dashboard_url = get_permalink( get_option( 'wcvendors_vendor_dashboard_page_id' ) );
-	        	if ( class_exists('WCVendors_Pro') ) {
-	            $dashboard_url = get_permalink(WCVendors_Pro::get_option( 'dashboard_page_id' ));
-	        	} ?>
-	        	<p><?php esc_html_e('Follow this link to get to the vendor dashboard, where you can control your store, add products, generate reports on accomplished deals etc.', 'handystore'); ?></p>
-	        	<a class="button" href="<?php echo esc_url($dashboard_url); ?>" title="<?php esc_html_e('Go to Vendor Dashboard', 'handystore'); ?>" rel="nofollow" target="_self"><?php esc_html_e('Go to Vendor Dashboard', 'handystore'); ?></a>
+                    $vendor_dashboard_page = get_option( 'wcvendors_vendor_dashboard_page_id' );
+                    $dashboard_url = get_permalink($vendor_dashboard_page);
+                    if ( class_exists( 'WCVendors_Pro_Dashboard' )) {
+                        $dashboard_url   = WCVendors_Pro_Dashboard::get_dashboard_page_url();
+                    }
+
+                ?>
+                <p><?php esc_html_e('Follow this link to get to the vendor dashboard, where you can control your store, add products, generate reports on accomplished deals etc.', 'handystore'); ?></p>
+                <a class="button" href="<?php echo esc_url($dashboard_url); ?>" title="<?php esc_html_e('Go to Vendor Dashboard', 'handystore'); ?>" rel="nofollow" target="_self"><?php esc_html_e('Go to Vendor Dashboard', 'handystore'); ?></a>
 			</div>
 		<?php } elseif ( in_array( 'pending_vendor', (array) $user->roles ) ) { ?>
 			<div class="account-vendor-options">
@@ -868,12 +862,13 @@ if (!function_exists('pt_output_vendor_tabs')) {
 				<?php // Vendor ratings output
 				if ( !$vendor_rating_page ) { ?>
 				<div id="vendor-ratings" class="tab-pane fade in active">
-					<?php $vendor_ratings = WCVendors_Pro_Ratings_Controller::get_vendor_feedback( $vendor_id );
-								$average_rate = WCVendors_Pro_Ratings_Controller::get_ratings_average( $vendor_id );
-								$rate_count = WCVendors_Pro_Ratings_Controller::get_ratings_count( $vendor_id );
-								$vendor_orders = WCVendors_Pro_Vendor_Controller::get_orders2( $vendor_id );
-								$total_orders = count($vendor_orders);
-								$reviews_url = WCVendors_Pro_Vendor_Controller::get_vendor_store_url( $vendor_id ) . 'ratings';
+					<?php
+                    $vendor_ratings = WCVendors_Pro_Ratings_Controller::get_vendor_feedback( $vendor_id );
+                    $average_rate = WCVendors_Pro_Ratings_Controller::get_ratings_average( $vendor_id );
+                    $rate_count = WCVendors_Pro_Ratings_Controller::get_ratings_count( $vendor_id );
+                    $vendor_orders = WCVendors_Pro_Vendor_Controller::get_orders2( get_current_user_id(), array(), true );
+                    $total_orders = count($vendor_orders);
+                    $reviews_url = WCVendors_Pro_Vendor_Controller::get_vendor_store_url( $vendor_id ) . 'ratings';
 
 					if ( $vendor_ratings ) {
 						$count = 0;

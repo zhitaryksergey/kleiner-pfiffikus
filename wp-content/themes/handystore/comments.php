@@ -22,10 +22,10 @@ if ( post_password_required() ) {
 		<?php /* Comments pagination */
 		if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) :
 
-			$comment_navi_type = (handy_get_option('comments_pagination')) ? handy_get_option('comments_pagination') : 'numeric'; 
+			$comment_navi_type = (handy_get_option('comments_pagination')) ? handy_get_option('comments_pagination') : 'numeric';
 			if ($comment_navi_type == 'numeric') { ?>
 		        <nav class="navigation comment-numeric-navigation"><!-- Comments Nav -->
-		            <h1 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'handystore' ); ?></h1>
+		            <h3 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'handystore' ); ?></h3>
 		            <span class="page-links-title"><?php _e('Comments Navigation:', 'handystore'); ?></span>
 		            <?php paginate_comments_links( array(
 						'prev_text' => '<i class="fa fa-chevron-left"></i>',
@@ -35,7 +35,7 @@ if ( post_password_required() ) {
 		       	</nav><!-- end of Comments Nav -->
 			<?php } elseif ($comment_navi_type == 'newold') { ?>
 		        <nav class="navigation comment-navigation"><!-- Comments Nav -->
-		            <h1 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'handystore' ); ?></h1>
+		            <h3 class="screen-reader-text section-heading"><?php _e( 'Comment navigation', 'handystore' ); ?></h3>
 		            <div class="prev"><?php previous_comments_link( __( '<i class="fa fa-angle-left"></i>Older Comments', 'handystore' ) ); ?></div>
 		            <div class="next"><?php next_comments_link( __( 'Newer Comments<i class="fa fa-angle-right"></i>', 'handystore' ) ); ?></div>
 		        </nav><!-- end of Comments Nav -->

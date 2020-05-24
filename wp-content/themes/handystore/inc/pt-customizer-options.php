@@ -107,7 +107,7 @@ if (class_exists('Handy_Kirki')) {
 			'font-family'    => 'Open Sans',
 			'variant'        => 'regular',
 			'font-size'      => '14px',
-			'line-height'    => '21px',
+			'line-height'    => '1.5',
 			'letter-spacing' => '0',
 			'subsets'        => array( 'latin-ext' ),
 			'color'          => '#646565',

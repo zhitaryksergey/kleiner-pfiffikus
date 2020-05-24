@@ -42,7 +42,7 @@
  */
 
 if ( class_exists('Woocommerce') ) {
-//predb(1,1);
+
 	// ----- Style & Scripts
 
 	// Deactivating Woocommerce styles
@@ -593,7 +593,7 @@ if ( class_exists('Woocommerce') ) {
 				?>
 			<div class="col-md-4 col-sm-6 col-xs-12">
 				<nav class="navigation single-product-navi" role="navigation">
-					<h1 class="screen-reader-text"><?php _e( 'Post navigation', 'handystore' ); ?></h1>
+					<h3 class="screen-reader-text"><?php _e( 'Post navigation', 'handystore' ); ?></h3>
 						<div class="nav-links">
 							<?php previous_post_link('%link', '<i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp;'.__('Previous Product', 'handystore')); ?>
 							<?php next_post_link('%link', __('Next Product', 'handystore').'&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i>'); ?>
