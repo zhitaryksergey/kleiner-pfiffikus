@@ -122,7 +122,7 @@ class WPSEO_Premium_Metabox implements WPSEO_WordPress_Integration {
 		$data = [
 			'restApi'            => $this->get_rest_api_config(),
 			'seoAnalysisEnabled' => $analysis_seo->is_enabled(),
-			'licensedURL'        => 'https://yoast.com',
+			'licensedURL'        => WPSEO_Utils::get_home_url(),
 			'settingsPageUrl'    => admin_url( 'admin.php?page=wpseo_dashboard#top#features' ),
 			'integrationsTabURL' => admin_url( 'admin.php?page=wpseo_dashboard#top#integrations' ),
 		];
