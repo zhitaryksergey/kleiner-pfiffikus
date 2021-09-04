@@ -1,0 +1,441 @@
+# Translation of Plugins - Stock Manager for WooCommerce - Stable (latest release) in Swedish
+# This file is distributed under the same license as the Plugins - Stock Manager for WooCommerce - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-09-03 09:47:20+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: sv_SE\n"
+"Project-Id-Version: Plugins - Stock Manager for WooCommerce - Stable (latest release)\n"
+
+#. Plugin Name of the plugin
+msgid "Stock Manager for WooCommerce"
+msgstr "Stock Manager for WooCommerce"
+
+#: woocommerce-stock-manager.php:60
+msgid "Stock Manager for WooCommerce needs following versions of WordPress and WooCommerce:"
+msgstr "Stock Manager for WooCommerce behöver följande versioner av WordPress och WooCommerce:"
+
+#: admin/views/import-export.php:225
+msgid "Error: You have not uploaded a CSV file."
+msgstr "Fel: du har inte laddat upp någon CSV-fil."
+
+#: sa-includes/class-sa-in-app-offers.php:192
+msgid "Hide this"
+msgstr "Dölj detta"
+
+#: admin/class-stock-manager-admin.php:219
+#: admin/class-stock-manager-admin.php:220
+msgid "Stock Manager"
+msgstr "Lagerhanterare"
+
+#: admin/views/import-export.php:134
+msgid "abc111"
+msgstr "abc111"
+
+#: admin/views/import-export.php:133
+msgid "123"
+msgstr "123"
+
+#. Plugin URI of the plugin
+msgid "https://www.storeapps.org/woocommerce-plugins/"
+msgstr "https://www.storeapps.org/woocommerce-plugins/"
+
+#: admin/class-stock-manager-admin.php:261
+#: admin/class-stock-manager-admin.php:262
+msgid "StoreApps Plugins"
+msgstr "StoreApps-tillägg"
+
+#: admin/views/components/filter.php:142
+msgid "Save setting"
+msgstr "Spara inställning"
+
+#: admin/views/components/filter.php:108
+msgid "Sales price"
+msgstr "Reapris"
+
+#: admin/views/components/filter.php:101
+msgid "Hide or display cells"
+msgstr "Dölj eller visa celler"
+
+#: admin/views/components/filter.php:54
+msgid "Clear filter"
+msgstr "Rensa filter"
+
+#: admin/views/components/filter.php:52
+msgid "Show"
+msgstr "Visa"
+
+#: admin/views/components/filter.php:42
+msgid "Yes manage stock"
+msgstr "Ja hantera lager"
+
+#: admin/views/components/filter.php:41
+msgid "No manage stock"
+msgstr "Nej hantera lager"
+
+#: admin/views/components/filter.php:28
+msgid "All categories"
+msgstr "Alla kategorier"
+
+#: admin/views/components/filter.php:24
+msgid "Products with variation"
+msgstr "Produkter med variation"
+
+#: admin/views/components/filter.php:23
+msgid "Simple products"
+msgstr "Enkel produkt"
+
+#: admin/views/components/filter.php:15
+msgid "Order by"
+msgstr "Sortera efter"
+
+#: admin/views/components/filter.php:6
+msgid "Display setting"
+msgstr "Visningsinställningar"
+
+#: admin/views/components/filter.php:5 admin/views/components/filter.php:73
+msgid "Search by product name"
+msgstr "Sök efter produktnamn"
+
+#: admin/views/components/filter.php:3
+msgid "Filter"
+msgstr "Filtrera"
+
+#: admin/views/import-export.php:243
+msgid "Create export file"
+msgstr "Skapa exportfil"
+
+#: admin/views/import-export.php:239
+msgid "Export"
+msgstr "Exportera"
+
+#: admin/views/import-export.php:212
+msgid "Product with ID: "
+msgstr "Produkt med ID: "
+
+#: admin/views/import-export.php:186
+msgid "The file "
+msgstr "Filen "
+
+#: admin/views/import-export.php:164
+msgid "Upload"
+msgstr "Ladda upp"
+
+#: admin/views/import-export.php:155
+msgid "Upload csv file"
+msgstr "Ladda upp csv-fil"
+
+#: admin/views/import-export.php:140
+msgid "simple"
+msgstr "enkel"
+
+#: admin/views/import-export.php:139
+msgid "10"
+msgstr "10"
+
+#: admin/views/import-export.php:136 admin/views/import-export.php:138
+msgid "yes"
+msgstr "ja"
+
+#: admin/views/import-export.php:137
+msgid "instock"
+msgstr "i lager"
+
+#: admin/views/import-export.php:124
+#: admin/assets/src/components/Products.js:115
+#: admin/assets/src/components/ScreenOptions.js:48
+msgid "Product name"
+msgstr "Produktnamn"
+
+#: admin/views/import-export.php:113
+msgid "Import"
+msgstr "Importera"
+
+#: admin/views/log-history.php:58
+msgid "No result"
+msgstr "Inga resultat"
+
+#: admin/views/log-history.php:37
+msgid "Date"
+msgstr "Datum"
+
+#: admin/views/log.php:56 admin/views/log.php:87
+msgid "History"
+msgstr "Historik"
+
+#: admin/views/log.php:20
+msgid "Stock manager"
+msgstr "Lagerhanterare"
+
+#: admin/views/setting.php:22 admin/views/stock-monitor.php:32
+msgid "Stock manager setting"
+msgstr "Inställningar för Stock manager"
+
+#: admin/views/stock-monitor.php:43
+msgid "Allow stock for variable products"
+msgstr "Tillåt lager för variabla produkter"
+
+#: admin/views/stock-monitor.php:39
+msgid "Products limit"
+msgstr "Produktgräns"
+
+#: admin/views/import-export.php:242
+msgid "You can download csv file, with your stock data. "
+msgstr "Du kan ladda ner csv-fil med dina lagerdata."
+
+#: admin/views/import-export.php:222
+msgid "Sorry, there was an error uploading your file."
+msgstr "Det var ett fel vid uppladdningen av din fil."
+
+#: admin/views/import-export.php:147 admin/views/import-export.php:149
+msgid "values: \"yes\", \"notify\", \"no\". If is empty \"no\" will be save."
+msgstr "värden: ”ja”, ”avisera”, ”nej”. Om det är tomt sparas ”nej”."
+
+#: admin/views/import-export.php:135
+msgid "T-shirt"
+msgstr "T-shirt"
+
+#: admin/views/import-export.php:116
+msgid "You can upload csv file, with your stock data. "
+msgstr "Du kan ladda upp csv-fil med dina lagerdata."
+
+#: admin/views/import-export.php:118
+msgid "If you have a lot of products and export/import not working, increase memory limit.. "
+msgstr "Om du har många produkter och export/import inte fungerar, öka minnesgränsen …"
+
+#: admin/views/import-export.php:117
+msgid "CSV file must be in this format, or you can export file with exist data and edit them. "
+msgstr "CSV-fil måste ha detta format, eller så kan du exportera filen med befintliga data och redigera dem."
+
+#: admin/views/import-export.php:119
+msgid "File format"
+msgstr "Filformat"
+
+#: admin/views/components/filter.php:4 admin/views/components/filter.php:63
+msgid "Search by sku"
+msgstr "Sök efter artikelnummer"
+
+#: admin/views/components/filter.php:19
+msgid "SKU DESC"
+msgstr "ARTIKELNUMMER FALLANDE"
+
+#: admin/views/components/filter.php:18
+msgid "SKU ASC"
+msgstr "ARTIKELNUMMER STIGANDE"
+
+#: admin/views/components/filter.php:17
+msgid "Product name DESC"
+msgstr "Produktnamn FALLANDE"
+
+#: admin/views/components/filter.php:16
+msgid "Product name ASC"
+msgstr "Produktnamn STIGANDE"
+
+#: admin/includes/wcm-class-table.php:645
+msgid "On backorder"
+msgstr "På restorder"
+
+#: admin/includes/wcm-class-table.php:644 admin/views/components/filter.php:48
+msgid "Out of stock"
+msgstr "Slut i lager"
+
+#: admin/includes/wcm-class-table.php:643 admin/views/components/filter.php:47
+msgid "In stock"
+msgstr "I lager"
+
+#: admin/includes/wcm-class-table.php:544
+msgid "Same as parent"
+msgstr "Samma som överordnad"
+
+#: admin/includes/wcm-class-table.php:466
+msgid "Show variables"
+msgstr "Visa variabler"
+
+#: admin/includes/wcm-class-table.php:419
+#: admin/includes/wcm-class-table.php:451
+msgid "Close"
+msgstr "Stäng"
+
+#: admin/includes/wcm-class-table.php:373
+#: admin/includes/wcm-class-table.php:418
+#: admin/includes/wcm-class-table.php:450
+#: admin/includes/wcm-class-table.php:735
+msgid "Save"
+msgstr "Spara"
+
+#: admin/includes/wcm-class-table.php:362 admin/views/components/filter.php:118
+#: admin/views/import-export.php:128 admin/views/import-export.php:150
+#: admin/views/log-history.php:38 admin/views/log.php:34
+#: admin/assets/src/components/Products.js:148
+#: admin/assets/src/components/ScreenOptions.js:83
+msgid "Stock"
+msgstr "Lager"
+
+#: admin/includes/wcm-class-table.php:351 admin/views/components/filter.php:116
+#: admin/views/import-export.php:127 admin/views/import-export.php:149
+#: admin/assets/src/components/Products.js:145
+#: admin/assets/src/components/ScreenOptions.js:78
+msgid "Backorders"
+msgstr "Restordrar"
+
+#: admin/includes/wcm-class-table.php:340 admin/views/components/filter.php:46
+#: admin/views/components/filter.php:114 admin/views/import-export.php:126
+#: admin/views/import-export.php:148
+#: admin/assets/src/components/ProductFilter.js:112
+#: admin/assets/src/components/Products.js:142
+#: admin/assets/src/components/ScreenOptions.js:73
+msgid "Stock status"
+msgstr "Lagerstatus"
+
+#: admin/includes/wcm-class-table.php:329 admin/views/components/filter.php:40
+#: admin/views/components/filter.php:112 admin/views/import-export.php:125
+#: admin/views/import-export.php:147
+#: admin/assets/src/components/Products.js:139
+#: admin/assets/src/components/ScreenOptions.js:68
+msgid "Manage stock"
+msgstr "Hantera lager"
+
+#: admin/includes/wcm-class-table.php:318 admin/views/components/filter.php:110
+#: admin/assets/src/components/Products.js:136
+#: admin/assets/src/components/ScreenOptions.js:63
+msgid "Weight"
+msgstr "Vikt"
+
+#: admin/includes/wcm-class-table.php:307
+#: admin/assets/src/components/Products.js:133
+#: admin/assets/src/components/ScreenOptions.js:58
+msgid "Sale price"
+msgstr "Reapris"
+
+#: admin/includes/wcm-class-table.php:296 admin/views/components/filter.php:106
+#: admin/assets/src/components/Products.js:130
+#: admin/assets/src/components/ScreenOptions.js:53
+msgid "Price"
+msgstr "Pris"
+
+#: admin/includes/wcm-class-table.php:285 admin/views/import-export.php:130
+#: admin/views/log.php:33
+msgid "Parent ID"
+msgstr "Överordnat ID"
+
+#: admin/includes/wcm-class-table.php:274 admin/views/import-export.php:129
+#: admin/views/log.php:32 admin/assets/src/components/Products.js:97
+msgid "Product type"
+msgstr "Produkttyp"
+
+#: admin/includes/wcm-class-table.php:263 admin/views/log.php:31
+msgid "Name"
+msgstr "Namn"
+
+#: admin/includes/wcm-class-table.php:230 admin/views/components/filter.php:104
+#: admin/assets/src/components/Products.js:102
+#: admin/assets/src/components/ScreenOptions.js:43
+msgid "Thumbnail"
+msgstr "Miniatyr"
+
+#: admin/includes/wcm-class-table.php:108 admin/views/components/filter.php:126
+#: admin/assets/src/components/Products.js:127
+#: admin/assets/src/components/ScreenOptions.js:98
+msgid "Shipping class"
+msgstr "Fraktklass"
+
+#: admin/includes/wcm-class-table.php:105 admin/views/components/filter.php:124
+#: admin/assets/src/components/Products.js:124
+#: admin/assets/src/components/ScreenOptions.js:93
+msgid "Tax class"
+msgstr "Momsklass"
+
+#: admin/includes/wcm-class-table.php:102 admin/views/components/filter.php:122
+#: admin/assets/src/components/Products.js:121
+#: admin/assets/src/components/ScreenOptions.js:88
+msgid "Tax status"
+msgstr "Momsstatus"
+
+#: admin/includes/config.php:11 admin/includes/wcm-class-table.php:252
+#: admin/views/import-export.php:122 admin/views/import-export.php:145
+#: admin/views/log.php:30 admin/assets/src/components/Products.js:93
+msgid "ID"
+msgstr "ID"
+
+#: admin/includes/config.php:6 admin/includes/config.php:16
+#: admin/includes/config.php:21 admin/includes/config.php:26
+#: admin/includes/config.php:31 admin/includes/wcm-class-table.php:241
+#: admin/views/import-export.php:123 admin/views/import-export.php:146
+#: admin/views/log.php:29 admin/assets/src/components/ProductFilter.js:64
+#: admin/assets/src/components/Products.js:99
+#: admin/assets/src/components/ScreenOptions.js:38
+msgid "SKU"
+msgstr "Artikelnummer"
+
+#: admin/class-stock-manager-admin.php:253
+#: admin/class-stock-manager-admin.php:254
+msgid "Setting"
+msgstr "Inställning"
+
+#: admin/class-stock-manager-admin.php:245
+#: admin/class-stock-manager-admin.php:246
+msgid "Stock log"
+msgstr "Lagerlogg"
+
+#: admin/class-stock-manager-admin.php:237
+#: admin/class-stock-manager-admin.php:238
+msgid "Import/Export"
+msgstr "Importera/exportera"
+
+#: admin/class-stock-manager-admin.php:169
+#: admin/includes/wcm-class-table.php:628
+#: admin/includes/wcm-class-table.php:661
+msgid "Yes"
+msgstr "Ja"
+
+#: admin/class-stock-manager-admin.php:168
+#: admin/includes/wcm-class-table.php:660
+msgid "Notify"
+msgstr "Avisera"
+
+#: admin/class-stock-manager-admin.php:167
+#: admin/includes/wcm-class-table.php:629
+#: admin/includes/wcm-class-table.php:659
+msgid "No"
+msgstr "Nej"
+
+#: admin/class-stock-manager-admin.php:164
+#: admin/includes/wcm-class-table.php:488
+msgctxt "Tax status"
+msgid "None"
+msgstr "Ingen"
+
+#: admin/class-stock-manager-admin.php:163
+#: admin/includes/wcm-class-table.php:487
+msgid "Shipping only"
+msgstr "Endast frakt"
+
+#: admin/class-stock-manager-admin.php:162
+#: admin/includes/wcm-class-table.php:486
+msgid "Taxable"
+msgstr "Momsbelagd"
+
+#: admin/class-stock-manager-admin.php:156
+#: admin/includes/wcm-class-table.php:546
+msgid "No shipping class"
+msgstr "Ingen fraktklass"
+
+#: woocommerce-stock-manager.php:207
+msgid "All done! Close."
+msgstr "Allt klart! Stäng."
+
+#: woocommerce-stock-manager.php:60
+msgid "Alert!"
+msgstr "Varning!"
+
+#. Author URI of the plugin
+msgid "https://www.storeapps.org/"
+msgstr "https://www.storeapps.org/"
+
+#. Author of the plugin
+msgid "StoreApps"
+msgstr "StoreApps"

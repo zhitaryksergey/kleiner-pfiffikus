@@ -1,0 +1,45 @@
+Version 2.3.4, 10 July 2020
+------------------------------------------------------------------------------------
+* Fix - Per-character fee calculation issue related to unicode characters
+* Fix - Archived fields appear in the main field list in admin area
+* Fix - Product sale price display issue
+* Tweak - Improved performance of product pages when prices are changed
+* Tweak - Checked compatibility with the latest versions of WordPress and WooCommerce
+* Tweak - Other minor bug fixes and improvements
+* Dev - Removed last argument from filter hook wccf_skip_product_fields_for_product
+* Dev - Removed last argument from filter hook wccf_skip_pricing_for_product
+* Dev - Some changes to internal methods, check if you call internal methods
+
+Version 2.3.3, 27 March 2020
+------------------------------------------------------------------------------------
+* Fix - Required field error displayed when "any" attribute variation is selected
+* Fix - Non-sale price formatted as sale price under specific conditions
+* Fix - Problem with filter hook wccf_product_fields_position_hook position
+* Fix - Heading tag is not changing from h1 to other tag
+* Fix - Impossible to set numeric field min value to zero
+* Fix - Field titles in order view are not displayed on smaller screens
+* Fix - Customer field values not display properly in the account area
+* Tweak - Required field error is now displayed on product pages
+* Tweak - Other minor bug fixes and improvements
+* Dev - New filter wccf_field_value_to_store
+
+Version 2.3.2, 18 July 2019
+------------------------------------------------------------------------------------
+* Feature - New field type: Decimal (field type Number is for whole numbers now)
+* Fix - Cart item field editing view not loading when field has other field condition
+* Fix - Field key input is not disabled when key can no longer be changed
+* Fix - Issues related to other field conditions
+* Fix - Issues with product attribute conditions
+* Tweak - Performance improvements for product price display throughout shop
+* Tweak - Other minor bug fixes and improvements
+* Dev - New filter wccf_number_field_step
+* Dev - New filter wccf_decimal_field_step
+
+Version 2.3.1, 28 June 2019
+------------------------------------------------------------------------------------
+* Fix - Translation files for text domain "rightpress" not loaded
+* Tweak - Other minor bug fixes and improvements
+
+Version 2.3, 21 June 2019
+------------------------------------------------------------------------------------
+* Initial release

@@ -1,0 +1,84 @@
+# Translation of Plugins - Contact Form 7 Honeypot - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - Contact Form 7 Honeypot - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-02-06 21:52:56+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.3.0-alpha\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - Contact Form 7 Honeypot - Stable (latest release)\n"
+
+#. Author URI of the plugin/theme
+msgid "http://www.nocean.ca"
+msgstr "http://www.nocean.ca"
+
+#. Author of the plugin/theme
+msgid "Nocean"
+msgstr "Nocean"
+
+#. Description of the plugin/theme
+msgid "Add honeypot anti-spam functionality to the popular Contact Form 7 plugin."
+msgstr "一般的な Contact Form 7 プラグインにハニーポットアンチスパム機​​能を追加します。"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.nocean.ca/plugins/honeypot-module-for-contact-form-7-wordpress-plugin/"
+msgstr "http://www.nocean.ca/plugins/honeypot-module-for-contact-form-7-wordpress-plugin/"
+
+#. Plugin Name of the plugin/theme
+msgid "Contact Form 7 Honeypot"
+msgstr "Contact Form 7 Honeypot"
+
+#: honeypot.php:278
+msgid "Copy this code and paste it into the form left."
+msgstr "このコードをコピーして、左のフォームに貼り付けます。"
+
+#: honeypot.php:234
+msgid "Insert Tag"
+msgstr "挿入タグ"
+
+#: honeypot.php:222 honeypot.php:269
+msgid "If checked, the accessibility message will not be generated. <strong>This is not recommended</strong>. If you're unsure, leave this unchecked."
+msgstr "オンにすると、アクセシビリティメッセージは生成されません。 <strong>これはお勧めできません</strong>。あなたが不明な場合は、これをチェックしないでください。"
+
+#: honeypot.php:218 honeypot.php:268
+msgid "Don't Use Accessibility Message (optional)"
+msgstr "アクセシビリティメッセージを使用しない (オプション)"
+
+#: honeypot.php:209 honeypot.php:262
+msgid "Class (optional)"
+msgstr "クラス (オプション)"
+
+#: honeypot.php:200 honeypot.php:258
+msgid "ID (optional)"
+msgstr "ID (オプション)"
+
+#: honeypot.php:194 honeypot.php:247
+msgid "For better security, change \"honeypot\" to something less bot-recognizable."
+msgstr "より良いセキュリティを実現するには、「ハニーポット」をボット認識しにくいものに変更してください。"
+
+#: honeypot.php:190 honeypot.php:245
+msgid "Name"
+msgstr "名前"
+
+#: honeypot.php:181
+msgid "CF7 Honeypot"
+msgstr "CF7 Honeypot"
+
+#: honeypot.php:180
+msgid "Generate a form-tag for a spam-stopping honeypot field. For more details, see %s."
+msgstr "スパムを阻止するハニーポットフィールド用のフォームタグを生成します。詳細については、%sを参照してください。"
+
+#: honeypot.php:171 honeypot.php:173
+msgid "Honeypot"
+msgstr "ハニーポット"
+
+#: honeypot.php:115
+msgid "Please leave this field empty."
+msgstr "このフィールドは空のままにしてください。"
+
+#: honeypot.php:67
+msgid "%s must be installed and activated for the CF7 Honeypot plugin to work"
+msgstr "CF7 Honeypot プラグインが動作するには、%sを インストールして有効化する必要があります"

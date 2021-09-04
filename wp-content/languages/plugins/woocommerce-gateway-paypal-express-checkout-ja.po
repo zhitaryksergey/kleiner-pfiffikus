@@ -1,0 +1,1396 @@
+# Translation of Plugins - WooCommerce PayPal Checkout Payment Gateway - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - WooCommerce PayPal Checkout Payment Gateway - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-07-25 01:49:40+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - WooCommerce PayPal Checkout Payment Gateway - Stable (latest release)\n"
+
+#: includes/settings/settings-ppec.php:651
+msgid "Enable PayPal Checkout buttons on the regular checkout page"
+msgstr "通常の支払いページで PayPal チェックアウトボタンを有効にする"
+
+#: includes/settings/settings-ppec.php:648
+msgid "Enable on the checkout page"
+msgstr "支払いページで有効化"
+
+#: includes/settings/settings-ppec.php:618
+msgid "Enable PayPal Checkout buttons on the single product page"
+msgstr "商品ページで PayPal チェックアウトボタンを有効化"
+
+#: includes/settings/settings-ppec.php:615
+msgid "Enable on the single product page"
+msgstr "商品ページで有効化"
+
+#: includes/settings/settings-ppec.php:569
+msgid "Enable on the cart page"
+msgstr "お買い物カゴページで有効化化"
+
+#: includes/settings/settings-ppec.php:437
+msgid "MercadoPago"
+msgstr "MercadoPago"
+
+#: includes/settings/settings-ppec.php:432
+msgid "BLIK"
+msgstr "BLIK"
+
+#: includes/settings/settings-ppec.php:554
+msgid "Shape and size of the message."
+msgstr "メッセージの形とサイズ。"
+
+#: includes/settings/settings-ppec.php:550
+msgid "20x1"
+msgstr "20x1"
+
+#: includes/settings/settings-ppec.php:549
+msgid "8x1"
+msgstr "8x1"
+
+#: includes/settings/settings-ppec.php:548
+msgid "1x4"
+msgstr "1x4"
+
+#: includes/settings/settings-ppec.php:547
+msgid "1x1"
+msgstr "1x1"
+
+#: includes/settings/settings-ppec.php:542
+msgid "Credit Messaging ratio"
+msgstr "クレジットメッセージ比率"
+
+#: includes/settings/settings-ppec.php:539
+msgid "Color of the message."
+msgstr "メッセージの色。"
+
+#: includes/settings/settings-ppec.php:535
+msgid "White no border"
+msgstr "白、枠線なし"
+
+#: includes/settings/settings-ppec.php:532
+msgid "Gray"
+msgstr "グレー"
+
+#: includes/settings/settings-ppec.php:524
+msgid "Credit Messaging color"
+msgstr "クレジットメッセージ色"
+
+#: includes/settings/settings-ppec.php:521
+msgid "Text and logo color of the message."
+msgstr "メッセージのテキストとロゴの色。"
+
+#: includes/settings/settings-ppec.php:517
+#: includes/settings/settings-ppec.php:533
+msgid "Grayscale"
+msgstr "グレースケール"
+
+#: includes/settings/settings-ppec.php:516
+#: includes/settings/settings-ppec.php:531
+msgid "Monochrome"
+msgstr "白黒"
+
+#: includes/settings/settings-ppec.php:515
+#: includes/settings/settings-ppec.php:534
+msgid "White"
+msgstr "白"
+
+#: includes/settings/settings-ppec.php:509
+msgid "Credit Messaging text color"
+msgstr "クレジットメッセージテキスト色"
+
+#: includes/settings/settings-ppec.php:506
+msgid "Position of the PayPal logo in the message."
+msgstr "メッセージ内の PayPal ロゴの位置。"
+
+#: includes/settings/settings-ppec.php:502
+msgid "Top"
+msgstr "上"
+
+#: includes/settings/settings-ppec.php:501
+msgid "Right"
+msgstr "右"
+
+#: includes/settings/settings-ppec.php:500
+msgid "Left"
+msgstr "左"
+
+#: includes/settings/settings-ppec.php:495
+msgid "Credit Messaging logo position"
+msgstr "クレジットメッセージロゴの位置"
+
+#: includes/settings/settings-ppec.php:492
+msgid "PayPal Credit logo used in the message."
+msgstr "メッセージで使用されている PayPal クレジットのロゴ。"
+
+#: includes/settings/settings-ppec.php:488
+msgid "None"
+msgstr "なし"
+
+#: includes/settings/settings-ppec.php:487
+msgid "In-Line"
+msgstr "インライン"
+
+#: includes/settings/settings-ppec.php:486
+msgid "Alternative"
+msgstr "代替"
+
+#: includes/settings/settings-ppec.php:485
+msgid "Primary"
+msgstr "メイン"
+
+#: includes/settings/settings-ppec.php:480
+msgid "Credit Messaging logo"
+msgstr "クレジットメッセージロゴ"
+
+#: includes/settings/settings-ppec.php:477
+msgid "The layout of the message."
+msgstr "メッセージのレイアウト。"
+
+#: includes/settings/settings-ppec.php:473
+msgid "Graphic"
+msgstr "グラフィック"
+
+#: includes/settings/settings-ppec.php:472
+msgid "Text"
+msgstr "テキスト"
+
+#: includes/settings/settings-ppec.php:467
+msgid "Credit Messaging Layout"
+msgstr "クレジットメッセージレイアウト"
+
+#: includes/settings/settings-ppec.php:464
+msgid "Display credit messages on your website to promote special financing offers, which help increase sales."
+msgstr "ウェブサイトにクレジットメッセージを表示して、売り上げの増加に役立つ特別なオファーを宣伝します。"
+
+#: includes/settings/settings-ppec.php:462
+msgid "Enable PayPal Credit messages"
+msgstr "PayPal クレジットメッセージを有効化"
+
+#: includes/settings/settings-ppec.php:284
+msgid "Require buyer to enter their telephone number during checkout if none is provided by PayPal. Disabling this option doesn't affect direct Debit or Credit Card payments offered by PayPal."
+msgstr "PayPal から電話番号が提供されない場合は、購入者がチェックアウト中に電話番号を入力するように要求します。 このオプションを無効にしても、PayPal が提供するデビットまたはクレジットカードによる直接支払いには影響しません。"
+
+#. Translators: placeholders are a date in local format and its timezone.
+#: includes/abstracts/abstract-wc-gateway-ppec.php:222
+msgid "expired on %1$s (%2$s)"
+msgstr "%1$sで期限切れ (%2$s)"
+
+#. Translators: placeholders are a date in local format and its timezone.
+#: includes/abstracts/abstract-wc-gateway-ppec.php:217
+msgid "expires on %1$s (%2$s)"
+msgstr "%1$sで期限切れ (%2$s)"
+
+#: includes/class-wc-gateway-ppec-cart-handler.php:367
+msgid "OR"
+msgstr "OR"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:410
+msgid "Refund Error: Sorry! This is not a refundable transaction."
+msgstr "払い戻しエラー: これは返金可能な取引ではありません。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:328
+msgid "An error occurred while trying to validate your API credentials. Unable to verify that your API credentials are correct."
+msgstr "API 認証情報を検証しようとしたときにエラーが発生しました。 API の認証情報が正しいことを確認できません。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:306
+msgid "Error: You must enter API username."
+msgstr "エラー: API ユーザー名を入力する必要があります。"
+
+#: includes/class-wc-gateway-ppec-cart-handler.php:587
+msgid "An error occurred while processing your PayPal payment. Please contact the store owner for assistance."
+msgstr "PayPal 支払いの処理中にエラーが発生しました。店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-plugin.php:470
+msgid "Support"
+msgstr "サポート"
+
+#: includes/class-wc-gateway-ppec-plugin.php:470
+msgid "Open a support request at WooCommerce.com"
+msgstr "WooCommerce.com でサポートリクエストを開く"
+
+#: includes/class-wc-gateway-ppec-plugin.php:469
+msgid "View Documentation"
+msgstr "ドキュメンテーションを表示"
+
+#: includes/settings/settings-ppec.php:441
+msgid "Sofort"
+msgstr "Sofort"
+
+#: includes/settings/settings-ppec.php:439
+msgid "Przelewy24"
+msgstr "Przelewy24"
+
+#: includes/settings/settings-ppec.php:438
+msgid "MyBank"
+msgstr "MyBank"
+
+#: includes/settings/settings-ppec.php:436
+msgid "iDEAL"
+msgstr "iDEAL"
+
+#: includes/settings/settings-ppec.php:435
+msgid "giropay"
+msgstr "giropay"
+
+#: includes/settings/settings-ppec.php:434
+msgid "eps"
+msgstr "eps"
+
+#: includes/settings/settings-ppec.php:431
+msgid "Bancontact"
+msgstr "Bancontact"
+
+#: includes/settings/settings-ppec.php:440
+msgid "SEPA-Lastschrift"
+msgstr "SEPA-Lastschrift"
+
+#: includes/settings/settings-ppec.php:442
+msgid "Venmo"
+msgstr "Venmo"
+
+#: includes/settings/settings-ppec.php:429
+msgid "Credit or debit cards"
+msgstr "クレジットまたはデビットカード"
+
+#: includes/settings/settings-ppec.php:413
+msgid "PayPal offers different labels on the \"PayPal Checkout\" buttons, allowing you to select a suitable label.)"
+msgstr "PayPal の[ PayPal チェックアウト]ボタンにはさまざまなラベルがあり、適切なラベルを選択できます。)"
+
+#: includes/settings/settings-ppec.php:372
+#: includes/settings/settings-ppec.php:418
+msgid "Pay with PayPal"
+msgstr "PayPal で支払う"
+
+#: includes/settings/settings-ppec.php:371
+#: includes/settings/settings-ppec.php:417
+msgid "PayPal Buy Now"
+msgstr "PayPal で今買う"
+
+#: includes/settings/settings-ppec.php:367
+msgid "This controls the label on the primary button."
+msgstr "これは、主ボタンのラベルを制御します。"
+
+#: includes/settings/settings-ppec.php:362
+#: includes/settings/settings-ppec.php:408
+msgid "Button Label"
+msgstr "ボタンのラベル"
+
+#: includes/settings/settings-ppec.php:63
+#: includes/settings/settings-ppec.php:446
+msgid "Enable PayPal Credit to eligible customers"
+msgstr "対象となる顧客に対して PayPal クレジットを有効にする"
+
+#: includes/settings/settings-ppec.php:36
+#: includes/settings/settings-ppec.php:59
+msgid "Learn more"
+msgstr "さらに詳しく"
+
+#. Translators: Placeholders are opening an closing link HTML tags.
+#: includes/settings/settings-ppec.php:33
+msgid "To reset current credentials and use another account %1$sclick here%2$s. %3$sLearn more about your API Credentials%2$s."
+msgstr "現在の認証情報をリセットして別のアカウントを使用するには、%1$sここをクリック%2$sしてください。%3$s API 認証情報の詳細をご覧ください。%2$s"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:653
+msgid "Remove"
+msgstr "削除"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:1181
+msgid "You have cancelled Checkout with PayPal. The payment method was not updated."
+msgstr "PayPal でのチェックアウトをキャンセルしました。 お支払い方法は更新されませんでした。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:1158
+msgid "There was a problem updating your payment method. Please try again later or use a different payment method."
+msgstr "お支払い方法の更新中に問題が発生しました。 後でもう一度試すか、別のお支払い方法を使用してください。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:1149
+msgid "The payment method was updated for all your current subscriptions."
+msgstr "現在のすべて定期購入の支払い方法が更新されました。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:1144
+msgid "The payment method was updated for this subscription."
+msgstr "この定期購入のお支払い方法が更新されました。"
+
+#. Translators: %1$ <strong> tag, %2$ </strong> closing tag, %3$ WooCommerce
+#. version, %4$ <a> tag linking to Plugins screen, %5$ </a> closing tag.
+#: includes/class-wc-gateway-ppec-admin-handler.php:392
+msgid "%1$sWarning!%2$s PayPal Checkout will drop support for WooCommerce %3$s in a soon to be released update. To continue using PayPal Checkout please %4$supdate to %1$sWooCommerce 3.0%2$s or greater%5$s."
+msgstr "%1$s警告!%2$s PayPal チェックアウトは、間もなくリリースされるアップデートで WooCommerce %3$s のサポートを終了します。 PayPal チェックアウトを引き続き使用するには、%4$s%1$sWooCommerce 3.0%2$s 以降に更新してください。%5$s"
+
+#. Translators: placeholder is the URL of the gateway settings page.
+#: includes/class-wc-gateway-ppec-plugin.php:542
+msgid "<p>PayPal Checkout with new <strong>Smart Payment Buttons™</strong> gives your customers the power to pay the way they want without leaving your site.</p><p>The <strong>existing buttons will be removed</strong> in the <strong>next release</strong>. Please upgrade to Smart Payment Buttons on the <a href=\"%s\">PayPal Checkout settings page</a>.</p>"
+msgstr "<p>新しい <strong>Smart Payment Buttons™</strong> を備えた PayPal Checkout により、お客様はサイトを離れることなく、好きな方法で支払うことができます。</p><p><strong>既存のボタン</strong>は<strong>次のリリース</strong>で削除されます。 <a href=\"%s\">PayPal チェックアウト設定ページ</a>で Smart Payment Buttons にアップグレードしてください。</p>"
+
+#. Description of the plugin
+msgid "Accept all major credit and debit cards, plus Venmo and PayPal Credit in the US, presenting options in a customizable stack of payment buttons. Fast, seamless, and flexible."
+msgstr "すべての主要なクレジットカードとデビットカードに加え、米国では Venmo と PayPal クレジットを受け入れ、カスタマイズ可能な支払いボタンのスタックにオプションを表示します。 高速、シームレス、そして柔軟性。"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:353
+msgid "PayPal Payout:"
+msgstr "PayPal ペイアウト:"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:352
+msgid "This represents the net total that will be credited to your PayPal account. This may be in a different currency than is set in your PayPal account."
+msgstr "これはあなたの PayPal アカウントに入金される合計金額を表します。 これは、 PayPal アカウントに設定されている通貨とは異なる通貨である可能性があります。"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:343
+msgid "PayPal Fee:"
+msgstr "PayPal 手数料:"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:342
+msgid "This represents the fee PayPal collects for the transaction."
+msgstr "これは、PayPal が受け取る手数料です。"
+
+#. Plugin Name of the plugin
+msgid "WooCommerce PayPal Checkout Gateway"
+msgstr "WooCommerce PayPal Checkout Gateway"
+
+#: includes/settings/settings-ppec.php:201
+msgid "Customize the appearance of PayPal Checkout on the PayPal side."
+msgstr "PayPal 側で PayPal チェックアウトの外観をカスタマイズします。"
+
+#: includes/settings/settings-ppec.php:77
+msgid "Enable PayPal Checkout"
+msgstr "PayPal チェックアウトを有効化"
+
+#: includes/settings/settings-ppec.php:68
+msgid "This enables PayPal Credit, which displays a PayPal Credit button next to the primary PayPal Checkout button. PayPal Checkout lets you give customers access to financing through PayPal Credit® - at no additional cost to you. You get paid up front, even though customers have more time to pay. A pre-integrated payment button shows up next to the PayPal Button, and lets customers pay quickly with PayPal Credit®. (Should be unchecked for stores involved in Real Money Gaming.)"
+msgstr "これにより PayPal クレジットが有効になり、メインの「PayPal チェックアウト」ボタンの横に「PayPal クレジット」ボタンが表示されます。PayPal チェックアウトを使えば、追加費用なしで PayPal クレジット® を通じてお客様に融資へのアクセスを提供できます。お客様が支払うまでの時間は長くなりますが、店舗はすぐに支払いを受け取れます。事前連携された支払いボタンが PayPal ボタンの隣に表示され、お客様は PayPal クレジット® で素早く支払いをできます (リアルマネーゲームに関わる店舗ではチェックを外してください)。"
+
+#: includes/class-wc-gateway-ppec-privacy.php:272
+msgid "PayPal Checkout Order Data Erased."
+msgstr "PayPal チェックアウト注文データを消去しました。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:18
+#: includes/class-wc-gateway-ppec-privacy.php:12
+#: includes/settings/settings-ppec.php:370
+#: includes/settings/settings-ppec.php:416
+msgid "PayPal Checkout"
+msgstr "PayPal チェックアウト"
+
+#: includes/settings/settings-ppec.php:658
+msgid "Configure settings specific to regular checkout"
+msgstr "通常購入手続きに固有の設定を行う"
+
+#: includes/settings/settings-ppec.php:642
+msgid "Regular Checkout Button Settings"
+msgstr "通常購入手続きボタン設定"
+
+#: includes/settings/settings-ppec.php:625
+msgid "Configure settings specific to Single Product view"
+msgstr "個別商品表示に固有の設定を行う"
+
+#: includes/settings/settings-ppec.php:609
+msgid "Single Product Button Settings"
+msgstr "個別商品ボタン設定"
+
+#: includes/settings/settings-ppec.php:593
+#: includes/settings/settings-ppec.php:630
+#: includes/settings/settings-ppec.php:663
+msgid "Optionally override global button settings above and configure buttons for this context."
+msgstr "オプションとして、上のグローバルボタン設定を上書きし、このコンテキストのボタンを設定できます。"
+
+#: includes/settings/settings-ppec.php:588
+msgid "Configure settings specific to mini-cart"
+msgstr "ミニお買い物カゴに固有の設定を行う"
+
+#: includes/settings/settings-ppec.php:587
+#: includes/settings/settings-ppec.php:624
+#: includes/settings/settings-ppec.php:657
+msgid "Configure Settings"
+msgstr "設定"
+
+#: includes/settings/settings-ppec.php:581
+msgid "Mini-cart Button Settings"
+msgstr "ミニお買い物カゴボタンの設定"
+
+#: includes/settings/settings-ppec.php:433
+msgid "ELV"
+msgstr "ELV"
+
+#: includes/settings/settings-ppec.php:427
+msgid "Hides the specified funding methods."
+msgstr "特定の資金利用方法を非表示にします。"
+
+#: includes/settings/settings-ppec.php:401
+msgid "Responsive"
+msgstr "レスポンシブデザイン"
+
+#: includes/settings/settings-ppec.php:399
+msgid "PayPal offers different sizes of the \"PayPal Checkout\" buttons, allowing you to select a size that best fits your site's theme. This setting will allow you to choose which size button(s) appear on your cart page. (The \"Responsive\" option adjusts to container size, and is available and recommended for Smart Payment Buttons.)"
+msgstr "PayPal はさまざまなサイズの「PayPal チェックアウト」ボタンを提供しており、サイトのテーマに最も適したサイズを選択できます。この設定によって、お買い物カゴページに表示するサイズボタンを選択できます。(「レスポンシブ」オプションはコンテナのサイズに合わせて調整され、スマートペイメントボタンに使用可能で推奨されています）"
+
+#: includes/settings/settings-ppec.php:390
+msgid "Horizontal"
+msgstr "水平"
+
+#: includes/settings/settings-ppec.php:389
+msgid "Vertical"
+msgstr "垂直"
+
+#: includes/settings/settings-ppec.php:387
+msgid "If additional funding sources are available to the buyer through PayPal, such as Venmo, then multiple buttons are displayed in the space provided. Choose \"vertical\" for a dynamic list of alternative and local payment options, or \"horizontal\" when space is limited."
+msgstr "Venmo など、PayPal を介して追加の資金源が購入者に利用可能な場合、複数のボタンが所定のスペースに表示されます。 代替支払い方法と地域での支払い方法の動的な一覧を表示するには[垂直]を、スペースが限られている場合は[水平]を選択します。"
+
+#: includes/settings/settings-ppec.php:382
+msgid "Button Layout"
+msgstr "ボタンレイアウト"
+
+#: includes/settings/settings-ppec.php:358
+msgid "Rectangle"
+msgstr "長方形"
+
+#: includes/settings/settings-ppec.php:357
+msgid "Pill"
+msgstr "ピル"
+
+#: includes/settings/settings-ppec.php:355
+msgid "The pill-shaped button's unique and powerful shape signifies PayPal in people's minds. Use the rectangular button as an alternative when pill-shaped buttons might pose design challenges."
+msgstr "丸角形のボタンのユニークで強力な形は、人々の心の中で PayPal を意味します。 丸型ボタンがデザイン上の問題を引き起こす可能性がある場合は、代わりに長方形ボタンを使用してください。"
+
+#: includes/settings/settings-ppec.php:350
+msgid "Button Shape"
+msgstr "ボタン形状"
+
+#: includes/settings/settings-ppec.php:346
+#: includes/settings/settings-ppec.php:514
+#: includes/settings/settings-ppec.php:529
+msgid "Black"
+msgstr "黒"
+
+#: includes/settings/settings-ppec.php:345
+msgid "Silver"
+msgstr "銀"
+
+#: includes/settings/settings-ppec.php:344
+#: includes/settings/settings-ppec.php:530
+msgid "Blue"
+msgstr "青"
+
+#: includes/settings/settings-ppec.php:343
+msgid "Gold (Recommended)"
+msgstr "金 (推奨)"
+
+#: includes/settings/settings-ppec.php:341
+msgid "Controls the background color of the primary button. Use \"Gold\" to leverage PayPal's recognition and preference, or change it to match your site design or aesthetic."
+msgstr "メインボタンの背景色をコントロールします。金色を使って、PayPal ブランド認識を活用したり、サイトのデザインやビジュアルに合わせて変更したりできます。"
+
+#: includes/settings/settings-ppec.php:336
+msgid "Button Color"
+msgstr "ボタンの色"
+
+#. Translators: %s is the URL of the Smart Payment Buttons integration docs.
+#: includes/settings/settings-ppec.php:331
+msgid "PayPal Checkout's Smart Payment Buttons provide a variety of button customization options, such as color, language, shape, and multiple button layout. <a href=\"%s\">Learn more about Smart Payment Buttons</a>."
+msgstr "PayPal チェックアウトのスマートペイメントボタンは、色、言語、形状、複数ボタンのレイアウトなど、さまざまなボタンのカスタマイズオプションを提供します。<a href=\"%s\">スマートペイメントボタンについてさらに詳しく。</a>"
+
+#: includes/settings/settings-ppec.php:328
+msgid "Use Smart Payment Buttons"
+msgstr "スマートペイメントボタンを使う"
+
+#: includes/settings/settings-ppec.php:325
+msgid "Smart Payment Buttons"
+msgstr "スマートペイメントボタン"
+
+#: includes/settings/settings-ppec.php:320
+msgid "Button Settings"
+msgstr "ボタン設定"
+
+#: includes/settings/settings-ppec.php:199
+msgid "PayPal-hosted Checkout Settings"
+msgstr "PayPal ホスト購入手続き設定"
+
+#: includes/settings/settings-ppec.php:87
+#: includes/settings/settings-ppec.php:369
+#: includes/settings/settings-ppec.php:415
+msgid "PayPal"
+msgstr "PayPal"
+
+#: includes/settings/settings-ppec.php:65
+msgid "This option is disabled. Currently PayPal Credit only available for U.S. merchants using USD currency."
+msgstr "このオプションは無効です。 現在 PayPal クレジットは米ドル通貨を使用する米国の加盟店でのみ利用可能です。"
+
+#: includes/class-wc-gateway-ppec-privacy.php:249
+msgid "PayPal Checkout Subscriptions Data Erased."
+msgstr "PayPal チェックアウトサブスクリプションデータを消去しました。"
+
+#. Translators: placeholder is an order number.
+#: includes/class-wc-gateway-ppec-privacy.php:234
+msgid "Order ID %d contains an active Subscription"
+msgstr "注文 ID %d には有効なサブスクリプションが必要です"
+
+#: includes/class-wc-gateway-ppec-privacy.php:142
+msgid "Subscriptions"
+msgstr "定期購入"
+
+#: includes/class-wc-gateway-ppec-privacy.php:85
+#: includes/class-wc-gateway-ppec-privacy.php:150
+msgid "PPEC Billing agreement id"
+msgstr "PPEC 請求契約 ID"
+
+#: includes/class-wc-gateway-ppec-privacy.php:81
+#: includes/class-wc-gateway-ppec-privacy.php:146
+msgid "PPEC Refundable transaction data"
+msgstr "PPEC 返金可能取引データ"
+
+#: includes/class-wc-gateway-ppec-privacy.php:77
+msgid "Orders"
+msgstr "注文"
+
+#. Translators: placeholder is the URL of WC's privacy statement (PPEC
+#. section).
+#: includes/class-wc-gateway-ppec-privacy.php:54
+msgid "By using this extension, you may be storing personal data or sharing data with an external service. <a href=\"%s\" target=\"_blank\">Learn more about how this works, including what you may want to include in your privacy policy.</a>"
+msgstr "この拡張機能を使用すると、個人データを保存したり、外部サービスとデータを共有したりできます。<a href=\"%s\" target=\"_blank\">これはプライバシーポリシーに含めるかもしれないものを含め、どのように機能するかについては、こちらをご覧ください。</a>"
+
+#: includes/class-wc-gateway-ppec-privacy.php:19
+msgid "WooCommerce PPEC Data"
+msgstr "WooCommerce PPEC データ"
+
+#: includes/class-wc-gateway-ppec-privacy.php:16
+msgid "WooCommerce PPEC Subscriptions Data"
+msgstr "WooCommerce PPEC サブスクリプションデータ"
+
+#: includes/class-wc-gateway-ppec-privacy.php:14
+msgid "WooCommerce PPEC Order Data"
+msgstr "WooCommerce PPEC 注文データ"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:614
+msgid "Remove image"
+msgstr "画像を削除"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:603
+#: includes/abstracts/abstract-wc-gateway-ppec.php:606
+msgid "Add image"
+msgstr "画像を追加"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:602
+msgid "Use this image"
+msgstr "この画像を使用"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:601
+msgid "Select a image to upload"
+msgstr "アップロードする画像を選択"
+
+#. Translators: placeholder is an image's URL.
+#: includes/abstracts/abstract-wc-gateway-ppec.php:593
+msgid "Already using URL as image: %s"
+msgstr "すでに URL を画像として使用中です: %s"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:273
+msgid "Phone:"
+msgstr "電話:"
+
+#: includes/settings/settings-ppec.php:280
+#: includes/settings/settings-ppec.php:282
+msgid "Require Phone Number"
+msgstr "電話番号の入力を必須にする"
+
+#. Translators: 1) is an <a> tag linking to PayPal's contact info, 2) is the
+#. closing </a> tag.
+#: includes/settings/settings-ppec.php:274
+msgid "PayPal only returns a shipping address back to the website. To make sure billing address is returned as well, please enable this functionality on your PayPal account by calling %1$sPayPal Technical Support%2$s."
+msgstr "PayPal は配送先住所のみをサイトに返します。 請求先住所も確実に返されるようにするには、%1$sPayPal テクニカルサポート%2$sに連絡して、PayPal アカウントでこの機能を有効にしてください。"
+
+#: includes/settings/settings-ppec.php:572
+msgid "Enable PayPal Checkout buttons on the cart page"
+msgstr "お買い物カゴページで PayPal チェックアウトボタンを有効化"
+
+#: includes/class-wc-gateway-ppec-cart-handler.php:76
+#: includes/class-wc-gateway-ppec-cart-handler.php:146
+#: includes/class-wc-gateway-ppec-cart-handler.php:167
+msgid "Cheatin&#8217; huh?"
+msgstr "間違えましたか ?"
+
+#. Author of the plugin
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/settings/settings-ppec.php:243
+msgctxt "Type of PayPal page"
+msgid "Login (PayPal account login)"
+msgstr "ログイン (PayPal アカウントログイン)"
+
+#: includes/settings/settings-ppec.php:242
+msgctxt "Type of PayPal page"
+msgid "Billing (Non-PayPal account)"
+msgstr "請求 (PayPal 以外のアカウント)"
+
+#: includes/settings/settings-ppec.php:238
+msgid "Type of PayPal page to display."
+msgstr "表示する PayPal ページの種類。"
+
+#: includes/settings/settings-ppec.php:235
+msgid "Landing Page"
+msgstr "ランディングページ"
+
+#: includes/settings/settings-ppec.php:229
+msgid "Optionally enter the name of the page style you wish to use. These are defined within your PayPal account."
+msgstr "必要に応じて、使用したいページスタイルの名前を入力してください。 これらは PayPal アカウント内で定義されています。"
+
+#: includes/settings/settings-ppec.php:227
+msgid "Page Style"
+msgstr "ページスタイル"
+
+#: includes/settings/settings-ppec.php:221
+msgid "If you want PayPal to co-brand the checkout page with your header, enter the URL of your header image here.<br/>The image must be no larger than 750x90, GIF, PNG, or JPG format, and should be served over HTTPS."
+msgstr "PayPal でヘッダーとチェックアウトページを同じブランドにする場合は、ここにヘッダー画像の URL を入力します。<br/>画像は 750 x 90、GIF、PNG、または JPG 形式以下でなければならず、HTTPS で配信する必要があります。"
+
+#: includes/settings/settings-ppec.php:219
+msgid "Header Image (750×90)"
+msgstr "ヘッダー画像 (750×90)"
+
+#: includes/settings/settings-ppec.php:211
+msgid "Logo Image (190×60)"
+msgstr "ロゴ画像 (190×60)"
+
+#: includes/settings/settings-ppec.php:206
+msgid "A label that overrides the business name in the PayPal account on the PayPal hosted checkout pages."
+msgstr "PayPal がホストするチェックアウトページの PayPal アカウントの会社名を上書きするラベル。"
+
+#: includes/settings/settings-ppec.php:204
+msgid "Brand Name"
+msgstr "ブランド名"
+
+#: includes/settings/settings-ppec.php:322
+msgid "Customize the appearance of PayPal Checkout on your site."
+msgstr "サイト上の PayPal チェックアウトの外観をカスタマイズできます。"
+
+#: includes/settings/settings-ppec.php:99
+msgid "Account Settings"
+msgstr "アカウント設定"
+
+#: includes/settings/settings-ppec.php:95
+msgid "Pay via PayPal; you can pay with your credit card if you don't have a PayPal account."
+msgstr "PayPal 経由での支払い。PayPal アカウントがない場合は、クレジットカードで支払い可能です。"
+
+#. Translators: Placeholders are opening and closing link HTML tags.
+#: includes/settings/settings-ppec.php:56
+msgid "Your account setting is set to sandbox, no real charging takes place. To accept live payments, switch your environment to live and connect your PayPal account. To reset current credentials and use other sandbox account %1$sclick here%2$s. %3$sLearn more about your API Credentials%2$s."
+msgstr "アカウント設定がサンドボックスに設定されているため、実際の課金は行われません。 本番で支払いを受け取るには、環境を本番に切り替えて PayPal アカウントに接続します。 現在の資格情報をリセットして他のサンドボックスアカウントを使用するには、%1$sここをクリックしてください。%2$s%3$sAPI Credentials について知りたい方はこちらへ。%2$s"
+
+#. Translators: Placeholders are opening an closing link HTML tags.
+#. Translators: Placeholders are opening and closing link HTML tags.
+#: includes/settings/settings-ppec.php:34
+#: includes/settings/settings-ppec.php:57
+msgid "Reset current credentials"
+msgstr "現在のログイン情報をリセット"
+
+#: includes/exceptions/class-wc-gateway-ppec-missing-session-exception.php:19
+msgid "The buyer's session information could not be found."
+msgstr "購入者のセッション情報が見つかりませんでした。"
+
+#. translators: placeholders are error code and message from PayPal
+#: includes/exceptions/class-wc-gateway-ppec-api-exception.php:64
+msgid "PayPal error (%1$s): %2$s"
+msgstr "PayPal エラー (%1$s): %2$s"
+
+#: includes/exceptions/class-wc-gateway-ppec-api-exception.php:40
+#: includes/exceptions/class-wc-gateway-ppec-api-exception.php:68
+msgid "An error occurred while calling the PayPal API."
+msgstr "PayPal API の呼び出し中にエラーが発生しました。"
+
+#: includes/class-wc-gateway-ppec-with-paypal-addons.php:224
+msgid "PayPal payment declined"
+msgstr "PayPal 支払いが拒否されました"
+
+#. Translators: %s is a transaction ID.
+#: includes/class-wc-gateway-ppec-with-paypal-addons.php:220
+msgid "PayPal payment approved (ID: %s)"
+msgstr "PayPal による支払いが承認されました (ID: %s)"
+
+#. translators: placeholder is pending reason from PayPal API.
+#: includes/class-wc-gateway-ppec-with-paypal-addons.php:208
+msgid "PayPal transaction held: %s"
+msgstr "PayPal 取引が保留になりました: %s"
+
+#: includes/class-wc-gateway-ppec-with-paypal-addons.php:198
+msgid "PayPal API error"
+msgstr "PayPal API エラー"
+
+#: includes/class-wc-gateway-ppec-plugin.php:469
+msgid "Docs"
+msgstr "ドキュメント"
+
+#: includes/class-wc-gateway-ppec-plugin.php:450
+msgid "Settings"
+msgstr "設定"
+
+#. Translators: placeholder is the URL of the gateway settings page.
+#: includes/class-wc-gateway-ppec-plugin.php:320
+msgid "PayPal Checkout is almost ready. To get started, <a href=\"%s\">connect your PayPal account</a>."
+msgstr "PayPal チェックアウトの準備はほぼ完了しています。始めるには、<a href=\"%s\">PayPal アカウントに接続</a>してください。"
+
+#. Translators: placeholder is blogname.
+#: includes/class-wc-gateway-ppec-client.php:404
+msgctxt "data sent to PayPal"
+msgid "Orders with %s"
+msgstr "%sの注文"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:306
+msgid "Create an account by entering the information below. If you are a returning customer please login at the top of the page."
+msgstr "以下の情報を入力してアカウントを作成してください。 アカウントをお持ちなら、ページのトップでログインしてください。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:297
+msgid "Create an account?"
+msgstr "アカウントを作成しますか ?"
+
+#: includes/class-wc-gateway-ppec-cart-handler.php:383
+msgid "Pay with PayPal Credit"
+msgstr "Pay with PayPal クレジット"
+
+#. Author URI of the plugin
+msgid "https://woocommerce.com"
+msgstr "https://woocommerce.com"
+
+#. Plugin URI of the plugin
+msgid "https://woocommerce.com/products/woocommerce-gateway-paypal-express-checkout/"
+msgstr "https://woocommerce.com/products/woocommerce-gateway-paypal-express-checkout/"
+
+#: includes/settings/settings-ppec.php:315
+msgid "Do not send line items to PayPal"
+msgstr "PayPal に品目を送信しない"
+
+#: includes/settings/settings-ppec.php:314
+msgid "Add another line item"
+msgstr "別の品目を追加"
+
+#: includes/settings/settings-ppec.php:310
+msgid "Internally, WC calculates line item prices and taxes out to four decimal places; however, PayPal can only handle amounts out to two decimal places (or, depending on the currency, no decimal places at all). Occasionally, this can cause discrepancies between the way WooCommerce calculates prices versus the way PayPal calculates them. If a mismatch occurs, this option controls how the order is dealt with so payment can still be taken."
+msgstr "内部的には、WC は計算品目の価格と税を小数点以下4桁で計算します。ただし、PayPal は金額を小数点以下2桁 (または、通貨によっては小数点以下なし) のみ処理できます。時々、このために WooCommerce と PayPal の間での価格計算方法の相違が発生します。このオプションは、相違が発生した場合の注文処理方法をを制御します。"
+
+#: includes/settings/settings-ppec.php:307
+msgid "Subtotal Mismatch Behavior"
+msgstr "小計不一致現象"
+
+#: includes/settings/settings-ppec.php:213
+msgid "If you want PayPal to co-brand the checkout page with your logo, enter the URL of your logo image here.<br/>The image must be no larger than 190x60, GIF, PNG, or JPG format, and should be served over HTTPS."
+msgstr "PayPal ブランドのロゴと同時に自分のロゴを購入手続きのページに掲載したい場合は、ここにロゴ画像の URL を入力してください。<br/>画像は190× 60ピクセル以下で、GIF、PNG、または JPG 形式であり、HTTPS を介して提供する必要があります。"
+
+#: includes/settings/settings-ppec.php:304
+msgid "If you enable this setting, PayPal will be instructed not to allow the buyer to use funding sources that take additional time to complete (for example, eChecks). Instead, the buyer will be required to use an instant funding source, such as an instant transfer, a credit/debit card, or PayPal Credit."
+msgstr "この設定を有効にした場合、PayPal は買い手 (たとえば eChecks) を完了する時間がかかる資金源を使用するように指示されます。買い手は、資金源、インスタント転送、クレジット カード/デビット カード、または PayPal クレジットなど、インスタント検索を使用する必要になります。"
+
+#: includes/settings/settings-ppec.php:301
+msgid "Require Instant Payment"
+msgstr "即時支払いを必須にする"
+
+#: includes/settings/settings-ppec.php:299
+msgid "Instant Payments"
+msgstr "即時支払い"
+
+#: includes/settings/settings-ppec.php:295
+msgid "Authorize"
+msgstr "売上承認"
+
+#: includes/settings/settings-ppec.php:294
+msgid "Sale"
+msgstr "即時売上"
+
+#: includes/settings/settings-ppec.php:290
+msgid "Choose whether you wish to capture funds immediately or authorize payment only."
+msgstr "すぐに資金を回収するか、支払いの与信のみをするかを選択します。"
+
+#: includes/settings/settings-ppec.php:287
+msgid "Payment Action"
+msgstr "支払い操作"
+
+#: includes/settings/settings-ppec.php:270
+msgid "Require Billing Address"
+msgstr "請求先住所を必須にする"
+
+#: includes/settings/settings-ppec.php:268
+msgid "Billing Addresses"
+msgstr "請求先住所"
+
+#: includes/settings/settings-ppec.php:263
+msgid "Please enter a prefix for your invoice numbers. If you use your PayPal account for multiple stores ensure this prefix is unique as PayPal will not allow orders with the same invoice number."
+msgstr "請求書番号の接頭辞を入力してください。PayPal は同一の請求書番号の注文を許可しないため、複数のショップで PayPal アカウントを使用している場合は、この接頭辞を必ず固有のものにしてください。"
+
+#: includes/settings/settings-ppec.php:261
+msgid "Invoice Prefix"
+msgstr "請求書の接頭辞"
+
+#: includes/settings/settings-ppec.php:258
+msgid "Log PayPal events, such as IPN requests."
+msgstr "IPN 要求などの PayPal イベントを記録します。"
+
+#: includes/settings/settings-ppec.php:255
+msgid "Enable Logging"
+msgstr "ログを有効化"
+
+#: includes/settings/settings-ppec.php:253
+msgid "Debug Log"
+msgstr "デバッグログ"
+
+#: includes/settings/settings-ppec.php:248
+msgid "Advanced Settings"
+msgstr "高度な設定"
+
+#: includes/settings/settings-ppec.php:191
+msgid "Sandbox API Subject"
+msgstr "サンドボックス API サブジェクト"
+
+#: includes/settings/settings-ppec.php:185
+msgid "Sandbox API Certificate"
+msgstr "サンドボックス API 証明書"
+
+#: includes/settings/settings-ppec.php:177
+msgid "Sandbox API Signature"
+msgstr "サンドボックス API 署名"
+
+#: includes/settings/settings-ppec.php:170
+msgid "Sandbox API Password"
+msgstr "サンドボックス API パスワード"
+
+#: includes/settings/settings-ppec.php:163
+msgid "Sandbox API Username"
+msgstr "サンドボックス API ユーザー名"
+
+#: includes/settings/settings-ppec.php:158
+msgid "Sandbox API Credentials"
+msgstr "サンドボックス API ログイン情報"
+
+#: includes/settings/settings-ppec.php:155
+#: includes/settings/settings-ppec.php:196
+#: includes/settings/settings-ppec.php:216
+#: includes/settings/settings-ppec.php:224
+#: includes/settings/settings-ppec.php:232
+msgid "Optional"
+msgstr "オプション"
+
+#: includes/settings/settings-ppec.php:152
+#: includes/settings/settings-ppec.php:193
+msgid "If you're processing transactions on behalf of someone else's PayPal account, enter their email address or Secure Merchant Account ID (also known as a Payer ID) here. Generally, you must have API permissions in place with the other account in order to process anything other than \"sale\" transactions for them."
+msgstr "誰か他の PayPal アカウントに代わってトランザクションを処理している場合ここでメール アドレスまたはビジネスアカウントのセキュリティで保護された ID (支払 ID とも呼ばれます) を入力します。一般に、それらの「販売」取引以外のものを処理するために他のアカウントでの API アクセス権が必要です。"
+
+#: includes/settings/settings-ppec.php:150
+msgid "Live API Subject"
+msgstr "ライブ API 件名"
+
+#: includes/settings/settings-ppec.php:144
+msgid "Live API Certificate"
+msgstr "ライブ API 証明書"
+
+#: includes/settings/settings-ppec.php:141
+#: includes/settings/settings-ppec.php:182
+msgid "Optional if you provide a certificate below"
+msgstr "以下の証明書を提供する場合はオプションです"
+
+#: includes/settings/settings-ppec.php:136
+msgid "Live API Signature"
+msgstr "ライブ API 署名"
+
+#: includes/settings/settings-ppec.php:129
+msgid "Live API Password"
+msgstr "ライブ API パスワード"
+
+#: includes/settings/settings-ppec.php:124
+#: includes/settings/settings-ppec.php:131
+#: includes/settings/settings-ppec.php:138
+#: includes/settings/settings-ppec.php:165
+#: includes/settings/settings-ppec.php:172
+#: includes/settings/settings-ppec.php:179
+msgid "Get your API credentials from PayPal."
+msgstr "PayPal から API 認証情報を取得します。"
+
+#: includes/settings/settings-ppec.php:122
+msgid "Live API Username"
+msgstr "ライブ API ユーザー名"
+
+#: includes/settings/settings-ppec.php:117
+msgid "API Credentials"
+msgstr "API 認証情報"
+
+#: includes/settings/settings-ppec.php:94
+msgid "This controls the description which the user sees during checkout."
+msgstr "購入手続き時にユーザーが目にする説明をここで設定します。"
+
+#: includes/settings/settings-ppec.php:91
+msgid "Description"
+msgstr "説明"
+
+#: includes/settings/settings-ppec.php:86
+msgid "This controls the title which the user sees during checkout."
+msgstr "購入手続き時にユーザーが目にするタイトルをここで設定します。"
+
+#: includes/settings/settings-ppec.php:84
+msgid "Title"
+msgstr "タイトル"
+
+#: includes/settings/settings-ppec.php:112
+msgid "Sandbox"
+msgstr "サンドボックス"
+
+#: includes/settings/settings-ppec.php:111
+msgid "Live"
+msgstr "ライブ"
+
+#: includes/settings/settings-ppec.php:107
+msgid "This setting specifies whether you will process live transactions, or whether you will process simulated transactions using the PayPal Sandbox."
+msgstr "この設定では、ライブ取引を処理するか、PayPal Sandbox を使用してシミュレート取引を処理するかを指定します。"
+
+#: includes/settings/settings-ppec.php:104
+msgid "Environment"
+msgstr "環境"
+
+#: includes/settings/settings-ppec.php:404
+msgid "Large"
+msgstr "大"
+
+#: includes/settings/settings-ppec.php:403
+msgid "Medium"
+msgstr "中"
+
+#: includes/settings/settings-ppec.php:402
+msgid "Small"
+msgstr "小"
+
+#: includes/settings/settings-ppec.php:394
+msgid "Button Size"
+msgstr "ボタンサイズ"
+
+#: includes/settings/settings-ppec.php:78
+msgid "This enables PayPal Checkout which allows customers to checkout directly via PayPal from your cart page."
+msgstr "これを使うと、PayPal チェックアウトでお買い物カゴのページから PayPal 経由での直接購入が可能になります。"
+
+#: includes/settings/settings-ppec.php:75
+msgid "Enable/Disable"
+msgstr "有効化/無効化"
+
+#. Translators: placeholder is the button "Setup or link an existing PayPal
+#. sandbox account".
+#: includes/settings/settings-ppec.php:43
+msgid "%s or <a href=\"#\" class=\"ppec-toggle-sandbox-settings\">click here to toggle manual API credential input</a>."
+msgstr "%s または<a href=\"#\" class=\"ppec-toggle-sandbox-settings\">ここをクリックして API 資格情報を手動で入力を切り替えます</a>。"
+
+#: includes/settings/settings-ppec.php:41
+msgid "Setup or link an existing PayPal Sandbox account"
+msgstr "既存の PayPal サンドボックスアカウントを設定またはリンクする"
+
+#. Translators: placeholder is the button "Setup or link an existing PayPal
+#. account".
+#: includes/settings/settings-ppec.php:20
+msgid "%s or <a href=\"#\" class=\"ppec-toggle-settings\">click here to toggle manual API credential input</a>."
+msgstr "%s または<a href=\"#\" class=\"ppec-toggle-settings\">ここをクリックして API 資格情報を手動で入力を切り替えます</a>。"
+
+#: includes/settings/settings-ppec.php:18
+msgid "Setup or link an existing PayPal account"
+msgstr "既存の PayPal アカウントを設定またはリンク"
+
+#: includes/class-wc-gateway-ppec-with-paypal-credit.php:15
+#: includes/settings/settings-ppec.php:430
+msgid "PayPal Credit"
+msgstr "PayPal クレジット"
+
+#: includes/class-wc-gateway-ppec-plugin.php:292
+msgid "WooCommerce Gateway PayPal Checkout requires OpenSSL >= 1.0.1 to be installed on your server"
+msgstr "WooCommerce Gateway PayPal Checkout には OpenSSL 1.0.1以降がサーバーにインストールされている必要があります"
+
+#: includes/class-wc-gateway-ppec-plugin.php:289
+msgid "WooCommerce Gateway PayPal Checkout requires cURL to be installed on your server"
+msgstr "WooCommerce Gateway PayPal Checkout を使うには、お使いのサーバーに cURL がインストールされている必要があります"
+
+#: includes/class-wc-gateway-ppec-plugin.php:285
+msgid "WooCommerce Gateway PayPal Checkout requires WooCommerce version 3.2.0 or greater"
+msgstr "WooCommerce Gateway PayPal Checkout には WooCommerce バージョン 3.2 以降が必要です"
+
+#: includes/class-wc-gateway-ppec-plugin.php:281
+msgid "WooCommerce Gateway PayPal Checkout requires WooCommerce to be activated"
+msgstr "WooCommerce Gateway PayPal Checkout を使うには WooCommerce の有効化が必要です"
+
+#: includes/class-wc-gateway-ppec-plugin.php:179
+msgid "bootstrap() in WooCommerce Gateway PayPal Checkout plugin can only be called once"
+msgstr "WooCommerce ゲートウェイ PayPal チェックアウトプラグインの bootstrap() は1回のみ呼び出すことができます。"
+
+#: includes/class-wc-gateway-ppec-ips-handler.php:178
+msgid "Success!  Your PayPal account has been set up successfully."
+msgstr "成功! あなたの PayPal アカウントは正常に設定されています。"
+
+#: includes/class-wc-gateway-ppec-ips-handler.php:173
+msgid "Easy Setup was able to obtain your API credentials, but an error occurred while trying to verify that they work correctly.  Please try Easy Setup again."
+msgstr "簡単セットアップで API ログイン情報を取得することはできましたが、正しく動作するかを確認する際にエラーが発生しました。簡単セットアップをやり直してください。"
+
+#: includes/class-wc-gateway-ppec-ips-handler.php:169
+msgid "Easy Setup was able to obtain your API credentials, but was unable to verify that they work correctly.  Please make sure your PayPal account is set up properly and try Easy Setup again."
+msgstr "簡単セットアップで API ログイン情報を取得することはできましたが、正しく動作することを確認できませんでした。PayPal アカウントが正しく設定されているかをご確認の上、簡単セットアップをやり直してください。"
+
+#: includes/class-wc-gateway-ppec-ips-handler.php:150
+#: includes/class-wc-gateway-ppec-ips-handler.php:158
+msgid "Sorry, Easy Setup encountered an error.  Please try again."
+msgstr "簡単セットアップの際にエラーが発生しました。もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-ips-handler.php:140
+msgid "Invalid connection request"
+msgstr "無効な接続要求"
+
+#. Translators: 1) is an order number, 2) is the URL of the order's edit
+#. screen.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:303
+msgid "Order #%1$s has had a reversal cancelled. Please check the status of payment and update the order status accordingly here: %2$s"
+msgstr "注文番号%1$sの取消がキャンセルされました。支払いステータスを確認し、それに応じて注文ステータスをここで更新してください。%2$s"
+
+#. Translators: placeholder is an order number.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:301
+msgid "Reversal cancelled for order #%s"
+msgstr "注文番号%sの取消しをキャンセルしました"
+
+#. Translators: 1) is an order number, 2) is a PayPal reason code.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:287
+msgid "Order #%1$s has been marked on-hold due to a reversal - PayPal reason code: %2$s"
+msgstr "注文番号%1$sが取り消されたため、保留中としてマークされました - PayPal 理由コード: %2$s"
+
+#. Translators: placeholder is an order number (linked to its details screen).
+#: includes/class-wc-gateway-ppec-ipn-handler.php:285
+msgid "Payment for order %s reversed"
+msgstr "注文 %s の支払いが取り消されました"
+
+#. Translators: 1) is an order number, 2) is a PayPal reason code.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:268
+msgid "Order #%1$s has been marked as refunded - PayPal reason code: %2$s"
+msgstr "注文番号%1$sを払い戻しとしてマークしました - PayPal 理由コード: %2$s"
+
+#. Translators: placeholder is an order number (linked to its details screen).
+#: includes/class-wc-gateway-ppec-ipn-handler.php:266
+msgid "Payment for order %s refunded"
+msgstr "注文 %s の支払いを返金しました"
+
+#. Translators: placeholder is a payment status.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:218
+#: includes/class-wc-gateway-ppec-ipn-handler.php:263
+#: includes/class-wc-gateway-ppec-ipn-handler.php:282
+msgid "Payment %s via IPN."
+msgstr "お支払い %s IPN 経由。"
+
+#: includes/class-wc-gateway-ppec-ipn-handler.php:185
+msgid "IPN payment completed"
+msgstr "IPN 支払い完了"
+
+#. Translators: placeholder is an amount.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:159
+msgid "Validation error: PayPal amounts do not match (gross %s)."
+msgstr "検証エラー: PayPal の金額が一致していません (総額: %s)。"
+
+#. Translators: placeholder is a currency code.
+#: includes/class-wc-gateway-ppec-ipn-handler.php:143
+msgid "Validation error: PayPal currencies do not match (code %s)."
+msgstr "検証エラー: PayPal の貨幣設定と合いませんでした。(code %s)"
+
+#: includes/class-wc-gateway-ppec-ipn-handler.php:41
+msgid "PayPal IPN Request Failure"
+msgstr "PayPal IPN のリクエストエラー"
+
+#: includes/class-wc-gateway-ppec-ipn-handler.php:38
+msgid "Invalid IPN request."
+msgstr "無効な IPN のリクエスト。"
+
+#: includes/class-wc-gateway-ppec-ipn-handler.php:29
+msgid "Empty POST data."
+msgstr "空の POST データ。"
+
+#: includes/class-wc-gateway-ppec-client.php:199
+msgid "Malformed response received from PayPal"
+msgstr "PayPal から受信した不正な形式の応答"
+
+#. Translators: placeholder is an error message.
+#: includes/class-wc-gateway-ppec-client.php:193
+msgid "An error occurred while trying to connect to PayPal: %s"
+msgstr "PayPal に接続しようとしたときにエラーが発生しました: %s"
+
+#: includes/class-wc-gateway-ppec-client.php:175
+msgid "Invalid environment"
+msgstr "無効な環境"
+
+#: includes/class-wc-gateway-ppec-client.php:171
+msgid "Invalid credential object"
+msgstr "無効なログイン情報オブジェクト"
+
+#: includes/class-wc-gateway-ppec-client.php:167
+msgid "Missing credential"
+msgstr "ログイン情報がありません"
+
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:118
+msgid "Failed to export PKCS12 file during cURL configuration"
+msgstr "cURL 設定中に PKCS12 ファイルのエクスポートに失敗しました"
+
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:114
+msgid "Failed to retrieve private key during cURL configuration"
+msgstr "cURL 設定時に秘密鍵の取得に失敗しました"
+
+#. Translators: %s is a filepath.
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:88
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:135
+msgid "Unable to write certificate file %s during cURL configuration"
+msgstr "cURL 設定中に証明書ファイル %s を書き込めません"
+
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:70
+msgid "Unable to accept certificate password during cURL configuration"
+msgstr "cURL 設定中に証明書パスワードを受け入れることができません"
+
+#: includes/class-wc-gateway-ppec-client-credential-certificate.php:66
+msgid "Unable to accept certificate during cURL configuration"
+msgstr "cURL 設定中に証明書を受け付けることができません。"
+
+#. Translators: placeholder is a reason (from PayPal) for the payment to be
+#. pending.
+#. Translators: placeholder is the reason for the payment to be in pending
+#. status.
+#: includes/class-wc-gateway-ppec-checkout-handler.php:959
+#: includes/class-wc-gateway-ppec-ipn-handler.php:195
+msgid "Payment pending (%s)."
+msgstr "保留中の支払い (%s)。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:956
+#: includes/class-wc-gateway-ppec-ipn-handler.php:192
+msgid "Payment authorized. Change payment status to processing or complete to capture funds."
+msgstr "支払いが承認されました。支払い状況を処理に変更するか、資金を回収するために完了します。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:626
+msgid "You have cancelled Checkout with PayPal. Please try to process your order again."
+msgstr "PayPal での購入手続きをキャンセルしました。もう一度、注文の処理をお試しください。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:601
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:494
+msgid "Sorry, an error occurred while trying to retrieve your information from PayPal. Please try again."
+msgstr "PayPal から情報を取得しようとした際にエラーが発生しました。もう一度お試しください。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:444
+#: includes/class-wc-gateway-ppec-checkout-handler.php:499
+#: includes/class-wc-gateway-ppec-checkout-handler.php:1133
+msgid "Your PayPal checkout session has expired. Please check out again."
+msgstr "PayPal 購入手続きセッションの期限が切れました。もう一度購入手続きを行ってください。"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:345
+msgid "Shipping details"
+msgstr "配送先詳細"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:267
+msgid "Email:"
+msgstr "メール:"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:263
+msgid "Name:"
+msgstr "名前:"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:261
+msgid "Address:"
+msgstr "住所:"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:258
+msgid "Billing details"
+msgstr "請求先情報の詳細"
+
+#: includes/class-wc-gateway-ppec-checkout-handler.php:77
+msgid "Confirm your PayPal order"
+msgstr "PayPal での注文を確認"
+
+#: includes/class-wc-gateway-ppec-cart-handler.php:331
+#: includes/class-wc-gateway-ppec-cart-handler.php:378
+#: includes/class-wc-gateway-ppec-cart-handler.php:413
+msgid "Check out with PayPal"
+msgstr "PayPal でお支払い"
+
+#. Translators: placeholder is an error code.
+#: includes/class-wc-gateway-ppec-api-error.php:58
+msgid "An error (%s) occurred while processing your PayPal payment.  Please contact the store owner for assistance."
+msgstr "PayPal 支払いの処理中にエラー (%s) が発生しました。店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:55
+msgid "Your funding instrument is invalid.  Please check out again and select a new funding source."
+msgstr "無効な資金源です。 もう一度購入手続きを行って、新しい資金源を選択してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:52
+msgid "The redemption code(s) you entered on PayPal cannot be used at this time.  Please return to PayPal and remove them."
+msgstr "現在、PayPal に入力された引き換えコードを使用できません。PayPal に戻って削除してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:50
+msgid "Your PayPal payment could not be processed.  Please contact PayPal for assistance."
+msgstr "PayPal でのお支払いを処理できませんでした。PayPal にお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:48
+msgid "PayPal rejected your shipping address because the city, state, and/or ZIP code are incorrect.  Please double-check that they are all spelled correctly and try again."
+msgstr "PayPal は、都市名、州または都道府県名、郵便番号が間違っているため配送先住所を拒否しました。すべて正しく入力されているかご確認の上、もう一度お試しください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:46
+msgid "The ZIP code or postal code in your shipping address is not valid.  Please double-check your shipping address and try again."
+msgstr "配送先の住所の郵便番号は無効です。 配送先住所を確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:45
+msgid "The state in your shipping address is not valid.  Please double-check your shipping address and try again."
+msgstr "配送先の住所の州、都道府県名が無効です。 配送先住所を確認し、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:44
+msgid "The city in your shipping address is not valid.  Please double-check your shipping address and try again."
+msgstr "配送先の住所の都市は無効です。 配送先住所を確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:43
+msgid "The street address in your shipping address is not valid.  Please double-check your shipping address and try again."
+msgstr "配送先の住所は無効です。 配送先住所を確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:42
+#: includes/class-wc-gateway-ppec-api-error.php:47
+msgid "The country in your shipping address is not valid.  Please double-check your shipping address and try again."
+msgstr "配送先の住所の国は無効です。 配送先住所を確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:41
+msgid "Your transaction was declined.  Please contact the store owner for assistance."
+msgstr "取引が拒否されました。店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:39
+msgid "The transaction is over the threshold allowed by this store.  Please contact the store owner for assistance."
+msgstr "取引がこの店舗で許可されているしきい値を超えています。店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:38
+msgid "This store does not accept transactions from buyers in your country.  Please contact the store owner for assistance."
+msgstr "この店舗では、あなたの国の購入者からの取引は受け付けていません。ヘルプが必要な場合は店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:37
+msgid "Your shipping address may not be in a different country than your country of residence.  Please double-check your shipping address and try again."
+msgstr "配送先住所はお住まいの国よりも別の国にできない場合があります。 配送先住所を確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:36
+msgid "You have not approved this transaction on the PayPal website.  Please check out again and be sure to complete all steps of the PayPal checkout process."
+msgstr "PayPal サイトでこの取引をまだ承認していません。もう一度購入手続きを行って、PayPal での手続きのすべての手順を必ず完了させてください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:34
+msgid "Your PayPal payment could not be processed.  Please return to PayPal and select a new method of payment."
+msgstr "PayPal でのお支払いを処理できませんでした。PayPal に戻り、新しい支払い方法を選択してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:32
+msgid "Your PayPal payment could not be processed.  Please select an alternative method of payment or contact PayPal for assistance."
+msgstr "PayPal でのお支払いを処理できませんでした。別の支払い方法を選択するか、PayPal にお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:31
+msgid "Your PayPal payment could not be processed.  Please check out again or contact PayPal for assistance."
+msgstr "PayPal でのお支払いを処理できませんでした。もう一度購入手続きを行うか、PayPal にお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:30
+msgid "Your PayPal payment has already been completed.  Please contact the store owner for more information."
+msgstr "PayPal での支払いがすでに完了しています。 詳細は店舗オーナーにお問い合わせください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:28
+msgid "Your PayPal checkout session has expired.  Please check out again."
+msgstr "PayPal 購入手続きのセッション期限が切れました。もう一度お試しください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:27
+msgid "Your PayPal checkout session is invalid.  Please check out again."
+msgstr "PayPal 購入手続きのセッションが無効です。もう一度お試しください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:24
+msgid "PayPal rejected your email address because it is not valid.  Please double-check your email address and try again."
+msgstr "メールアドレスが無効なため PayPal に拒否されました。アドレスを再確認して、もう一度やり直してください。"
+
+#: includes/class-wc-gateway-ppec-api-error.php:23
+msgid "Unable to communicate with PayPal.  Please try your payment again."
+msgstr "PayPal と通信できません。お支払いをもう一度お試しください。"
+
+#. Translators: %s is a transaction ID.
+#: includes/class-wc-gateway-ppec-admin-handler.php:235
+msgid "PayPal Checkout charge voided (Charge ID: %s)"
+msgstr "PayPal チェックアウトの請求を無効化しました (請求 ID: %s)"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:232
+msgid "Unable to void charge!"
+msgstr "請求を無効化できません。"
+
+#. Translators: %s is a transaction ID.
+#: includes/class-wc-gateway-ppec-admin-handler.php:190
+msgid "PayPal Checkout charge complete (Charge ID: %s)"
+msgstr "PayPal チェックアウトの請求を完了しました (請求 ID: %s)"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:181
+msgid "Unable to capture charge!"
+msgstr "支払いを取得できません。"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:86
+msgid "NOTE: PayPal does not accept decimal places for the currency in which you are transacting.  The \"Number of Decimals\" option in WooCommerce has automatically been set to 0 for you."
+msgstr "注: PayPalは、取引している通貨の小数点以下の桁数を許可していまません。WooCommerce の「小数点以下桁数」オプションは自動的に0に設定されました。"
+
+#: includes/class-wc-gateway-ppec-admin-handler.php:62
+msgid "Capture Charge"
+msgstr "すぐに支払いを取得する"
+
+#. Translators: placeholder is an amount (with currency symbol).
+#: includes/abstracts/abstract-wc-gateway-ppec.php:475
+msgid "Refund Error: The requested refund amount is too large. The refund amount must be less than or equal to %s."
+msgstr "払い戻しエラー: 要求された払い戻し額が大きすぎます。払い戻し額は%s以下でなければなりません。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:472
+msgid "Refund Error: All transactions have been fully refunded. There is no amount left to refund"
+msgstr "払い戻しエラー: すべての取引は完全に払い戻されています。払い戻せる金額は残っていません"
+
+#. Translators: placeholder is a transaction ID.
+#: includes/abstracts/abstract-wc-gateway-ppec.php:423
+#: includes/abstracts/abstract-wc-gateway-ppec.php:448
+#: includes/abstracts/abstract-wc-gateway-ppec.php:500
+msgid "PayPal refund completed; transaction ID = %s"
+msgstr "PayPal の払い戻しが完了しました。取引 ID = %s"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:398
+msgid "Refund Error: You need to specify a refund amount."
+msgstr "払い戻しエラー: 払い戻し額を指定する必要があります。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:373
+msgid "The \"require billing address\" option is not enabled by your account and has been disabled."
+msgstr "[請求先住所が必須]オプションはアカウントで有効になっておらず、無効になっています。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:314
+msgid "Error: You must provide API signature or certificate."
+msgstr "エラー: API 署名または証明書を提供する必要があります。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:344
+msgid "Error: The API username does not match the name in the API certificate. Make sure that you have the correct API certificate."
+msgstr "エラー: API ユーザー名が API 証明書の名前と一致しません。正しい API 証明書かを確認してください。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:342
+msgid "Error: The API certificate has expired."
+msgstr "エラー: API 証明書の期限が切れています。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:335
+msgid "Error: The API certificate is not valid."
+msgstr "エラー: 無効な API 証明書です。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:354
+msgid "An error occurred while trying to validate your API credentials.  Unable to verify that your API credentials are correct."
+msgstr "API 認証情報を検証しようとしたときにエラーが発生しました。 API の認証情報が正しいことを確認できません。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:324
+#: includes/abstracts/abstract-wc-gateway-ppec.php:351
+msgid "Error: The API credentials you provided are not valid.  Please double-check that you entered them correctly and try again."
+msgstr "エラー: 指定した API 認証情報は無効です。正しく入力したことを再確認して、もう一度やり直してください。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:310
+msgid "Error: You must enter API password."
+msgstr "エラー: API パスワードを入力する必要があります。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:241
+msgid "The certificate on file is not valid."
+msgstr "ファイルの証明書が無効です。"
+
+#. Translators: 1) is a certificate's CN, 2) is the expiration date.
+#: includes/abstracts/abstract-wc-gateway-ppec.php:239
+msgid "Certificate belongs to API username %1$s; %2$s."
+msgstr "証明書は API ユーザー名「%1$s」に属しています。%2$s。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:207
+msgid "No API certificate on file."
+msgstr "API 証明ファイルがありません。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:174
+msgid "Sorry, an error occurred while trying to process your payment. Please try again."
+msgstr "お支払いの処理中にエラーが発生しました。もう一度お試しください。"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:59
+msgid "Continue to payment"
+msgstr "支払いへ進む"
+
+#: includes/abstracts/abstract-wc-gateway-ppec.php:19
+msgid "Allow customers to conveniently checkout directly with PayPal."
+msgstr "顧客が PayPal で直接手軽に購入手続きを行えるようにする。"

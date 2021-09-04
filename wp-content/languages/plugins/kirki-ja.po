@@ -1,0 +1,364 @@
+# Translation of Plugins - Kirki Customizer Framework - Stable (latest release) in Japanese
+# This file is distributed under the same license as the Plugins - Kirki Customizer Framework - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-07-13 09:56:47+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: ja_JP\n"
+"Project-Id-Version: Plugins - Kirki Customizer Framework - Stable (latest release)\n"
+
+#: controls/php/class-kirki-control-repeater.php:408
+#: controls/php/class-kirki-control-repeater.php:413
+#: controls/php/class-kirki-control-background.php:59
+#: controls/php/class-kirki-control-base.php:132
+msgid "No File Selected"
+msgstr "ファイルが選択されていません"
+
+#: controls/php/class-kirki-control-repeater.php:419
+#: controls/php/class-kirki-control-repeater.php:421
+msgid "Change File"
+msgstr "ファイルを変更"
+
+#: controls/php/class-kirki-control-repeater.php:419
+#: controls/php/class-kirki-control-repeater.php:423
+msgid "Add File"
+msgstr "ファイルを追加"
+
+#: controls/php/class-kirki-control-repeater.php:77
+msgid "row"
+msgstr "行"
+
+#: controls/php/class-kirki-control-repeater.php:121
+msgid "Select a Page"
+msgstr "ページを選択"
+
+#: controls/php/class-kirki-control-typography.php:179
+msgid "Lowercase"
+msgstr "小文字"
+
+#: controls/php/class-kirki-control-typography.php:180
+#: controls/php/class-kirki-control-typography.php:196
+msgid "Initial"
+msgstr "初期設定"
+
+#: controls/php/class-kirki-control-typography.php:178
+msgid "Uppercase"
+msgstr "大文字"
+
+#: controls/php/class-kirki-control-typography.php:177
+msgid "Capitalize"
+msgstr "先頭大文字"
+
+#: controls/php/class-kirki-control-typography.php:173
+msgid "Text Transform"
+msgstr "文字の変形"
+
+#: controls/php/class-kirki-control-typography.php:176
+#: controls/php/class-kirki-control-typography.php:192
+msgid "None"
+msgstr "なし"
+
+#: controls/php/class-kirki-control-typography.php:163
+msgid "Justify"
+msgstr "両端揃え"
+
+#: controls/php/class-kirki-control-typography.php:134
+msgid "Text Align"
+msgstr "文字の配置"
+
+#: controls/php/class-kirki-control-dimensions.php:133
+#: controls/php/class-kirki-control-typography.php:151
+msgid "Center"
+msgstr "中央"
+
+#. translators: %s represents the number of rows we're limiting the repeater to
+#. allow.
+#: controls/php/class-kirki-control-repeater.php:227
+msgid "Limit: %s rows"
+msgstr "上限: %s行"
+
+#: controls/php/class-kirki-control-dimensions.php:135
+msgid "Spacing"
+msgstr "スペース"
+
+#: controls/php/class-kirki-control-dimensions.php:138
+#: controls/php/class-kirki-control-dimension.php:41
+msgid "Invalid Value"
+msgstr "無効な値"
+
+#: modules/webfonts/class-kirki-fonts.php:212
+msgid "Semi-Bold 600 Italic"
+msgstr "Semi-Bold 600 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:210
+#: modules/webfonts/class-kirki-fonts.php:211
+msgid "Semi-Bold 600"
+msgstr "Semi-Bold 600"
+
+#: modules/webfonts/class-kirki-fonts.php:209
+msgid "Medium 500 Italic"
+msgstr "Medium 500 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:208
+msgid "Medium 500"
+msgstr "Medium 500"
+
+#: modules/webfonts/class-kirki-fonts.php:207
+msgid "Normal 400 Italic"
+msgstr "Normal 400 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:205
+#: modules/webfonts/class-kirki-fonts.php:206
+msgid "Normal 400"
+msgstr "Normal 400"
+
+#: modules/webfonts/class-kirki-fonts.php:204
+msgid "Book 300 Italic"
+msgstr "Book 300 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:203
+msgid "Book 300"
+msgstr "Book 300"
+
+#: modules/webfonts/class-kirki-fonts.php:202
+msgid "Light 200 Italic"
+msgstr "Light 200 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:201
+msgid "Light 200"
+msgstr "Light 200"
+
+#: modules/webfonts/class-kirki-fonts.php:200
+msgid "Ultra-Light 100 Italic"
+msgstr "Ultra-Light 100 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:198
+#: modules/webfonts/class-kirki-fonts.php:199
+msgid "Ultra-Light 100"
+msgstr "Ultra-Light 100"
+
+#: modules/webfonts/class-kirki-fonts.php:220
+msgid "Ultra-Bold 900 Italic"
+msgstr "Ultra-Bold 900 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:218
+#: modules/webfonts/class-kirki-fonts.php:219
+msgid "Ultra-Bold 900"
+msgstr "Ultra-Bold 900"
+
+#: modules/webfonts/class-kirki-fonts.php:217
+msgid "Extra-Bold 800 Italic"
+msgstr "Extra-Bold 800 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:215
+#: modules/webfonts/class-kirki-fonts.php:216
+msgid "Extra-Bold 800"
+msgstr "Extra-Bold 800"
+
+#: modules/webfonts/class-kirki-fonts.php:214
+msgid "Bold 700 Italic"
+msgstr "Bold 700 Italic"
+
+#: modules/webfonts/class-kirki-fonts.php:213
+msgid "Bold 700"
+msgstr "Bold 700"
+
+#: controls/php/class-kirki-control-dimensions.php:137
+msgid "Height"
+msgstr "高さ"
+
+#: controls/php/class-kirki-control-dimensions.php:134
+msgid "Size"
+msgstr "サイズ"
+
+#: controls/php/class-kirki-control-dimensions.php:126
+msgid "Font Style"
+msgstr "フォントスタイル"
+
+#: controls/php/class-kirki-control-typography.php:93
+msgid "Variant"
+msgstr "バリエーション"
+
+#: controls/php/class-kirki-control-repeater.php:376
+#: controls/php/class-kirki-control-repeater.php:381
+msgid "No Image Selected"
+msgstr "画像が選択されていません"
+
+#: controls/php/class-kirki-control-repeater.php:386
+#: controls/php/class-kirki-control-repeater.php:418
+#: controls/php/class-kirki-control-repeater.php:443
+#: controls/php/class-kirki-control-background.php:62
+#: controls/php/class-kirki-control-base.php:133 controls/views/image.php:37
+#: field/class-kirki-field-image.php:50
+msgid "Remove"
+msgstr "削除"
+
+#: controls/php/class-kirki-control-repeater.php:387
+#: controls/php/class-kirki-control-repeater.php:389
+msgid "Change Image"
+msgstr "画像の変更"
+
+#: controls/php/class-kirki-control-repeater.php:387
+#: controls/php/class-kirki-control-repeater.php:391
+msgid "Add Image"
+msgstr "画像を追加"
+
+#: controls/php/class-kirki-control-typography.php:221
+msgid "Color"
+msgstr "色"
+
+#: controls/php/class-kirki-control-dimensions.php:132
+#: controls/php/class-kirki-control-typography.php:157
+#: field/class-kirki-field-spacing.php:35
+msgid "Right"
+msgstr "右"
+
+#: controls/php/class-kirki-control-dimensions.php:131
+#: controls/php/class-kirki-control-typography.php:145
+#: field/class-kirki-field-spacing.php:34
+msgid "Left"
+msgstr "左"
+
+#: controls/php/class-kirki-control-dimensions.php:130
+#: field/class-kirki-field-spacing.php:33
+msgid "Bottom"
+msgstr "下"
+
+#: controls/php/class-kirki-control-dimensions.php:129
+#: field/class-kirki-field-spacing.php:32
+msgid "Top"
+msgstr "上"
+
+#: controls/php/class-kirki-control-dimensions.php:125
+#: controls/php/class-kirki-control-typography.php:110
+msgid "Line Height"
+msgstr "行の高さ"
+
+#: controls/php/class-kirki-control-dimensions.php:123
+#: controls/php/class-kirki-control-typography.php:102
+msgid "Font Size"
+msgstr "フォントサイズ"
+
+#: controls/php/class-kirki-control-dimensions.php:127
+#: controls/php/class-kirki-control-typography.php:118
+msgid "Letter Spacing"
+msgstr "文字間隔"
+
+#: controls/php/class-kirki-control-dimensions.php:124
+msgid "Font Weight"
+msgstr "フォントの太さ"
+
+#: controls/php/class-kirki-control-typography.php:82
+msgid "Font Family"
+msgstr "フォントファミリー"
+
+#: controls/php/class-kirki-control-background.php:81
+msgid "Background Position"
+msgstr "背景の位置"
+
+#: controls/php/class-kirki-control-dimensions.php:122
+#: controls/php/class-kirki-control-background.php:91
+msgid "Center Bottom"
+msgstr "中央下"
+
+#: controls/php/class-kirki-control-dimensions.php:121
+#: controls/php/class-kirki-control-background.php:90
+msgid "Center Center"
+msgstr "中央"
+
+#: controls/php/class-kirki-control-dimensions.php:120
+#: controls/php/class-kirki-control-background.php:89
+msgid "Center Top"
+msgstr "中央上"
+
+#: controls/php/class-kirki-control-dimensions.php:119
+#: controls/php/class-kirki-control-background.php:88
+msgid "Right Bottom"
+msgstr "右下"
+
+#: controls/php/class-kirki-control-dimensions.php:118
+#: controls/php/class-kirki-control-background.php:87
+msgid "Right Center"
+msgstr "右中央"
+
+#: controls/php/class-kirki-control-dimensions.php:117
+#: controls/php/class-kirki-control-background.php:86
+msgid "Right Top"
+msgstr "右上"
+
+#: controls/php/class-kirki-control-dimensions.php:116
+#: controls/php/class-kirki-control-background.php:85
+msgid "Left Bottom"
+msgstr "左下"
+
+#: controls/php/class-kirki-control-dimensions.php:115
+#: controls/php/class-kirki-control-background.php:84
+msgid "Left Center"
+msgstr "左中央"
+
+#: controls/php/class-kirki-control-dimensions.php:114
+#: controls/php/class-kirki-control-background.php:83
+msgid "Left Top"
+msgstr "左上"
+
+#: controls/php/class-kirki-control-background.php:113
+msgid "Background Attachment"
+msgstr "背景スクロール"
+
+#: controls/php/class-kirki-control-background.php:116
+msgid "Scroll"
+msgstr "スクロール"
+
+#: controls/php/class-kirki-control-background.php:119
+msgid "Fixed"
+msgstr "固定"
+
+#: controls/php/class-kirki-control-background.php:97
+msgid "Background Size"
+msgstr "背景のサイズ"
+
+#: controls/php/class-kirki-control-background.php:100
+msgid "Cover"
+msgstr "カバー"
+
+#: controls/php/class-kirki-control-background.php:103
+msgid "Contain"
+msgstr "画像全体を表示"
+
+#: controls/php/class-kirki-control-background.php:70
+msgid "Background Repeat"
+msgstr "背景の繰り返し"
+
+#: controls/php/class-kirki-control-typography.php:139
+#: controls/php/class-kirki-control-typography.php:181
+#: controls/php/class-kirki-control-typography.php:197
+msgid "Inherit"
+msgstr "継承"
+
+#: controls/php/class-kirki-control-background.php:75
+msgid "Repeat Vertically"
+msgstr "縦に繰り返し"
+
+#: controls/php/class-kirki-control-background.php:74
+msgid "Repeat Horizontally"
+msgstr "水平繰り返し"
+
+#: controls/php/class-kirki-control-background.php:73
+msgid "Repeat All"
+msgstr "すべて繰り返し"
+
+#: controls/php/class-kirki-control-background.php:72
+msgid "No Repeat"
+msgstr "繰り返しなし"
+
+#: controls/php/class-kirki-control-background.php:54
+msgid "Background Image"
+msgstr "背景画像"
+
+#: controls/php/class-kirki-control-background.php:48
+msgid "Background Color"
+msgstr "背景色"

@@ -1,0 +1,245 @@
+/*
+Theme Name: HandyStore Child
+Theme URI: http://handy.themes.zone
+Template: handystore
+Author: Themes Zone
+Author URI: http://themes.zone
+Description: Multi purpose Theme.
+Tags: one-column,two-columns,right-sidebar,custom-header,custom-menu,editor-style,featured-images,microformats,post-formats,sticky-post,translation-ready
+Version: 5.0.13 (see readme.txt for detailed changelog).1558794415
+Updated: 2019-05-25 16:26:55
+
+*/
+
+.owl-carousel .owl-wrapper, .owl-carousel .owl-item {
+    display: flex !important;
+}
+
+.owl-carousel .owl-item .product, .owl-carousel .owl-item .post {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.post-list .thumb-wrapper img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+}
+
+.post-list .thumb-wrapper {
+    width: 100%;
+}
+
+.breadcrumbs-wrapper .woocommerce-breadcrumb {
+    font-size: 14px;
+}
+
+body .widget.widget_shopping_cart .buttons .button {
+    padding: 0 5px;
+}
+
+.my_addon {
+    display: flex;
+    clear: both;
+}
+
+.my_addon .attemption img {
+    width: 75px;
+}
+
+main ul.products, main ul.special-offers {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+main ul.products li.product, main ul.special-offers li.product {
+    display: flex;
+}
+
+main ul.products li.product:last-child, main ul.special-offers li.product:last-child {
+    margin-right: auto;
+}
+
+.shop_table .wc-gzd-product-name-left {
+    display: none;
+}
+
+.widget_pt_categories .children li {
+    display: flex;
+}
+
+.woocommerce .checkout label[for="payment_method_paypal_plus"] {
+    width: 100%;
+}
+
+body .breadcrumbs-wrapper, body .breadcrumbs-wrapper div {
+    font-size: 14px;
+}
+
+body {
+    background: url(img/bg.jpg) no-repeat;
+    background-attachment: fixed;
+}
+
+.site-main.container {
+    background: #fff;
+}
+
+body .footer-shortcode {
+    margin-top: 0;
+}
+
+body #order_review .legal label input[type="checkbox"] {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+}
+
+body .site-footer {
+    margin-top: 0;
+}
+
+body .posted_in a {
+    color: #808080;
+}
+
+.woocommerce {
+    padding-bottom: 40px;
+}
+
+.shop_table.woocommerce-checkout-review-order-table .order-tax th, .shop_table.woocommerce-checkout-review-order-table .order-tax td {
+    border-color: transparent;
+}
+
+.woocommerce .checkout .woocommerce-checkout-review-order-table td {
+    text-align: center;
+    border-color: transparent;
+}
+
+body .woocommerce .checkout .woocommerce-checkout-review-order-table tbody tr .product-name, body .woocommerce .checkout .woocommerce-checkout-review-order-table tbody tr .product-total {
+    border-bottom: none;
+    border-top: 1px solid #e1e1e1;
+}
+body .woocommerce .checkout .woocommerce-checkout-review-order-table tbody tr:first-child .product-name, body .woocommerce .checkout .woocommerce-checkout-review-order-table tbody tr:first-child .product-total {
+    border-top: none;
+}
+
+.woocommerce-gzd-legal-checkbox-text {
+    font-weight: 600;
+}
+li.product .product-img-wrapper .pt-extra-gallery-img img {
+    max-height: 200px;
+    object-fit: contain;
+}
+body .related.products .product p.wc-gzd-additional-info {
+    margin: 15px 0 0 0;
+}
+body .product .legal-price-info p.wc-gzd-additional-info {
+    float: left;
+    margin: 18px 0 0 20px;
+}
+body .product p.wc-gzd-additional-info {
+    margin: 0 0 0 0;
+    clear: none;
+    float: right;
+}
+body li.product .product-description-wrapper .price {
+    margin-right: 0;
+}
+.pt-sales-carousel ul.products .price-wrapper ins, .wcv-description-inner .products-count, .widget.woocommerce .product_list_widget li .price, .widget_pt_vendor_products_widget .product_list_widget li .price, div.product p.price, div.product span.price, li.product .product-description-wrapper .price {
+   float: left;
+}
+
+body .up-sells.upsells.products p.wc-gzd-additional-info {
+    clear: left;
+    float: none;
+}
+
+body .widget.woocommerce .product_list_widget li .price del, body  .widget_pt_vendor_products_widget .product_list_widget li .price del {
+    margin-right: 76px;
+}
+body .widget.woocommerce .product_list_widget li .price ins, body .widget_pt_vendor_products_widget .product_list_widget li .price ins {
+    display: inline-block;
+}
+
+@media (max-width: 550px) {
+    figure.handy-banner {
+        width: 100%;
+    }
+    figure.handy-banner img {
+        width: 100%;
+    }
+    body li.product .add_to_cart_button, body li.product .button.product_type_variable, body li.product.outofstock .button, body li.product .button.product_type_external {
+        bottom: 40px;
+    }
+    body .product p.wc-gzd-additional-info {
+        margin: 10px 0 0 0;
+        display: block;
+        float: none;
+    }
+    body li.product .product-description-wrapper .price {
+        display: block;
+        float: none;
+    }
+    .product_list_widget .price {
+        max-width: 155px;
+    }
+    body .widget.woocommerce .product_list_widget li .price del, body  .widget_pt_vendor_products_widget .product_list_widget li .price del {
+        margin-right: 0;
+    }
+    .product_list_widget a.product-title {
+        display: block;
+    }
+}
+
+
+.additional-buttons .shipping-costs-info {
+    display: none;
+}
+
+body div.product .stock.out-of-stock {
+    border-color: red;
+    color: red;
+}
+body div.product .stock {
+    border-color: green;
+    color: green;
+}
+body div.product .stock:before {
+    color: green;
+}
+body div.product .stock.out-of-stock:before {
+    color: red;
+}
+del .woocommerce-Price-amount.amount {
+    color: red;
+}
+ins .woocommerce-Price-amount.amount {
+    color: green;
+}
+body li.product .product-description-wrapper .price del, body .widget.woocommerce .product_list_widget li .price del, body .widget_pt_vendor_products_widget .product_list_widget li .price del {
+    font-size: 1em;
+    color: red;
+}
+
+body .upsells ul.products.upsells-cols-2 li.product .inner-product-content .product-description-wrapper .short-description {
+    display: none;
+}
+@media (max-width: 550px) {
+    .woocommerce-cart-form {
+        overflow: auto;
+    }
+}
+
+

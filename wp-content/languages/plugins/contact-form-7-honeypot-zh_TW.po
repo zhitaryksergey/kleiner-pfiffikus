@@ -1,0 +1,238 @@
+# Translation of Plugins - Honeypot for Contact Form 7 - Development (trunk) in Chinese (Taiwan)
+# This file is distributed under the same license as the Plugins - Honeypot for Contact Form 7 - Development (trunk) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2021-05-21 08:21:19+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: zh_TW\n"
+"Project-Id-Version: Plugins - Honeypot for Contact Form 7 - Development (trunk)\n"
+
+#: includes/admin.php:339
+msgid "Recommended"
+msgstr "建議安裝"
+
+#: includes/admin.php:297
+msgid "If enabled, this will perform an additional check for spam bots using the time it takes to submit the form under the idea that bots submit forms faster than people. The value is set to 4 seconds by default, but adjust based on your needs. If you're not sure, leave this unchecked."
+msgstr "啟用這項功能後，由於惡意檢索程式提交表單的速度會比真人快上許多，因此會根據惡意檢索程式提交表單的時間執行額外的檢查。這項設定的預設值為 4 秒，可依實際需求進行調整。如果不確定，請不要啟用這項設定。"
+
+#: includes/admin.php:211
+msgid "Below are global settings for the Honeypot plugin. Many of these settings can be overridden when inserting the Honeypot field shortcode when creating your CF7 contact form."
+msgstr "下列設定為這個外掛的全域設定。在建立 Contact Form 7 的聯絡表單時，下列有多項會覆寫插入誘捕功能欄位短代碼的設定。"
+
+#: includes/honeypot4cf7.php:333 includes/admin.php:293
+msgid "seconds"
+msgstr "秒"
+
+#: includes/honeypot4cf7.php:329 includes/admin.php:291
+msgid "Enable Time Check"
+msgstr "啟用時間檢查"
+
+#: includes/honeypot4cf7.php:311
+msgid "Move inline CSS"
+msgstr "移動內嵌 CSS"
+
+#: includes/honeypot4cf7.php:293
+msgid "Placeholder"
+msgstr "預留位置"
+
+#: includes/honeypot4cf7.php:284
+msgid "Wrapper ID"
+msgstr "Wrapper ID"
+
+#: includes/honeypot4cf7.php:275
+msgid "Class"
+msgstr "類別"
+
+#: includes/honeypot4cf7.php:266
+msgid "ID"
+msgstr "ID"
+
+#: includes/honeypot4cf7.php:260
+msgid "Optional Settings"
+msgstr "選用設定"
+
+#: includes/honeypot4cf7.php:255
+msgid "For better security, change \"honeypot\" to something more appealing to a bot, such as text including \"email\" or \"website\"."
+msgstr "為了更好的安全性，將 honeypot 字串變更為其他更能吸引檢索程式的詞彙，例如包含 email 或 website 的字串。"
+
+#. translators: %s: Link to Honeypot settings page
+#: includes/honeypot4cf7.php:239
+msgid "Generate a form-tag for a spam-stopping honeypot field. Check out %s for more settings/info."
+msgstr "為反濫填誘捕功能欄位產生表單標籤。如需進一步了解相關設定及資訊，請參閱〈%s〉。"
+
+#. translators: 1: submission interval integer 2: honeypot field ID
+#: includes/honeypot4cf7.php:170
+msgid "Honeypot detected form submitted too fast (%1$s seconds). Field ID = %2$s"
+msgstr "誘捕功能偵測到表單傳送速度過快 (%1$s 秒)。欄位 ID 為 %2$s。"
+
+#. translators: %s: Link to Contact Form 7 plugin page.
+#: includes/admin.php:55
+msgid "The version of %s that is installed will not work with this version of Honeypot for CF7."
+msgstr "目前安裝的 %s 版本無法搭配 Honeypot for Contact Form 7 執行。"
+
+#: includes/admin.php:226
+msgid "Flamingo"
+msgstr "Flamingo"
+
+#: includes/admin.php:160
+msgid "Honeypot for Conctact Form 7"
+msgstr "Honeypot for Contact Form 7"
+
+#: includes/admin.php:40 includes/admin.php:56
+msgid "Contact Form 7"
+msgstr "Contact Form 7"
+
+#. translators: %s: Plugin's reviews page link
+#: includes/admin.php:359
+msgid "Please rate us on %s. Thanks!!"
+msgstr "請前往 %s 為外掛進行評等，萬分感激。"
+
+#: includes/admin.php:334
+msgid "Buy Us a Coffee"
+msgstr "贊助開發工作"
+
+#: includes/admin.php:332
+msgid "Do you like Honeypot for CF7? Consider showing your support:"
+msgstr "如果 Honeypot for Contact Form 7 對網站確有幫助，請考慮贊助開發工作。"
+
+#. translators: 1: spam count 2: install date
+#: includes/admin.php:320
+msgid "Honeypot has stopped %1$s spam submissions since %2$s"
+msgstr "從 %2$s開始，Honeypot for Contact Form 7 已阻擋 %1$s 則濫填內容的提交。"
+
+#: includes/admin.php:303
+msgid "Reset to Defaults"
+msgstr "重設為預設值"
+
+#: includes/admin.php:302
+msgid "Save"
+msgstr "儲存"
+
+#: includes/honeypot4cf7.php:320 includes/admin.php:281
+msgid "Disable Accessibility Label"
+msgstr "停用無障礙功能標籤"
+
+#: includes/admin.php:277
+msgid "By default Honeypot uses inline CSS on the honeypot field to hide it. Checking this box moves that CSS to the footer of the page. It may help confuse bots."
+msgstr "依照預設，Honeypot for Contact Form 7 會將內嵌 CSS 套用至誘捕功能欄位以隱藏該欄位。啟用這項設定便能將 CSS 移動至頁面頁尾。這對混淆檢索程式會有所幫助。"
+
+#: includes/admin.php:271
+msgid "Move Inline CSS"
+msgstr "移動內嵌 CSS"
+
+#: includes/honeypot4cf7.php:302 includes/admin.php:261
+msgid "Use Standard Autocomplete Value"
+msgstr "使用標準自動完成值"
+
+#. translators: %s: default value
+#: includes/admin.php:253
+msgid "You can customize the (hidden) accessibility message, or just leave it the default value: %s"
+msgstr "網站管理員可以自訂 (隱藏的) 無障礙功能訊息，或保留使用預設值「%s」。"
+
+#: includes/admin.php:243
+msgid "Accessibility Message"
+msgstr "無障礙功能訊息"
+
+#: includes/admin.php:239
+msgid "If using placeholders on other fields, this can help honeypot mimic a \"real\" field. This can be overridden in the contact form. If you're unsure, leave blank."
+msgstr "如果在其他欄位使用預留文字，可以協助誘捕功能欄位模仿真實欄位。這項設定可在聯絡表單中加以覆寫。如果不了解這項設定的目的，欄位請留空。"
+
+#: includes/admin.php:233
+msgid "Global Placeholder"
+msgstr "全域預留文字"
+
+#. translators: 1: Link to Flamingo plugin page
+#: includes/admin.php:225
+msgid "(Recommended) By default the Honeypot field is not stored with other fields in form-saving plugins like %1$s. However, saving the field can be useful to see what spam bots are leaving behind to help you improve your spam stopping superpowers. If you'd like to store the value of the field, simply check this box (and install %1$s)."
+msgstr "(建議使用) 依照預設，表單儲存外掛如 %1$s，並不會儲存誘捕功能欄位的資料。不過，儲存誘捕功能欄位的資料會對檢視是哪些惡意檢索程式留下資料很有幫助，並且可以藉以改進阻擋濫填內容的能力。如果需要儲存誘捕功能欄位的資料，請啟用這項功能並安裝 %1$s。"
+
+#: includes/admin.php:215
+msgid "Store Honeypot Value"
+msgstr "儲存誘捕功能值"
+
+#: includes/honeypot4cf7.php:236 includes/admin.php:210
+msgid "Honeypot Settings"
+msgstr "誘捕功能設定"
+
+#: includes/admin.php:208
+msgid "Get Support"
+msgstr "取得技術支援"
+
+#: includes/admin.php:192
+msgid "The changes have been saved."
+msgstr "設定已儲存。"
+
+#: includes/admin.php:171
+msgid "The settings have been reset to their defaults."
+msgstr "全部設定已重設為預設值。"
+
+#: includes/admin.php:112
+msgid "Settings"
+msgstr "設定"
+
+#: includes/admin.php:267
+msgid "To assure the honeypot isn't auto-completed by a browser, we add an atypical \"autocomplete\" attribute value. If you have any problems with this, you can switch it to the more standard (but less effective) \"off\" value. If you're unsure, leave this unchecked."
+msgstr "為了確保瀏覽器不會自動完成誘捕功能欄位的填寫，外掛加入了非典型的 autocomplete 屬性值。如果啟用這項功能後發生問題，請停用這項功能以切換至較標準、但效果較低的 off 值。如果不了解這項設定的目的，請保持停用。"
+
+#: includes/honeypot4cf7.php:229
+msgid "Honeypot for CF7"
+msgstr "Honeypot for Contact Form 7"
+
+#. translators: %s: honeypot field ID
+#: includes/honeypot4cf7.php:195
+msgid "Something is stuck in the honey. Field ID = %s"
+msgstr "誘捕功能發現濫填內容。欄位 ID 為 %s。"
+
+#. Plugin Name of the plugin
+#: includes/admin.php:200
+msgid "Honeypot for Contact Form 7"
+msgstr "Honeypot for Contact Form 7"
+
+#: includes/admin.php:287
+msgid "If checked, the accessibility label will not be generated. This is not recommended, but may improve spam blocking. If you're unsure, leave this unchecked."
+msgstr "啟用這項功能後，便不會產生無障礙功能標籤。不建議這麼做，但可能會加強封鎖濫填表單。如果不了解這項設定的目的，請保持停用。"
+
+#. Author URI of the plugin
+msgid "http://www.nocean.ca"
+msgstr "http://www.nocean.ca"
+
+#. Author of the plugin
+msgid "Nocean"
+msgstr "Nocean"
+
+#. Description of the plugin
+msgid "Add honeypot anti-spam functionality to the popular Contact Form 7 plugin."
+msgstr "為最受歡迎的 Contact Form 7 外掛加入誘捕及反濫填功能。"
+
+#. Plugin URI of the plugin
+msgid "http://www.nocean.ca/plugins/honeypot-module-for-contact-form-7-wordpress-plugin/"
+msgstr "https://www.nocean.ca/plugins/honeypot-module-for-contact-form-7-wordpress-plugin/"
+
+#: includes/honeypot4cf7.php:345
+msgid "Insert Tag"
+msgstr "插入標籤"
+
+#: includes/honeypot4cf7.php:248
+msgid "Name"
+msgstr "欄位名稱"
+
+#: includes/honeypot4cf7.php:228
+msgid "Generate a form-tag for a spam-stopping honeypot field. For more details, see %s."
+msgstr "為反濫填誘捕功能欄位產生表單標籤。如需進一步了解，請參閱〈%s〉。"
+
+#: includes/honeypot4cf7.php:223 includes/admin.php:161
+msgid "Honeypot"
+msgstr "誘捕功能"
+
+#: includes/honeypot4cf7.php:55 includes/admin.php:254
+msgid "Please leave this field empty."
+msgstr "請將這個欄位留空。"
+
+#. translators: %s: Link to Contact Form 7 plugin page.
+#: includes/admin.php:39
+msgid "%s must be installed and activated for the CF7 Honeypot plugin to work"
+msgstr "必須安裝並啟用 %s，Honeypot for Contact Form 7 才能正確執行。"

@@ -1,0 +1,131 @@
+# Translation of Plugins - Contact Form 7 Dynamic Text Extension - Stable (latest release) in Dutch
+# This file is distributed under the same license as the Plugins - Contact Form 7 Dynamic Text Extension - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-07-16 09:17:26+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: nl\n"
+"Project-Id-Version: Plugins - Contact Form 7 Dynamic Text Extension - Stable (latest release)\n"
+
+#: contact-form-7-dynamic-text-extension.php:172
+msgid "dynamic text"
+msgstr "dynamische tekst"
+
+#: contact-form-7-dynamic-text-extension.php:175
+msgid "dynamic hidden"
+msgstr "dynamisch verborgen"
+
+#: contact-form-7-dynamic-text-extension.php:189
+msgid "Generate a form-tag for a single-line plain text input field, with a dynamically generated default value."
+msgstr "Genereer een form-tag voor een enkelregelig invoerveld voor platte tekst, met een dynamisch gegenereerde standaardwaarde."
+
+#: contact-form-7-dynamic-text-extension.php:193
+msgid "Generate a form-tag for a hidden input field, with a dynamically generated default value."
+msgstr "Genereer een form-tag voor een verborgen invoerveld, met een dynamisch gegenereerde standaardwaarde."
+
+#: contact-form-7-dynamic-text-extension.php:213
+#: contact-form-7-dynamic-text-extension.php:216
+msgid "Field type"
+msgstr "Veld type"
+
+#: contact-form-7-dynamic-text-extension.php:217
+msgid "Required field"
+msgstr "Vereist veld"
+
+#: contact-form-7-dynamic-text-extension.php:223
+msgid "Name"
+msgstr "Naam"
+
+#: contact-form-7-dynamic-text-extension.php:228
+msgid "Dynamic value"
+msgstr "Dynamische waarde"
+
+#: contact-form-7-dynamic-text-extension.php:234
+msgid "Id attribute"
+msgstr "Id-attribuut"
+
+#: contact-form-7-dynamic-text-extension.php:239
+msgid "Class attribute"
+msgstr "Klasse attribuut"
+
+#: contact-form-7-dynamic-text-extension.php:252
+msgid "Insert Tag"
+msgstr "Tag invoegen"
+
+#: contact-form-7-dynamic-text-extension.php:413
+msgid "http://contactform7.com/"
+msgstr "http://contactform7.com/"
+
+#: contact-form-7-dynamic-text-extension.php:414
+msgid "Contactform7.com"
+msgstr "Contactform7.com"
+
+#: contact-form-7-dynamic-text-extension.php:415
+msgid "http://contactform7.com/docs/"
+msgstr "http://contactform7.com/docs/"
+
+#: contact-form-7-dynamic-text-extension.php:416
+msgid "Docs"
+msgstr "Documenten"
+
+#: contact-form-7-dynamic-text-extension.php:417
+msgid "http://contactform7.com/faq/"
+msgstr "http://contactform7.com/faq/"
+
+#: contact-form-7-dynamic-text-extension.php:418
+msgid "FAQ"
+msgstr "FAQ"
+
+#: contact-form-7-dynamic-text-extension.php:419
+msgid "http://contactform7.com/support/"
+msgstr "http://contactform7.com/support/"
+
+#: contact-form-7-dynamic-text-extension.php:420
+msgid "Support"
+msgstr "Ondersteuning"
+
+#. Plugin URI of the plugin
+#: contact-form-7-dynamic-text-extension.php:421
+msgid "http://sevenspark.com/wordpress-plugins/contact-form-7-dynamic-text-extension"
+msgstr "http://sevenspark.com/wordpress-plugins/contact-form-7-dynamic-text-extension"
+
+#: contact-form-7-dynamic-text-extension.php:422
+msgid "Dynamic Text Extension"
+msgstr "Dynamische tekstextensie"
+
+#. Author URI of the plugin
+#: contact-form-7-dynamic-text-extension.php:422
+msgid "http://sevenspark.com"
+msgstr "http://sevenspark.com"
+
+#: contact-form-7-dynamic-text-extension.php:423
+msgid "SevenSpark"
+msgstr "SevenSpark"
+
+#: contact-form-7-dynamic-text-extension.php:423
+msgid "http://bit.ly/bVogDN"
+msgstr "http://bit.ly/bVogDN"
+
+#: contact-form-7-dynamic-text-extension.php:424
+msgid "[Donate]"
+msgstr "[Doneren]"
+
+#. Plugin Name of the plugin
+msgid "Contact Form 7 - Dynamic Text Extension"
+msgstr "Contact Form 7 - Dynamic Text Extension"
+
+#. Description of the plugin
+msgid "Provides a dynamic text field that accepts any shortcode to generate the content.  Requires Contact Form 7"
+msgstr "Biedt een dynamisch tekstveld dat elke shortcode accepteert om de inhoud te genereren. Vereist Contactformulier 7"
+
+#. Author of the plugin
+msgid "Chris Mavricos, SevenSpark"
+msgstr "Chris Mavricos, SevenSpark"
+
+#: contact-form-7-dynamic-text-extension.php:230
+msgid "You can enter any short code.  Just leave out the square brackets (<code>[]</code>) and only use single quotes (<code>'</code> not <code>\"</code>).  <br/>So <code>[shortcode attribute=\"value\"]</code> becomes <code>shortcode attribute='value'</code>"
+msgstr "Je kan elke shortcode invoeren. Laat de vierkante haken (<code> [] </code>) weg en gebruik alleen enkele aanhalingstekens (<code> '</code> niet <code>\"</code>). <br/> Dus <code> [shortcode attribuut =\"waarde\"] </code> wordt <code> shortcode attribuut = 'waarde' </code>"

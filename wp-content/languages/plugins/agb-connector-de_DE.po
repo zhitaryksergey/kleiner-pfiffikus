@@ -1,0 +1,324 @@
+# Translation of Plugins - Terms &amp; Conditions Connector of IT-Recht Kanzlei - Stable (latest release) in German
+# This file is distributed under the same license as the Plugins - Terms &amp; Conditions Connector of IT-Recht Kanzlei - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2020-11-25 06:50:13+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/3.0.0-alpha.2\n"
+"Language: de\n"
+"Project-Id-Version: Plugins - Terms &amp; Conditions Connector of IT-Recht Kanzlei - Stable (latest release)\n"
+
+#: src/Settings.php:570
+msgid "&mdash; Create new page &mdash;"
+msgstr "&mdash; Neue Seite erstellen &mdash;"
+
+#: src/Settings.php:489
+msgid "+ Add page"
+msgstr "+ Seite hinzufügen"
+
+#: src/Settings.php:477 src/Settings.php:526
+msgid "Delete page"
+msgstr "Seite löschen"
+
+#: src/Settings.php:428
+msgid "Attach PDF on WooCommerce emails"
+msgstr "PDF an WooCommerce-E-Mails anhängen"
+
+#: src/Settings.php:422
+msgid "Page"
+msgstr "Seite"
+
+#: src/Settings.php:421
+msgid "Language"
+msgstr "Sprache"
+
+#: src/Settings.php:420
+msgid "Country"
+msgstr "Land"
+
+#: src/XmlApiSupportedService.php:60
+msgid "Portugal"
+msgstr "Portugal"
+
+#: src/XmlApiSupportedService.php:59
+msgid "Australia"
+msgstr "Australien"
+
+#: src/XmlApiSupportedService.php:58
+msgid "Slovenia"
+msgstr "Slowenien"
+
+#: src/XmlApiSupportedService.php:57
+msgid "Luxembourg"
+msgstr "Luxemburg"
+
+#: src/XmlApiSupportedService.php:56
+msgid "Denmark"
+msgstr "Dänemark"
+
+#: src/XmlApiSupportedService.php:55
+msgid "Czech Republic"
+msgstr "Tschechische Republik"
+
+#: src/XmlApiSupportedService.php:54
+msgid "Ireland"
+msgstr "Irland"
+
+#: src/XmlApiSupportedService.php:53
+msgid "Canada"
+msgstr "Kanada"
+
+#: src/XmlApiSupportedService.php:52
+msgid "USA"
+msgstr "USA"
+
+#: src/XmlApiSupportedService.php:51
+msgid "Netherlands"
+msgstr "Niederlande"
+
+#: src/XmlApiSupportedService.php:50
+msgid "Belgium"
+msgstr "Belgien"
+
+#: src/XmlApiSupportedService.php:49
+msgid "France"
+msgstr "Frankreich"
+
+#: src/XmlApiSupportedService.php:48
+msgid "England"
+msgstr "England"
+
+#: src/XmlApiSupportedService.php:47
+msgid "Poland"
+msgstr "Polen"
+
+#: src/XmlApiSupportedService.php:46
+msgid "Italy"
+msgstr "Italien"
+
+#: src/XmlApiSupportedService.php:45
+msgid "Spain"
+msgstr "Spanien"
+
+#: src/XmlApiSupportedService.php:44
+msgid "Sweden"
+msgstr "Schweden"
+
+#: src/XmlApiSupportedService.php:43
+msgid "Switzerland"
+msgstr "Schweiz"
+
+#: src/XmlApiSupportedService.php:42
+msgid "Austria"
+msgstr "Österreich"
+
+#: src/XmlApiSupportedService.php:41
+msgid "Germany"
+msgstr "Deutschland"
+
+#: src/XmlApiSupportedService.php:29
+msgid "Portuguese"
+msgstr "Portugiesisch"
+
+#: src/XmlApiSupportedService.php:28
+msgid "Slovenian"
+msgstr "Slowenisch"
+
+#: src/XmlApiSupportedService.php:27
+msgid "Czech"
+msgstr "Tschechisch"
+
+#: src/XmlApiSupportedService.php:26
+msgid "Danish"
+msgstr "Dänisch"
+
+#: src/XmlApiSupportedService.php:25
+msgid "Swedish"
+msgstr "Schwedisch"
+
+#: src/XmlApiSupportedService.php:24
+msgid "Polish"
+msgstr "Polnisch"
+
+#: src/XmlApiSupportedService.php:23
+msgid "Dutch"
+msgstr "Niederländisch"
+
+#: src/XmlApiSupportedService.php:22
+msgid "Italian"
+msgstr "Italienisch"
+
+#: src/XmlApiSupportedService.php:21
+msgid "Spanish"
+msgstr "Spanisch"
+
+#: src/XmlApiSupportedService.php:20
+msgid "English"
+msgstr "Englisch"
+
+#: src/XmlApiSupportedService.php:19
+msgid "French"
+msgstr "Französisch"
+
+#: src/XmlApiSupportedService.php:18
+msgid "German"
+msgstr "Deutsch"
+
+#: src/ShortCodes.php:178
+msgid "Country of text that should be displayed"
+msgstr "Land des Textes, der angezeigt werden soll"
+
+#: src/ShortCodes.php:174
+msgid "Select country"
+msgstr "Wähle ein Land"
+
+#: src/ShortCodes.php:165
+msgid "Language of text that should be displayed"
+msgstr "Sprache des Textes, der angezeigt werden soll"
+
+#: src/ShortCodes.php:161
+msgid "Select language"
+msgstr "Wähle eine Sprache"
+
+#. translators: %s is the AGB shortcode name.
+#: src/ShortCodes.php:251
+msgid "No content found for %s."
+msgstr "Kein Inhalt für %s gefunden."
+
+#. translators: %s is the AGB shortcode name.
+#: src/ShortCodes.php:238
+msgid "No valid page found for %s."
+msgstr "Keine gültige Seite für %s gefunden."
+
+#: src/ShortCodes.php:152
+msgid "Style particular content element differently - add a class name and refer to it in custom CSS."
+msgstr "Style bestimmte Inhalte unterschiedlich, füge einen Klassennamen hinzu und verwende ihn in benutzerdefiniertem CSS. "
+
+#: src/ShortCodes.php:149
+msgid "Extra class name"
+msgstr "Zusätzlicher Klassenname"
+
+#: src/ShortCodes.php:139
+msgid "w3c specification"
+msgstr "w3c Spezifikation"
+
+#. translators: %s is the w3c specification link.
+#: src/ShortCodes.php:135
+msgid "Enter element ID (Note: make sure it is unique and valid according to %s)."
+msgstr "Gib eine Element ID an (Hinweis: stelle sicher, dass diese eindeutig ist und gültig bezüglich %s ist)"
+
+#: src/ShortCodes.php:130
+msgid "Element ID"
+msgstr "Element ID"
+
+#: src/ShortCodes.php:124
+msgid "Content"
+msgstr "Inhalt"
+
+#: src/ShortCodes.php:56
+msgid "AGB Imprint"
+msgstr "AGB Impressum"
+
+#: src/ShortCodes.php:52
+msgid "AGB Revocation"
+msgstr "AGB Widerrufsbelehrung"
+
+#: src/ShortCodes.php:48
+msgid "AGB Privacy"
+msgstr "AGB Datenschutzerklärung"
+
+#: src/ShortCodes.php:44
+msgid "AGB Terms"
+msgstr "AGB"
+
+#. Author URI of the plugin
+msgid "http://inpsyde.com"
+msgstr "http://inpsyde.com"
+
+#. Author of the plugin
+msgid "Inpsyde GmbH"
+msgstr "Inpsyde GmbH"
+
+#. Description of the plugin
+msgid "Transfers legal texts from the IT-Recht Kanzlei client portal to your WordPress installation."
+msgstr "Überträgt Rechtstexte aus dem Mandantenportal der IT-Recht Kanzlei in deine WordPress Installation."
+
+#. Plugin URI of the plugin
+msgid "https://github.com/inpsyde/agb-connector"
+msgstr "https://github.com/inpsyde/agb-connector"
+
+#: src/Settings.php:226
+msgid "via +49 89 13014330 or "
+msgstr "unter +49 89 13014330 oder "
+
+#: src/Settings.php:221
+msgid "If you have questions please contact “IT-Recht Kanzlei München” directly"
+msgstr "Bei weiteren Fragen wende dich bitte direkt an die IT-Recht Kanzlei München"
+
+#: src/Settings.php:212
+msgid "An Inpsyde GmbH Product"
+msgstr "Ein Produkt der Inpsyde GmbH"
+
+#: src/Settings.php:207
+msgid "https://inpsyde.com/en/?utm_source=Plugin&utm_medium=Banner&utm_campaign=Inpsyde"
+msgstr "https://inpsyde.com/?utm_source=Plugin&utm_medium=Banner&utm_campaign=Inpsyde"
+
+#: src/Settings.php:365
+msgid "Save changes"
+msgstr "Änderungen speichern"
+
+#: src/XmlApiSupportedService.php:74 src/Settings.php:350
+msgid "Imprint"
+msgstr "Impressum"
+
+#: src/XmlApiSupportedService.php:73 src/Settings.php:334
+msgid "Revocation"
+msgstr "Widerrufsbelehrung"
+
+#: src/XmlApiSupportedService.php:72 src/Settings.php:318
+msgid "Privacy"
+msgstr "Datenschutzerklärung"
+
+#: src/Settings.php:567
+msgid "&mdash; Select &mdash;"
+msgstr "&mdash; Auswählen &mdash;"
+
+#: src/XmlApiSupportedService.php:71 src/Settings.php:302
+msgid "Terms and Conditions"
+msgstr "Allgemeine Geschäftsbedingungen (AGB)"
+
+#: src/Settings.php:292
+msgid "If you change the token, this must also be adjusted in the client portal."
+msgstr "Wenn der Token neu generiert wird, muss dieser auch im Mandantenportal angepasst werden."
+
+#: src/Settings.php:288
+msgid "Regenerate"
+msgstr "Neu generieren"
+
+#: src/Settings.php:268
+msgid "API-Token"
+msgstr "API-Token"
+
+#: src/Settings.php:249
+msgid "Your shop URL"
+msgstr "Deine Shop-URL"
+
+#: src/Settings.php:175
+msgid "settings updated."
+msgstr "Einstellungen aktualisiert."
+
+#: src/Settings.php:120
+msgid "New APT-Token generated."
+msgstr "Neuer API-Token generiert."
+
+#: src/Settings.php:82 src/Settings.php:192
+msgid "Settings"
+msgstr "Einstellungen"
+
+#. Plugin Name of the plugin
+#: src/Settings.php:60 src/Settings.php:193
+msgid "Terms & Conditions Connector of IT-Recht Kanzlei"
+msgstr "AGB-Connector der IT-Recht Kanzlei"

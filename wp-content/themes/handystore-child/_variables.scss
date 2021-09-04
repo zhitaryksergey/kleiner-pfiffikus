@@ -1,0 +1,120 @@
+$white:    #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #565656;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$red: #e0004d;
+$blue: #3e5e6f;
+$green: #c2d44e;
+$gray: $gray-600;
+$gray-dark: $gray-800;
+
+$light: $gray-100;
+$dark: $gray-600;
+
+
+$primary: $green;
+$secondary: $blue;
+$body-color: $gray-900;
+$body-fontsize: 1rem;
+
+$fontawesome: 'Font Awesome 5 Free';
+$fontawesome-brands: 'Font Awesome 5 Brands';
+$font-body: "Roboto", Arial, Helvetica, sans-serif;
+$font-header: "Roboto", Arial, Helvetica, sans-serif;
+
+
+$hamburger-padding-x: 0;
+$hamburger-padding-y: 0;
+$hamburger-layer-width: 24px;
+$hamburger-layer-spacing: 4px;
+$hamburger-layer-color: $primary;
+$hamburger-hover-opacity: 1;
+$hamburger-active-hover-opacity: 1;
+.fusion-mobile-menu-icons .fusion-icon-bars::before {
+  display: none !important;
+}
+
+$hamburger-types: (
+        collapse
+);
+
+
+$breakpoints: (
+        grid: 1024px,
+        header: 1024px,
+        site-content: 801px,
+        sidebar: 801px,
+        w360: 360px,
+        w480: 480px,
+        w640: 640px,
+        w768: 768px,
+        w800: 800px,
+        w1000: 1000px,
+        w1024: 1024px,
+        w1280: 1280px,
+        w1368: 1368px,
+        w1440: 1440px,
+        w1600: 1600px,
+        w1900: 1900px,
+        w2000: 2000px
+);
+
+// Breakpoint up.
+@mixin breakpoint-up($breakpoint) {
+
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (min-width: $breakpoint-value) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@mixin breakpoint-down($breakpoint) {
+
+  // If the breakpoint exists in the map.
+  @if map-has-key($breakpoints, $breakpoint) {
+
+    // Get the breakpoint value.
+    $breakpoint-value: map-get($breakpoints, $breakpoint);
+
+    // Write the media query.
+    @media (max-width: ($breakpoint-value - 1)) {
+      @content;
+    }
+
+    // If the breakpoint doesn't exist in the map.
+  } @else {
+
+    // Log a warning.
+    @warn 'Invalid breakpoint: #{$breakpoint}.';
+  }
+}
+
+@mixin hover-focus-active {
+  &:hover,
+  &:focus,
+  &:active {
+    @content;
+  }
+}
+
