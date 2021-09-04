@@ -138,7 +138,8 @@ class pt_contacts_widget extends WP_Widget {
 
 			<ul class="pt-widget-contacts" itemprop="sourceOrganization" itemscope="itemscope" itemtype="http://schema.org/LocalBusiness">
 				<?php if($company_name != '' ) : ?><li class="option-title a-name"><span class="name" itemprop="name"><?php echo esc_attr($company_name); ?></span></li><?php endif; ?>
-				<?php if($image_url != '' ) : ?><li class="option-title a-logo"><span class="logo"><img alt="<?php echo esc_attr($company_name); ?>" src="<?php echo esc_url($image_url); ?>" itemprop="logo" /></span></li><?php endif; ?>
+				<?php if($image_url != '' ) : ?><li class="option-title a-logo"><span class="logo"><img alt="<?php echo esc_attr($company_name); ?>" src="<?php echo esc_url($image_url); ?>" itemprop="logo" /></span></li>
+				<meta itemprop="image" content="<?php echo esc_url($image_url); ?>"><?php endif; ?>
 				<?php if($phone != '' ) : ?><li class="option-title a-phone"><span class="phone" itemprop="telephone"><?php echo esc_attr($phone); ?></span></li><?php endif; ?>
 				<?php if($fax != '' ) : ?><li class="option-title a-fx"><span class="fax"><?php echo esc_attr($fax); ?></span></li><?php endif; ?>
 				<?php if($skype != '' ) : ?><li class="option-title a-skype"><span class="skype"><?php echo esc_attr($skype); ?></span></li><?php endif; ?>

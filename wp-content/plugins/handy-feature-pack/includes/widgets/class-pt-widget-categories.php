@@ -70,8 +70,7 @@ class pt_categories extends WP_Widget {
 		          <option value='ID'<?php echo (esc_attr($instance['sortby']=='ID'))?' selected':''; ?>><?php _e('ID', 'handy-feature-pack'); ?></option>
 		          <option value='name'<?php echo (esc_attr($instance['sortby']=='name'))?' selected="selected"':''; ?>><?php _e('Category order', 'handy-feature-pack'); ?></option>
 		          <option value='slug'<?php echo (esc_attr($instance['sortby']=='slug'))?' selected="selected"':''; ?>><?php _e('Name', 'handy-feature-pack'); ?></option>
-		          <option value='category_order'<?php echo (esc_attr($instance['sortby']=='category_order'))?' selected="selected"':''; ?>><?php _e('Category Sort', 'handy-feature-pack'); ?></option>
-                </select>
+						</select>
 		    </label>
 		</p>
 		<p>
@@ -217,7 +216,7 @@ class PT_Cats_List_Walker extends Walker {
 		$this->curItem = $cat;
 
 		if ($this->show_img == true) {
-			$thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
+			$thumbnail_id = get_term_meta( $cat->term_id, 'thumbnail_id', true );
 			$image = wp_get_attachment_image( $thumbnail_id, 'pt-cat-thumb', false );
 		}
 
@@ -235,7 +234,7 @@ class PT_Cats_List_Walker extends Walker {
 		$output .=  '">';
 
 		/* Output categorie img */
-		if (isset($image) && $image && $image!='') {
+		if ($image && $image!='') {
 			$output .= '<span class="cat-img-wrap">'.$image.'</span>';
 		}
 
@@ -283,7 +282,7 @@ class PT_Cats_List_Walker extends Walker {
 	 *
 	 * @since 1.0
 	 */
-	public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 		if ( ! $element || 0 === $element->count ) {
 			return;
 		}

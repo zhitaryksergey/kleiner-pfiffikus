@@ -68,8 +68,8 @@ class pt_login_widget extends WP_Widget {
 			<?php } } else { ?>
 
 			<form id="login" class="ajax-auth" method="post">
-				<h3><?php _e('New to site? ', 'handy-feature-pack');?><a id="pop_signup" href=""><?php _e('Create an Account', 'handy-feature-pack');?></a></h3>
-				<h1><?php _e('Login', 'handy-feature-pack');?></h1>
+				<h4><?php _e('New to site? ', 'handy-feature-pack');?><a id="pop_signup" href=""><?php _e('Create an Account', 'handy-feature-pack');?></a></h4>
+				<h3><?php _e('Login', 'handy-feature-pack');?></h3>
 				<p class="status"></p>
 				<?php wp_nonce_field('ajax-login-nonce', 'security'); ?>
 				<p>
@@ -91,8 +91,8 @@ class pt_login_widget extends WP_Widget {
 			</form>
 
 			<form id="register" class="ajax-auth" method="post">
-				<h3><?php _e('Already have an account? ', 'handy-feature-pack');?><a id="pop_login"  href=""><?php _e('Login', 'handy-feature-pack');?></a></h3>
-				<h1><?php _e('Signup', 'handy-feature-pack');?></h1>
+				<h4><?php _e('Already have an account? ', 'handy-feature-pack');?><a id="pop_login"  href=""><?php _e('Login', 'handy-feature-pack');?></a></h4>
+				<h3><?php _e('Signup', 'handy-feature-pack');?></h3>
 				<p class="status"></p>
 				<?php wp_nonce_field('ajax-register-nonce', 'signonsecurity'); ?>
 				<p>
@@ -107,34 +107,6 @@ class pt_login_widget extends WP_Widget {
 					<label for="signonpassword"><?php _e('Password', 'handy-feature-pack');?><span class="required">*</span></label>
 					<input id="signonpassword" type="password" class="required" name="signonpassword" required aria-required="true">
 				</p>
-				<?php // Apply to become a vendor
-				if ( class_exists('WC_Vendors') && class_exists( 'WooCommerce' ) ) :
-					if ( WC_Vendors::$pv_options->get_option( 'show_vendor_registration' ) ) :
-						$terms_page = WC_Vendors::$pv_options->get_option( 'terms_to_apply_page' ); ?>
-						<input class="input-checkbox" id="apply_for_vendor_widget" <?php checked( isset( $_POST[ 'apply_for_vendor_widget' ] ), true ) ?> type="checkbox" name="apply_for_vendor_widget" value="1"/>
-						<label for="apply_for_vendor_widget" class="checkbox-label">
-							<?php echo apply_filters('wcvendors_vendor_registration_checkbox', __( 'Apply to become a vendor? ', 'handy-feature-pack' )); ?>
-						</label>
-					<?php if ( $terms_page && $terms_page !='' ) : ?>
-						<p class="agree-to-terms" style="display:none">
-							<input class="input-checkbox" id="agree_to_terms_widget" <?php checked( isset( $_POST[ 'agree_to_terms_widget' ] ), true ) ?> type="checkbox" name="agree_to_terms_widget" value="1"/>
-							<label for="agree_to_terms_widget" class="checkbox-label">
-								<?php printf( __( 'I have read and accepted the <a target="_blank" href="%s">terms and conditions</a>', 'handy-feature-pack' ), get_permalink( $terms_page ) ); ?>
-							</label>
-						</p>
-					<?php  endif; ?>
-						<script type="text/javascript">
-							jQuery(function () {
-								if (jQuery('#apply_for_vendor_widget').is(':checked')) {
-									jQuery('.agree-to-terms').show();
-								}
-								jQuery('#apply_for_vendor_widget').on('click', function () {
-									jQuery('.agree-to-terms').slideToggle();
-								});
-							})
-						</script>
-					<?php endif; ?>
-				<?php endif; ?>
 				<input class="submit_button" type="submit" value="<?php esc_html_e('Register', 'handy-feature-pack'); ?>">
 				<a class="close" href="#"><?php _e('(close)', 'handy-feature-pack');?></a>
 			</form>

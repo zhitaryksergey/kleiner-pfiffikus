@@ -112,10 +112,10 @@ class WPBakeryShortCode_handy_recent_post extends WPBakeryShortCode {
 		$css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css, ' ' ), $this->settings['base'], $atts );
 
     // Excerpt filters
-    $new_excerpt_more = create_function('$more', 'return " ";');
+    $new_excerpt_more = function($more){return " ";};
     add_filter('excerpt_more', $new_excerpt_more);
 
-    $new_excerpt_length = create_function('$length', 'return "25";');
+    $new_excerpt_length = function ($length){ return "25";};
     add_filter('excerpt_length', $new_excerpt_length);
 
     $the_query = new WP_Query(

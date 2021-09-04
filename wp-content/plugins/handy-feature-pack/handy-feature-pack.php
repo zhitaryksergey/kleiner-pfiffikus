@@ -3,7 +3,7 @@
  * Plugin Name:       Handy Feature Pack
  * Plugin URI:        https://themes.zone/feature-pack
  * Description:       Special collection of widgets & shortcodes for Handy Theme.
- * Version:           1.0.5
+ * Version:           1.1.0
  * Author:            Themes Zone
  * Author URI:        https://themes.zone/
  * License:           GPL-2.0+

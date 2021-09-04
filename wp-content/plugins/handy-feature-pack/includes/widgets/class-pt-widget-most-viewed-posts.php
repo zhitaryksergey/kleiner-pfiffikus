@@ -107,10 +107,10 @@ class pt_most_viewed_post_widget extends WP_Widget {
 		$excerpt_more = ( isset($instance['excerpt-more']) ? $instance['excerpt-more'] : '...read more' );
 
 			// Excerpt filters
-			$new_excerpt_more = create_function('$more', 'return " ";');
+			$new_excerpt_more = function($more){ return " ";};
 			add_filter('excerpt_more', $new_excerpt_more);
 
-			$new_excerpt_length = create_function('$length', 'return "'.$excerpt_length.'";');
+			$new_excerpt_length = function($length){ return "'.$length.'";};
 				if ( $excerpt_length > 0 ) add_filter('excerpt_length', $new_excerpt_length);
 
 		$show_thumb = ( isset($instance['thumb']) ? $instance['thumb'] : false );

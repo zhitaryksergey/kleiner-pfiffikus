@@ -269,7 +269,13 @@ class pt_recent_post_widget extends WP_Widget {
 								printf( _nx( 'One Review', '%1$s Reviews', get_comments_number(), 'comments title', 'handy-feature-pack' ), number_format_i18n( get_comments_number() ) );
 								echo "</a>";
 							} else { ?>
-							<?php comments_popup_link( 'No comments yet', '1 comment', '% comments', 'comments-link', 'Comments are off'); } ?>
+							<?php comments_popup_link(
+							    esc_html__( 'No comments yet', 'handy-feature-pack' ),
+							    esc_html__( '1 comment', 'handy-feature-pack' ),
+							    esc_html__( '% comments', 'handy-feature-pack' ),
+							    'comments-link',
+							    esc_html__( 'Comments are off', 'handy-feature-pack' )
+							); } ?>
 							</div>
 						<?php } // Post Comments ?>
 						</div>

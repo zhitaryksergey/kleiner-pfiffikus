@@ -86,7 +86,7 @@ function pt_ajax_register(){
 		    $message .= sprintf( esc_html__('Username: %s', 'handy-feature-pack'), $info['user_login'] ) . "\r\n\r\n";
 		    $message .= sprintf( esc_html__('Email: %s', 'handy-feature-pack'), $info['user_email'] ) . "\r\n";
 
-    		@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'handy-feature-pack'), $blogname), $message);
+    		@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'handy-feature-pack'), $blogname), apply_filters( 'handy-admin-email-on-user-register', $message, $info['user_login'], $info['user_email'] ) );
 
 				$message  = esc_html__('Hi there,', 'handy-feature-pack') . "\r\n\r\n";
         $message .= sprintf(esc_html__("Welcome to %s! Here's how to log in:", 'handy-feature-pack'), $blogname) . "\r\n\r\n";
@@ -97,7 +97,7 @@ function pt_ajax_register(){
         $message .= esc_html__('This is an automatically generated email, please do not reply!', 'handy-feature-pack');
 
 				if ( !$become_a_vendor ) {
-        	wp_mail($info['user_email'], sprintf(esc_html__('[%s] Your username and password', 'handy-feature-pack'), $blogname), $message);
+        	wp_mail($info['user_email'], sprintf(esc_html__('[%s] Your username and password', 'handy-feature-pack'), $blogname), apply_filters( 'handy-user-email-on-register', $message, $info['user_login'], $info['user_pass'] ) );
 				}
 
     		// Login to new account

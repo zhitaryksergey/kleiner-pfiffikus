@@ -652,18 +652,18 @@ footer .widget_pt_pay_icons_widget {
         position: absolute;
     }
 }
-.ajax-auth h1,
+.ajax-auth h4,
 .ajax-auth h3 {
     font-weight: 300;
     line-height: 1;
     text-align: center !important;
 }
-.ajax-auth h1 {
+.ajax-auth h3 {
     font-size: 30px;
     margin: 0;
     padding: 15px 0;
 }
-.ajax-auth h3 {
+.ajax-auth h4 {
     font-size: 18px;
     margin: 0 !important;
     padding: 0;

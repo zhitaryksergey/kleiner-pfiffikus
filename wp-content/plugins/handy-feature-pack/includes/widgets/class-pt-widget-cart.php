@@ -101,7 +101,7 @@ class pt_woocommerce_widget_cart extends WP_Widget {
 
 		<script type="text/javascript">
 		jQuery(document).ready(function($){
-			$(window).load(function(){
+
 
 				var settings = {
 				    interval: 100,
@@ -120,7 +120,7 @@ class pt_woocommerce_widget_cart extends WP_Widget {
 
 				$('header .widget_shopping_cart').hoverIntent(settings);
 
-			});
+
 		});
 		</script>
 
