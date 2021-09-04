@@ -4,9 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8afa433243e0a2dbc4655197d17e37e5
+class ComposerStaticInita2375575574c4f72bb2b4882ece6186a
 {
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'WPSEO_Option_Woo' => __DIR__ . '/../..' . '/classes/option-woo.php',
         'WPSEO_WooCommerce_Abstract_Product_Availability_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-abstract-product-availability-presenter.php',
         'WPSEO_WooCommerce_Abstract_Product_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-abstract-product-presenter.php',
@@ -20,6 +21,8 @@ class ComposerStaticInit8afa433243e0a2dbc4655197d17e37e5
         'WPSEO_WooCommerce_Product_Price_Currency_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-price-currency-presenter.php',
         'WPSEO_WooCommerce_Product_Retailer_Item_ID_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-product-retailer-item-id-presenter.php',
         'WPSEO_WooCommerce_Schema' => __DIR__ . '/../..' . '/classes/woocommerce-schema.php',
+        'WPSEO_WooCommerce_Schema_Presenter' => __DIR__ . '/../..' . '/classes/presenters/woocommerce-schema-presenter.php',
+        'WPSEO_WooCommerce_Slack' => __DIR__ . '/../..' . '/classes/woocommerce-slack.php',
         'WPSEO_WooCommerce_Twitter' => __DIR__ . '/../..' . '/classes/woocommerce-twitter.php',
         'WPSEO_WooCommerce_Utils' => __DIR__ . '/../..' . '/classes/woocommerce-utils.php',
         'WPSEO_WooCommerce_Yoast_Tab' => __DIR__ . '/../..' . '/classes/woocommerce-yoast-tab.php',
@@ -33,7 +36,7 @@ class ComposerStaticInit8afa433243e0a2dbc4655197d17e37e5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit8afa433243e0a2dbc4655197d17e37e5::$classMap;
+            $loader->classMap = ComposerStaticInita2375575574c4f72bb2b4882ece6186a::$classMap;
 
         }, null, ClassLoader::class);
     }

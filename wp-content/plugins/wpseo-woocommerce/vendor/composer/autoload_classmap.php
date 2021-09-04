@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'WPSEO_Option_Woo' => $baseDir . '/classes/option-woo.php',
     'WPSEO_WooCommerce_Abstract_Product_Availability_Presenter' => $baseDir . '/classes/presenters/woocommerce-abstract-product-availability-presenter.php',
     'WPSEO_WooCommerce_Abstract_Product_Presenter' => $baseDir . '/classes/presenters/woocommerce-abstract-product-presenter.php',
@@ -19,6 +20,8 @@ return array(
     'WPSEO_WooCommerce_Product_Price_Currency_Presenter' => $baseDir . '/classes/presenters/woocommerce-product-price-currency-presenter.php',
     'WPSEO_WooCommerce_Product_Retailer_Item_ID_Presenter' => $baseDir . '/classes/presenters/woocommerce-product-retailer-item-id-presenter.php',
     'WPSEO_WooCommerce_Schema' => $baseDir . '/classes/woocommerce-schema.php',
+    'WPSEO_WooCommerce_Schema_Presenter' => $baseDir . '/classes/presenters/woocommerce-schema-presenter.php',
+    'WPSEO_WooCommerce_Slack' => $baseDir . '/classes/woocommerce-slack.php',
     'WPSEO_WooCommerce_Twitter' => $baseDir . '/classes/woocommerce-twitter.php',
     'WPSEO_WooCommerce_Utils' => $baseDir . '/classes/woocommerce-utils.php',
     'WPSEO_WooCommerce_Yoast_Tab' => $baseDir . '/classes/woocommerce-yoast-tab.php',

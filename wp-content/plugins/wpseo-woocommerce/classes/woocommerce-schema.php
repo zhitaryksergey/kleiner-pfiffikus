@@ -8,7 +8,7 @@
 use Yoast\WP\SEO\Config\Schema_IDs;
 
 /**
- * Class WPSEO_WooCommerce_Schema
+ * Class WPSEO_WooCommerce_Schema.
  */
 class WPSEO_WooCommerce_Schema {
 
@@ -86,11 +86,19 @@ class WPSEO_WooCommerce_Schema {
 	 * @return bool False when there's nothing to output, true when we did output something.
 	 */
 	public function output_schema_footer() {
-		if ( empty( $this->data ) || $this->data === [] ) {
+		if ( empty( $this->data ) || $this->data === [] || ! is_array( $this->data ) ) {
 			return false;
 		}
 
-		WPSEO_Utils::schema_output( [ $this->data ], 'yoast-schema-graph yoast-schema-graph--woo yoast-schema-graph--footer' );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We need to output HTML. If we escape this we break it.
+		echo new WPSEO_WooCommerce_Schema_Presenter(
+			[ $this->data ],
+			[
+				'yoast-schema-graph',
+				'yoast-schema-graph--woo',
+				'yoast-schema-graph--footer',
+			]
+		);
 
 		return true;
 	}
@@ -104,10 +112,16 @@ class WPSEO_WooCommerce_Schema {
 	 */
 	public function filter_webpage( $webpage_data ) {
 		if ( is_product() ) {
-			$webpage_data['@type'] = 'ItemPage';
+			if ( ! is_array( $webpage_data['@type'] ) ) {
+				$webpage_data['@type'] = [ $webpage_data['@type'] ];
+			}
+			$webpage_data['@type'][] = 'ItemPage';
 		}
 		if ( is_checkout() || is_checkout_pay_page() ) {
-			$webpage_data['@type'] = 'CheckoutPage';
+			if ( ! is_array( $webpage_data['@type'] ) ) {
+				$webpage_data['@type'] = [ $webpage_data['@type'] ];
+			}
+			$webpage_data['@type'][] = 'CheckoutPage';
 		}
 
 		return $webpage_data;
@@ -125,6 +139,13 @@ class WPSEO_WooCommerce_Schema {
 		unset( $data['itemReviewed'] );
 
 		$this->data['review'][] = $data;
+
+		/**
+		 * Filter: 'wpseo_schema_review' - Allow changing the Review type.
+		 *
+		 * @api array $data The Schema Review data.
+		 */
+		$this->data = apply_filters( 'wpseo_schema_review', $this->data );
 
 		return [];
 	}
@@ -157,6 +178,13 @@ class WPSEO_WooCommerce_Schema {
 		$this->add_color( $product );
 		$this->add_global_identifier( $product );
 
+		/**
+		 * Filter: 'wpseo_schema_product' - Allow changing the Product type.
+		 *
+		 * @api array $data The Schema Product data.
+		 */
+		$this->data = apply_filters( 'wpseo_schema_product', $this->data );
+
 		return [];
 	}
 
@@ -183,17 +211,15 @@ class WPSEO_WooCommerce_Schema {
 				$data['offers'][ $key ]['@id']   = YoastSEO()->meta->for_current_page()->site_url . '#/schema/offer/' . $product->get_id() . '-' . $key;
 				$data['offers'][ $key ]['price'] = $price;
 
-				$data['offers'][ $key ]['priceSpecification']['price']         = $price;
-				$data['offers'][ $key ]['priceSpecification']['priceCurrency'] = get_woocommerce_currency();
+				$data['offers'][ $key ]['priceCurrency'] = get_woocommerce_currency();
 
-				if ( wc_tax_enabled() ) {
-					// Only show this property if tax calculation has been enabled in WooCommerce.
-					$data['offers'][ $key ]['priceSpecification']['valueAddedTaxIncluded'] = WPSEO_WooCommerce_Utils::prices_have_tax_included();
-				}
-				else {
-					// Remove `valueAddedTaxIncluded` property from Schema output by WooCommerce.
-					unset( $data['offers'][ $key ]['priceSpecification']['valueAddedTaxIncluded'] );
-				}
+				$data['offers'][ $key ]['priceSpecification']['@type']                 = 'PriceSpecification';
+				$data['offers'][ $key ]['priceSpecification']['valueAddedTaxIncluded'] = ( wc_tax_enabled() && WPSEO_WooCommerce_Utils::prices_have_tax_included() );
+
+				// Remove priceSpecification price property from Schema output by WooCommerce.
+				unset( $data['offers'][ $key ]['priceSpecification']['price'] );
+				// Remove priceSpecification priceCurrency property from Schema output by WooCommerce.
+				unset( $data['offers'][ $key ]['priceSpecification']['priceCurrency'] );
 			}
 			if ( $offer['@type'] === 'AggregateOffer' ) {
 				$data['offers'][ $key ]['@id']    = YoastSEO()->meta->for_current_page()->site_url . '#/schema/aggregate-offer/' . $product->get_id() . '-' . $key;
@@ -202,7 +228,7 @@ class WPSEO_WooCommerce_Schema {
 
 			// Alter availability when product is "on backorder".
 			if ( $product->is_on_backorder() ) {
-				$data['offers'][ $key ]['availability'] = 'http://schema.org/PreOrder';
+				$data['offers'][ $key ]['availability'] = 'https://schema.org/PreOrder';
 			}
 		}
 
@@ -456,7 +482,7 @@ class WPSEO_WooCommerce_Schema {
 		$variations = $product->get_available_variations();
 
 		$currency           = get_woocommerce_currency();
-		$prices_include_tax = WPSEO_WooCommerce_Utils::prices_have_tax_included();
+		$prices_include_tax = ( wc_tax_enabled() && WPSEO_WooCommerce_Utils::prices_have_tax_included() );
 		$decimals           = wc_get_price_decimals();
 		$data               = [];
 		$product_id         = $product->get_id();
@@ -470,16 +496,12 @@ class WPSEO_WooCommerce_Schema {
 				'@id'                => YoastSEO()->meta->for_current_page()->site_url . '#/schema/offer/' . $product_id . '-' . $key,
 				'name'               => $product_name . ' - ' . $variation_name,
 				'price'              => wc_format_decimal( $variation['display_price'], $decimals ),
+				'priceCurrency'      => $currency,
 				'priceSpecification' => [
-					'price'         => wc_format_decimal( $variation['display_price'], $decimals ),
-					'priceCurrency' => $currency,
+					'@type'                 => 'PriceSpecification',
+					'valueAddedTaxIncluded' => $prices_include_tax,
 				],
 			];
-
-			if ( wc_tax_enabled() ) {
-				// Only add this property if tax calculation has been enabled in WooCommerce.
-				$offer['priceSpecification']['valueAddedTaxIncluded'] = $prices_include_tax;
-			}
 
 			$data[] = $offer;
 		}

@@ -5,6 +5,9 @@
  * @package WPSEO/WooCommerce
  */
 
+use Yoast\WP\SEO\Context\Meta_Tags_Context;
+use Yoast\WP\SEO\Helpers\Request_Helper;
+
 /**
  * Class Yoast_WooCommerce_SEO
  */
@@ -65,23 +68,21 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_submenu_pages', [ $this, 'add_submenu_pages' ] );
 			add_action( 'admin_print_styles', [ $this, 'config_page_styles' ] );
 
-			// Products tab columns.
-			add_filter( 'manage_product_posts_columns', [ $this, 'column_heading' ], 11, 1 );
+			// Hide the Yoast SEO columns in the Product table by default, except the SEO score column.
+			add_action( 'current_screen', [ $this, 'set_yoast_columns_hidden_by_default' ] );
 
 			// Move Woo box above SEO box.
 			add_action( 'admin_footer', [ $this, 'footer_js' ] );
 
 			new WPSEO_WooCommerce_Yoast_Tab();
-
-			$permalink_watcher = new WPSEO_Woocommerce_Permalink_Watcher();
-			$permalink_watcher->register_hooks();
 		}
 		else {
 			// Initialize schema & OpenGraph.
 			add_action( 'init', [ $this, 'initialize_opengraph' ] );
 			add_action( 'init', [ $this, 'initialize_schema' ] );
 			add_action( 'init', [ $this, 'initialize_twitter' ] );
-			add_filter( 'wpseo_frontend_presenters', [ $this, 'add_frontend_presenter' ] );
+			add_action( 'init', [ $this, 'initialize_slack' ] );
+			add_filter( 'wpseo_frontend_presenters', [ $this, 'add_frontend_presenter' ], 10, 2 );
 
 			// Add metadescription filter.
 			add_filter( 'wpseo_metadesc', [ $this, 'metadesc' ] );
@@ -108,7 +109,7 @@ class Yoast_WooCommerce_SEO {
 		// Adds recommended replacevars.
 		add_filter( 'wpseo_recommended_replace_vars', [ $this, 'add_recommended_replacevars' ] );
 
-		add_action( 'admin_init', [ $this, 'init_beacon' ] );
+		add_filter( 'wpseo_helpscout_beacon_settings', [ $this, 'filter_helpscout_beacon' ] );
 
 		add_filter( 'wpseo_sitemap_entry', [ $this, 'filter_hidden_product' ], 10, 3 );
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_woocommerce_pages' ] );
@@ -131,7 +132,7 @@ class Yoast_WooCommerce_SEO {
 	}
 
 	/**
-	 * Initialized the twitter functionality.
+	 * Initializes the twitter functionality.
 	 */
 	public function initialize_twitter() {
 		$twitter = new WPSEO_WooCommerce_Twitter();
@@ -139,18 +140,37 @@ class Yoast_WooCommerce_SEO {
 	}
 
 	/**
+	 * Initializes the slack functionality.
+	 */
+	public function initialize_slack() {
+		$slack = new WPSEO_WooCommerce_Slack();
+		$slack->register_hooks();
+	}
+
+	/**
+	 * Method that is executed when the plugin is activated.
+	 */
+	public static function install() {
+		// Enable tracking.
+		if ( class_exists( 'WPSEO_Options' ) && method_exists( 'WPSEO_Options', 'set' ) ) {
+			WPSEO_Options::set( 'tracking', true );
+		}
+	}
+
+	/**
 	 * Adds the WooCommerce OpenGraph presenter.
 	 *
 	 * @param \Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter[] $presenters The presenter instances.
+	 * @param \Yoast\WP\SEO\Context\Meta_Tags_Context                 $context The meta tags context.
 	 *
 	 * @return \Yoast\WP\SEO\Presenters\Abstract_Indexable_Presenter[] The extended presenters.
 	 */
-	public function add_frontend_presenter( $presenters ) {
+	public function add_frontend_presenter( $presenters, $context ) {
 		if ( ! is_array( $presenters ) ) {
 			return $presenters;
 		}
 
-		$product = $this->get_product();
+		$product = $this->get_product( $context );
 		if ( ! $product instanceof WC_Product ) {
 			return $presenters;
 		}
@@ -518,7 +538,7 @@ class Yoast_WooCommerce_SEO {
 		}
 		?>
 		<script type="text/javascript">
-			jQuery( document ).ready( function ( $ ) {
+			jQuery( function( $ ) {
 				// Show WooCommerce box before WP SEO metabox.
 				if ( $( "#woocommerce-product-data" ).length > 0 && $( "#wpseo_meta" ).length > 0 ) {
 					$( "#woocommerce-product-data" ).insertBefore( $( "#wpseo_meta" ) );
@@ -529,16 +549,45 @@ class Yoast_WooCommerce_SEO {
 	}
 
 	/**
-	 * Removes the Yoast SEO columns in the edit products page.
+	 * Hides the Yoast SEO columns in the Product table by default, except the SEO score one.
 	 *
-	 * @since 1.0
+	 * @param WP_Screen $current_screen Current WP_Screen object.
 	 *
-	 * @param array $columns List of registered columns.
-	 *
-	 * @return array Array with the filtered columns.
+	 * @return void
 	 */
-	public function column_heading( $columns ) {
-		$keys_to_remove = [
+	public function set_yoast_columns_hidden_by_default( $current_screen ) {
+		// Don't do anything if we're not not on the edit products page.
+		if ( $current_screen->id !== 'edit-product' ) {
+			return;
+		}
+
+		$yoast_hidden_columns_old_defaults = [
+			'wpseo-title',
+			'wpseo-metadesc',
+			'wpseo-focuskw',
+		];
+
+		$user_id                   = get_current_user_id();
+		$user_hidden_columns       = get_hidden_columns( $current_screen );
+		$user_hidden_yoast_columns = array_filter( $user_hidden_columns, [ $this, 'filter_yoast_columns' ] );
+		$is_old_default            = (
+			count( $yoast_hidden_columns_old_defaults ) === count( $user_hidden_yoast_columns )
+			&& count( array_diff( $yoast_hidden_columns_old_defaults, $user_hidden_yoast_columns ) ) === 0
+			&& count( array_diff( $user_hidden_yoast_columns, $yoast_hidden_columns_old_defaults ) ) === 0
+		);
+
+		// Don't do anything if the Yoast hidden columns old defaults have been changed by the user.
+		if ( ! $is_old_default ) {
+			update_user_option( $user_id, 'wpseo_woo_columns_hidden_default', '1', true );
+			return;
+		}
+
+		// Don't do anything if the new defaults have already been set.
+		if ( get_user_option( 'wpseo_woo_columns_hidden_default', $user_id ) === '1' ) {
+			return;
+		}
+
+		$yoast_hidden_columns = [
 			'wpseo-title',
 			'wpseo-metadesc',
 			'wpseo-focuskw',
@@ -546,15 +595,25 @@ class Yoast_WooCommerce_SEO {
 		];
 
 		if ( class_exists( 'WPSEO_Link_Columns' ) ) {
-			$keys_to_remove[] = 'wpseo-' . WPSEO_Link_Columns::COLUMN_LINKS;
-			$keys_to_remove[] = 'wpseo-' . WPSEO_Link_Columns::COLUMN_LINKED;
+			$yoast_hidden_columns[] = 'wpseo-' . WPSEO_Link_Columns::COLUMN_LINKS;
+			$yoast_hidden_columns[] = 'wpseo-' . WPSEO_Link_Columns::COLUMN_LINKED;
 		}
 
-		foreach ( $keys_to_remove as $key_to_remove ) {
-			unset( $columns[ $key_to_remove ] );
-		}
+		$hidden_columns = array_merge( $user_hidden_columns, $yoast_hidden_columns );
 
-		return $columns;
+		update_user_option( $user_id, 'manageedit-productcolumnshidden', $hidden_columns, true );
+		update_user_option( $user_id, 'wpseo_woo_columns_hidden_default', '1', true );
+	}
+
+	/**
+	 * Filter the Yoast columns from the user hidden columns.
+	 *
+	 * @param string $column The user hidden column identifier.
+	 *
+	 * @return bool Whether or not the column is a Yoast column.
+	 */
+	private function filter_yoast_columns( $column ) {
+		return strpos( $column, 'wpseo-' ) === 0;
 	}
 
 	/**
@@ -571,17 +630,17 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 1.0
 	 *
-	 * @param bool   $bool      Whether or not to include this post type in the XML sitemap.
-	 * @param string $post_type The post type of the post.
+	 * @param bool   $include_in_sitemap Whether or not to include this post type in the XML sitemap.
+	 * @param string $post_type          The post type of the post.
 	 *
 	 * @return bool
 	 */
-	public function xml_sitemap_post_types( $bool, $post_type ) {
+	public function xml_sitemap_post_types( $include_in_sitemap, $post_type ) {
 		if ( $post_type === 'product_variation' || $post_type === 'shop_coupon' ) {
 			return true;
 		}
 
-		return $bool;
+		return $include_in_sitemap;
 	}
 
 	/**
@@ -589,17 +648,17 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 1.0
 	 *
-	 * @param bool   $bool     Whether or not to include this post type in the XML sitemap.
-	 * @param string $taxonomy The taxonomy to check against.
+	 * @param bool   $include_in_sitemap Whether or not to include this taxonomy in the XML sitemap.
+	 * @param string $taxonomy           The taxonomy to check against.
 	 *
 	 * @return bool
 	 */
-	public function xml_sitemap_taxonomies( $bool, $taxonomy ) {
+	public function xml_sitemap_taxonomies( $include_in_sitemap, $taxonomy ) {
 		if ( $taxonomy === 'product_type' || $taxonomy === 'product_shipping_class' || $taxonomy === 'shop_order_status' ) {
 			return true;
 		}
 
-		return $bool;
+		return $include_in_sitemap;
 	}
 
 	/**
@@ -607,9 +666,11 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 4.3
 	 *
+	 * @param \Yoast\WP\SEO\Context\Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return WC_Product|null
 	 */
-	private function get_product() {
+	private function get_product( $context = null ) {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return null;
 		}
@@ -618,11 +679,30 @@ class Yoast_WooCommerce_SEO {
 			return wc_get_product( get_the_ID() );
 		}
 
-		if ( ! is_singular( 'product' ) ) {
+		$request_helper = new Request_Helper();
+
+		if ( ! $request_helper->is_rest_request() ) {
+			if ( \is_null( $context ) ) {
+				$context = YoastSEO()->meta->for_current_page()->context;
+			}
+
+			if ( is_a( $context, Meta_Tags_Context::class ) ) {
+				if ( $context->indexable->object_sub_type === 'product' ) {
+					$the_post = \get_post( $context->indexable->object_id );
+					return wc_get_product( $the_post );
+				}
+			}
+
 			return null;
 		}
 
-		return wc_get_product( get_queried_object_id() );
+		// This is a REST API request.
+		global $post;
+		if ( ! empty( $post ) && property_exists( $post, 'post_type' ) && $post->post_type === 'product' ) {
+			return wc_get_product( $post );
+		}
+
+		return null;
 	}
 
 	/**
@@ -668,25 +748,25 @@ class Yoast_WooCommerce_SEO {
 	/**
 	 * Make a string clear for display in meta data.
 	 *
-	 * @param string $string The input string.
+	 * @param string $text_string The input string.
 	 *
 	 * @return string The clean string.
 	 */
-	protected function clean_description( $string ) {
+	protected function clean_description( $text_string ) {
 		// Strip tags.
-		$string = wp_strip_all_tags( $string );
+		$text_string = wp_strip_all_tags( $text_string );
 
 		// Replace non breaking space entities with spaces.
-		$string = str_replace( '&nbsp;', ' ', $string );
+		$text_string = str_replace( '&nbsp;', ' ', $text_string );
 
 		// Replace non breaking uni-code spaces with spaces. Don't ask.
-		$string = str_replace( chr( 194 ) . chr( 160 ), ' ', $string );
+		$text_string = str_replace( chr( 194 ) . chr( 160 ), ' ', $text_string );
 
 		// Replace all double or more spaces with one space and trim our string.
-		$string = preg_replace( '/\s+/', ' ', $string );
-		$string = trim( $string );
+		$text_string = preg_replace( '/\s+/', ' ', $text_string );
+		$text_string = trim( $text_string );
 
-		return $string;
+		return $text_string;
 	}
 
 	/**
@@ -735,6 +815,11 @@ class Yoast_WooCommerce_SEO {
 	protected function get_product_short_description( $product = null ) {
 		if ( is_null( $product ) ) {
 			$product = $this->get_product();
+		}
+
+		// Safety check for PHPv8.0. Issue: https://yoast.atlassian.net/browse/P2-1149.
+		if ( is_null( $product ) ) {
+			return '';
 		}
 
 		if ( method_exists( $product, 'get_short_description' ) ) {
@@ -787,16 +872,17 @@ class Yoast_WooCommerce_SEO {
 	}
 
 	/**
-	 * Initializes the Yoast SEO WooCommerce HelpScout beacon.
+	 * Makes sure the News settings page has a HelpScout beacon.
+	 *
+	 * @param array $helpscout_settings The HelpScout settings.
+	 *
+	 * @return array The HelpScout settings with the News SEO beacon added.
 	 */
-	public function init_beacon() {
-		$helpscout = new WPSEO_HelpScout(
-			'8535d745-4e80-48b9-b211-087880aa857d',
-			[ 'wpseo_woo' ],
-			[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ]
-		);
+	public function filter_helpscout_beacon( $helpscout_settings ) {
+		$helpscout_settings['pages_ids']['wpseo_woo'] = '8535d745-4e80-48b9-b211-087880aa857d';
+		$helpscout_settings['products'][]             = WPSEO_Addon_Manager::WOOCOMMERCE_SLUG;
 
-		$helpscout->register_hooks();
+		return $helpscout_settings;
 	}
 
 	/**
@@ -1086,12 +1172,38 @@ class Yoast_WooCommerce_SEO {
 	}
 
 	/**
+	 * Retrieves a product identifier.
+	 *
+	 * @param string $type The type of identifier to retrieve. E.g. 'gtin8' or 'isbn'.
+	 *
+	 * @return string The product identifier.
+	 */
+	protected function get_product_identifier( $type ) {
+		$request_helper = new Request_Helper();
+
+		/*
+		 * On product overview pages in REST requests, do not cache the global identifiers.
+		 * Otherwise each product would get the same ids.
+		 */
+		if ( ! \is_singular() && $request_helper->is_rest_request() ) {
+			$this->get_product_global_identifiers();
+		}
+
+		// Cache the global identifiers.
+		if ( empty( $this->global_identifiers ) ) {
+			$this->get_product_global_identifiers();
+		}
+
+		return isset( $this->global_identifiers[ $type ] ) ? $this->global_identifiers[ $type ] : '';
+	}
+
+	/**
 	 * Retrieves the product GTIN8 identifier.
 	 *
 	 * @return string The product GTIN8 identifier.
 	 */
 	public function get_product_var_gtin8() {
-		return isset( $this->global_identifiers['gtin8'] ) ? $this->global_identifiers['gtin8'] : '';
+		return $this->get_product_identifier( 'gtin8' );
 	}
 
 	/**
@@ -1100,7 +1212,7 @@ class Yoast_WooCommerce_SEO {
 	 * @return string The product GTIN12 / UPC identifier.
 	 */
 	public function get_product_var_gtin12() {
-		return isset( $this->global_identifiers['gtin12'] ) ? $this->global_identifiers['gtin12'] : '';
+		return $this->get_product_identifier( 'gtin12' );
 	}
 
 	/**
@@ -1109,7 +1221,7 @@ class Yoast_WooCommerce_SEO {
 	 * @return string The product GTIN13 / EAN identifier.
 	 */
 	public function get_product_var_gtin13() {
-		return isset( $this->global_identifiers['gtin13'] ) ? $this->global_identifiers['gtin13'] : '';
+		return $this->get_product_identifier( 'gtin13' );
 	}
 
 	/**
@@ -1118,7 +1230,7 @@ class Yoast_WooCommerce_SEO {
 	 * @return string The product GTIN14 / ITF-14 identifier.
 	 */
 	public function get_product_var_gtin14() {
-		return isset( $this->global_identifiers['gtin14'] ) ? $this->global_identifiers['gtin14'] : '';
+		return $this->get_product_identifier( 'gtin14' );
 	}
 
 	/**
@@ -1127,7 +1239,7 @@ class Yoast_WooCommerce_SEO {
 	 * @return string The product ISBN identifier.
 	 */
 	public function get_product_var_isbn() {
-		return isset( $this->global_identifiers['isbn'] ) ? $this->global_identifiers['isbn'] : '';
+		return $this->get_product_identifier( 'isbn' );
 	}
 
 	/**
@@ -1136,7 +1248,7 @@ class Yoast_WooCommerce_SEO {
 	 * @return string The product MPN identifier.
 	 */
 	public function get_product_var_mpn() {
-		return isset( $this->global_identifiers['mpn'] ) ? $this->global_identifiers['mpn'] : '';
+		return $this->get_product_identifier( 'mpn' );
 	}
 
 	/**
@@ -1163,12 +1275,31 @@ class Yoast_WooCommerce_SEO {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$version       = $asset_manager->flatten_version( self::VERSION );
 
+		$google_preview                 = [];
+		$product                        = $this->get_product();
+		$google_preview['availability'] = str_replace( '-', ' ', $product->get_availability()['class'] );
+
+		// Because the backorder availability value is not supported in the Google Product snippet, we output preorder in the schema, and thus the preview.
+		if ( $google_preview['availability'] === 'available on backorder' ) {
+			$google_preview['availability'] = 'preorder';
+		}
+
+		if ( $this->should_show_price() ) {
+			$google_preview['price'] = $this->get_product_var_price();
+		}
+
+		if ( wc_reviews_enabled() && wc_review_ratings_enabled() ) {
+			$google_preview['rating']      = floatval( $product->get_average_rating() );
+			$google_preview['reviewCount'] = $product->get_review_count();
+		}
+
 		return [
-			'script_url'     => plugins_url( 'js/dist/yoastseo-woo-worker-' . $version . '.js', self::get_plugin_file() ),
-			'woo_desc_none'  => __( 'You should write a short description for this product.', 'yoast-woo-seo' ),
-			'woo_desc_short' => __( 'The short description for this product is too short.', 'yoast-woo-seo' ),
-			'woo_desc_good'  => __( 'Your short description has a good length.', 'yoast-woo-seo' ),
-			'woo_desc_long'  => __( 'The short description for this product is too long.', 'yoast-woo-seo' ),
+			'script_url'              => plugins_url( 'js/dist/yoastseo-woo-worker-' . $version . '.js', self::get_plugin_file() ),
+			'woo_desc_none'           => __( 'You should write a short description for this product.', 'yoast-woo-seo' ),
+			'woo_desc_short'          => __( 'The short description for this product is too short.', 'yoast-woo-seo' ),
+			'woo_desc_good'           => __( 'Your short description has a good length.', 'yoast-woo-seo' ),
+			'woo_desc_long'           => __( 'The short description for this product is too long.', 'yoast-woo-seo' ),
+			'wooGooglePreviewData'    => $google_preview,
 		];
 	}
 
