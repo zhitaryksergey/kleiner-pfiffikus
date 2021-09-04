@@ -2,28 +2,32 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Internals
+ * @package Yoast\WP\SEO\Premium
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
-use Yoast\WP\SEO\Main;
+use Yoast\WP\SEO\Premium\Main;
 
 /**
  * Retrieves the main instance.
  *
+ * @phpcs:disable WordPress.NamingConventions -- Should probably be renamed, but leave for now.
+ *
  * @return Main The main instance.
  */
-function YoastSEO() { // @codingStandardsIgnoreLine
-	static $main;
+function YoastSEOPremium() {
+	// phpcs:enable
 
-	if ( $main === null ) {
-		$main = new Main();
-		$main->load();
+	static $main;
+	if ( did_action( 'wpseo_loaded' ) ) {
+		if ( $main === null ) {
+			// Ensure free is loaded as loading premium will fail without it.
+			YoastSEO();
+			$main = new Main();
+			$main->load();
+		}
+	}
+	else {
+		add_action( 'wpseo_loaded', 'YoastSEOPremium' );
 	}
 
 	return $main;
