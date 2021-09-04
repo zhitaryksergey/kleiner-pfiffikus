@@ -33,6 +33,8 @@ if ( function_exists( 'add_image_size' ) ) {
 if ( ! function_exists( 'plumtree_setup' ) ) {
 	function plumtree_setup() {
 
+        remove_theme_support( 'widgets-block-editor' );
+
 		// Translation availability
 		load_theme_textdomain( 'handystore', get_template_directory() . '/languages' );
 

@@ -5,6 +5,12 @@ Theme Support (ticket system): http://freshdesk.themes.zone/
 
 Changelog:
 
+ver 5.2.1
+    - Getting back normal widgets
+
+ver. 5.2.0
+    - PHP 8 Ready.
+
 ver. 5.1.1:
 	- WV Vendors PRO update.
 

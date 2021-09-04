@@ -4,7 +4,7 @@ Theme URI: http://handy.themes.zone
 Author: Themes Zone
 Author URI: http://themes.zone
 Description: Multi purpose Theme.
-Version: 5.1.1 (see readme.txt for detailed changelog)
+Version: 5.2.1 (see readme.txt for detailed changelog)
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, sticky-post, translation-ready
@@ -716,7 +716,7 @@ html input[disabled] {
     clear: both;
 }
 .primary-nav .menu {
-    zoom: 1;
+    transform-origin: 0 0;
 }
 .primary-nav .menu li {
     float: left;

@@ -41,7 +41,7 @@
 	- Extra mark up for facebook shares
  */
 
-if ( class_exists('Woocommerce') ) {
+if ( class_exists('Woocommerce') ) :
 
 	// ----- Style & Scripts
 
@@ -509,10 +509,10 @@ if ( class_exists('Woocommerce') ) {
 		add_action( 'woocommerce_single_product_summary', array( $yith_woocompare->obj, 'add_compare_link'), 24  );
 	}
 
+	if ( !function_exists('output_wishlist_button') ) {
 	// Wishlist button moving
-	if ( ( class_exists( 'YITH_WCWL_Shortcode' ) ) && ( get_option('yith_wcwl_enabled') == true ) && ( get_option('yith_wcwl_button_position') == 'shortcode' ) ) {
-		function output_wishlist_button() {
-			echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
+    function output_wishlist_button() {
+			if ( function_exists('yith_wishlist_install') ) echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
 		}
 		add_action( 'woocommerce_single_product_summary', 'output_wishlist_button', 25  );
 	}
@@ -934,4 +934,4 @@ if ( class_exists('Woocommerce') ) {
 		add_filter( 'woocommerce_checkout_cart_item_quantity', 'pt_checkout_product_qty', 20, 3);
 	}
 
-} // end of file
+endif; // end of file
