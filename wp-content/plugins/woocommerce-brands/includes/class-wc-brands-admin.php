@@ -115,13 +115,13 @@ class WC_Brands_Admin {
 					echo '<option value="' . esc_attr( $cat->term_id ) . '"' . selected( in_array( $cat->term_id, $category_ids ), true, false ) . '>' . esc_html( $cat->name ) . '</option>';
 				}
 			?>
-		</select> <img class="help_tip" data-tip='<?php _e( 'A product must be associated with this brand for the coupon to remain valid or, for "Product Discounts", products with these brands will be discounted.', 'wc_brands' ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" /></p>
+		</select> <img class="help_tip" data-tip='<?php echo wc_sanitize_tooltip( __( 'A product must be associated with this brand for the coupon to remain valid or, for "Product Discounts", products with these brands will be discounted.', 'wc_brands' ) ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" /></p>
 		<?php
 
 		// Exclude Brands
 		?>
-		<p class="form-field"><label for="exclude_product_brands"><?php _e( 'Exclude brands', 'wc_brands' ); ?></label>
-		<select id="exclude_product_brands" name="exclude_product_brands[]" style="width: 50%;"  class="wc-enhanced-select" multiple="multiple" data-placeholder="<?php _e( 'No brands', 'wc_brands' ); ?>">
+		<p class="form-field"><label for="exclude_product_brands"><?php esc_html_e( 'Exclude brands', 'wc_brands' ); ?></label>
+		<select id="exclude_product_brands" name="exclude_product_brands[]" style="width: 50%;"  class="wc-enhanced-select" multiple="multiple" data-placeholder="<?php esc_attr_e( 'No brands', 'wc_brands' ); ?>">
 			<?php
 				$category_ids = (array) get_post_meta( $post->ID, 'exclude_product_brands', true );
 				$categories   = get_terms( 'product_brand', 'orderby=name&hide_empty=0' );
@@ -130,7 +130,7 @@ class WC_Brands_Admin {
 					echo '<option value="' . esc_attr( $cat->term_id ) . '"' . selected( in_array( $cat->term_id, $category_ids ), true, false ) . '>' . esc_html( $cat->name ) . '</option>';
 				}
 			?>
-		</select> <img class="help_tip" data-tip='<?php _e( 'Product must not be associated with these brands for the coupon to remain valid or, for "Product Discounts", products associated with these brands will not be discounted.', 'wc_brands' ) ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" /></p>
+		</select> <img class="help_tip" data-tip='<?php echo wc_sanitize_tooltip( __( 'Product must not be associated with these brands for the coupon to remain valid or, for "Product Discounts", products associated with these brands will not be discounted.', 'wc_brands' ) ); ?>' src="<?php echo WC()->plugin_url(); ?>/assets/images/help.png" height="16" width="16" /></p>
 		<?php
 	} // End add_coupon_brands_fields()
 

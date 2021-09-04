@@ -14,7 +14,7 @@ class WC_Brands {
 	public function __construct() {
 		$this->template_url = apply_filters( 'woocommerce_template_url', 'woocommerce/' );
 
-		add_action( 'woocommerce_loaded', array( $this, 'register_hooks' ) );
+		add_action( 'plugins_loaded', array( $this, 'register_hooks' ), 2 );
 
 		$this->register_shortcodes();
 	}
@@ -52,6 +52,9 @@ class WC_Brands {
 		add_filter( 'woocommerce_rest_prepare_product_object', array( $this, 'rest_api_prepare_brands_to_product' ), 10, 2 ); // WC 3.x
 		add_action( 'woocommerce_rest_insert_product', array( $this, 'rest_api_add_brands_to_product' ), 10, 3 ); // WC 2.6.x
 		add_action( 'woocommerce_rest_insert_product_object', array( $this, 'rest_api_add_brands_to_product' ), 10, 3 ); // WC 3.x
+		add_filter( 'woocommerce_rest_product_object_query', array( $this, 'rest_api_filter_products_by_brand' ), 10, 2 );
+		add_filter( 'rest_product_collection_params', array( $this, 'rest_api_product_collection_params' ), 10, 2 );
+
 
 		if ( version_compare( WC_VERSION, '3.2', '>=' ) ) {
 			require_once( 'class-wc-brands-coupons.php' );
@@ -96,7 +99,7 @@ class WC_Brands {
 			return update_woocommerce_term_meta( $term_id, $meta_key, $meta_value );
 		}
 	}
-	
+
 	/**
 	 * Update the main product fetch query to filter by selected brands.
 	 *
@@ -234,7 +237,7 @@ class WC_Brands {
 					'assign_terms' => 'assign_product_terms'
 				),
 
-				'rewrite' => array( 
+				'rewrite' => array(
 					'slug'         => $slug,
 					'with_front'   => false,
 					'hierarchical' => true
@@ -375,48 +378,6 @@ class WC_Brands {
 	}
 
 	/**
-	 * Loop over found products.
-	 *
-	 * @access public
-	 * @param  array $query_args
-	 * @param  array $atts
-	 * @param  string $loop_name
-	 * @return string
-	 */
-	public function product_loop( $query_args, $atts, $loop_name ) {
-		global $woocommerce_loop;
-
-		$products                    = new WP_Query( apply_filters( 'woocommerce_shortcode_products_query', $query_args, $atts ) );
-		$columns                     = absint( $atts['columns'] );
-		$woocommerce_loop['columns'] = $columns;
-
-		ob_start();
-
-		if ( $products->have_posts() ) : ?>
-
-			<?php do_action( "woocommerce_shortcode_before_{$loop_name}_loop" ); ?>
-
-			<?php woocommerce_product_loop_start(); ?>
-
-				<?php while ( $products->have_posts() ) : $products->the_post(); ?>
-
-					<?php wc_get_template_part( 'content', 'product' ); ?>
-
-				<?php endwhile; // end of the loop. ?>
-
-			<?php woocommerce_product_loop_end(); ?>
-
-			<?php do_action( "woocommerce_shortcode_after_{$loop_name}_loop" ); ?>
-
-		<?php endif;
-
-		woocommerce_reset_loop();
-		wp_reset_postdata();
-
-		return '<div class="woocommerce columns-' . $columns . '">' . ob_get_clean() . '</div>';
-	}
-
-	/**
 	 * register_shortcodes function.
 	 *
 	 * @access public
@@ -518,7 +479,7 @@ class WC_Brands {
 
 		foreach ( $terms as $term ) {
 
-			$term_letter = substr( $term->slug, 0, 1 );
+			$term_letter = $this->get_brand_name_first_character( $term->name );
 			$alphabet    = apply_filters( 'woocommerce_brands_list_alphabet', range( 'a', 'z' ) );
 			$numbers     = apply_filters( 'woocommerce_brands_list_numbers', '0-9' );
 
@@ -552,6 +513,21 @@ class WC_Brands {
 		), 'woocommerce-brands', untrailingslashit( plugin_dir_path( dirname( __FILE__ ) ) ) . '/templates/' );
 
 		return ob_get_clean();
+	}
+
+	/**
+	 * Get the first letter of the brand name, returning lowercase and without accents.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 * @since  1.6.16
+	 */
+	private function get_brand_name_first_character( $name ) {
+		// Convert to lowercase and remove accents.
+		$clean_name = strtolower( sanitize_title( $name ) );
+		// Return the first letter of the name.
+		return substr( $clean_name, 0, 1 );
 	}
 
 	/**
@@ -637,58 +613,70 @@ class WC_Brands {
 	/**
 	 * output_brand_products function.
 	 *
-	 * @access public
-	 * @param mixed $atts
-	 * @return void
+	 * @param array $atts
+	 *
+	 * @return string
 	 */
 	public function output_brand_products( $atts ) {
 
-		$atts = shortcode_atts( array(
-			'per_page' => '12',
-			'category' => '',
-			'columns'  => '4',
-			'orderby'  => 'title',
-			'order'    => 'desc',
-			'brand'    => '',
-			'operator' => 'IN'
-		), $atts );
-
-		if ( ! $atts['brand'] ) {
+		if ( empty( $atts['brand'] ) ) {
 			return '';
 		}
 
-		// Default ordering args
-		$ordering_args = WC()->query->get_catalog_ordering_args( $atts['orderby'], $atts['order'] );
-		$meta_query    = WC()->query->get_meta_query();
-		$query_args    = array(
-			'post_type'            => 'product',
-			'post_status'          => 'publish',
-			'ignore_sticky_posts'  => 1,
-			'orderby'              => $ordering_args['orderby'],
-			'order'                => $ordering_args['order'],
-			'posts_per_page'       => $atts['per_page'],
-			'meta_query'           => $meta_query,
-			'product_cat'          => $atts['category'],
-			'tax_query'            => array(
-				array(
-					'taxonomy'     => 'product_brand',
-					'terms'        => array_map( 'sanitize_title', explode( ',', $atts['brand'] ) ),
-					'field'        => 'slug',
-					'operator'     => $atts['operator']
-				)
+		// add the brand attributes and query arguments
+		add_filter( 'shortcode_atts_brand_products', array( __CLASS__, 'add_brand_products_shortcode_atts' ), 10, 4 );
+		add_filter( 'woocommerce_shortcode_products_query', array( __CLASS__, 'get_brand_products_query_args' ), 10, 3 );
+
+		$shortcode = new WC_Shortcode_Products( $atts, 'brand_products' );
+
+		// remove the brand attributes and query arguments
+		remove_filter( 'shortcode_atts_brand_products', array( __CLASS__, 'add_brand_products_shortcode_atts' ), 10 );
+		remove_filter( 'woocommerce_shortcode_products_query', array( __CLASS__, 'get_brand_products_query_args' ), 10 );
+
+		return $shortcode->get_content();
+	}
+
+	/**
+	 * Adds the taxonomy query to the WooCommerce products shortcode query arguments
+	 *
+	 * @param array $query_args
+	 * @param array $attributes
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public static function get_brand_products_query_args( $query_args, $attributes, $type ) {
+
+		if ( 'brand_products' !== $type || empty( $attributes['brand'] ) ) {
+			return $query_args;
+		}
+
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => 'product_brand',
+				'terms'    => array_map( 'sanitize_title', explode( ',', $attributes['brand'] ) ),
+				'field'    => 'slug',
+				'operator' => 'IN',
 			)
 		);
 
-		if ( isset( $ordering_args['meta_key'] ) ) {
-			$query_args['meta_key'] = $ordering_args['meta_key'];
-		}
+		return $query_args;
+	}
 
-		$return = $this->product_loop( $query_args, $atts, 'product_cat' );
+	/**
+	 * Adds the "brand" attribute to the list of WooCommerce products shortcode attributes
+	 *
+	 * @param array  $out       The output array of shortcode attributes.
+	 * @param array  $pairs     The supported attributes and their defaults.
+	 * @param array  $atts      The user defined shortcode attributes.
+	 * @param string $shortcode The shortcode name.
+	 *
+	 * @return array The output array of shortcode attributes.
+	 */
+	public static function add_brand_products_shortcode_atts( $out, $pairs, $atts, $shortcode ) {
+		$out['brand'] = array_key_exists( 'brand', $atts ) ? $atts['brand'] : '';
 
-		// Remove ordering query arguments
-		WC()->query->remove_ordering_args();
-
-		return $return;
+		return $out;
 	}
 
 	/**
@@ -785,6 +773,48 @@ class WC_Brands {
 			$brands = array_map( 'absint', $brands );
 			wp_set_object_terms( $product_id, $brands, 'product_brand' );
 		}
+	}
+
+	/**
+	 * Filters products by taxonomy product_brand.
+	 *
+	 * @param array           $args    Request args.
+	 * @param WP_REST_Request $request Request data.
+	 * @return array Request args.
+	 * @since 1.6.9
+	 * @version 1.6.9
+	 */
+	public function rest_api_filter_products_by_brand( $args, $request ) {
+
+		if ( ! empty( $request['brand'] ) ) {
+			$args['tax_query'][] = array(
+				'taxonomy' => 'product_brand',
+				'field'    => 'term_id',
+				'terms'    => $request['brand'],
+			);
+		}
+
+		return $args;
+	}
+
+	/**
+	 * Documents additional query params for collections of products.
+	 *
+	 * @param array        $params JSON Schema-formatted collection parameters.
+	 * @param WP_Post_Type $post_type   Post type object.
+	 * @return array JSON Schema-formatted collection parameters.
+	 * @since 1.6.9
+	 * @version 1.6.9
+	 */
+	public function rest_api_product_collection_params( $params, $post_type ) {
+		$params['brand']       = array(
+			'description'       => __( 'Limit result set to products assigned a specific brand ID.', 'woocommerce' ),
+			'type'              => 'string',
+			'sanitize_callback' => 'wp_parse_id_list',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		return $params;
 	}
 
 	/**
