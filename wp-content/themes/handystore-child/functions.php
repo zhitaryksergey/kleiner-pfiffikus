@@ -211,24 +211,6 @@ function child_theme_scripts()
 add_action('wp_enqueue_scripts', 'child_theme_scripts');
 //</editor-fold>
 
-add_filter('woocommerce_get_availability', 'not_in_stock_form', 1, 2);
-function not_in_stock_form($availability, $_product)
-{
-    if (!$_product->is_in_stock()) {
-        ?>
-        <div class="out-of-stock-form">
-
-            <p class="stock out-of-stock">Nicht vorrätig</p>
-            <h5>Produkt anfragen:</h5>
-            <?php
-            echo do_shortcode('[contact-form-7 id="9267" title="Produkt Anfrage"]');
-            ?>
-        </div>
-        <?php
-    }
-    return $availability;
-}
-
 add_filter( 'kirki_output_inline_styles', 'mykirki_output_inline_styles', 9999 );
 function mykirki_output_inline_styles($boolean) {
     $boolean = false;
