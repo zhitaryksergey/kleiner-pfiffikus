@@ -12,7 +12,7 @@ public function __construct(){
   $this->TVC_Admin_DB_Helper = new TVC_Admin_DB_Helper();
   $this->TVCProductSyncHelper = new TVCProductSyncHelper();
   $this->subscriptionId = $this->TVC_Admin_Helper->get_subscriptionId();  
-  $this->site_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=";
+  $this->site_url = "admin.php?page=conversios-google-shopping-feed&tab=";
   $this->TVC_Admin_Helper->need_auto_update_db(); 	
   $this->html_run();
 }
@@ -231,9 +231,8 @@ $(document).ready(function() {
     var is_need_to_domain_claim = "<?php echo $is_need_to_domain_claim; ?>";
     if(is_need_to_domain_claim == 1 || is_need_to_domain_claim == true){
       event.preventDefault();
-      jQuery.post(myAjaxNonces.ajaxurl,{
-        action: "tvc_call_domain_claim",
-        apiDomainClaimNonce: myAjaxNonces.apiDomainClaimNonce
+      jQuery.post(tvc_ajax_url,{
+        action: "tvc_call_domain_claim"
       },function( response ){
         
       });
@@ -247,9 +246,8 @@ function call_tvc_api_sync_up(){
   $("#refresh_api").css("visibility","hidden");
   $(tvs_this).after('<div class="tvc-nb-spinner" id="tvc-nb-spinner"></div>');
   tvc_helper.tvc_alert("error","Attention !","Sync up is in the process do not refresh the page. it may take few minutes, if GMC product sync count is large.");
-  jQuery.post(myAjaxNonces.ajaxurl,{
-    action: "tvc_call_api_sync",
-    apiSyncupNonce: myAjaxNonces.apiSyncupNonce
+  jQuery.post(tvc_ajax_url,{
+    action: "tvc_call_api_sync"
   },function( response ){
     var rsp = JSON.parse(response);    
     if(rsp.error == false){

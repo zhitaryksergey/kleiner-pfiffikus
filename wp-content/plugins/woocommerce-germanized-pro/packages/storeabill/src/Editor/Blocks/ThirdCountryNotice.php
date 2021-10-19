@@ -70,6 +70,13 @@ class ThirdCountryNotice extends DynamicBlock {
 			$this->content = $content;
 		}
 
+		/**
+		 * In case the document/invoice is a reverse charge do not show the third country tax notice.
+		 */
+		if ( is_callable( array( $document, 'is_reverse_charge' ) ) && $document->is_reverse_charge() && apply_filters( 'storeabill_hide_third_country_notice_reverse_charge', true ) ) {
+			$this->content = '';
+		}
+
 		return $this->content;
 	}
 }

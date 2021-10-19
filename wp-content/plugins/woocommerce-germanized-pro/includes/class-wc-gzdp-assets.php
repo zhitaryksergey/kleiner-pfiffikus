@@ -36,7 +36,7 @@ class WC_GZDP_Assets {
 		// Checkout general
 		wp_register_script( 'wc-gzdp-checkout', WC_germanized_pro()->plugin_url() . '/assets/js/checkout' . $this->suffix . '.js', array( 'wc-checkout' ), WC_GERMANIZED_PRO_VERSION, true );
 		
-		if ( is_checkout() ) {
+		if ( is_checkout() && 'yes' === get_option( 'woocommerce_gzdp_enable_vat_check' ) ) {
 			wp_enqueue_script( 'wc-gzdp-checkout' );
 		}
 

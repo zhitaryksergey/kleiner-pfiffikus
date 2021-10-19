@@ -125,13 +125,20 @@ class Enhanced_Ecommerce_Google_Analytics {
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-enhanced-ecommerce-google-analytics-admin.php';
 
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-enhanced-ecommerce-google-analytics-settings.php';
-
+        /**
+          * New conversios UI file list
+          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-conversios-onboarding.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/helper/class-onboarding-helper.php';
-
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/helper/class-dashboard-helper.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-conversios-admin.php';
+        /**
+          * End New conversios UI file list
+          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-tvc-admin-auto-product-sync-helper.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-survey.php';
         
+
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
@@ -171,9 +178,8 @@ class Enhanced_Ecommerce_Google_Analytics {
      * @access   private
      */
     private function define_admin_hooks() {
-
         $plugin_admin = new Enhanced_Ecommerce_Google_Analytics_Admin( $this->get_plugin_name(), $this->get_version() );
-        $this->loader->add_action( 'admin_menu', $plugin_admin, 'display_admin_page' );
+        //$this->loader->add_action( 'admin_menu', $plugin_admin, 'display_admin_page' );
         // $this->loader->add_action("admin_menu", $plugin_admin, "add_new_menu");
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -193,28 +199,6 @@ class Enhanced_Ecommerce_Google_Analytics {
      */
     private function define_public_hooks() {
         $plugin_public = new Enhanced_Ecommerce_Google_Analytics_Public( $this->get_plugin_name(), $this->get_version() );
-       /* $this->loader->add_action("wp_head", $plugin_public, "enqueue_scripts");
-        $this->loader->add_action("wp_head", $plugin_public, "ee_settings");
-        $this->loader->add_action("wp_head", $plugin_public, "add_google_site_verification_tag",1);
-
-        $this->loader->add_action("wp_footer", $plugin_public, "t_products_impre_clicks");
-        $this->loader->add_action("woocommerce_after_shop_loop_item", $plugin_public, "bind_product_metadata");
-        $this->loader->add_action("woocommerce_thankyou", $plugin_public, "ecommerce_tracking_code");
-        $this->loader->add_action("woocommerce_after_single_product", $plugin_public, "product_detail_view");
-        $this->loader->add_action("woocommerce_after_cart",$plugin_public, "remove_cart_tracking");
-        //check out step 1,2,3
-        $this->loader->add_action("woocommerce_before_checkout_billing_form", $plugin_public, "checkout_step_1_tracking");
-        $this->loader->add_action("woocommerce_after_checkout_billing_form", $plugin_public, "checkout_step_2_tracking");
-        $this->loader->add_action("woocommerce_after_checkout_billing_form", $plugin_public, "checkout_step_3_tracking");
-        $this->loader->add_action("woocommerce_after_add_to_cart_button", $plugin_public, "add_to_cart");
-
-        //Advanced Store data Tracking
-        //add version details in footer
-        $this->loader->add_action("wp_footer", $plugin_public, "add_plugin_details");
-
-        //Add Dev ID
-        $this->loader->add_action("wp_head", $plugin_public, "add_dev_id");
-        $this->loader->add_action("wp_footer",$plugin_public, "tvc_store_meta_data");*/
     }
 
     /**
@@ -274,7 +258,7 @@ class Enhanced_Ecommerce_Google_Analytics {
     public function tvc_plugin_action_links($links) {
         $deactivate_link = $links['deactivate'];
         unset($links['deactivate']);
-        $setting_url = 'admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=general_settings';
+        $setting_url = 'admin.php?page=conversios-google-analytics';
         $links[] = '<a href="' . get_admin_url(null, $setting_url) . '">Settings</a>';
         
         $links[] = '<a href="https://wordpress.org/plugins/enhanced-e-commerce-for-woocommerce-store/#faq" target="_blank">FAQ</a>';

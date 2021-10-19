@@ -5,7 +5,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Product Feed, Google Shopping, Google Shopping Feed, WooCommerce Product Feed, WooCommerce Product Feed PRO, Bing Shopping, Bing product feed, Bing remarking, Google Merchant Feed, Google DRM Feed, Google Dynamic Remarketing Feed, Facebook feed, Google feed, Bing feed, Facebook Product Feed, Facebook pixel, Facebook Conversion API, Facebook CAPI,Facebook Dynamic remarketing, Data Feed, WooCommerce Feed, XML product feed, CSV product feed, TSV, TXT product feed, comparison shopping engines, comparison shopping websites, vergelijk.nl, vergelijk.be, vertaa.fi, beslist.nl, kieskeurig.nl, bol.com, raketten, pricerunner, pricegrabber, Buy, leGuide, Kelkoo, Twenga, Yandex, Etsy, Dealtime, Shopzilla, Billiger, Google Product Review feed
 Requires at least: 4.5
 Tested up to: 5.8
-Stable tag: 10.5.6
+Stable tag: 10.7.8
 
 == Description ==
 
@@ -146,6 +146,7 @@ Our plugin supports Polylang
 * Supports Table Rate Shipping for WooCommerce from WooCommerce
 * Supports Table Rate Shipping for WooCommerce from Bolder Elements
 * Supports usage of the All In One SEO pack title and description attributes
+* Supports the WPC Product Bundles for WooCommerce plugin
 
 Some of the above mentioned feature can only be used by users who upgraded to the Elite version of our plugin
 
@@ -334,6 +335,69 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 8. Set the basic configurations for your product feed
 
 === Changelog ===
+
+= 10.7.8 (2021-10-18) =
+* Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google
+
+= 10.7.7 (2021-10-17) =
+* Added the Region Id attribute for Google Shopping feeds
+
+= 10.7.5 (2021-10-14) =
+* Added the Miinto.fr template
+
+= 10.7.4 (2021-10-13) =
+* Fixed a division by zero error
+
+= 10.7.3 (2021-10-12) =
+* Fixed filters on purchase note array's
+
+= 10.7.2 (2021-10-12) =
+* Added support for the WPC Product Bundles for WooCommerce plugin
+
+= 10.7.1 (2021-10-11) =
+* Added purchase note attribute
+
+= 10.7.0 (2021-10-05) =
+* Made changes to the code to calculate the number of product variations that are on stock as it did not work for some users
+
+= 10.6.9 (2021-10-01) =
+* Solved some PHP 8 compatibility issues that caused feeds to get stuck processing
+
+= 10.6.8 (2021-09-30) =
+* Solved a Call to undefined method WC_Product_Simple::get_available_variations error
+
+= 10.6.7 (2021-09-29) =
+* Made a change to the code so it uses less memory when processing a feed
+
+= 10.6.6 (2021-09-28) =
+* Solved an issue where the plugin got stuck when variable products get deleted in WooCommerce during processing of the feed
+
+= 10.6.5 (2021-09-22) =
+* Build in an extra check to see if the cron events are active to update feeds. When not this cron event is being created.
+
+= 10.6.4 (2021-09-14) =
+* Added capacity attribute to the Google Shopping template
+
+= 10.6.3 (2021-09-13) =
+* Added display ads attributes to the Google Shopping template
+
+= 10.6.2 (2021-09-13) =
+* Fixed an issue where simple products with variations (which in theory is not possible) caused the feed processing to get stuck
+
+= 10.6.1 (2021-09-09) =
+* Solved an undefined array issue when creating a new feed
+
+= 10.6.0 (2021-09-09) =
+* Solved an issue with wrong sale prices when WCML was enabled and manual prices were entered
+
+= 10.5.9 (2021-09-08) =
+* Somehow simple products got an item_group_id for some users causing a critical error. Added a check on this to fix the error.
+
+= 10.5.8 (2021-09-07) =
+* Added a feature to be able to remove products from feeds when only few variations are in stock
+
+= 10.5.7 (2021-09-07) =
+* Fixed an issue where Rankmath plugin is installed but no primary category has been set. This resulted in a PHP notice in the logs. This has been solved now.
 
 = 10.5.6 (2021-09-03) =
 * Fixed an undefined variable issue for the facebook pixel id
@@ -3372,7 +3436,70 @@ Questions left or unanswered? Please do not hesitate to contact us at support@ad
 
 == Upgrade Notice ==
 
-= 1.5.6 =
+= 10.7.8 =
+Reviews that have no rating or have deeplinks in the review text are now being removed fromn review feeds automatically as they are not allowed by Google
+
+= 10.7.7 =
+Added the Region Id attribute for Google Shopping feeds
+
+= 10.7.5 =
+Added the Miinto.fr template
+
+= 10.7.4 =
+Fixed a division by zero error
+
+= 10.7.3 =
+Fixed filters on purchase note array's
+
+= 10.7.2 =
+Added support for the WPC Product Bundles for WooCommerce plugin
+
+= 10.7.1 =
+Added purchase note attribute
+
+= 10.7.0 =
+Made changes to the code to calculate the number of product variations that are on stock as it did not work for some users
+
+= 10.6.9 =
+Solved some PHP 8 compatibility issues that caused feeds to get stuck processing
+
+= 10.6.8 =
+Solved a Call to undefined method WC_Product_Simple::get_available_variations error
+
+= 10.6.7 =
+Made a change to the code so it uses less memory when processing a feed
+
+= 10.6.6 =
+Solved an issue where the plugin got stuck when variable products get deleted in WooCommerce during processing of the feed
+
+= 10.6.5 =
+Build in an extra check to see if the cron events are active to update feeds. When not this cron event is being created.
+
+= 10.6.4 =
+Added capacity attribute to the Google Shopping template
+
+= 10.6.3 =
+Added display ads attributes to the Google Shopping template
+
+= 10.6.2 =
+Fixed an issue where simple products with variations (which in theory is not possible) caused the feed processing to get stuck
+
+= 10.6.1 =
+Solved an undefined array issue when creating a new feed
+
+= 10.6.0 =
+Solved an issue with wrong sale prices when WCML was enabled and manual prices were entered
+
+= 10.5.9 =
+Somehow simple products got an item_group_id for some users causing a critical error. Added a check on this to fix the error.
+
+= 10.5.8 =
+Added a feature to be able to remove products from feeds when only few variations are in stock
+
+= 10.5.7 =
+Fixed an issue where Rankmath plugin is installed but no primary category has been set. This resulted in a PHP notice in the logs. This has been solved now.
+
+= 10.5.6 =
 Fixed an undefined variable issue for the facebook pixel id
 
 = 10.5.5 =

@@ -146,7 +146,7 @@ class ItemTotalRow extends DynamicBlock {
 				/**
 				 * Skip for empty amounts.
 				 */
-				if ( true === $attributes['hideIfEmpty'] && empty( $total->get_total() ) ) {
+				if ( ( true === $attributes['hideIfEmpty'] && empty( $total->get_total() ) ) || apply_filters( "storeabill_hide_{$document->get_type()}_total_row", false, $attributes, $total, $document ) ) {
 					continue;
 				}
 

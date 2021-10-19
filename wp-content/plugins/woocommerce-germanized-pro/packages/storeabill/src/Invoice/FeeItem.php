@@ -18,6 +18,7 @@ class FeeItem extends TaxableItem implements Taxable, Summable, SplitTaxable, Di
 		'line_total'            => 0,
 		'total_tax'             => 0,
 		'prices_include_tax'    => false,
+		'round_tax_at_subtotal' => null,
 		'line_subtotal'         => 0,
 		'subtotal_tax'          => 0,
 		'price'                 => 0,
@@ -56,7 +57,7 @@ class FeeItem extends TaxableItem implements Taxable, Summable, SplitTaxable, Di
 	}
 
 	public function set_enable_split_tax( $enable ) {
-		$this->set_prop( 'enable_split_tax', wc_string_to_bool( $enable ) );
+		$this->set_prop( 'enable_split_tax', sab_string_to_bool( $enable ) );
 	}
 
 	public function get_discount_total( $context = '' ) {

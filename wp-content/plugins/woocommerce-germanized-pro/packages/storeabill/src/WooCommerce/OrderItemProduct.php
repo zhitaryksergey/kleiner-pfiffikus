@@ -16,6 +16,8 @@ class OrderItemProduct extends OrderItemTaxable {
 	 * @param ProductItem $document_item
 	 */
 	public function sync( &$document_item, $args = array() ) {
+		do_action( "{$this->get_hook_prefix()}before_sync", $this, $document_item, $args );
+
 		parent::sync( $document_item, $args );
 
 		$document_item->set_product_id( $this->get_product_id() );

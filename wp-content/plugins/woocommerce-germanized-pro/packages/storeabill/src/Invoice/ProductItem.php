@@ -21,6 +21,7 @@ class ProductItem extends TaxableItem implements Discountable {
 		'line_total'                => 0,
 		'total_tax'                 => 0,
 		'prices_include_tax'        => false,
+		'round_tax_at_subtotal'     => null,
 		'line_subtotal'             => 0,
 		'subtotal_tax'              => 0,
 		'price'                     => 0,
@@ -88,7 +89,7 @@ class ProductItem extends TaxableItem implements Discountable {
 	}
 
 	public function set_is_virtual( $is_virtual ) {
-		$this->set_prop( 'is_virtual', wc_string_to_bool( $is_virtual ) );
+		$this->set_prop( 'is_virtual', sab_string_to_bool( $is_virtual ) );
 	}
 
 	public function get_sku( $context = 'view' ) {
@@ -108,7 +109,7 @@ class ProductItem extends TaxableItem implements Discountable {
 	}
 
 	public function set_is_service( $is_service ) {
-		$this->set_prop( 'is_service', wc_string_to_bool( $is_service ) );
+		$this->set_prop( 'is_service', sab_string_to_bool( $is_service ) );
 	}
 
 	public function get_has_differential_taxation( $context = 'view' ) {
@@ -120,7 +121,7 @@ class ProductItem extends TaxableItem implements Discountable {
 	}
 
 	public function set_has_differential_taxation( $differential_taxation ) {
-		$this->set_prop( 'has_differential_taxation', wc_string_to_bool( $differential_taxation ) );
+		$this->set_prop( 'has_differential_taxation', sab_string_to_bool( $differential_taxation ) );
 	}
 
 	/**

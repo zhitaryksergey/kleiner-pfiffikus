@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit35cd58530442fc111a43026112442ecc
+class ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
@@ -178,6 +178,7 @@ class ComposerStaticInit35cd58530442fc111a43026112442ecc
         'Composer\\Installers\\OsclassInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OsclassInstaller.php',
         'Composer\\Installers\\OxidInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OxidInstaller.php',
         'Composer\\Installers\\PPIInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PPIInstaller.php',
+        'Composer\\Installers\\PantheonInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PantheonInstaller.php',
         'Composer\\Installers\\PhiftyInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhiftyInstaller.php',
         'Composer\\Installers\\PhpBBInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhpBBInstaller.php',
         'Composer\\Installers\\PimcoreInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PimcoreInstaller.php',
@@ -482,9 +483,9 @@ class ComposerStaticInit35cd58530442fc111a43026112442ecc
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit35cd58530442fc111a43026112442ecc::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit35cd58530442fc111a43026112442ecc::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit35cd58530442fc111a43026112442ecc::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$classMap;
 
         }, null, ClassLoader::class);
     }

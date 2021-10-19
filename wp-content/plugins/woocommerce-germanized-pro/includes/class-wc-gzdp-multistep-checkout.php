@@ -659,7 +659,7 @@ class WC_GZDP_Multistep_Checkout {
 				'title' 	=> __( 'First step', 'woocommerce-germanized-pro' ),
 				'desc' 		=> __( 'Insert a privacy policy notice right before the first step submit button.', 'woocommerce-germanized-pro' ),
 				'id' 		=> 'woocommerce_gzdp_checkout_privacy_policy_first_step',
-				'default'	=> 'yes',
+				'default'	=> 'no',
 				'type' 		=> 'gzd_toggle',
 			),
 

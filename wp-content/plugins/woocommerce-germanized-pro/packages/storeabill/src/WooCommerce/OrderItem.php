@@ -97,7 +97,10 @@ class OrderItem implements SyncableReferenceItem {
 	 * @return array
 	 */
 	public function get_attributes( $document_item ) {
-		$meta       = $this->order_item->get_formatted_meta_data( apply_filters( "{$this->get_hook_prefix()}hide_meta_prefix", '_', $this ), apply_filters( "{$this->get_hook_prefix()}include_all_meta", false, $this ) );
+		do_action( 'storeabill_woo_order_item_before_retrieve_attributes', $document_item, $this );
+		$meta = $this->order_item->get_formatted_meta_data( apply_filters( "{$this->get_hook_prefix()}hide_meta_prefix", '_', $this ), apply_filters( "{$this->get_hook_prefix()}include_all_meta", false, $this, $document_item ) );
+		do_action( 'storeabill_woo_order_item_after_retrieve_attributes', $document_item, $this );
+
 		$attributes = array();
 		$order      = 0;
 

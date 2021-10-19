@@ -6,7 +6,7 @@ class GoogleShoppingFeed {
   public function __construct() {
     $this->TVC_Admin_Helper = new TVC_Admin_Helper();
     $this->subscriptionId = $this->TVC_Admin_Helper->get_subscriptionId(); 
-    $this->site_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab="; 
+    $this->site_url = "admin.php?page=conversios-google-shopping-feed&tab="; 
     $this->TVC_Admin_Helper->need_auto_update_db();    
     $this->create_form();
   }
@@ -259,9 +259,8 @@ class GoogleShoppingFeed {
     var tvs_this = event.target;
     $("#refresh_call_site_verified").css("visibility","hidden");
     $(tvs_this).after('<div class="domain-claim-spinner tvc-nb-spinner" id="site-verified-spinner"></div>');
-    jQuery.post(myAjaxNonces.ajaxurl,{
-      action: "tvc_call_site_verified",
-      apiDomainClaimNonce: myAjaxNonces.SiteVerifiedNonce
+    jQuery.post(tvc_ajax_url,{
+      action: "tvc_call_site_verified"
     },function( response ){
       var rsp = JSON.parse(response);    
       if(rsp.status == "success"){        
@@ -277,9 +276,8 @@ class GoogleShoppingFeed {
     var tvs_this = event.target;
     $("#refresh_call_domain_claim").css("visibility","hidden");
     $(tvs_this).after('<div class="domain-claim-spinner tvc-nb-spinner" id="domain-claim-spinner"></div>');
-    jQuery.post(myAjaxNonces.ajaxurl,{
-      action: "tvc_call_domain_claim",
-      apiDomainClaimNonce: myAjaxNonces.apiDomainClaimNonce
+    jQuery.post(tvc_ajax_url,{
+      action: "tvc_call_domain_claim"
     },function( response ){
       var rsp = JSON.parse(response);    
       if(rsp.status == "success"){
@@ -304,9 +302,8 @@ class GoogleShoppingFeed {
     $("#refresh_api").css("visibility","hidden");
     $(tvs_this).after('<div class="tvc-nb-spinner" id="tvc-nb-spinner"></div>');
     tvc_helper.tvc_alert("error","Attention !","Sync up is in the process do not refresh the page. it may take few minutes, if GMC product sync count is large.");
-    jQuery.post(myAjaxNonces.ajaxurl,{
-      action: "tvc_call_api_sync",
-      apiSyncupNonce: myAjaxNonces.apiSyncupNonce
+    jQuery.post(tvc_ajax_url,{
+      action: "tvc_call_api_sync"
     },function( response ){
       var rsp = JSON.parse(response);    
       if(rsp.error == false){

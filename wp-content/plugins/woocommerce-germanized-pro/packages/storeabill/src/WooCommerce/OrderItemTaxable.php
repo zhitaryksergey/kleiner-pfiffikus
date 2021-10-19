@@ -48,7 +48,7 @@ class OrderItemTaxable extends OrderItem {
 		 */
 		$item_tax_rates = array_filter( $order_tax_rates, function( $tax_rate ) use ( $item_taxes ) {
 			foreach( $tax_rate->get_reference_ids() as $ref_id ) {
-				if ( array_key_exists( $ref_id, $item_taxes['total'] ) && ! empty( $item_taxes['total'][ $ref_id ] ) ) {
+				if ( ( array_key_exists( $ref_id, $item_taxes['total'] ) && ! empty( $item_taxes['total'][ $ref_id ] ) ) || ( array_key_exists( 'subtotal', $item_taxes ) && array_key_exists( $ref_id, $item_taxes['subtotal'] ) && ! empty( $item_taxes['subtotal'][ $ref_id ] ) ) ) {
 					return true;
 				}
 			}

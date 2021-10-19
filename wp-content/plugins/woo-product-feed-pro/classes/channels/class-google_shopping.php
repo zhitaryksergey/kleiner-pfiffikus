@@ -371,6 +371,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:ships_from_country",
 					"format" => "optional",
 				),
+				"Region Id" => array(
+					"name" => "region_id",
+					"feed_name" => "g:region_id",
+					"format" => "optional",
+				),
 			),
 			"Tax" => array(
 				"Tax" => array(
@@ -525,6 +530,11 @@ class WooSEA_google_shopping {
 					"feed_name" => "g:size_type",
 					"format" => "optional",
 				),
+				"Capacity" => array(
+					"name" => "capacity",
+					"feed_name" => "g:capacity",
+					"format" => "optional",
+				),
 				"Suggested retail price" => array(
 					"name" => "suggested_retail_price",
 					"feed_name" => "g:suggested_retail_price",
@@ -538,6 +548,31 @@ class WooSEA_google_shopping {
 				"Video link" => array(
 					"name" => "video_link",
 					"feed_name" => "g:video_link",
+					"format" => "optional",
+				),
+				"Display ads ID" => array(
+					"name" => "display_ads_id",
+					"feed_name" => "g:display_ads_id",
+					"format" => "optional",
+				),
+				"Display ads Similar ID" => array(
+					"name" => "display_ads_similar_id",
+					"feed_name" => "g:display_ads_similar_id",
+					"format" => "optional",
+				),
+				"Display ads Title" => array(
+					"name" => "display_ads_title",
+					"feed_name" => "g:display_ads_title",
+					"format" => "optional",
+				),
+				"Display ads Link" => array(
+					"name" => "display_ads_link",
+					"feed_name" => "g:display_ads_link",
+					"format" => "optional",
+				),
+				"Display ads Value" => array(
+					"name" => "display_ads_value",
+					"feed_name" => "g:display_ads_value",
 					"format" => "optional",
 				),
 			),

@@ -16,6 +16,8 @@ class OrderItemFee extends OrderItemTaxable {
 	 * @param FeeItem $document_item
 	 */
 	public function sync( &$document_item, $args = array() ) {
+		do_action( "{$this->get_hook_prefix()}before_sync", $this, $document_item, $args );
+
 		parent::sync( $document_item, $args );
 
 		$props = apply_filters( "{$this->get_hook_prefix()}sync_props", array(), $this, $args );

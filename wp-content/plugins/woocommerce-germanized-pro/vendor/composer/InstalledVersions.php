@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'f82dd8525941ccdaedb2aa6ae47c82ed81eb314b',
+    'reference' => '337176ddc58fec6b6a44abded70654bb58607613',
     'name' => 'vendidero/woocommerce-germanized-pro',
   ),
   'versions' => 
@@ -35,12 +35,12 @@ private static $installed = array (
     ),
     'composer/installers' => 
     array (
-      'pretty_version' => 'v1.11.0',
-      'version' => '1.11.0.0',
+      'pretty_version' => 'v1.12.0',
+      'version' => '1.12.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ae03311f45dfe194412081526be2e003960df74b',
+      'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
     ),
     'roundcube/plugin-installer' => 
     array (
@@ -58,30 +58,30 @@ private static $installed = array (
     ),
     'vendidero/storeabill' => 
     array (
-      'pretty_version' => 'v1.7.4',
-      'version' => '1.7.4.0',
+      'pretty_version' => 'v1.8.1',
+      'version' => '1.8.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a59887ad9fbd3fea98b5074cbae414358b8a4c4d',
+      'reference' => 'b1816a97f62836710b174bb47b015e4373e6d80d',
     ),
     'vendidero/storeabill-lexoffice' => 
     array (
-      'pretty_version' => 'v1.1.3',
-      'version' => '1.1.3.0',
+      'pretty_version' => 'v1.1.5',
+      'version' => '1.1.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ed815fc1718f50be2e621e8c001aab9bb197ce16',
+      'reference' => 'da1f4b53aa89818d7b84312b5ba6f3498bb6340e',
     ),
     'vendidero/storeabill-sevdesk' => 
     array (
-      'pretty_version' => 'v1.1.1',
-      'version' => '1.1.1.0',
+      'pretty_version' => 'v1.1.2',
+      'version' => '1.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1bfaf5ff4a7093f18c6003a2f1aa5e29c088970a',
+      'reference' => '5121560fc151b307fb462b12aed6d14fc5166e88',
     ),
     'vendidero/woocommerce-germanized-dpd' => 
     array (
@@ -99,7 +99,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'f82dd8525941ccdaedb2aa6ae47c82ed81eb314b',
+      'reference' => '337176ddc58fec6b6a44abded70654bb58607613',
     ),
   ),
 );

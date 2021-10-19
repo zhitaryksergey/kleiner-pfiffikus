@@ -5,7 +5,7 @@
  * Description: StoreaBill lexoffice integration
  * Author: vendidero
  * Author URI: https://vendidero.de
- * Version: 1.1.3
+ * Version: 1.1.5
  * Requires PHP: 5.6
  * License: GPLv3
  *

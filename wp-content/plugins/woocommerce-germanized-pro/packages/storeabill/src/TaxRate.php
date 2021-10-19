@@ -122,7 +122,7 @@ class TaxRate {
 	}
 
 	public function set_is_compound( $compound ) {
-		$this->data['is_compound'] = wc_string_to_bool( $compound );
+		$this->data['is_compound'] = sab_string_to_bool( $compound );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class TaxRate {
 	}
 
 	public function set_is_oss( $is_oss ) {
-		$this->data['is_oss'] = wc_string_to_bool( $is_oss );
+		$this->data['is_oss'] = sab_string_to_bool( $is_oss );
 	}
 
 	public function get_priority() {

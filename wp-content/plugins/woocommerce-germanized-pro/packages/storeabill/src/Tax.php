@@ -71,7 +71,7 @@ class Tax {
 			$woo_rate = array(
 				'rate'     => $rate->get_percent(),
 				'country'  => $rate->get_country(),
-				'compound' => wc_bool_to_string( $rate->is_compound() ),
+				'compound' => sab_bool_to_string( $rate->is_compound() ),
 			);
 
 			$woo_rates[ $rate->get_merge_key() ] = $woo_rate;
@@ -117,6 +117,6 @@ class Tax {
 		 */
 		$is_oss = $args['is_moss'] || $args['is_oss'];
 
-		return $args['percent'] . "_compound_" . wc_bool_to_string( $args['is_compound'] ) . "_oss_" . wc_bool_to_string( $is_oss );
+		return $args['percent'] . "_compound_" . sab_bool_to_string( $args['is_compound'] ) . "_oss_" . sab_bool_to_string( $is_oss );
 	}
 }

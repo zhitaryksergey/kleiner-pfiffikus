@@ -178,7 +178,7 @@ class Journal extends Data {
 	}
 
 	public function set_is_archived( $value ) {
-		$this->set_prop( 'is_archived', wc_string_to_bool( $value ) );
+		$this->set_prop( 'is_archived', sab_string_to_bool( $value ) );
 	}
 
 	public function reset() {

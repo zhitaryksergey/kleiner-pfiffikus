@@ -1607,7 +1607,6 @@ abstract class Document extends Data implements Numberable, ExternalSyncable {
 		$items = $this->get_items();
 
 		foreach( $items as $item ) {
-
 			if ( $item->get_reference_id() === (int) $reference_id ) {
 				return $item;
 			}

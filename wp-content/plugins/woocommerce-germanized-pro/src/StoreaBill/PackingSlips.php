@@ -37,6 +37,8 @@ class PackingSlips {
 			add_action( 'woocommerce_gzd_shipment_deleted', array( __CLASS__, 'delete_packing_slip' ), 10, 2 );
 			add_action( 'woocommerce_gzdp_packing_slip_auto_sync_callback', array( __CLASS__, 'auto_sync_callback' ), 10 );
 
+			add_filter( 'storeabill_bundles_compatibility_document_types', array( __CLASS__, 'register_bundles_compatibility' ), 10 );
+
 			/**
 			 * WPML compatibility
 			 */
@@ -65,6 +67,19 @@ class PackingSlips {
 				Ajax::init();
 			}
 		}
+	}
+
+	/**
+	 * Mark packing slips as being suitable for the bundles compatibility script.
+	 *
+	 * @param $document_types
+	 *
+	 * @return mixed
+	 */
+	public static function register_bundles_compatibility( $document_types ) {
+		$document_types[] = 'packing_slip';
+
+		return $document_types;
 	}
 
 	/**

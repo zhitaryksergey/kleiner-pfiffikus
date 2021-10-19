@@ -46,7 +46,7 @@ class TVC_Ajax_File extends TVC_Ajax_Calls {
     // barch size for inser data in DB
     $product_db_batch_size = 100;
     // barch size for inser product in GMC
-    $product_batch_size = 100;
+    $product_batch_size = 50;
     if(!class_exists('CustomApi')){
       include(ENHANCAD_PLUGIN_DIR . 'includes/setup/CustomApi.php');
     }
@@ -190,6 +190,9 @@ class TVC_Ajax_File extends TVC_Ajax_Calls {
       $rs = $TVCProductSyncHelper->call_batch_wise_sync_product($last_sync_product_id, $product_batch_size);
       if(isset($rs['products_sync'])){
         $sync_produt = (int)$sync_produt + $rs['products_sync'];
+      }else{
+        echo json_encode(array('status'=>'false', 'message'=> $rs['message']));
+        exit;
       }
       $skip_products=(isset($rs['skip_products']))?$rs['skip_products']:0;
       $last_sync_product_id = (isset($rs['last_sync_product_id']))?$rs['last_sync_product_id']:0;

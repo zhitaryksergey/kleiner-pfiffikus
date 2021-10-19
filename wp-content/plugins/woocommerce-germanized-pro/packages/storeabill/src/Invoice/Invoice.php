@@ -250,6 +250,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 			'postcode'   => '',
 			'country'    => '',
 			'vat_id'     => '',
+			'email'      => '',
 		), $this );
 
 		foreach( $address_fields as $field => $default_value ) {
@@ -1134,7 +1135,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	}
 
 	public function has_differing_shipping_address() {
-		$fields_excluded  = apply_filters( "{$this->get_general_hook_prefix()}has_shipping_address_comparison_excluded_fields", array( 'title' ), $this );
+		$fields_excluded  = apply_filters( "{$this->get_general_hook_prefix()}has_shipping_address_comparison_excluded_fields", array( 'title', 'email', 'phone', 'vat_id' ), $this );
 
 		/**
 		 * This callback is being used to remove certain data from addresses
@@ -1770,7 +1771,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	}
 
 	protected function set_shipping_address_prop( $prop, $data ) {
-		$address          = $this->get_shipping_address();
+		$address          = $this->get_shipping_address( 'edit' );
 		$address[ $prop ] = $data;
 
 		$this->set_prop( 'shipping_address', $address );
@@ -1782,7 +1783,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_prices_include_tax( $value ) {
-		$this->set_prop( 'prices_include_tax', wc_string_to_bool( $value ) );
+		$this->set_prop( 'prices_include_tax', sab_string_to_bool( $value ) );
 	}
 
 	/**
@@ -1804,7 +1805,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_is_reverse_charge( $value ) {
-		$is_reverse_charge = wc_string_to_bool( $value );
+		$is_reverse_charge = sab_string_to_bool( $value );
 
 		if ( $is_reverse_charge ) {
 			$this->set_is_taxable( false );
@@ -1819,7 +1820,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_is_oss( $value ) {
-		$this->set_prop( 'is_oss', wc_string_to_bool( $value ) );
+		$this->set_prop( 'is_oss', sab_string_to_bool( $value ) );
 	}
 
 	/**
@@ -1865,7 +1866,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_is_taxable( $value ) {
-		$this->set_prop( 'is_taxable', wc_string_to_bool( $value ) );
+		$this->set_prop( 'is_taxable', sab_string_to_bool( $value ) );
 	}
 
 	/**
@@ -1874,7 +1875,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_round_tax_at_subtotal( $value ) {
-		$this->set_prop( 'round_tax_at_subtotal', wc_string_to_bool( $value ) );
+		$this->set_prop( 'round_tax_at_subtotal', sab_string_to_bool( $value ) );
 	}
 
 	public function set_order_id( $value ) {
@@ -2478,8 +2479,8 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 				$total    = sab_add_number_precision( $item->get_total(), false );
 				$subtotal = sab_add_number_precision( $item->get_subtotal(), false );
 
-				$totals[ $item->get_item_type() ]    += ( ! $this->round_tax_at_subtotal() ) ? Numbers::round( $total ) : $total;
-				$subtotals[ $item->get_item_type() ] += ( ! $this->round_tax_at_subtotal() ) ? Numbers::round( $subtotal ) : $subtotal;
+				$totals[ $item->get_item_type() ]    += ( ! $item->round_tax_at_subtotal() ) ? Numbers::round( $total ) : $total;
+				$subtotals[ $item->get_item_type() ] += ( ! $item->round_tax_at_subtotal() ) ? Numbers::round( $subtotal ) : $subtotal;
 			}
 
 			if ( is_a( $item, '\Vendidero\StoreaBill\Interfaces\TaxContainable' ) && array_key_exists( $item->get_tax_type(), $tax_totals ) ) {
@@ -2593,7 +2594,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 				$discount_item_total = $item->get_discount_total();
 				$discount_item_tax   = sab_add_number_precision( array_sum( Tax::calc_tax( $discount_item_total, $item->get_tax_rates(), false ) ), false );
 
-				$discount_item_taxes += ( $this->round_tax_at_subtotal() ? $discount_item_tax : Numbers::round( $discount_item_tax ) );
+				$discount_item_taxes += ( $item->round_tax_at_subtotal() ? $discount_item_tax : Numbers::round( $discount_item_tax ) );
 			}
 
 			if ( $discount_item_taxes > 0 ) {

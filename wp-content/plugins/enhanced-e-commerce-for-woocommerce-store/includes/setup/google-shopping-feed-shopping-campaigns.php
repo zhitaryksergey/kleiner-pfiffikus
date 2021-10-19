@@ -26,7 +26,7 @@ class CampaignsConfiguration
     $this->to_date = (isset($_POST['to_date']) && $_POST['to_date'] != '') ? $_POST['to_date'] : "";
     $this->country = $this->TVC_Admin_Helper->get_woo_country();
     $this->currency_symbol = $this->TVC_Admin_Helper->get_user_currency_symbol();
-    $this->site_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab="; 
+    $this->site_url = "admin.php?page=conversios-google-shopping-feed&tab="; 
     $this->html_run();
   }
 
@@ -231,7 +231,7 @@ class CampaignsConfiguration
                 <div class="account-performance">
                   <div class="row">
                     <div class="col-lg-8">
-                      <h3 class="title">Compaign Performance</h3>
+                      <h3 class="title">Campaign Performance</h3>
                       <div class="table-section">
                         <table id="campaingPerformance" class="table dt-responsive nowrap" style="width:100%">
                           <thead>
@@ -633,13 +633,12 @@ class CampaignsConfiguration
 		if(confirm) {
 			jQuery("#feed-spinner").css("display", "block");
 	  	jQuery.post(
-	    	myAjaxNonces.ajaxurl,
+	    	tvc_ajax_url,
 		    {
 	        action: "tvcajax-delete-campaign",
 	        merchantId: merchantId,
 	        customerId: customerId,
-	        campaignId: campaignId,
-	        campaignDeleteNonce: myAjaxNonces.campaignDeleteNonce
+	        campaignId: campaignId
 		    },
 		    function( response ) {
 		    	jQuery("#feed-spinner").css("display", "none");
@@ -663,7 +662,7 @@ class CampaignsConfiguration
     var campaign_name = jQuery("#campaign_name_"+currentRow).val();
    	jQuery("#feed-spinner").css("display", "block");
     jQuery.post(
-      myAjaxNonces.ajaxurl,
+      tvc_ajax_url,
       {
         action: "tvcajax-update-campaign-status",
         merchantId: merchantId,
@@ -672,8 +671,7 @@ class CampaignsConfiguration
         campaignName: campaign_name,
         budget: budget,
         budgetId: budgetId,
-        status: campaign_status == true ? 2 : 3,
-        campaignStatusNonce: myAjaxNonces.campaignStatusNonce
+        status: campaign_status == true ? 2 : 3
       },
       function( response ) {
       	jQuery("#feed-spinner").css("display", "none");

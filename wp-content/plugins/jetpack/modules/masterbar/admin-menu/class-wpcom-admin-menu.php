@@ -33,6 +33,7 @@ class WPcom_Admin_Menu extends Admin_Menu {
 		parent::reregister_menu_items();
 
 		$this->add_my_home_menu();
+		$this->add_inbox_menu();
 
 		// Not needed outside of wp-admin.
 		if ( ! $this->is_api_request ) {
@@ -44,6 +45,8 @@ class WPcom_Admin_Menu extends Admin_Menu {
 			}
 			$this->add_new_site_link();
 		}
+
+		$this->add_beta_testing_menu();
 
 		ksort( $GLOBALS['menu'] );
 	}

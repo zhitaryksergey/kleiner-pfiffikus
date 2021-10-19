@@ -31,7 +31,7 @@ class WC_GZDP_Dependencies {
 	 *
 	 * @var string
 	 */
-	public $wc_gzd_minimum_version_required = '3.0';
+	public $wc_gzd_minimum_version_required = '3.4';
 
 	/**
 	 * This is the maximum Woo Germanized version supported by Germanized Pro

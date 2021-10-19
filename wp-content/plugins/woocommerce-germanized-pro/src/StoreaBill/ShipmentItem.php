@@ -66,7 +66,9 @@ class ShipmentItem implements SyncableReferenceItem {
 		$meta = array();
 
 		if ( $order_item = $this->shipment_item->get_order_item() ) {
-			$meta = $order_item->get_formatted_meta_data( apply_filters( "{$this->get_hook_prefix()}hide_meta_prefix", '_', $this ), apply_filters( "{$this->get_hook_prefix()}include_all_meta", false, $this ) );
+			do_action( 'storeabill_woo_shipment_item_before_retrieve_attributes', $object, $this );
+			$meta = $order_item->get_formatted_meta_data( apply_filters( "{$this->get_hook_prefix()}hide_meta_prefix", '_', $this ), apply_filters( "{$this->get_hook_prefix()}include_all_meta", false, $this, $object ) );
+			do_action( 'storeabill_woo_shipment_item_after_retrieve_attributes', $object, $this );
 		}
 
 		$attributes     = array();
@@ -124,6 +126,8 @@ class ShipmentItem implements SyncableReferenceItem {
 	 * @param array $args
 	 */
 	public function sync( &$object, $args = array() ) {
+		do_action( "storeabill_woo_gzd_shipment_item_before_sync", $this, $object, $args );
+
 		$props = wp_parse_args( $args, array(
 			'quantity'     => $this->get_quantity(),
 			'reference_id' => $this->get_id(),

@@ -781,6 +781,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'draft' && isset($_GET['postId']) &
                             <input type="hidden" id="b2sJsTextConnectionFailLink" value="<?php echo ($userLang == 'de') ? 'https://www.blog2social.com/de/faq/content/9/108/de/die-verbindung-zum-server-ist-fehlgeschlagen-bitte-versuche-es-erneut.html' : 'https://www.blog2social.com/en/faq/content/9/106/en/the-connection-to-the-server-failed-please-try-again.html'; ?>"> 
                             <input type="hidden" id="b2sJsTextConnectionFailLinkText" value="<?php esc_html_e('Give me more information', 'blog2social') ?>"> 
                             <input type="hidden" id="b2sSelectedNetworkAuthId" value="<?php echo (isset($_GET['network_auth_id']) && (int) $_GET['network_auth_id'] > 0) ? (int) esc_attr($_GET['network_auth_id']) : ''; ?>">
+                            <input type="hidden" id="b2sMultiSelectedNetworkAuthId" value="<?php echo (isset($_GET['multi_network_auth_id']) && !empty($_GET['multi_network_auth_id'])) ? esc_attr($_GET['multi_network_auth_id']) : ''; ?>">
                             <input type="hidden" id="b2sDefaultNoImage" value="<?php echo plugins_url('/assets/images/no-image.png', B2S_PLUGIN_FILE); ?>">
                             <input type="hidden" id="isMetaChecked" value="<?php echo $postData->ID; ?>">
                             <input type="hidden" id="isOgMetaChecked" value="<?php echo (isset($b2sGeneralOptions['og_active']) ? (int) $b2sGeneralOptions['og_active'] : 0); ?>">
@@ -793,7 +794,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'draft' && isset($_GET['postId']) &
                             <?php echo $settingsItem->setNetworkSettingsHtml(); ?>
                             <?php
                             if (trim(strtolower($postData->post_status)) == 'future' || !empty($selSchedDate)) {
-                                $schedDate = (($postData->post_status) == 'future') ? $postData->post_date : $selSchedDate; // prio wp sched
+                                $schedDate = (($postData->post_status) == 'future') ? $postData->post_date_gmt : $selSchedDate; // prio wp sched
                                 ?>
                                 <input type="hidden" id="b2sBlogPostSchedDate" value="<?php echo strtotime($schedDate); ?>000"> <!--for milliseconds-->
                                 <input type="hidden" id="b2sSchedPostInfoIgnore" value="0">

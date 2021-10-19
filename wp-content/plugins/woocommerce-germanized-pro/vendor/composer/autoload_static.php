@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603
+class ComposerStaticInit08c1a4a75481bdabef85bcc0cdaa8b11
 {
     public static $prefixLengthsPsr4 = array (
         'V' => 
@@ -139,6 +139,7 @@ class ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603
         'Composer\\Installers\\OsclassInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OsclassInstaller.php',
         'Composer\\Installers\\OxidInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/OxidInstaller.php',
         'Composer\\Installers\\PPIInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PPIInstaller.php',
+        'Composer\\Installers\\PantheonInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PantheonInstaller.php',
         'Composer\\Installers\\PhiftyInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhiftyInstaller.php',
         'Composer\\Installers\\PhpBBInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PhpBBInstaller.php',
         'Composer\\Installers\\PimcoreInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/PimcoreInstaller.php',
@@ -430,10 +431,10 @@ class ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbe70f92c1e500f9d0efa68057d0f1603::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit08c1a4a75481bdabef85bcc0cdaa8b11::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit08c1a4a75481bdabef85bcc0cdaa8b11::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit08c1a4a75481bdabef85bcc0cdaa8b11::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit08c1a4a75481bdabef85bcc0cdaa8b11::$classMap;
 
         }, null, ClassLoader::class);
     }

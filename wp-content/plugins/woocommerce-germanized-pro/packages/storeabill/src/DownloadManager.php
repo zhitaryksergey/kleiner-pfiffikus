@@ -50,7 +50,7 @@ class DownloadManager {
 			self::download_error( _x( 'You are not allowed to view that file.', 'storeabill-core', 'woocommerce-germanized-pro' ) );
 		}
 
-		$download_method = isset( $_GET['force'] ) && wc_string_to_bool( $_GET['force'] ) ? 'force' : 'inline';
+		$download_method = isset( $_GET['force'] ) && sab_string_to_bool( $_GET['force'] ) ? 'force' : 'inline';
 		$file            = $bulk_handler->get_file();
 
 		if ( ! $file || ! file_exists( $file ) ) {
@@ -79,7 +79,7 @@ class DownloadManager {
 		}
 
 		$document        = sab_get_document( $document_id );
-		$download_method = isset( $_GET['force'] ) && wc_string_to_bool( $_GET['force'] ) ? 'force' : 'inline';
+		$download_method = isset( $_GET['force'] ) && sab_string_to_bool( $_GET['force'] ) ? 'force' : 'inline';
 
 		if ( ! $document ) {
 			self::download_error( _x( 'Invalid document.', 'storeabill-core', 'woocommerce-germanized-pro' ) );

@@ -258,7 +258,7 @@ class Contact {
 			'surename'		 => $this->get_first_name(),
 			'vatNumber'		 => $this->get_vat_id(),
 			'category'		 => array(
-				'id' 		 => 3,
+				'id' 		 => apply_filters( 'storeabill_external_sync_sevdesk_contact_category_id', 3, $this ),
 				'objectName' => 'Category'
 			),
 			'gender'	     => $this->get_gender(),
@@ -270,7 +270,7 @@ class Contact {
 			$company = array(
 				'name'		     => $this->get_company(),
 				'category'		 => array(
-					'id' 		 => 3,
+					'id' 		 => apply_filters( 'storeabill_external_sync_sevdesk_contact_category_id', 3, $this ),
 					'objectName' => 'Category'
 				),
 				'vatNumber'      => $this->get_vat_id(),

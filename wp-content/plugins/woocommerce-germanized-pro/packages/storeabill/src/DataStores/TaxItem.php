@@ -34,7 +34,7 @@ class TaxItem extends DocumentItem {
 
 		switch( $prop ) {
 			case "round_tax_at_subtotal":
-				$value = wc_bool_to_string( $value );
+				$value = sab_bool_to_string( $value );
 				break;
 		}
 

@@ -20,6 +20,7 @@ class ShippingItem extends DocumentItem {
 	protected $internal_meta_keys = array(
 		'_product_id',
 		'_prices_include_tax',
+		'_round_tax_at_subtotal',
 		'_price',
 		'_price_subtotal',
 		'_price_tax',
@@ -38,8 +39,9 @@ class ShippingItem extends DocumentItem {
 		switch( $prop ) {
 			case "prices_include_tax":
 			case "is_taxable":
+			case "round_tax_at_subtotal":
 			case "enable_split_tax":
-				$value = wc_bool_to_string( $value );
+				$value = sab_bool_to_string( $value );
 				break;
 		}
 

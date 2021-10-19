@@ -59,13 +59,13 @@ class TVC_Pricings {
                   <div class="tvc-list-price-month">
                     <div class="tvc-list-price">
                       <div class="price-normal">
-                        <span>$19.00</span>
+                        <span>$39.00</span>
                         <div class="tvc-plan-off">50% OFF</div>
                       </div>
-                      <div class="price-current"><span class="inner">$9<span>/month</span></span></div>
+                      <div class="price-current"><span class="inner">$19<span>/month</span></span></div>
                       <div class="tvc_month_free">Limited Offer</div>
                     </div>
-                    <a target="_blank" href="https://conversios.io/checkout/?pid=plan_1_m&utm_source=EE+Plugin+User+Interface&utm_medium=HUSTLE&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Try 1 Month Free</a>
+                    <a target="_blank" href="https://conversios.io/checkout/?pid=plan_1_m&utm_source=EE+Plugin+User+Interface&utm_medium=HUSTLE&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Get Started</a>
                   </div>              
                </div>
                <div class="column discounted popular">
@@ -77,13 +77,13 @@ class TVC_Pricings {
                   </div>
                   <div class="tvc-list-price-month">
                     <div class="tvc-list-price">
-                      <div class="price-normal"><span>$39.00</span>
+                      <div class="price-normal"><span>$59.00</span>
                         <div class="tvc-plan-off">50% OFF</div>
                       </div>
-                      <div class="price-current"><span class="inner">$19<span>/month</span></span></div>
+                      <div class="price-current"><span class="inner">$29<span>/month</span></span></div>
                       <div class="tvc_month_free">Limited Offer</div>
                     </div>
-                    <a target="_blank"  href="https://conversios.io/checkout/?pid=plan_2_m&utm_source=EE+Plugin+User+Interface&utm_medium=GROWTH&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Try 1 Month Free</a>
+                    <a target="_blank"  href="https://conversios.io/checkout/?pid=plan_2_m&utm_source=EE+Plugin+User+Interface&utm_medium=GROWTH&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Get Started</a>
                   </div>              
                </div>
                <div class="column discounted ">
@@ -92,13 +92,13 @@ class TVC_Pricings {
                   </div>
                   <div class="tvc-list-price-month">
                     <div class="tvc-list-price">
-                      <div class="price-normal"><span>$59.00</span>
+                      <div class="price-normal"><span>$99.00</span>
                         <div class="tvc-plan-off">50% OFF</div>
                       </div>
-                      <div class="price-current"><span class="inner">$29<span>/month</span></span></div>
+                      <div class="price-current"><span class="inner">$49<span>/month</span></span></div>
                       <div class="tvc_month_free">Limited Offer</div>
                     </div>
-                    <a target="_blank" href="https://conversios.io/checkout/?pid=plan_3_m&utm_source=EE+Plugin+User+Interface&utm_medium=LEAP&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Try 1 Month Free</a>
+                    <a target="_blank" href="https://conversios.io/checkout/?pid=plan_3_m&utm_source=EE+Plugin+User+Interface&utm_medium=LEAP&utm_campaign=Upsell+at+Conversios" class="btn tvc-btn">Get Started</a>
                   </div>                
                </div>
             </div>
@@ -207,10 +207,10 @@ class TVC_Pricings {
             </div>
             <div class="row-feature clearfix">
                <div class="column">Actionable Dashboard</div>
-               <div class="column">(Upcoming)</div>
-               <div class="column">(Upcoming)</div>
-               <div class="column popular">(Upcoming)</div>
-               <div class="column">(Upcoming)</div>
+               <div class="column"><img src="<?php echo $check_icon; ?>" alt="yes"><br>(Limited)</div>
+               <div class="column"><img src="<?php echo $check_icon; ?>" alt="yes"><br>(Complete)</div>
+               <div class="column popular "><img src="<?php echo $check_icon; ?>" alt="yes"><br>(Complete)</div>
+               <div class="column"><img src="<?php echo $check_icon; ?>" alt="yes"><br>(Complete)</div>
             </div>
             <div class="row-feature clearfix">
                <div class="column">Menu tracking</div>

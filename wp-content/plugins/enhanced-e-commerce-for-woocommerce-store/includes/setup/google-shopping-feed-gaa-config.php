@@ -10,7 +10,7 @@ class GAAConfiguration {
     $this->TVC_Admin_Helper = new TVC_Admin_Helper();
     $this->TVCProductSyncHelper = new TVCProductSyncHelper();
     $this->subscriptionId = $this->TVC_Admin_Helper->get_subscriptionId(); 
-    $this->site_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=";     
+    $this->site_url = "admin.php?page=conversios-google-shopping-feed&tab=";     
     $this->url = $this->TVC_Admin_Helper->get_onboarding_page_url();     
     $this->html_run();
   }
@@ -111,7 +111,7 @@ class GAAConfiguration {
                 <h2 class="ga-title">Smart Shopping Campaigns:</h2>
               </div>
               <div class="col-6 col-md-6">
-                <a href="admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=add_campaign_page" class="btn btn-primary btn-success">Create Smart Shopping Campaign</a>
+                <a href="admin.php?page=conversios-google-shopping-feed&tab=add_campaign_page" class="btn btn-primary btn-success">Create Smart Shopping Campaign</a>
               </div>
             </div>
             <?php }else{ ?>
@@ -159,9 +159,8 @@ if(isset($googleDetail->google_merchant_center_id) && $googleDetail->google_merc
       var is_need_to_domain_claim = "<?php echo $is_need_to_domain_claim; ?>";
       if(is_need_to_domain_claim == 1 || is_need_to_domain_claim == true){
         event.preventDefault();
-        jQuery.post(myAjaxNonces.ajaxurl,{
-          action: "tvc_call_domain_claim",
-          apiDomainClaimNonce: myAjaxNonces.apiDomainClaimNonce
+        jQuery.post(tvc_ajax_url,{
+          action: "tvc_call_domain_claim"
         },function( response ){
           
         });

@@ -53,7 +53,6 @@ class WC_GZDP_Unit_Price_Helper {
 
 		// If it is a REST request, let's insert default product data (if it is missing) before calculation
 		if ( $data['is_rest'] ) {
-
 			$insert_defaults = array(
 				'unit',
 				'unit_base',
@@ -111,22 +110,16 @@ class WC_GZDP_Unit_Price_Helper {
 			}
 		}
 
-		$base = $data_replaceable['_unit_base'];
-		// If product_base is not available, divide by base
-		$product_base = $base;
+		$unit_price_data = wc_gzd_recalculate_unit_price( array(
+			'base'     => $data_replaceable['_unit_base'],
+			'products' => isset( $data_replaceable['_unit_product'] ) && ! empty( $data_replaceable['_unit_product'] ) ? $data_replaceable['_unit_product'] : 1,
+		), $gzd_product );
 
-		if ( ! isset( $data_replaceable['_unit_product'] ) || empty( $data_replaceable['_unit_product'] ) ) {
-			// Set base multiplicator to 1
-			$base = 1;
-		} else {
-			$product_base = $data_replaceable['_unit_product'];
-		}
-
-		$data['_unit_price_regular'] = wc_format_decimal( ( $product->get_regular_price() / $product_base ) * $base, wc_get_price_decimals() );
+		$data['_unit_price_regular'] = $unit_price_data['regular'];
 		$data['_unit_price_sale']    = '';
 
 		if ( $product->get_sale_price() ) {
-			$data['_unit_price_sale'] = wc_format_decimal( ( $product->get_sale_price() / $product_base ) * $base, wc_get_price_decimals() );
+			$data['_unit_price_sale'] = $unit_price_data['sale'];
 		}
 
 		return $data;

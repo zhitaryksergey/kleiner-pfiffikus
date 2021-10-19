@@ -5,9 +5,9 @@ Author URI: https://www.storeapps.org/
 Plugin URI: https://www.storeapps.org/woocommerce-plugins/?utm_source=wprepo&utm_medium=web&utm_campaign=wsm_readme
 Tags: stock manager, woocommerce, stock management, inventory, products
 Requires at least: 5.0.0
-Tested up to: 5.8.0
+Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 2.7.0
+Stable tag: 2.8.1
 License: GPLv3
 
 == Description ==
@@ -152,6 +152,23 @@ Be sure, that you have active stock manager.
 
 == Changelog ==
 
+= 2.8.1 (15.10.2021) =
+* New: WooCommerce 5.7.1, 5.8.0 compatible
+* Fix: Pagination not working on Stock log page
+* Update: Stock Manager menu position
+* Update: StoreApps Plugins page
+* Update: POT file
+
+= 2.8.0 (17.09.2021) =
+* New: WordPress Coding Standards
+* Fix: Variation product link not opening parent variable product on Stock log page
+* Fix: Incorrect plugin slug and text domain at few places
+* Fix: Plugin name broken in admin footer text on Stock Manager pages
+* Update: Check product instance before calling product functions
+* Update: Stock log page
+* Update: Removed unused code
+* Update: POT file
+
 = 2.7.0 (03.09.2021) =
 * New: WooCommerce 5.4.2, 5.5.1, 5.6.0 compatible
 * New: WordPress 5.8.0 compatible
@@ -255,6 +272,12 @@ Be sure, that you have active stock manager.
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/woocommerce-stock-manager/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 2.8.1 =
+WooCommerce 5.7.1, 5.8.0 compatible, Pagination not working on Stock log page, Stock Manager menu position, StoreApps Plugins page, POT file
+
+= 2.8.0 =
+WordPress Coding Standards, Variation product link not opening parent variable product on Stock log page, Incorrect plugin slug and text domain at few places, Plugin name broken in admin footer text on Stock Manager pages, Check product instance before calling product functions, Stock log page, Removed unused code, POT file
 
 = 2.7.0 =
 WooCommerce 5.4.2, 5.5.1, 5.6.0 compatible, WordPress 5.8.0 compatible, Unique action name for 'Export' to avoid conflicts, Prevent exposure of export data [Thanks to WordPress.org team], Strengthen security during export and subscribe process [Thanks to WordPress.org team], Automate versioning, Code cleanup, Plugin name, POT file

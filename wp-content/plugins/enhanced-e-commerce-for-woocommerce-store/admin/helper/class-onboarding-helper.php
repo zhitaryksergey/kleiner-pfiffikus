@@ -365,12 +365,12 @@ if(!class_exists('Conversios_Onboarding_Helper')):
         if(isset($_POST['ga_view_id']) && $_POST['ga_view_id']){
           update_option('ee_ga_view_id', $_POST['ga_view_id']);
         }
-        $return_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=gaa_config_page";
+        $return_url = "admin.php?page=conversios-google-shopping-feed&tab=gaa_config_page";
         if(isset($googleDetail->google_merchant_center_id) || isset($googleDetail->google_ads_id) ){
           if( $googleDetail->google_merchant_center_id != "" && $googleDetail->google_ads_id != ""){      
-            $return_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=sync_product_page&welcome_msg=true";            
+            $return_url = "admin.php?page=conversios-google-shopping-feed&tab=sync_product_page&welcome_msg=true";            
           }else{
-            $return_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=gaa_config_page&welcome_msg=true";
+            $return_url = "admin.php?page=conversios-google-shopping-feed&tab=gaa_config_page&welcome_msg=true";
           }          
         }
         return $return_url;
@@ -609,7 +609,7 @@ if(!class_exists('Conversios_Onboarding_ApiCall') ){
               CURLOPT_TIMEOUT => 0,
               CURLOPT_HTTPHEADER => $header,
               CURLOPT_POSTFIELDS => ""
-          ));
+          ));          
           $response = curl_exec($ch);
           return json_decode($response);
         }else{

@@ -58,7 +58,7 @@ class B2S_Calendar_Item {
                     ->setPostForApprove($data->post_for_approve)
                     ->setPublishLink($data->publish_link);
 
-            if ($data->network_id == 1 || $data->network_id == 2 || $data->network_id == 3 || $data->network_id == 12 || $data->network_id == 17 || $data->network_id == 19) {
+            if ($data->network_id == 1 || $data->network_id == 2 || $data->network_id == 3 || $data->network_id == 4 || $data->network_id == 12 || $data->network_id == 17 || $data->network_id == 19 || $data->network_id == 24) {
                 $this->setPostFormat();
             }
             if ($data->network_id == 2 && isset($data->relay_primary_sched_date)) {
@@ -646,10 +646,11 @@ class B2S_Calendar_Item {
             'relay_primary_post_id' => $this->getRelayPrimaryPostId(),
             'post_for_relay' => $this->getPostForRelay(),
             'post_for_approve' => $this->getPostForApprove(),
+            'post_format' => $this->getPostFormat(),
             'view' => $view,
             'networkTosGroupId' => '',
             'networkKind' => 0);
-
+        
         return $this->ship_item()->getItemHtml((object) $itemData, false);
     }
 

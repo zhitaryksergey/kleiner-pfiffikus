@@ -116,7 +116,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 			}
 
 			if($this->subscriptionId != ""){
-				$google_detail = $this->customApiObj->getGoogleAnalyticDetail($this->subscriptionId);				
+				$google_detail = $this->customApiObj->getGoogleAnalyticDetail($this->subscriptionId);		
 	  		if(property_exists($google_detail,"error") && $google_detail->error == false){
 	  			if( property_exists($google_detail, "data") && $google_detail->data != "" ){
 		        $googleDetail = $google_detail->data;
@@ -181,7 +181,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 		</style>
 		<div class="bodyrightpart onbordingbody-wapper">
 			<div class="loader-section" id="loader-section"><img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/ajax-loader.gif';?>" alt="loader"></div>
-			<div class="alert-message" id="tvc_popup_box"></div>
+			<div class="alert-message" id="tvc_onboarding_popup_box"></div>
 			<div class="onbordingbody">
 				<div class="site-header">
 				  <div class="container">
@@ -814,7 +814,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
               	if(response.return_url){
               		location.replace( response.return_url);
               	}else{           
-                	location.replace( "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=general_settings");  
+                	location.replace( "admin.php?page=conversios-google-analytics"); 
                 }              
               }else{
                 loaderSection(false);
@@ -885,7 +885,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 		</script>
 		<script>
 		  $(document).ready(function(){
-		      $(".slect2bx").select2();
+		    $(".slect2bx").select2();
 		  });
 		</script>
 		<!-- popup script -->
@@ -958,15 +958,15 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 			if(isset($_GET['page']) && $_GET['page'] == "conversios_onboarding"){
 				add_dashboard_page(
 					esc_html__( 'Welcome to Conversios Onboarding', 'conversios' ),
-					esc_html__( 'Welcome to Conversios Onboarding', 'google-analytics-for-wordpress' ),
+					esc_html__( 'Welcome to Conversios Onboarding', 'conversios' ),
 					apply_filters( 'conversios_welcome', 'manage_options' ),
 					'conversios_onboarding',
 					array( $this, 'welcome_screen' )
 				);
 				/*add_submenu_page(
 	          '__FILE__',
-	          esc_html__('Welcome to Conversios Onboarding', 'enhanced-ecommerce-google-analytics-admin-display'),
-	          esc_html__('Welcome to Conversios Onboarding', 'enhanced-ecommerce-google-analytics-admin-display'),
+	          esc_html__('Welcome to Conversios Onboarding', 'conversios'),
+	          esc_html__('Welcome to Conversios Onboarding', 'conversios'),
 	          'administrator',
 	          'conversios_onboarding',
 	          array($this, 'welcome_screen'),10

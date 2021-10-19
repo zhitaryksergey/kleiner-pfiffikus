@@ -77,6 +77,22 @@ abstract class BulkActionHandler {
 
 	abstract public function handle();
 
+	/**
+	 * When executing a bulk action and the default date sort takes place
+	 * ids are parsed in a descending order (e.g. newest documents first).
+	 * Many bulk actions (sync, finalize invoices) should rather parse in a
+	 * ascending order (e.g. oldest documents first).
+	 *
+	 * @return bool
+	 */
+	public function parse_ids_ascending() {
+		return true;
+	}
+
+	public function get_id_order_by_column() {
+		return 'date';
+	}
+
 	public function finish() {
 		Notices::output( $this->get_notice_screen_id(), 'success' );
 		Notices::output( $this->get_notice_screen_id(), 'error' );

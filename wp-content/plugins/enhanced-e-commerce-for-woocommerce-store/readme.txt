@@ -6,10 +6,10 @@ Tags: Google Analytics tracking, Dynamic Remarketing, Google Shopping automation
 Author URI: https://conversios.io/
 Author: Tatvic
 Requires at least: 1.4.1
-Tested up to: 5.8
+Tested up to: 5.8.1
 Requires PHP: 5.6 or Higher
-Stable tag: 4.1.2
-Version: 4.1.2
+Stable tag: 4.3.3
+Version: 4.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -172,27 +172,27 @@ Enhanced eCommerce Google analytics plugin tracks the entire user journey on you
 
 
 == Screenshots ==
-
-1. This is the main settings page of the plugin from where you can sign in to connect your Google Analytics, Google Ads and Google Merchant Center account.
-2. You can select the type of Google Analytics account you want to tag your website with. You can choose Universal analytics property, Google Analytics 4 property or both and eCommerce tracking in your website will be enabled.
-3. Select existing Google Ads or create a new Google Ads account from here. Once you select Google Ads account from here, your website will start collecting dynamic remarketing tags for all the important eCommerce events in your Google Ads account. Also, your Google Analytics and Google Merchant Center accounts will be linked with selected Google Ads accounts so that you have better insights in your Google Analytics and you can start running Smart shopping campaigns.
-4. Select existing Google Merchant Center or create a new Google Merchant Center account to verify the site and to claim the domain for your Merchant center account approval and Opt your product data into programmes, like surfaces across Google, Shopping ads, local inventory ads and Shopping Actions, to highlight your products to shoppers across Google.
-5. Product sync dashboard when no products are synced to your Google Merchant center account.
-6. Map your WooCommerce product categories with Google Merchant center categories
-7. Map your WooCommerce product attributes with Google Merchant center product attributes to sync/add/update products in your Merchant Center account from Wordpress backend.
-8. Product sync dashboard when the products are synced in your merchant center account.
-9. Create a smart shopping campaign by filling two details once you connect your Google Ads and Google Merchant center accounts A Campaign name B Daily budget.
-10. Google Analytics 4 dashboard 1 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 dashboard. The plugin captures all the data points related to eCommerce events.
-11. Google Analytics 4 dashboard 2 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 dashboard. The plugin captures all the data points related to eCommerce events.  
-12. Google Analytics 4--> Monetization 1 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Overview. The plugin captures all the data points related to eCommerce events.  
-13. Google Analytics 4--> Monetization 2 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Overview. The plugin captures all the data points related to eCommerce events.   
-14. Google Analytics 4 Monetization --> Ecommerce purchases Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Ecommerce purchases. The plugin captures all the data points related to eCommerce events.  
-15. Universal Analytics dashboard 1 Once you connect Google Analytics (Universal Analytics) property from the plugin, your WooCommerce store's data will look like this in your Google Analytics dashboard. The plugin captures all the data points related to eCommerce events.
-16. Universal Analytics-->Conversion-->Ecommerce-->Overview Your Google Analytics account will start reflecting data as shown in the screenshot.
-17. Universal Analytics-->Conversion-->Ecommerce-->Shopping Behavior Your Google Analytics account will start reflecting data as shown in the screenshot.
-18. Universal Analytics-->Conversion-->Ecommerce-->Sales Performance Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you data related to purchase events that are triggered on your WooCommerce shop.
-19. Universal Analytics-->Conversion-->Ecommerce-->Product Performance Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you data related to products that are triggered on your WooCommerce shop.
-20. Universal Analytics-->Conversion-->Ecommerce-->Checkout Behavior Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you how users are navigating to your checkout.
+1. Actionable dashboard which displays the key metrics that help your eCommerce business scale faster.
+2. Ecommerce conversion and checkout funnel reports that help you to visualize user journeys from the Home page to order confirmation.
+3. Product performance report helps you with informed merchandising decisions to further increase your revenue.
+4. This is the main onboarding page of the plugin where you can connect the Google Analytics, Google Ads, Google Merchnat center ids. Also, on this page, you can create new Google Ads and merchant center ids if they are not yet created for your business.
+5. This is the main settings page of the plugin from where you can sign in to connect your Google Analytics, Google Ads and Google Merchant Center account.
+6. Product sync dashboard when no products are synced to your Google Merchant center account.
+7. Map your WooCommerce product categories with Google Merchant center categories
+8. Map your WooCommerce product attributes with Google Merchant center product attributes to sync/add/update products in your Merchant Center account from Wordpress backend.
+9. Product sync dashboard when the products are synced in your merchant center account.
+10. Create a smart shopping campaign by filling two details once you connect your Google Ads and Google Merchant center accounts A Campaign name B Daily budget.
+11. Google Analytics 4 dashboard 1 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 dashboard. The plugin captures all the data points related to eCommerce events.
+12. Google Analytics 4 dashboard 2 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 dashboard. The plugin captures all the data points related to eCommerce events.  
+13. Google Analytics 4--> Monetization 1 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Overview. The plugin captures all the data points related to eCommerce events.  
+14. Google Analytics 4--> Monetization 2 Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Overview. The plugin captures all the data points related to eCommerce events.   
+15. Google Analytics 4 Monetization --> Ecommerce purchases Once you connect Google Analytics 4 property from the plugin, your WooCommerce store's data will look like this in your Google Analytics 4 under Monetization --> Ecommerce purchases. The plugin captures all the data points related to eCommerce events.  
+16. Universal Analytics dashboard 1 Once you connect Google Analytics (Universal Analytics) property from the plugin, your WooCommerce store's data will look like this in your Google Analytics dashboard. The plugin captures all the data points related to eCommerce events.
+17. Universal Analytics-->Conversion-->Ecommerce-->Overview Your Google Analytics account will start reflecting data as shown in the screenshot.
+18. Universal Analytics-->Conversion-->Ecommerce-->Shopping Behavior Your Google Analytics account will start reflecting data as shown in the screenshot.
+19. Universal Analytics-->Conversion-->Ecommerce-->Sales Performance Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you data related to purchase events that are triggered on your WooCommerce shop.
+20. Universal Analytics-->Conversion-->Ecommerce-->Product Performance Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you data related to products that are triggered on your WooCommerce shop.
+21. Universal Analytics-->Conversion-->Ecommerce-->Checkout Behavior Your Google Analytics account will start reflecting data as shown in the screenshot. This report shows you how users are navigating to your checkout.
 
 == Frequently Asked Questions ==
 
@@ -379,6 +379,48 @@ You can resolve the duplication of data by removing the manually implemented GA 
 
 
 == Changelog ==
+
+= 4.3.3 - 14/10/2021 =
+
+* Performance enhancement for product sync
+
+= 4.3.2 - 13/10/2021 =
+
+* We have fixed the admin notice issue which was raised by some users.
+
+= 4.3.1 - 08/10/2021 =
+
+* Pricing plans are updated in the UI
+
+* Performance enhancement for dashboard API
+
+= 4.3.0 - 29/09/2021 =
+
+* We have added Campaign performance data in the dashboard. This will allow you to have visibility on your Google ads campaigns. It will show you clicks, cost, conversions, and sales like important metric for each campaign so that you can take informed decisions to increase your marketing ROI.
+
+* Enhanced Google authentication flow in order to manage expiry of tokens.
+
+* Resolved some bugs on the onboarding page for better performance
+
+= 4.2.1 - 21/09/2021 =
+
+* Enhancements on reporting dashboard
+
+* Some users were facing issue with regarding tvc_lc
+
+* client_id issue is fixed now
+
+= 4.2.0 - 20/09/2021 =
+
+* In this release, we have rolled out the most demanded feature by you all - Reporting dashboard. Reporting dashboard will showcase all the important e-commerce KPI reports in the plugin's UI.
+
+* Plugin UI enhancements
+
+* Performance enhancements and bug fixes
+
+= 4.1.3 - 06/09/2021 =
+
+* Domain claim notice issue is resolved
 
 = 4.1.2 - 02/09/2021 =
 

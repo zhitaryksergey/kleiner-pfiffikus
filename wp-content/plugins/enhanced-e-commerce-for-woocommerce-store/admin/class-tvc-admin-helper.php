@@ -242,13 +242,13 @@ Class TVC_Admin_Helper{
     	}
     	$syncProduct_list_res = $this->customApiObj->getSyncProductList($args);
     	if(isset($syncProduct_list_res->data) && isset($syncProduct_list_res->status) && $syncProduct_list_res->status == 200){
-    		if (isset($syncProduct_list_res->data->products)) {
+    		if(isset($syncProduct_list_res->data->products)){
     			$rs_next_page_token = $syncProduct_list_res->data->nextPageToken;
 					$sync_product_list = $syncProduct_list_res->data->products;
 					if(!empty($sync_product_list)){
-						foreach ($sync_product_list as $key => $value) {
+						foreach($sync_product_list as $key => $value) {
 							$googleStatus =$value->googleStatus;
-							if ($value->googleStatus != "disapproved" && $value->googleStatus != "approved") {
+							if($value->googleStatus != "disapproved" && $value->googleStatus != "approved") {
                 $googleStatus = "pending";
               } 
 							$t_data = array(
@@ -413,6 +413,17 @@ Class TVC_Admin_Helper{
 			return $this->connect_url;
 		}else{
 			$this->connect_url = "https://".TVC_AUTH_CONNECT_URL."/config/ga_rdr_gmc.php?return_url=".TVC_AUTH_CONNECT_URL."/config/ads-analytics-form.php?domain=" . $this->get_connect_actual_link() . "&amp;country=" . $this->get_woo_country(). "&amp;user_currency=".$this->get_woo_currency()."&amp;subscription_id=" . $this->get_subscriptionId() . "&amp;confirm_url=" . admin_url() . "&amp;timezone=".$this->get_time_zone();
+			return $this->connect_url;
+		}
+	}
+	public function get_custom_connect_url($confirm_url = ""){
+		if(!empty($this->connect_url)){
+			return $this->connect_url;
+		}else{
+			if($confirm_url == ""){
+				$confirm_url = admin_url();
+			}
+			$this->connect_url = "https://".TVC_AUTH_CONNECT_URL."/config/ga_rdr_gmc.php?return_url=".TVC_AUTH_CONNECT_URL."/config/ads-analytics-form.php?domain=" . $this->get_connect_actual_link() . "&amp;country=" . $this->get_woo_country(). "&amp;user_currency=".$this->get_woo_currency()."&amp;subscription_id=" . $this->get_subscriptionId() . "&amp;confirm_url=" . $confirm_url . "&amp;timezone=".$this->get_time_zone();
 			return $this->connect_url;
 		}
 	}
@@ -655,10 +666,10 @@ Class TVC_Admin_Helper{
         }else if($googleDetail->is_site_verified ==0 ){
              $setting_status['google_shopping_conf']= false;
              $setting_status['google_shopping_conf_msg']= "Site verification and domain claim for your merchant center account failed.";
-        }else if($googleDetail->is_domain_claim ==0 ){
+        }/*else if($googleDetail->is_domain_claim ==0 ){
             $setting_status['google_shopping_conf']= false;
             $setting_status['google_shopping_conf_msg']= "Domain claim is pending. Your store url may be linked to other merchant center account.";
-        }                                      
+        } */                                     
       }else{
           $setting_status['google_shopping_conf']= false;
           $missing="";
@@ -751,25 +762,39 @@ Class TVC_Admin_Helper{
 
 	public function call_tvc_site_verified_and_domain_claim(){   
     $google_detail = $this->get_ee_options_data();
-    $class = 'notice notice-error tvc-notice-error';
     if(!isset($_GET['welcome_msg']) && isset($google_detail['setting']) && $google_detail['setting'] ){    
       $googleDetail = $google_detail['setting'];
+
       if(isset($googleDetail->google_merchant_center_id) && $googleDetail->google_merchant_center_id){
-	      $message = "";
+	      $title = "";
+	      $notice_text ="";
 	      $call_js_function_args="";
 	      if (isset($googleDetail->is_site_verified) && isset($googleDetail->is_domain_claim) && $googleDetail->is_site_verified == '0' && $googleDetail->is_domain_claim == '0') {
-	        $message = esc_html__('Site verification and domain claim for merchant center account failed. Without a verified and claimed website, your products will get disapproved.');
+	      	$title = "Site verification and Domain claim for merchant center account failed.";
+	        $message = "Without a verified  and claimed website, your product will get disapproved.";
 	        $call_js_function_args = "both";
 	      }else if(isset($googleDetail->is_site_verified) && $googleDetail->is_site_verified == '0'){
-	        $message = esc_html__('Site verification and domain claim for merchant center account failed. Without a verified and claimed website, your products will get disapproved.');
+	        $title = "Site verification for merchant center account failed.";
+	        $message = "Without a verified  and claimed website, your product will get disapproved.";
 	        $call_js_function_args = "site_verified";
 	      }else if(isset($googleDetail->is_domain_claim) && $googleDetail->is_domain_claim == '0'){
-	        $message = esc_html__('Domain claim for merchant center account failed. Without a verified and claimed website, your products will get disapproved.'); 
+	        $title = "Site verification for merchant center account failed.";
+	        $message = "Without a verified  and claimed website, your product will get disapproved.";
 	        $call_js_function_args = "domain_claim";       
 	      }
-	      if($message!= ""){
-	      	printf('<div class="%1$s"><p><b>%2$s Click <a href="javascript:void(0)" id="call_both_verification" onclick="call_tvc_site_verified_and_domain_claim(\'%3$s\');">here</a></b> to verify and claim the domain.</p></div>', esc_attr($class), esc_html($message),$call_js_function_args);
+	      if($message!= "" && $title != ""){
 	      	?>
+	      	<div class="errormsgtopbx claimalert">
+		      	<div class="errmscntbx">
+		          <div class="errmsglft">
+		             <span class="errmsgicon"><img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/error-white-icon.png'; ?>" alt="error" /></span>
+		          </div>
+		          <div class="erralertrigt">
+		            <h6><?php echo $title; ?></h6>
+		            <p><?php echo $message; ?> <a href="javascript:void(0)" id="call_both_verification" onclick="call_tvc_site_verified_and_domain_claim('<?php echo $call_js_function_args; ?>');">Click here</a> to verify and claim the domain.</p>
+		          </div>
+		       </div>
+		  		</div>
 	      	<script>
 	      		function call_tvc_site_verified_and_domain_claim(call_args){
 	      			var tvs_this = event.target;
@@ -778,9 +803,8 @@ Class TVC_Admin_Helper{
 	      			if(call_args == "domain_claim"){
 	      				call_domain_claim_both();
 	      			}else{
-		      			jQuery.post(myAjaxNonces.ajaxurl,{
-						      action: "tvc_call_site_verified",
-						      apiDomainClaimNonce: myAjaxNonces.SiteVerifiedNonce
+		      			jQuery.post(tvc_ajax_url,{
+						      action: "tvc_call_site_verified"
 						    },function( response ){
 						      var rsp = JSON.parse(response);    
 						      if(rsp.status == "success"){ 
@@ -799,9 +823,8 @@ Class TVC_Admin_Helper{
 	      		}
 	      		function call_domain_claim_both(first_message=null){
 	      			//console.log("call_domain_claim");				    
-					    jQuery.post(myAjaxNonces.ajaxurl,{
-					      action: "tvc_call_domain_claim",
-					      apiDomainClaimNonce: myAjaxNonces.apiDomainClaimNonce
+					    jQuery.post(tvc_ajax_url,{
+					      action: "tvc_call_domain_claim"
 					    },function( response ){
 					      var rsp = JSON.parse(response);    
 					      if(rsp.status == "success"){
@@ -818,7 +841,7 @@ Class TVC_Admin_Helper{
 						        }, 4000);
 						      }				        
 					      }else{
-					        tvc_helper.tvc_alert("error","",rsp.message,true)
+					        tvc_helper.tvc_alert("error","",rsp.message,true,10000)
 					      }
 					      $("#both_verification-spinner").remove();
 					    });
@@ -1078,6 +1101,10 @@ Class TVC_Admin_Helper{
   	return "https://conversios.io/pricings/";
   }
 
+  public function get_conversios_site_url(){
+  	return "https://conversios.io/";
+  }
+
   public function is_ga_property(){
   	$data = $this->get_ee_options_settings();
 	  $is_connected = false;
@@ -1104,6 +1131,44 @@ Class TVC_Admin_Helper{
 			}
 			return $this->plan_id = $plan_id;
   	}
+	}
+
+	/*
+   * get user plan id
+   */
+  public function get_user_subscription_data(){  	
+			$google_detail = $this->get_ee_options_data();
+	  	if(isset($google_detail['setting'])){
+			   return $google_detail['setting'];
+			}  	
+	}
+
+	/*
+   * conver curency code to currency symbols
+   */
+	public function get_currency_symbols($code){
+		$currency_symbols = array(
+		    'USD'=>'$', // US Dollar
+		    'EUR'=>'€', // Euro
+		    'CRC'=>'₡', // Costa Rican Colón
+		    'GBP'=>'£', // British Pound Sterling
+		    'ILS'=>'₪', // Israeli New Sheqel
+		    'INR'=>'₹', // Indian Rupee
+		    'JPY'=>'¥', // Japanese Yen
+		    'KRW'=>'₩', // South Korean Won
+		    'NGN'=>'₦', // Nigerian Naira
+		    'PHP'=>'₱', // Philippine Peso
+		    'PLN'=>'zł', // Polish Zloty
+		    'PYG'=>'₲', // Paraguayan Guarani
+		    'THB'=>'฿', // Thai Baht
+		    'UAH'=>'₴', // Ukrainian Hryvnia
+		    'VND'=>'₫' // Vietnamese Dong
+		);
+		if(isset($currency_symbols[$code]) && $currency_symbols[$code] != "") {
+		  return $currency_symbols[$code];
+		}else{
+			return $code;
+		}
 	}
   
 }

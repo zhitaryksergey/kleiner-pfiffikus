@@ -21,7 +21,7 @@ if ( ! class_exists( 'TVCProductSyncHelper' ) ) {
 			$this->currentCustomerId = $this->TVC_Admin_Helper->get_currentCustomerId();
 			$this->subscriptionId = $this->TVC_Admin_Helper->get_subscriptionId();
 			$this->country = $this->TVC_Admin_Helper->get_woo_country();
-			$this->site_url = "admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=";
+			$this->site_url = "admin.php?page=conversios-google-shopping-feed&tab=";
 			add_action('admin_init', array($this,'add_table_in_db'));
 		}
 		public function includes(){
@@ -540,65 +540,73 @@ if ( ! class_exists( 'TVCProductSyncHelper' ) ) {
 	        },
 	        success: function(response){
 	        	console.log(response);
-	        	jQuery("#feed-spinner").css("display", "none");
-	        	//var rs = JSON.parse(response);
-	        	let sync_produt_p = Math.round(response.sync_progressive_data.sync_produt_p);
-	        	let total_product = response.sync_progressive_data.total_product;
-	        	let sync_produt = response.sync_progressive_data.sync_produt;
-	        	let sync_message = response.sync_progressive_data.sync_message;
-	        	let sync_step = response.sync_progressive_data.sync_step;
-	        	let is_synced_up = response.sync_progressive_data.is_synced_up;
-	        	let last_sync_product_id = response.sync_progressive_data.last_sync_product_id;
-	        	let skip_products = response.sync_progressive_data.last_sync_product_id;
-	        	let tvc_sync_progress_bar_class = "tvc-sync-progress-bar";
-	        	if(sync_step == 1){
-	        		jQuery(".tvc-sync-progress-db").css("display","flex");
-	        	}else if(sync_step == 2){
-	        		jQuery(".tvc-sync-progress-db").hide();
-	        		jQuery(".tvc-sync-progress-gmc").css("display","flex");
-	        		tvc_sync_progress_bar_class = "tvc-sync-success-progress-bar";
-	        	}
-	        	
-	        	jQuery("."+tvc_sync_progress_bar_class).css("width",sync_produt_p+"%");
-	        	jQuery("."+tvc_sync_progress_bar_class).html(sync_produt_p+"%");
-	        	jQuery("."+tvc_sync_progress_bar_class).attr("aria-valuenow",sync_produt_p);
-	        	jQuery(".tvc-progress-info").show();
-	        	jQuery(".tvc-sync-count").html(sync_produt);
-	        	jQuery(".tvc-total-count").html(total_product);
-	        	jQuery(".tvc-sync-message").html(sync_message);
-	        	if(sync_step == 1 &&  is_synced_up == true){
-	        		is_synced_up = false;
-	        	}
 
-	        	if(is_synced_up == false && sync_step <= 2){
-	        		submitProductSyncUp(response.sync_progressive_data);
-	        	}else if(sync_step == 2 ){
-	        		setTimeout(function(){
-	        			$('.progress-bar-wapper').removeClass('open');
-	        			jQuery(".tvc-sync-progress-bar").css("width","0%");
-	        			jQuery(".tvc-sync-success-progress-bar").css("width","0%");
-	        			jQuery(".tvc-sync-progress-bar").html("0%");
-	        			jQuery(".tvc-sync-success-progress-bar").html("0%");
-	        			jQuery(".tvc-sync-progress-bar").attr("aria-valuenow","0");
-	        			jQuery(".tvc-sync-success-progress-bar").attr("aria-valuenow","0");
-	        			jQuery(".tvc-sync-count").html("0");
-	        			jQuery(".tvc-total-count").html("--");
-	        			jQuery(".tvc-sync-message").html("Initialization of products data for push data in Google shopping");
-	        			if (response.api_rs.error == false) {
-		        			var message = "Your products have been synced in your merchant center account. It takes up to 30 minutes to reflect the product data in merchant center. As soon as they are updated, they will be shown in the \"Product Sync\" dashboard.";
-				          if (response.sync_progressive_data.skip_products.length > 0) {
-				            message = message + "\n Because of pricing issues, " + response.sync_progressive_data.skip_products.length + " products did not sync.";
-				          }
-				          tvc_helper.tvc_alert("success","",message);			          
-				          window.location.replace("<?php echo $this->site_url.'sync_product_page'; ?>");
-				        }else {
-					        tvc_helper.tvc_alert("error","",response.api_rs.message);
-					      }			          
-	        		}, 2000);
-	        		setTimeout(function(){
-	        			//window.location.replace("<?php echo $this->site_url.'sync_product_page'; ?>");
-	        		}, 7000);
-	        	}
+	        	jQuery("#feed-spinner").css("display", "none");
+            if(response.status == "success"){
+  	        	//var rs = JSON.parse(response);
+  	        	let sync_produt_p = Math.round(response.sync_progressive_data.sync_produt_p);
+  	        	let total_product = response.sync_progressive_data.total_product;
+  	        	let sync_produt = response.sync_progressive_data.sync_produt;
+  	        	let sync_message = response.sync_progressive_data.sync_message;
+  	        	let sync_step = response.sync_progressive_data.sync_step;
+  	        	let is_synced_up = response.sync_progressive_data.is_synced_up;
+  	        	let last_sync_product_id = response.sync_progressive_data.last_sync_product_id;
+  	        	let skip_products = response.sync_progressive_data.last_sync_product_id;
+  	        	let tvc_sync_progress_bar_class = "tvc-sync-progress-bar";
+  	        	if(sync_step == 1){
+  	        		jQuery(".tvc-sync-progress-db").css("display","flex");
+  	        	}else if(sync_step == 2){
+  	        		jQuery(".tvc-sync-progress-db").hide();
+  	        		jQuery(".tvc-sync-progress-gmc").css("display","flex");
+  	        		tvc_sync_progress_bar_class = "tvc-sync-success-progress-bar";
+  	        	}
+  	        	
+  	        	jQuery("."+tvc_sync_progress_bar_class).css("width",sync_produt_p+"%");
+  	        	jQuery("."+tvc_sync_progress_bar_class).html(sync_produt_p+"%");
+  	        	jQuery("."+tvc_sync_progress_bar_class).attr("aria-valuenow",sync_produt_p);
+  	        	jQuery(".tvc-progress-info").show();
+  	        	jQuery(".tvc-sync-count").html(sync_produt);
+  	        	jQuery(".tvc-total-count").html(total_product);
+  	        	jQuery(".tvc-sync-message").html(sync_message);
+  	        	if(sync_step == 1 &&  is_synced_up == true){
+  	        		is_synced_up = false;
+  	        	}
+
+  	        	if(is_synced_up == false && sync_step <= 2){
+  	        		submitProductSyncUp(response.sync_progressive_data);
+  	        	}else if(sync_step == 2 ){
+  	        		setTimeout(function(){
+  	        			$('.progress-bar-wapper').removeClass('open');
+  	        			jQuery(".tvc-sync-progress-bar").css("width","0%");
+  	        			jQuery(".tvc-sync-success-progress-bar").css("width","0%");
+  	        			jQuery(".tvc-sync-progress-bar").html("0%");
+  	        			jQuery(".tvc-sync-success-progress-bar").html("0%");
+  	        			jQuery(".tvc-sync-progress-bar").attr("aria-valuenow","0");
+  	        			jQuery(".tvc-sync-success-progress-bar").attr("aria-valuenow","0");
+  	        			jQuery(".tvc-sync-count").html("0");
+  	        			jQuery(".tvc-total-count").html("--");
+  	        			jQuery(".tvc-sync-message").html("Initialization of products data for push data in Google shopping");
+  	        			if (response.api_rs.error == false) {
+  		        			var message = "Your products have been synced in your merchant center account. It takes up to 30 minutes to reflect the product data in merchant center. As soon as they are updated, they will be shown in the \"Product Sync\" dashboard.";
+  				          if (response.sync_progressive_data.skip_products.length > 0) {
+  				            message = message + "\n Because of pricing issues, " + response.sync_progressive_data.skip_products.length + " products did not sync.";
+  				          }
+  				          tvc_helper.tvc_alert("success","",message);			          
+  				          window.location.replace("<?php echo $this->site_url.'sync_product_page'; ?>");
+  				        }else {
+  					        tvc_helper.tvc_alert("error","",response.api_rs.message);
+  					      }			          
+  	        		}, 2000);
+  	        		setTimeout(function(){
+  	        			//window.location.replace("<?php echo $this->site_url.'sync_product_page'; ?>");
+  	        		}, 7000);
+  	        	}
+            }else{
+              tvc_helper.tvc_alert("error","",response.message);
+              setTimeout(function(){
+                window.location.replace("<?php echo $this->site_url.'sync_product_page'; ?>");
+              }, 2000);
+            }
 	          //console.log(response);      
 	        }
 		    });               
@@ -652,13 +660,12 @@ if ( ! class_exists( 'TVCProductSyncHelper' ) ) {
 			  var customer_id = '<?php echo $this->currentCustomerId?>';
 			  var parent = "";
 			  jQuery.post(
-			    myAjaxNonces.ajaxurl,
+			    tvc_ajax_url,
 			    {
 			      action: "tvcajax-gmc-category-lists",
 			      countryCode: country_id,
 			      customerId: customer_id,
-			      parent: parent,
-			      gmcCategoryListsNonce: myAjaxNonces.gmcCategoryListsNonce
+			      parent: parent
 			    },
 			    function( response ) {
 			      var categories = JSON.parse(response);
@@ -695,13 +702,12 @@ if ( ! class_exists( 'TVCProductSyncHelper' ) ) {
 			  	var country_id = "<?php echo $this->country; ?>";
 			    var customer_id = '<?php echo $this->currentCustomerId?>';
 			  	jQuery.post(
-			      myAjaxNonces.ajaxurl,
+			      tvc_ajax_url,
 			      {
 			        action: "tvcajax-gmc-category-lists",
 			        countryCode: country_id,
 			        customerId: customer_id,
-			        parent: GmcParent,
-			        gmcCategoryListsNonce: myAjaxNonces.gmcCategoryListsNonce
+			        parent: GmcParent
 			      },
 			      function( response ) {
 			        var categories = JSON.parse(response);

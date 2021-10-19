@@ -58,7 +58,7 @@ class TaxItem extends Item implements TaxContainable {
 	}
 
 	public function set_round_tax_at_subtotal( $round_tax ) {
-		$this->set_prop( 'round_tax_at_subtotal', wc_string_to_bool( $round_tax ) );
+		$this->set_prop( 'round_tax_at_subtotal', sab_string_to_bool( $round_tax ) );
 	}
 
 	public function round_tax_at_subtotal() {

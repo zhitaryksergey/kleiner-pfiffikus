@@ -541,6 +541,7 @@ add_filter( 'storeabill_blocks_html', 'prepend_attachment' );
 
 add_filter( 'storeabill_blocks_html', 'sab_blocks_convert_shortcodes', 11 );
 add_filter( 'storeabill_blocks_html', 'do_shortcode', 12 ); // AFTER wpautop()
+add_filter( 'storeabill_blocks_html', 'sab_blocks_convert_rgba', 13 );
 
 add_filter( 'render_block_data', '_sab_parse_block_filter', 150, 2 );
 add_filter( 'pre_render_block', '_sab_maybe_render_block_filter', 150, 2 );
@@ -642,6 +643,15 @@ function sab_load_html_dom( $html ) {
 	libxml_clear_errors();
 
 	return $dom;
+}
+
+function sab_blocks_convert_rgba( $content ) {
+	/**
+	 * mPDF does not handle alpha transparency for texts - remove transparent 0, 0, 0, 0 placeholder with explicit value
+	 */
+	$content = str_replace( 'rgba(0, 0, 0, 0)', 'transparent', $content );
+
+	return $content;
 }
 
 /**
@@ -1025,4 +1035,8 @@ function sab_get_base_bank_account_data( $field = '' ) {
 	} else {
 		return array_key_exists( $field, $data ) ? $data[ $field ] : '';
 	}
+}
+
+function sab_get_wildcard_postcodes( $postcode, $country = '' ) {
+	return wc_get_wildcard_postcodes( $postcode, $country );
 }

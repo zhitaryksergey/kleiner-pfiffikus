@@ -324,7 +324,7 @@ class AddCampaign {
     var customer_id = "<?php echo $this->currentCustomerId; ?>";
     jQuery('#feed-spinner').css('display', 'block');
     jQuery.post(
-      myAjaxNonces.ajaxurl,
+      tvc_ajax_url,
       {
           action: 'tvcajax-get-campaign-categories',
           countryCode: sales_country,

@@ -146,7 +146,7 @@ $(document).ready(function () {
       $.ajax({
         type: "POST",
         dataType: "json",
-        url: myAjaxNonces.ajaxurl,
+        url: tvc_ajax_url,
         data: data,
         beforeSend: function(){
           tvc_helper.loaderSection(true);

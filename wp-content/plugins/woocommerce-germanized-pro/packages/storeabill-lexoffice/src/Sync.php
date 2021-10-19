@@ -678,7 +678,7 @@ class Sync extends SyncHandler {
 			'eu_revenues'             => '7c112b66-0565-479c-bc18-5845e080880a',
 			'eu_digital'              => 'd73b880f-c24a-41ea-a862-18d90e1c3d82',
 			'eu_revenues_oss'         => '4ebd965a-7126-416c-9d8c-a5c9366ee473',
-			'eu_digital_oss'          => 'efa82f40-fd85-11e1-a21f-0800200c9a66',
+			'eu_digital_oss'          => '7ecea006-844c-4c98-a02d-aa3142640dd5',
 		);
 
 		$default_category_name = 'revenues';

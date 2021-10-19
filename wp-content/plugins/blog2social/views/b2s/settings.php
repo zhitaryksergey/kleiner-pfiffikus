@@ -197,7 +197,7 @@ require_once (B2S_PLUGIN_DIR . 'views/b2s/html/footer.php');
                 <h4 class="modal-title"><?php esc_html_e('Personal Time Zone', 'blog2social') ?></h4>
             </div>
             <div class="modal-body">
-<?php esc_html_e('Blog2Social applies the scheduled time settings based on the time zone defined in the general settings of your WordPress. YYou can select a user-specific time zone that deviates from the Wordpress system time zone for your social media scheduling. To do this, select the desired time zone 24h or 12h (am/pm), by simply clicking on the button.', 'blog2social') ?>
+<?php esc_html_e('Blog2Social applies the scheduled time settings based on the time zone defined in the general settings of your WordPress. You can select a user-specific time zone that deviates from the Wordpress system time zone for your social media scheduling. To do this, select the desired time zone 24h or 12h (am/pm), by simply clicking on the button.', 'blog2social') ?>
             </div>
         </div>
     </div>

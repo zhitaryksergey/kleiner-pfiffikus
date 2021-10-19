@@ -12,6 +12,7 @@ body{
 	background: #f1f1f1 !important;
 }
 .update-nag, .updated, .error, .is-dismissible, .notice { display: none!important; }
+.tvc-notice-error{display: block!important;}
 .popover{
 	max-width:500px !important;
 }
@@ -355,7 +356,7 @@ button.tvc_animate_btn:hover::after, button.tvc_animate_btn:focus::after {
    padding: 0 1.4rem 0 1rem;
   margin: 10px 14px 0 2px;
 }
-.tvc_plugin_container .modal-dialog{ max-width: 700px;}
+.conversios-body-part .modal-dialog{ max-width: 700px;}
 .change_prodct_feed_cat {text-decoration: underline; transition: all ease 0.5s; color: #03a2b7; margin-left: 10px; cursor: pointer;}
 .config-head-active a{ color: #fff !important;}
 #staticBackdrop .modal-body, #tvc_google_connect .modal-body{padding: 2rem;}

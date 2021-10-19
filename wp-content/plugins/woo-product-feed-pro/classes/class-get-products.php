@@ -2505,8 +2505,10 @@ class WooSEA_Get_Products {
 				}
 				$primary_cat_id = get_post_meta( $item_id, 'rank_math_primary_product_cat', true );
 				if ( $primary_cat_id ) {
-    					$product_cat = get_term( $primary_cat_id, 'product_cat' );
-					$product_data['one_category'] = $product_cat->name;
+					$product_cat = get_term( $primary_cat_id, 'product_cat' );
+					if(!empty($product_cat->name)){
+						$product_data['one_category'] = $product_cat->name;
+					}
 				}	
 			}	
 
@@ -2574,6 +2576,8 @@ class WooSEA_Get_Products {
 			}
 
 			$product_data['condition'] = ucfirst( get_post_meta( $product_data['id'], '_woosea_condition', true ) );
+			$product_data['purchase_note'] = get_post_meta( $product_data['id'], '_purchase_note' );
+
 			if(empty($product_data['condition']) || $product_data['condition'] == "Array"){
 				$product_data['condition'] = "New";
 			}
@@ -2625,10 +2629,38 @@ class WooSEA_Get_Products {
 			$product_data['image_all'] = $product_data['image'];
 			$product_data['all_images'] = $product_data['image'];
 			$product_data['all_gallery_images'] = "";
-	
-			// For variable products I need to get the product gallery images of the simple mother product	
+			$product_data['product_type'] = $product->get_type();
+
+			// Get the number of active variations that are on stock for variable products
+			if(($product_data['item_group_id'] > 0) AND ($product_data['product_type'] == "variation")){
+				$parent_product = wc_get_product( $product_data['item_group_id'] );
+
+				if(is_object($parent_product)){
+					$current_products = $parent_product->get_children();
+					$product_data['nr_variations'] = count( $current_products );
+					$vcnt = 0;
+
+					foreach ($current_products as $ckey => $cvalue){
+                                     		$stock_value = get_post_meta( $cvalue, "_stock_status", true );
+                                        	if($stock_value == "instock"){
+							$vcnt++;
+
+						}
+					}
+					$product_data['nr_variations_stock'] = $vcnt;
+				} else {
+					$product_data['nr_variations'] = 9999;
+					$product_data['nr_variations_stock'] = 9999;
+				}
+			} else {
+				$product_data['nr_variations'] = 9999;
+				$product_data['nr_variations_stock'] = 9999;
+			}
+
+			// For variable products I need to get the product gallery images of the simple mother product
 			if($product_data['item_group_id'] > 0){
 				$parent_product = wc_get_product( $product_data['item_group_id'] );
+
 				if(is_object($parent_product)){
 					$gallery_ids = $parent_product->get_gallery_image_ids();
 					$product_data['image_all'] = wp_get_attachment_url($parent_product->get_image_id());
@@ -2654,7 +2686,6 @@ class WooSEA_Get_Products {
                       	$product_data['all_images'] = ltrim($product_data['all_images'],',');
                      	$product_data['all_images_kogan'] = preg_replace( '/,/', '|', $product_data['all_images'] );
                       	$product_data['all_gallery_images'] = ltrim($product_data['all_gallery_images'],',');
-			$product_data['product_type'] = $product->get_type();
 
 			$product_data['content_type'] = "product";
 			if($product_data['product_type'] == "variation"){
@@ -2823,9 +2854,17 @@ class WooSEA_Get_Products {
 						$product_data['regular_price'] = $custom_prices['_regular_price'];
 					}
 
-					if($custom_prices['_sale_price'] > 0){
-						$product_data['sale_price'] = $custom_prices['_sale_price'];
-					}
+                                    	if(isset($custom_prices['_sale_price'])){
+                                       		if($custom_prices['_sale_price'] > 0){
+                                                	$product_data['sale_price'] = $custom_prices['_sale_price'];
+                                             	} else {
+                                              		// Unset these values as WCML prices have been filled in manually
+                                                     	unset($product_data['sale_price']);
+                                                    	unset($product_data['system_regular_price']);
+                                                    	unset($product_data['system_price']);
+                                                    	unset($product_data['system_sale_price']);
+                                           	}
+                                   	}
 				}
 			}
 	
@@ -3067,8 +3106,12 @@ class WooSEA_Get_Products {
 			}
 
 			// Calculate discount percentage
-			if($product_data['sale_price'] > 0){
-				$product_data['discount_percentage'] = round(100-(((float)$product_data['sale_price']/(float)$product_data['regular_price'])*100),2);
+			if(isset($product_data['rounded_sale_price'])){
+				if($product_data['rounded_regular_price'] > 0){
+                                	$disc = round(($product_data['rounded_sale_price'] * 100) / $product_data['rounded_regular_price'], 2);
+                                	$product_data['discount_percentage']  = 100-$disc;
+                                	//$product_data['discount_percentage'] = round(100-(($product_data['sale_price']/$product_data['regular_price'])*100),2);
+				}	
 			}
 
 			foreach($project_config['attributes'] as $attr_key => $attr_arr){
@@ -3275,95 +3318,100 @@ class WooSEA_Get_Products {
 			/**
 			 * Get Custom Attributes for Single, Bundled and Composite products
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('external')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product_data['product_type'] == "variable") OR ($product_data['product_type'] == "auction") OR ($product->is_type('subscription'))){
+			if (($product->is_type('simple')) OR ($product->is_type('woosb')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('external')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product_data['product_type'] == "variable") OR ($product_data['product_type'] == "auction") OR ($product->is_type('subscription'))){
 				$custom_attributes = $this->get_custom_attributes( $product_data['id'] );
 
-				if(!in_array("woosea optimized title", $custom_attributes)){
-					$woosea_opt = array (
-						"_woosea_optimized_title" =>  "woosea optimized title",
-					);
-					$custom_attributes = array_merge($custom_attributes, $woosea_opt);
-				}
+				if(is_array($custom_attributes)){
 
-                		if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
-                        		$custom_attributes['_aioseop_title'] = "All in one seo pack title";
-                        		$custom_attributes['_aioseop_description'] = "All in one seo pack description";
-                		}
 
-                                if ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
-                                        if(array_key_exists("yoast_gtin8", $custom_attributes)){
-                                                $product_data["yoast_gtin8"] = $custom_attributes["yoast_gtin8"];
-                                        }
-                                        if(array_key_exists("yoast_gtin12", $custom_attributes)){
-                                                $product_data["yoast_gtin12"] = $custom_attributes["yoast_gtin12"];
-                                        }       
-                                        if(array_key_exists("yoast_gtin13", $custom_attributes)){
-                                                $product_data["yoast_gtin13"] = $custom_attributes["yoast_gtin13"];
-                                        }       
-                                        if(array_key_exists("yoast_gtin14", $custom_attributes)){
-                                                $product_data["yoast_gtin14"] = $custom_attributes["yoast_gtin14"];
-                                        }       
-                                        if(array_key_exists("yoast_isbn", $custom_attributes)){
-                                                $product_data["yoast_isbn"] = $custom_attributes["yoast_isbn"];
-                                        }
-                                        if(array_key_exists("yoast_mpn", $custom_attributes)){
-                                                $product_data["yoast_mpn"] = $custom_attributes["yoast_mpn"];
-                                        }
-                                }
+					if(!in_array("woosea optimized title", $custom_attributes)){
+						$woosea_opt = array (
+							"_woosea_optimized_title" =>  "woosea optimized title",
+						);
+						$custom_attributes = array_merge($custom_attributes, $woosea_opt);
+					}
 
-				foreach($custom_attributes as $custom_kk => $custom_vv){
-    					$custom_value = get_post_meta( $product_data['id'], $custom_kk, true );
-					$new_key ="custom_attributes_" . $custom_kk;
+                			if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
+                        			$custom_attributes['_aioseop_title'] = "All in one seo pack title";
+                        			$custom_attributes['_aioseop_description'] = "All in one seo pack description";
+                			}
 
-					// This is a ACF image field (PLEASE NOTE: the ACF field needs to contain image or bild in the name)
-					if(preg_match("/image|bild/i", $custom_kk)) {
-						if (class_exists('ACF') AND ($custom_value > 0)) {
-							//$image = wp_get_attachment_image_src($custom_value, "large");
-							if(isset($image[0])){
-								$custom_value = $image[0];
+                                	if ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
+                                        	if(array_key_exists("yoast_gtin8", $custom_attributes)){
+                                                	$product_data["yoast_gtin8"] = $custom_attributes["yoast_gtin8"];
+                                        	}
+                                        	if(array_key_exists("yoast_gtin12", $custom_attributes)){
+                                                	$product_data["yoast_gtin12"] = $custom_attributes["yoast_gtin12"];
+                                        	}       
+                                        	if(array_key_exists("yoast_gtin13", $custom_attributes)){
+                                                	$product_data["yoast_gtin13"] = $custom_attributes["yoast_gtin13"];
+                                        	}       
+                                        	if(array_key_exists("yoast_gtin14", $custom_attributes)){
+                                                	$product_data["yoast_gtin14"] = $custom_attributes["yoast_gtin14"];
+                                        	}       
+                                        	if(array_key_exists("yoast_isbn", $custom_attributes)){
+                                                	$product_data["yoast_isbn"] = $custom_attributes["yoast_isbn"];
+                                        	}
+                                        	if(array_key_exists("yoast_mpn", $custom_attributes)){
+                                                	$product_data["yoast_mpn"] = $custom_attributes["yoast_mpn"];
+                                        	}
+                                	}
+
+					foreach($custom_attributes as $custom_kk => $custom_vv){
+    						$custom_value = get_post_meta( $product_data['id'], $custom_kk, true );
+						$new_key ="custom_attributes_" . $custom_kk;
+
+						// This is a ACF image field (PLEASE NOTE: the ACF field needs to contain image or bild in the name)
+						if(preg_match("/image|bild/i", $custom_kk)) {
+							if (class_exists('ACF') AND ($custom_value > 0)) {
+								//$image = wp_get_attachment_image_src($custom_value, "large");
+								if(isset($image[0])){
+									$custom_value = $image[0];
+								}	
 							}	
-						}	
-					}
+						}
 
-					// Just to make sure the title is never empty
-					if(($custom_kk == "_aioseop_title") && ($custom_value == "")){
-						$custom_value = $product_data['title'];
-					}
+						// Just to make sure the title is never empty
+						if(($custom_kk == "_aioseop_title") && ($custom_value == "")){
+							$custom_value = $product_data['title'];
+						}
 	
-					// Just to make sure the description is never empty
-					if(($custom_kk == "_aioseop_description") && ($custom_value == "")){
-						$custom_value = $product_data['description'];
-					}
+						// Just to make sure the description is never empty
+						if(($custom_kk == "_aioseop_description") && ($custom_value == "")){
+							$custom_value = $product_data['description'];
+						}
 
-					// Just to make sure product names are never empty
-					if(($custom_kk == "_woosea_optimized_title") && ($custom_value == "")){
-						$custom_value = $product_data['title'];
-					}
+						// Just to make sure product names are never empty
+						if(($custom_kk == "_woosea_optimized_title") && ($custom_value == "")){
+							$custom_value = $product_data['title'];
+						}
 					
-					// Just to make sure the condition field is never empty
-					if(($custom_kk == "_woosea_condition") && ($custom_value == "")){
-						$custom_value = $product_data['condition'];
-					}
+						// Just to make sure the condition field is never empty
+						if(($custom_kk == "_woosea_condition") && ($custom_value == "")){
+							$custom_value = $product_data['condition'];
+						}
 
-                                 	// Need to clean up the strange price Rightpress is returning
-                        		if ($this->woosea_is_plugin_active('wc-dynamic-pricing-and-discounts/wc-dynamic-pricing-and-discounts.php')){
-                                      		if($custom_kk == "rp_wcdpd_price_cache"){
-		  	              			if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
-								$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
-                          		      			$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $custom_value['sale_price']['p'], $from_currency, $project_config['AELIA']);
-							} else {
-								if(array_key_exists("price", $custom_value)){
-									$product_data['price'] = $custom_value['price']['p'];
-                                          			}
+                                 		// Need to clean up the strange price Rightpress is returning
+                        			if ($this->woosea_is_plugin_active('wc-dynamic-pricing-and-discounts/wc-dynamic-pricing-and-discounts.php')){
+                                      			if($custom_kk == "rp_wcdpd_price_cache"){
+		  	              				if((isset($project_config['AELIA'])) AND (!empty($GLOBALS['woocommerce-aelia-currencyswitcher'])) AND (get_option ('add_aelia_support') == "yes")){
+									$product_data['price'] = do_shortcode('[aelia_cs_product_price product_id="'.$product_data['id'].'" formatted="0" currency="'.$project_config['AELIA'].'"]');
+                          		      				$product_data['sale_price'] = apply_filters('wc_aelia_cs_convert', $custom_value['sale_price']['p'], $from_currency, $project_config['AELIA']);
+								} else {
+									if(array_key_exists("price", $custom_value)){
+										$product_data['price'] = $custom_value['price']['p'];
+                                          				}
 
-								if(array_key_exists("sale_price", $custom_value)){
-									$product_data['sale_price'] = $custom_value['sale_price']['p'];
-                	                  			}
+									if(array_key_exists("sale_price", $custom_value)){
+										$product_data['sale_price'] = $custom_value['sale_price']['p'];
+                	                  				}
+								}
 							}
 						}
+						$product_data[$new_key] = $custom_value;
+					
 					}
-					$product_data[$new_key] = $custom_value;
-				}
+				}	
 
 				/**
 				 * We need to check if this product has individual custom product attributes
@@ -3393,7 +3441,7 @@ class WooSEA_Get_Products {
 			 * Get Product Attributes for Single products 
 			 * These are the attributes users create themselves in WooCommerce
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product->is_type('auction') OR ($product->is_type('subscription')) OR ($product->is_type('variable')))){
+			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('woosb')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product->is_type('auction') OR ($product->is_type('subscription')) OR ($product->is_type('variable')))){
 				$single_attributes = $product->get_attributes();
 				foreach ($single_attributes as $attribute){
 						$attr_name = strtolower($attribute->get_name());
@@ -3410,9 +3458,6 @@ class WooSEA_Get_Products {
 					$product_data['image'] = $mother_image[0];
 				}
                        	}
-
-                        // Get product reviews for Google Product Review Feeds
-                        // $product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
 
 			/**
 			 * Versioned products need a seperate approach
@@ -3520,7 +3565,11 @@ class WooSEA_Get_Products {
 							$var_price = wc_format_localized_price($var_price);
 							$variation_prices = $mother_product->get_variation_prices();
 							$variation_prices_price = array_values($variation_prices['price']);
-							$lowest_price = min($variation_prices_price);
+						    	if(!empty($variation_prices_price)){
+                                                                $lowest_price = min($variation_prices_price);
+                                                        } else {
+                                                                $lowest_price = 0;
+                                                        }	
 
 							if(($var_price == $lowest_price) OR ($var_price == $variation_min_price) OR ($product_data['system_regular_price'] == $variation_min_price) OR ($product_data['system_net_price'] == $variation_min_price)){
 								$variation_pass = "true";
@@ -3899,12 +3948,41 @@ class WooSEA_Get_Products {
 			*/
 			$product_data['reviews'] = $this->woosea_get_reviews( $product_data, $product );
 
+
 			/**
 			* Filter out reviews that do not have text
 			*/
 			if(!empty($product_data['reviews'])){
 				foreach($product_data['reviews'] as $review_id => $review_details){
 					if(empty($review_details['content'])){
+						unset($product_data['reviews'][$review_id]);
+					}
+				}
+			}
+
+			/**
+			* Filter out reviews that do not have a rating
+			*/
+			if(!empty($product_data['reviews'])){
+				foreach($product_data['reviews'] as $review_id => $review_details){
+					if(empty($review_details['review_ratings'])){
+						unset($product_data['reviews'][$review_id]);
+					}
+				}
+			}
+
+			/**
+			* Filter out reviews that have a link in the review text / content as that is now allowed by Google
+			*/
+			if(!empty($product_data['reviews'])){
+				foreach($product_data['reviews'] as $review_id => $review_details){
+					$pos = strpos($review_details['content'], 'www');
+					if($pos !== false){
+						unset($product_data['reviews'][$review_id]);
+					}
+
+					$pos = strpos($review_details['content'], 'http');
+					if($pos !== false){
 						unset($product_data['reviews'][$review_id]);
 					}
 				}
@@ -4004,7 +4082,7 @@ class WooSEA_Get_Products {
 			/**
 			 * And item_group_id is not allowed for simple products, prevent users from adding this to the feedd
 			 */
-			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product->is_type('auction') OR ($product->is_type('subscription')) OR ($product->is_type('variable')))){
+			if (($product->is_type('simple')) OR ($product->is_type('external')) OR ($product->is_type('woosb')) OR ($product->is_type('mix-and-match')) OR ($product->is_type('bundle')) OR ($product->is_type('composite')) OR ($product->is_type('auction') OR ($product->is_type('subscription')) OR ($product->is_type('variable')))){
 				unset($product_data['item_group_id']);
 			}
 
@@ -4039,6 +4117,7 @@ class WooSEA_Get_Products {
 
                                		$stock_value = get_post_meta( $product_data['id'], "_stock_status", true );
 					$sz_attr_value = get_post_meta( $product_data['id'], $sz_attribute, true );
+
 					if(!empty($clr_attribute)){
                                        		$clr_attr_value = get_post_meta( $product_data['id'], "attribute_".$clr_attribute, true );
 					}
@@ -5559,7 +5638,7 @@ class WooSEA_Get_Products {
                                                 }
                                         } elseif (is_array($pd_value)){
                                                 // Tis can either be a shipping or product_tag array
-                                                if($pr_array['attribute'] == "product_tag"){
+						if(($pr_array['attribute'] == "product_tag") OR ($pr_array['attribute'] == "purchase_note")){
                                                         $in_tag_array = "not";
 
                                                         foreach($pd_value as $pt_key => $pt_value){

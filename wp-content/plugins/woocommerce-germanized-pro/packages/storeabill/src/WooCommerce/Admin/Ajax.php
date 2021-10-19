@@ -62,7 +62,7 @@ class Ajax {
 			'data'     => false,
 		);
 
-		$enable      = wc_string_to_bool( $_POST['enable'] );
+		$enable      = sab_string_to_bool( $_POST['enable'] );
 		$document_id = absint( $_POST['id'] );
 
 		if ( ! $document = sab_get_invoice( $document_id ) ) {
@@ -288,7 +288,7 @@ class Ajax {
 		);
 
 		$order_id = absint( $_POST['order_id'] );
-		$add_new  = isset( $_POST['add_new'] ) ? wc_string_to_bool( sab_clean( $_POST['add_new'] ) ) : true;
+		$add_new  = isset( $_POST['add_new'] ) ? sab_string_to_bool( sab_clean( $_POST['add_new'] ) ) : true;
 
 		if ( empty( $order_id ) || ( ! $order = Helper::get_order( $order_id ) ) ) {
 			self::send_json_error( $response_error );

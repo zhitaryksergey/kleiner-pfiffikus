@@ -57,7 +57,7 @@ class Journal extends WC_Data_Store_WP implements WC_Object_Data_Store_Interface
 			'journal_number_format'       => $journal->get_number_format( 'edit' ),
 			'journal_number_min_size'     => $journal->get_number_min_size( 'edit' ),
 			'journal_type'                => $journal->get_type( 'edit' ),
-			'journal_is_archived'         => wc_bool_to_string( $journal->get_is_archived( 'edit' ) ),
+			'journal_is_archived'         => sab_bool_to_string( $journal->get_is_archived( 'edit' ) ),
 			'journal_last_number'         => 0,
 			'journal_date_last_reset'     => gmdate( 'Y-m-d H:i:s', $journal->get_date_last_reset( 'edit' )->getOffsetTimestamp() ),
 			'journal_date_last_reset_gmt' => gmdate( 'Y-m-d H:i:s', $journal->get_date_last_reset( 'edit' )->getTimestamp() ),
@@ -116,7 +116,7 @@ class Journal extends WC_Data_Store_WP implements WC_Object_Data_Store_Interface
 
 			switch( $prop ) {
 				case "is_archived":
-					$journal_data[ 'journal_' . $prop ] = wc_bool_to_string( $journal->get_is_archived() );
+					$journal_data[ 'journal_' . $prop ] = sab_bool_to_string( $journal->get_is_archived() );
 					break;
 				case "date_last_reset":
 					if ( is_callable( array( $journal, 'get_' . $prop ) ) ) {

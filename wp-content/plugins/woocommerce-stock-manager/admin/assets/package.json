@@ -1,6 +1,6 @@
 {
   "name": "woocommerce-stock-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Stock Manager for WooCommerce",
   "main": "build/index.js",
   "private": true,
@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "bitbucket:toret/woocommerce-stock-manager"
+    "url": ""
   },
-  "author": "Vladislav Musilek <info@toret.cz> (https://www.toret.cz/)",
+  "author": "Vladislav Musilek",
   "contributors": [
-    "Daniel Mejta <daniel@mejta.net> (https://www.mejta.net/)"
+    ""
   ],
   "license": "GPL",
   "sideEffects": false,

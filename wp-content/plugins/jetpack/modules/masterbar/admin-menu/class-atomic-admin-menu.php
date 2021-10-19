@@ -64,6 +64,7 @@ class Atomic_Admin_Menu extends Admin_Menu {
 		parent::reregister_menu_items();
 
 		$this->add_my_home_menu();
+		$this->add_inbox_menu();
 
 		// Not needed outside of wp-admin.
 		if ( ! $this->is_api_request ) {
@@ -73,8 +74,11 @@ class Atomic_Admin_Menu extends Admin_Menu {
 			if ( $nudge ) {
 				parent::add_upsell_nudge( $nudge );
 			}
+
 			$this->add_new_site_link();
 		}
+
+		$this->add_beta_testing_menu();
 
 		ksort( $GLOBALS['menu'] );
 	}
@@ -89,8 +93,8 @@ class Atomic_Admin_Menu extends Admin_Menu {
 	 * @return string
 	 */
 	public function get_preferred_view( $screen, $fallback_global_preference = true ) {
-		// Plugins, Export, and Customize on Atomic sites are always managed on WP Admin.
-		if ( in_array( $screen, array( 'plugins.php', 'export.php', 'customize.php' ), true ) ) {
+		// Plugins and Export on Atomic sites are always managed on WP Admin.
+		if ( in_array( $screen, array( 'plugins.php', 'export.php' ), true ) ) {
 			return self::CLASSIC_VIEW;
 		}
 

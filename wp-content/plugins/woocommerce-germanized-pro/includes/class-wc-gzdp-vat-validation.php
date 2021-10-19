@@ -93,7 +93,7 @@ class WC_GZDP_VAT_Validation {
 
                     if ( ! empty( $address ) ) {
                         if ( ! empty( $company ) && in_array( 'company', $fields_to_check ) ) {
-                        	$pattern = '/\b' . $company . '\b/';
+                        	$pattern = '/\b' . $company . '\b/u';
 
                         	if ( ! preg_match( $pattern, $address ) ) {
                         	    $this->valid = false;
@@ -104,7 +104,7 @@ class WC_GZDP_VAT_Validation {
                         }
 
 	                    if ( ! empty( $city ) && in_array( 'city', $fields_to_check ) ) {
-		                    $pattern = '/\b' . $city . '\b/';
+		                    $pattern = '/\b' . $city . '\b/u';
 
 		                    if ( ! preg_match( $pattern, $address ) ) {
 			                    $this->valid = false;
@@ -115,7 +115,7 @@ class WC_GZDP_VAT_Validation {
 	                    }
 
 	                    if ( ! empty( $postcode ) && in_array( 'postcode', $fields_to_check ) ) {
-		                    $pattern = '/\b' . $postcode . '\b/';
+		                    $pattern = '/\b' . $postcode . '\b/u';
 
 		                    if ( ! preg_match( $pattern, $address ) ) {
 			                    $this->valid = false;

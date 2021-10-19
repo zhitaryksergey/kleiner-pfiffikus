@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Germanized Pro\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "germanized-pro\n"
-"POT-Creation-Date: 2021-09-02T11:25:40+00:00\n"
-"PO-Revision-Date: 2021-09-02 13:27+0200\n"
+"POT-Creation-Date: 2021-10-15T15:02:35+00:00\n"
+"PO-Revision-Date: 2021-10-15 17:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -95,11 +95,11 @@ msgctxt "storeabill-core"
 msgid "Transfer invoices and/or customer data to specific external services"
 msgstr "Übertrage Rechnungen und/oder Kundendaten zu externen Services"
 
-#: includes/admin/views/html-sync-handlers.php:13 src/Editor/Helper.php:635
-#: src/Editor/Helper.php:666
+#: includes/admin/views/html-sync-handlers.php:13 src/Editor/Helper.php:638
+#: src/Editor/Helper.php:669
 #: packages/storeabill/includes/admin/views/html-sync-handlers.php:13
-#: packages/storeabill/src/Editor/Helper.php:635
-#: packages/storeabill/src/Editor/Helper.php:666
+#: packages/storeabill/src/Editor/Helper.php:638
+#: packages/storeabill/src/Editor/Helper.php:669
 msgctxt "storeabill-core"
 msgid "Name"
 msgstr "Name"
@@ -192,10 +192,10 @@ msgstr "Speichern"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/views/html-order-invoices.php:20
-#: src/WooCommerce/Admin/Admin.php:319 src/Package.php:246
+#: src/WooCommerce/Admin/Admin.php:321 src/Package.php:246
 #: src/Admin/Settings.php:15
 #: packages/storeabill/includes/admin/views/html-order-invoices.php:20
-#: packages/storeabill/src/WooCommerce/Admin/Admin.php:319
+#: packages/storeabill/src/WooCommerce/Admin/Admin.php:321
 #: packages/storeabill/src/Package.php:246
 #: packages/storeabill/src/Admin/Settings.php:15
 msgctxt "storeabill-core"
@@ -230,10 +230,10 @@ msgid "Invoices will not be editable afterwards"
 msgstr "Rechnungen können nachträglich nicht verändert werden"
 
 #: includes/admin/views/html-order-invoices.php:43
-#: src/WooCommerce/Admin/Settings.php:105 src/Admin/Admin.php:417
+#: src/WooCommerce/Admin/Settings.php:105 src/Admin/Admin.php:419
 #: packages/storeabill/includes/admin/views/html-order-invoices.php:43
 #: packages/storeabill/src/WooCommerce/Admin/Settings.php:105
-#: packages/storeabill/src/Admin/Admin.php:417
+#: packages/storeabill/src/Admin/Admin.php:419
 msgctxt "storeabill-core"
 msgid "Finalize"
 msgstr "Festschreiben"
@@ -293,10 +293,10 @@ msgstr "Bearbeiten"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/views/html-document-templates.php:32
-#: includes/admin/views/html-document-templates.php:46 src/Admin/Admin.php:401
+#: includes/admin/views/html-document-templates.php:46 src/Admin/Admin.php:403
 #: packages/storeabill/includes/admin/views/html-document-templates.php:32
 #: packages/storeabill/includes/admin/views/html-document-templates.php:46
-#: packages/storeabill/src/Admin/Admin.php:401
+#: packages/storeabill/src/Admin/Admin.php:403
 msgctxt "storeabill-core"
 msgid "Preview"
 msgstr "Vorschau"
@@ -316,10 +316,10 @@ msgstr "Kopieren"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/views/html-document-templates.php:37
-#: includes/admin/views/html-document-templates.php:47 src/Admin/Admin.php:409
+#: includes/admin/views/html-document-templates.php:47 src/Admin/Admin.php:411
 #: packages/storeabill/includes/admin/views/html-document-templates.php:37
 #: packages/storeabill/includes/admin/views/html-document-templates.php:47
-#: packages/storeabill/src/Admin/Admin.php:409
+#: packages/storeabill/src/Admin/Admin.php:411
 msgctxt "storeabill-core"
 msgid "Delete"
 msgstr "Löschen"
@@ -404,10 +404,10 @@ msgctxt "storeabill-core"
 msgid "Disconnect"
 msgstr "Verbindung trennen"
 
-#: includes/admin/views/html-oauth-connected.php:12 src/Admin/Admin.php:433
+#: includes/admin/views/html-oauth-connected.php:12 src/Admin/Admin.php:435
 #: src/ExternalSync/SyncHandler.php:122
 #: packages/storeabill/includes/admin/views/html-oauth-connected.php:12
-#: packages/storeabill/src/Admin/Admin.php:433
+#: packages/storeabill/src/Admin/Admin.php:435
 #: packages/storeabill/src/ExternalSync/SyncHandler.php:122
 msgctxt "storeabill-core"
 msgid "Refresh"
@@ -465,38 +465,38 @@ msgid "Missing document template."
 msgstr "Fehlende Dokumenten-Vorlage."
 
 # @ woocommerce-germanized-pro
-#: includes/sab-core-functions.php:874
-#: packages/storeabill/includes/sab-core-functions.php:874
+#: includes/sab-core-functions.php:884
+#: packages/storeabill/includes/sab-core-functions.php:884
 msgctxt "storeabill-core"
 msgid "CSV"
 msgstr "CSV"
 
-#: includes/sab-core-functions.php:875
-#: packages/storeabill/includes/sab-core-functions.php:875
+#: includes/sab-core-functions.php:885
+#: packages/storeabill/includes/sab-core-functions.php:885
 msgctxt "storeabill-core"
 msgid "ZIP"
 msgstr "ZIP"
 
-#: includes/sab-core-functions.php:1013
-#: packages/storeabill/includes/sab-core-functions.php:1013
+#: includes/sab-core-functions.php:1023
+#: packages/storeabill/includes/sab-core-functions.php:1023
 msgctxt "storeabill-barcode-type"
 msgid "Code 39"
 msgstr "Code 39"
 
-#: includes/sab-core-functions.php:1014
-#: packages/storeabill/includes/sab-core-functions.php:1014
+#: includes/sab-core-functions.php:1024
+#: packages/storeabill/includes/sab-core-functions.php:1024
 msgctxt "storeabill-barcode-type"
 msgid "Code 93"
 msgstr "Code 93"
 
-#: includes/sab-core-functions.php:1015
-#: packages/storeabill/includes/sab-core-functions.php:1015
+#: includes/sab-core-functions.php:1025
+#: packages/storeabill/includes/sab-core-functions.php:1025
 msgctxt "storeabill-barcode-type"
 msgid "Code 128"
 msgstr "Code 128"
 
-#: includes/sab-core-functions.php:1016
-#: packages/storeabill/includes/sab-core-functions.php:1016
+#: includes/sab-core-functions.php:1026
+#: packages/storeabill/includes/sab-core-functions.php:1026
 msgctxt "storeabill-barcode-type"
 msgid "QR Code"
 msgstr "QR Code"
@@ -547,11 +547,11 @@ msgctxt "storeabill-core"
 msgid "Product"
 msgstr "Produkt"
 
-#: includes/sab-document-functions.php:98 src/WooCommerce/Order.php:619
-#: src/Editor/Helper.php:740
+#: includes/sab-document-functions.php:98 src/WooCommerce/Order.php:788
+#: src/Editor/Helper.php:743
 #: packages/storeabill/includes/sab-document-functions.php:98
-#: packages/storeabill/src/WooCommerce/Order.php:619
-#: packages/storeabill/src/Editor/Helper.php:740
+#: packages/storeabill/src/WooCommerce/Order.php:788
+#: packages/storeabill/src/Editor/Helper.php:743
 msgctxt "storeabill-core"
 msgid "Fee"
 msgstr "Gebühr"
@@ -562,7 +562,7 @@ msgstr "Gebühr"
 #: includes/sab-document-functions.php:309
 #: includes/sab-document-functions.php:312
 #: includes/sab-document-functions.php:316
-#: includes/sab-document-functions.php:320 src/Editor/Helper.php:748
+#: includes/sab-document-functions.php:320 src/Editor/Helper.php:751
 #: src/Invoice/SimplePreview.php:77
 #: packages/storeabill/includes/sab-document-functions.php:99
 #: packages/storeabill/includes/sab-document-functions.php:308
@@ -570,7 +570,7 @@ msgstr "Gebühr"
 #: packages/storeabill/includes/sab-document-functions.php:312
 #: packages/storeabill/includes/sab-document-functions.php:316
 #: packages/storeabill/includes/sab-document-functions.php:320
-#: packages/storeabill/src/Editor/Helper.php:748
+#: packages/storeabill/src/Editor/Helper.php:751
 #: packages/storeabill/src/Invoice/SimplePreview.php:77
 msgctxt "storeabill-core"
 msgid "Shipping"
@@ -737,8 +737,8 @@ msgstr "Gesamtbetrag"
 #: includes/sab-document-functions.php:288
 #: templates/emails/invoice-cancellation/document-details.php:43
 #: templates/emails/invoice/document-details.php:43 src/Emails/Mailer.php:219
-#: src/REST/InvoiceController.php:889 src/Editor/Helper.php:718
-#: src/Editor/Helper.php:757 src/Invoice/SimpleTable.php:54
+#: src/REST/InvoiceController.php:889 src/Editor/Helper.php:721
+#: src/Editor/Helper.php:760 src/Invoice/SimpleTable.php:54
 #: src/Invoice/CancellationTable.php:53
 #: packages/storeabill/includes/sab-document-functions.php:284
 #: packages/storeabill/includes/sab-document-functions.php:285
@@ -747,8 +747,8 @@ msgstr "Gesamtbetrag"
 #: packages/storeabill/templates/emails/invoice/document-details.php:43
 #: packages/storeabill/src/Emails/Mailer.php:219
 #: packages/storeabill/src/REST/InvoiceController.php:889
-#: packages/storeabill/src/Editor/Helper.php:718
-#: packages/storeabill/src/Editor/Helper.php:757
+#: packages/storeabill/src/Editor/Helper.php:721
+#: packages/storeabill/src/Editor/Helper.php:760
 #: packages/storeabill/src/Invoice/SimpleTable.php:54
 #: packages/storeabill/src/Invoice/CancellationTable.php:53
 msgctxt "storeabill-core"
@@ -772,12 +772,12 @@ msgstr "Rabatt %s"
 #: includes/sab-document-functions.php:293
 #: includes/sab-document-functions.php:300
 #: includes/sab-document-functions.php:304
-#: src/Editor/Blocks/ItemTotalRow.php:141 src/Editor/Helper.php:705
+#: src/Editor/Blocks/ItemTotalRow.php:141 src/Editor/Helper.php:708
 #: packages/storeabill/includes/sab-document-functions.php:293
 #: packages/storeabill/includes/sab-document-functions.php:300
 #: packages/storeabill/includes/sab-document-functions.php:304
 #: packages/storeabill/src/Editor/Blocks/ItemTotalRow.php:141
-#: packages/storeabill/src/Editor/Helper.php:705
+#: packages/storeabill/src/Editor/Helper.php:708
 msgctxt "storeabill-core"
 msgid "Discount"
 msgstr "Rabatt"
@@ -853,9 +853,9 @@ msgctxt "storeabill-core"
 msgid "Fee total (Before discounts, net)"
 msgstr "Gebührenbetrag (vor Rabatt, netto)"
 
-#: includes/sab-document-functions.php:340 src/Invoice/Invoice.php:524
+#: includes/sab-document-functions.php:340 src/Invoice/Invoice.php:525
 #: packages/storeabill/includes/sab-document-functions.php:340
-#: packages/storeabill/src/Invoice/Invoice.php:524
+#: packages/storeabill/src/Invoice/Invoice.php:525
 msgctxt "storeabill-core"
 msgid "Fee: %s"
 msgstr "Gebühr: %s"
@@ -871,14 +871,14 @@ msgstr "Gebühren"
 #: includes/sab-document-functions.php:348
 #: includes/sab-document-functions.php:352
 #: includes/sab-document-functions.php:356 src/REST/InvoiceController.php:896
-#: src/Editor/Helper.php:733
+#: src/Editor/Helper.php:736
 #: packages/storeabill/includes/sab-document-functions.php:344
 #: packages/storeabill/includes/sab-document-functions.php:345
 #: packages/storeabill/includes/sab-document-functions.php:348
 #: packages/storeabill/includes/sab-document-functions.php:352
 #: packages/storeabill/includes/sab-document-functions.php:356
 #: packages/storeabill/src/REST/InvoiceController.php:896
-#: packages/storeabill/src/Editor/Helper.php:733
+#: packages/storeabill/src/Editor/Helper.php:736
 msgctxt "storeabill-core"
 msgid "Subtotal"
 msgstr "Zwischensumme"
@@ -902,9 +902,9 @@ msgctxt "storeabill-core"
 msgid "Subtotal (After discounts, net)"
 msgstr "Zwischensumme (nach Rabatt, netto)"
 
-#: includes/sab-document-functions.php:360 src/Editor/Helper.php:776
+#: includes/sab-document-functions.php:360 src/Editor/Helper.php:779
 #: packages/storeabill/includes/sab-document-functions.php:360
-#: packages/storeabill/src/Editor/Helper.php:776
+#: packages/storeabill/src/Editor/Helper.php:779
 msgctxt "storeabill-core"
 msgid "Tax %s %%"
 msgstr "%s %% MwSt."
@@ -917,10 +917,10 @@ msgstr "Steuern"
 
 # @ woocommerce-germanized-pro
 #: includes/sab-document-functions.php:364
-#: includes/sab-document-functions.php:372 src/Editor/Helper.php:768
+#: includes/sab-document-functions.php:372 src/Editor/Helper.php:771
 #: packages/storeabill/includes/sab-document-functions.php:364
 #: packages/storeabill/includes/sab-document-functions.php:372
-#: packages/storeabill/src/Editor/Helper.php:768
+#: packages/storeabill/src/Editor/Helper.php:771
 msgctxt "storeabill-core"
 msgid "Net"
 msgstr "Netto"
@@ -1230,14 +1230,14 @@ msgstr "Position"
 # @ woocommerce-germanized-pro
 #: templates/emails/invoice-cancellation/document-details.php:42
 #: templates/emails/document-details.php:51
-#: templates/emails/invoice/document-details.php:42 src/Editor/Helper.php:647
-#: src/Editor/Helper.php:679
+#: templates/emails/invoice/document-details.php:42 src/Editor/Helper.php:650
+#: src/Editor/Helper.php:682
 #: packages/storeabill/build/editor/item-quantity.js:1
 #: packages/storeabill/templates/emails/invoice-cancellation/document-details.php:42
 #: packages/storeabill/templates/emails/document-details.php:51
 #: packages/storeabill/templates/emails/invoice/document-details.php:42
-#: packages/storeabill/src/Editor/Helper.php:647
-#: packages/storeabill/src/Editor/Helper.php:679
+#: packages/storeabill/src/Editor/Helper.php:650
+#: packages/storeabill/src/Editor/Helper.php:682
 msgctxt "storeabill-core"
 msgid "Quantity"
 msgstr "Anzahl"
@@ -1287,8 +1287,8 @@ msgid ""
 msgstr ""
 "%s wurde an diese E-Mail angehängt. Details dazu findest du im Folgenden:"
 
-#: src/Compatibility/Subscriptions.php:94
-#: packages/storeabill/src/Compatibility/Subscriptions.php:94
+#: src/Compatibility/Subscriptions.php:249
+#: packages/storeabill/src/Compatibility/Subscriptions.php:249
 msgctxt "storeabill-core"
 msgid "Subscription order number(s)"
 msgstr "Abo Bestellnummer(n)"
@@ -1336,9 +1336,9 @@ msgid "Booking Summary List"
 msgstr "Zusammenfassung der Buchung"
 
 # @ woocommerce-germanized-pro
-#: src/WooCommerce/RefundOrder.php:30 src/WooCommerce/Order.php:47
+#: src/WooCommerce/RefundOrder.php:30 src/WooCommerce/Order.php:48
 #: packages/storeabill/src/WooCommerce/RefundOrder.php:30
-#: packages/storeabill/src/WooCommerce/Order.php:47
+#: packages/storeabill/src/WooCommerce/Order.php:48
 msgctxt "storeabill-core"
 msgid "Invalid order."
 msgstr "Bestellung nicht verfügbar."
@@ -1349,21 +1349,21 @@ msgctxt "storeabill-core"
 msgid "Invalid product."
 msgstr "Produkt ist nicht verfügbar."
 
-#: src/WooCommerce/Order.php:770
-#: packages/storeabill/src/WooCommerce/Order.php:770
+#: src/WooCommerce/Order.php:642
+#: packages/storeabill/src/WooCommerce/Order.php:642
 msgctxt "storeabill-core"
 msgid "Cancelled invoice %s."
 msgstr "Rechnung %s storniert."
 
-#: src/WooCommerce/Order.php:773
-#: packages/storeabill/src/WooCommerce/Order.php:773
+#: src/WooCommerce/Order.php:645
+#: packages/storeabill/src/WooCommerce/Order.php:645
 msgctxt "storeabill-core"
 msgid "Cancelled invoice %1$s (%2$s)."
 msgstr "Rechnung %1$s (%2$s) storniert."
 
-#: src/WooCommerce/Order.php:835
-#: packages/storeabill/src/WooCommerce/Order.php:835
-msgctxt "storeabil-core"
+#: src/WooCommerce/Order.php:725
+#: packages/storeabill/src/WooCommerce/Order.php:725
+msgctxt "storeabill-core"
 msgid ""
 "An invoice could not be created due to changes to or inconsistent order "
 "data. Please review the corresponding order."
@@ -1371,9 +1371,9 @@ msgstr ""
 "Eine Rechnung konnte aufgrund von Veränderungen oder Inkonsistenzen in den "
 "Bestelldaten nicht erstellt werden. Bitte prüfe die dazugehörige Bestellung."
 
-#: src/WooCommerce/Order.php:837
-#: packages/storeabill/src/WooCommerce/Order.php:837
-msgctxt "storeabil-core"
+#: src/WooCommerce/Order.php:727
+#: packages/storeabill/src/WooCommerce/Order.php:727
+msgctxt "storeabill-core"
 msgid ""
 "The invoices needed a (partial) cancellation due to changes to or "
 "inconsistent order data. Please review the corresponding order."
@@ -1382,21 +1382,21 @@ msgstr ""
 "Inkonsistenzen in den Bestelldaten (teilweise) storniert. Bitte prüfe die "
 "dazugehörige Bestellung."
 
-#: src/WooCommerce/Order.php:2154
-#: packages/storeabill/src/WooCommerce/Order.php:2154
+#: src/WooCommerce/Order.php:2246
+#: packages/storeabill/src/WooCommerce/Order.php:2246
 msgctxt "storeabill-core"
 msgid "%1$s x Item %2$s &rarr; %3$s (Total: %4$s, Line total: %5$s, Tax: %6$s)"
 msgstr ""
 "%1$s x Position %2$s &rarr; %3$s (Gesamt: %4$s, Zeile: %5$s, Steuern: %6$s)"
 
-#: src/WooCommerce/Order.php:2157
-#: packages/storeabill/src/WooCommerce/Order.php:2157
+#: src/WooCommerce/Order.php:2249
+#: packages/storeabill/src/WooCommerce/Order.php:2249
 msgctxt "storeabill-core"
 msgid "(Partially) Cancelled invoice %1$s: %2$s"
 msgstr "Rechnung %1$s: %2$s (teilweise) storniert"
 
-#: src/WooCommerce/Order.php:2278
-#: packages/storeabill/src/WooCommerce/Order.php:2278
+#: src/WooCommerce/Order.php:2399
+#: packages/storeabill/src/WooCommerce/Order.php:2399
 msgctxt "storeabill-core"
 msgid ""
 "There was an error while saving %s. Please review and save your order and "
@@ -1626,11 +1626,11 @@ msgstr "Erstelle Rechnungen zu Bestellungen mit einem Gesamtbetrag von 0."
 
 # @ woocommerce-germanized-pro
 #: src/WooCommerce/Admin/Settings.php:122
-#: src/WooCommerce/Admin/Settings.php:136 src/Admin/Admin.php:424
+#: src/WooCommerce/Admin/Settings.php:136 src/Admin/Admin.php:426
 #: src/Document/BulkMerge.php:60
 #: packages/storeabill/src/WooCommerce/Admin/Settings.php:122
 #: packages/storeabill/src/WooCommerce/Admin/Settings.php:136
-#: packages/storeabill/src/Admin/Admin.php:424
+#: packages/storeabill/src/Admin/Admin.php:426
 #: packages/storeabill/src/Document/BulkMerge.php:60
 msgctxt "storeabill-core"
 msgid "Download"
@@ -1725,10 +1725,10 @@ msgstr ""
 "Rundungsdifferenzen zu verhindern."
 
 #: src/WooCommerce/Admin/Admin.php:164 src/Admin/Users.php:125
-#: src/Admin/Admin.php:356
+#: src/Admin/Admin.php:358
 #: packages/storeabill/src/WooCommerce/Admin/Admin.php:164
 #: packages/storeabill/src/Admin/Users.php:125
-#: packages/storeabill/src/Admin/Admin.php:356
+#: packages/storeabill/src/Admin/Admin.php:358
 msgctxt "storeabill-core"
 msgid "Processing bulk actions..."
 msgstr "Mehrfachaktionen werden durchgeführt…"
@@ -1747,9 +1747,9 @@ msgctxt "storeabill-core"
 msgid "Do you really want to cancel the invoice?"
 msgstr "Möchtest du diese Rechnung wirklich stornieren?"
 
-#: src/WooCommerce/Admin/Admin.php:325 src/Admin/Admin.php:325
-#: packages/storeabill/src/WooCommerce/Admin/Admin.php:325
-#: packages/storeabill/src/Admin/Admin.php:325
+#: src/WooCommerce/Admin/Admin.php:327 src/Admin/Admin.php:327
+#: packages/storeabill/src/WooCommerce/Admin/Admin.php:327
+#: packages/storeabill/src/Admin/Admin.php:327
 msgctxt "storeabill-core"
 msgid "Accounting"
 msgstr "Buchhaltung"
@@ -2732,67 +2732,67 @@ msgid "Searching&hellip;"
 msgstr "Suche&hellip;"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:170 packages/storeabill/src/Admin/Admin.php:170
+#: src/Admin/Admin.php:172 packages/storeabill/src/Admin/Admin.php:172
 msgctxt "storeabill-core"
 msgid "Do you really want to disconnect?"
 msgstr "Möchtest du die Verbindung wirklich trennen?"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:182 packages/storeabill/src/Admin/Admin.php:182
+#: src/Admin/Admin.php:184 packages/storeabill/src/Admin/Admin.php:184
 msgctxt "storeabill-core"
 msgid "Do you really want to delete the template?"
 msgstr "Möchtest du die Vorlage wirklich löschen?"
 
-#: src/Admin/Admin.php:295 packages/storeabill/src/Admin/Admin.php:295
+#: src/Admin/Admin.php:297 packages/storeabill/src/Admin/Admin.php:297
 msgctxt "storeabill-core"
 msgid "Sorry, but you are not allowed to preview documents"
 msgstr ""
 "Sorry, du bist nicht berechtigt um die Vorschau von Dokumenten zu nutzen"
 
-#: src/Admin/Admin.php:302 packages/storeabill/src/Admin/Admin.php:302
+#: src/Admin/Admin.php:304 packages/storeabill/src/Admin/Admin.php:304
 msgctxt "storeabill-core"
 msgid "The document id is missing"
 msgstr "Die ID des Dokuments fehlt"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:306 packages/storeabill/src/Admin/Admin.php:306
+#: src/Admin/Admin.php:308 packages/storeabill/src/Admin/Admin.php:308
 msgctxt "storeabill-core"
 msgid "The requested document does not exist"
 msgstr "Das Dokument existiert leider nicht"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:329 src/Document/FileExporter.php:31
-#: packages/storeabill/src/Admin/Admin.php:329
+#: src/Admin/Admin.php:331 src/Document/FileExporter.php:31
+#: packages/storeabill/src/Admin/Admin.php:331
 #: packages/storeabill/src/Document/FileExporter.php:31
 msgctxt "storeabill-core"
 msgid "Export %s"
 msgstr "%s exportieren"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:365 packages/storeabill/src/Admin/Admin.php:365
+#: src/Admin/Admin.php:367 packages/storeabill/src/Admin/Admin.php:367
 msgctxt "storeabill-core"
 msgid "Search %s"
 msgstr "%s suchen"
 
-#: src/Admin/Admin.php:391 packages/storeabill/src/Admin/Admin.php:391
+#: src/Admin/Admin.php:393 packages/storeabill/src/Admin/Admin.php:393
 msgctxt "storeabill-core"
 msgid "Last sent on %s"
 msgstr "Zuletzt versendet am %s"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:391 packages/storeabill/src/Admin/Admin.php:391
+#: src/Admin/Admin.php:393 packages/storeabill/src/Admin/Admin.php:393
 msgctxt "storeabill-core"
 msgid "Send to customer"
 msgstr "An den Kunden senden"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:442 packages/storeabill/src/Admin/Admin.php:442
+#: src/Admin/Admin.php:444 packages/storeabill/src/Admin/Admin.php:444
 msgctxt "storeabill-core"
 msgid "Cancel"
 msgstr "Stornieren"
 
 # @ woocommerce-germanized-pro
-#: src/Admin/Admin.php:450 packages/storeabill/src/Admin/Admin.php:450
+#: src/Admin/Admin.php:452 packages/storeabill/src/Admin/Admin.php:452
 msgctxt "storeabill-core"
 msgid "Mark as paid"
 msgstr "Als bezahlt markieren"
@@ -2875,29 +2875,29 @@ msgctxt "storeabill-core"
 msgid "Update status event failed."
 msgstr "Fehler beim Status-Update-Event."
 
-#: src/Document/Document.php:1906 src/Document/Document.php:1928
-#: packages/storeabill/src/Document/Document.php:1906
-#: packages/storeabill/src/Document/Document.php:1928
+#: src/Document/Document.php:1905 src/Document/Document.php:1927
+#: packages/storeabill/src/Document/Document.php:1905
+#: packages/storeabill/src/Document/Document.php:1927
 msgctxt "storeabill-core"
 msgid "This document does not yet contain a file to be sent"
 msgstr "Dieses Dokument enthält keine Datei die gesendet werden kann"
 
 #. translators: 1: old document status 2: new document status
-#: src/Document/Document.php:2027
-#: packages/storeabill/src/Document/Document.php:2027
+#: src/Document/Document.php:2026
+#: packages/storeabill/src/Document/Document.php:2026
 msgctxt "storeabill-core"
 msgid "Document status changed from %1$s to %2$s."
 msgstr "Status des Dokuments von %1$s zu %2$s geändert."
 
 #. translators: %s: new document status
-#: src/Document/Document.php:2063
-#: packages/storeabill/src/Document/Document.php:2063
+#: src/Document/Document.php:2062
+#: packages/storeabill/src/Document/Document.php:2062
 msgctxt "storeabill-core"
 msgid "Document status set to %s."
 msgstr "Status des Dokuments auf %s geändert."
 
-#: src/Document/Document.php:2077
-#: packages/storeabill/src/Document/Document.php:2077
+#: src/Document/Document.php:2076
+#: packages/storeabill/src/Document/Document.php:2076
 msgctxt "storeabill-core"
 msgid "Error during status transition."
 msgstr "Fehler bei der Verarbeitung des Statuswechsels."
@@ -2967,8 +2967,8 @@ msgid "First Page"
 msgstr "Erste Seite"
 
 # @ woocommerce-germanized-pro
-#: src/Document/BulkActionHandler.php:138
-#: packages/storeabill/src/Document/BulkActionHandler.php:138
+#: src/Document/BulkActionHandler.php:154
+#: packages/storeabill/src/Document/BulkActionHandler.php:154
 msgctxt "storeabill-core"
 msgid "Successfully processed documents."
 msgstr "Dokumente erfolgreich bearbeitet."
@@ -3190,9 +3190,9 @@ msgctxt "storeabill-core"
 msgid "last synced on %s"
 msgstr "Zuletzt synchronisiert am %s"
 
-#: src/ExternalSync/Helper.php:336 src/ExternalSync/BulkSync.php:63
+#: src/ExternalSync/Helper.php:336 src/ExternalSync/BulkSync.php:71
 #: packages/storeabill/src/ExternalSync/Helper.php:336
-#: packages/storeabill/src/ExternalSync/BulkSync.php:63
+#: packages/storeabill/src/ExternalSync/BulkSync.php:71
 msgctxt "storeabill-core"
 msgid "Sync handler not found"
 msgstr "Synchronisierungshandler nicht gefunden"
@@ -3211,20 +3211,20 @@ msgid "An error occurred while syncing with %1$s: %2$s"
 msgstr "Bei der Synchronisation mit %1$s ist ein Fehler aufgetreten: %2$s"
 
 # @ woocommerce-germanized-pro
-#: src/ExternalSync/BulkSync.php:52
-#: packages/storeabill/src/ExternalSync/BulkSync.php:52
+#: src/ExternalSync/BulkSync.php:60
+#: packages/storeabill/src/ExternalSync/BulkSync.php:60
 msgctxt "storeabill-core"
 msgid "Sync with %s"
 msgstr "Mit %s synchronisieren"
 
-#: src/ExternalSync/BulkSync.php:79
-#: packages/storeabill/src/ExternalSync/BulkSync.php:79
+#: src/ExternalSync/BulkSync.php:87
+#: packages/storeabill/src/ExternalSync/BulkSync.php:87
 msgctxt "storeabill-core"
 msgid "Error while syncing %1$s: %2$s"
 msgstr "Fehler bei der Synchronisation von %1$s: %2$s"
 
-#: src/ExternalSync/BulkSync.php:88
-#: packages/storeabill/src/ExternalSync/BulkSync.php:88
+#: src/ExternalSync/BulkSync.php:96
+#: packages/storeabill/src/ExternalSync/BulkSync.php:96
 msgctxt "storeabill-core"
 msgid "Synced successfully"
 msgstr "Erfolgreich synchronisiert"
@@ -5180,9 +5180,9 @@ msgctxt "storeabill-core"
 msgid "Tax Rate"
 msgstr "Steuersatz"
 
-#: src/Editor/Blocks/ItemTotalRow.php:143 src/Invoice/Invoice.php:524
+#: src/Editor/Blocks/ItemTotalRow.php:143 src/Invoice/Invoice.php:525
 #: packages/storeabill/src/Editor/Blocks/ItemTotalRow.php:143
-#: packages/storeabill/src/Invoice/Invoice.php:524
+#: packages/storeabill/src/Invoice/Invoice.php:525
 msgctxt "storeabill-core"
 msgid "Discount: %s"
 msgstr "Rabatt: %s"
@@ -5464,35 +5464,35 @@ msgctxt "storeabill-core"
 msgid "Contact Us"
 msgstr "Kontaktiere uns"
 
-#: src/Editor/Helper.php:78 packages/storeabill/src/Editor/Helper.php:78
+#: src/Editor/Helper.php:81 packages/storeabill/src/Editor/Helper.php:81
 msgctxt "storeabill-core"
 msgid "Storeabill"
 msgstr "StoreaBill"
 
-#: src/Editor/Helper.php:543 packages/storeabill/src/Editor/Helper.php:543
+#: src/Editor/Helper.php:546 packages/storeabill/src/Editor/Helper.php:546
 msgctxt "storeabill-core"
 msgid "Before discounts"
 msgstr "Vor Rabatten"
 
-#: src/Editor/Helper.php:544 packages/storeabill/src/Editor/Helper.php:544
+#: src/Editor/Helper.php:547 packages/storeabill/src/Editor/Helper.php:547
 msgctxt "storeabill-core"
 msgid "After discounts"
 msgstr "Nach Rabatten"
 
 # @ woocommerce
 # @ woocommerce-germanized-pro
-#: src/Editor/Helper.php:692 packages/storeabill/src/Editor/Helper.php:692
+#: src/Editor/Helper.php:695 packages/storeabill/src/Editor/Helper.php:695
 msgctxt "storeabill-core"
 msgid "Price"
 msgstr "Preis"
 
 # @ woocommerce-germanized-pro
-#: src/Editor/Helper.php:1284 packages/storeabill/src/Editor/Helper.php:1284
+#: src/Editor/Helper.php:1347 packages/storeabill/src/Editor/Helper.php:1347
 msgctxt "storeabill-core"
 msgid "Missing default or first page template."
 msgstr "Fehlende Standard oder 1. Seite Vorlage."
 
-#: src/Editor/Helper.php:1303 packages/storeabill/src/Editor/Helper.php:1303
+#: src/Editor/Helper.php:1366 packages/storeabill/src/Editor/Helper.php:1366
 msgctxt "storeabill-core"
 msgid "Document type does not support previewing."
 msgstr "Dieser Dokumententyp unterstützt keine Vorschau."
@@ -5669,42 +5669,42 @@ msgstr ""
 "Dieses Dokument wurde bereits festgeschrieben und kann nicht erneut erzeugt "
 "werden."
 
-#: src/Invoice/Invoice.php:1015
-#: packages/storeabill/src/Invoice/Invoice.php:1015
+#: src/Invoice/Invoice.php:1016
+#: packages/storeabill/src/Invoice/Invoice.php:1016
 msgctxt "storeabill-discount-notice"
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
 
-#: src/Invoice/Invoice.php:1653
-#: packages/storeabill/src/Invoice/Invoice.php:1653
+#: src/Invoice/Invoice.php:1654
+#: packages/storeabill/src/Invoice/Invoice.php:1654
 msgctxt "storeabill-core"
 msgid "This invoice is already finalized and cannot be discounted."
 msgstr ""
 "Diese Rechnung wurde bereits festgeschrieben und kann nicht mehr rabattiert "
 "werden."
 
-#: src/Invoice/Invoice.php:2263
-#: packages/storeabill/src/Invoice/Invoice.php:2263
+#: src/Invoice/Invoice.php:2264
+#: packages/storeabill/src/Invoice/Invoice.php:2264
 msgctxt "storeabill-core"
 msgid "Update payment status event failed."
 msgstr "Fehler beim Statuswechsel-Event des Zahlungsstatus."
 
 #. translators: 1: old payment status 2: new payment status
-#: src/Invoice/Invoice.php:3000
-#: packages/storeabill/src/Invoice/Invoice.php:3000
+#: src/Invoice/Invoice.php:3001
+#: packages/storeabill/src/Invoice/Invoice.php:3001
 msgctxt "storeabill-core"
 msgid "Invoice payment status changed from %1$s to %2$s."
 msgstr "Zahlungsstatus der Rechnung von %1$s zu %2$s geändert."
 
 #. translators: %s: new document status
-#: src/Invoice/Invoice.php:3036
-#: packages/storeabill/src/Invoice/Invoice.php:3036
+#: src/Invoice/Invoice.php:3037
+#: packages/storeabill/src/Invoice/Invoice.php:3037
 msgctxt "storeabill-core"
 msgid "Invoice payment status set to %s."
 msgstr "Zahlungsstatus der Rechnung zu %s geändert."
 
-#: src/Invoice/Invoice.php:3049
-#: packages/storeabill/src/Invoice/Invoice.php:3049
+#: src/Invoice/Invoice.php:3050
+#: packages/storeabill/src/Invoice/Invoice.php:3050
 msgctxt "storeabill-core"
 msgid "Error during payment status transition."
 msgstr "Fehler bei der Verarbeitung des Statuswechsels."
@@ -7688,62 +7688,62 @@ msgctxt "dpd"
 msgid "Default Format"
 msgstr "Standardformat"
 
-#: src/Package.php:62 src/Package.php:83
-#: packages/woocommerce-germanized-dpd/src/Package.php:62
-#: packages/woocommerce-germanized-dpd/src/Package.php:83
+#: src/Package.php:63 src/Package.php:84
+#: packages/woocommerce-germanized-dpd/src/Package.php:63
+#: packages/woocommerce-germanized-dpd/src/Package.php:84
 msgctxt "dpd"
 msgid "DPD Classic"
 msgstr "DPD Classic"
 
-#: src/Package.php:63 packages/woocommerce-germanized-dpd/src/Package.php:63
+#: src/Package.php:64 packages/woocommerce-germanized-dpd/src/Package.php:64
 msgctxt "dpd"
 msgid "DPD 8:30"
 msgstr "DPD 8:30"
 
-#: src/Package.php:64 packages/woocommerce-germanized-dpd/src/Package.php:64
+#: src/Package.php:65 packages/woocommerce-germanized-dpd/src/Package.php:65
 msgctxt "dpd"
 msgid "DPD 10:00"
 msgstr "DPD 10:00"
 
-#: src/Package.php:65 packages/woocommerce-germanized-dpd/src/Package.php:65
+#: src/Package.php:66 packages/woocommerce-germanized-dpd/src/Package.php:66
 msgctxt "dpd"
 msgid "DPD 12:00"
 msgstr "DPD 12:00"
 
-#: src/Package.php:66 packages/woocommerce-germanized-dpd/src/Package.php:66
+#: src/Package.php:67 packages/woocommerce-germanized-dpd/src/Package.php:67
 msgctxt "dpd"
 msgid "DPD 18:00"
 msgstr "DPD 18:00"
 
-#: src/Package.php:67 src/Package.php:77 src/Package.php:84
-#: packages/woocommerce-germanized-dpd/src/Package.php:67
-#: packages/woocommerce-germanized-dpd/src/Package.php:77
-#: packages/woocommerce-germanized-dpd/src/Package.php:84
+#: src/Package.php:68 src/Package.php:78 src/Package.php:85
+#: packages/woocommerce-germanized-dpd/src/Package.php:68
+#: packages/woocommerce-germanized-dpd/src/Package.php:78
+#: packages/woocommerce-germanized-dpd/src/Package.php:85
 msgctxt "dpd"
 msgid "DPD Express"
 msgstr "DPD Express"
 
-#: src/Package.php:68 packages/woocommerce-germanized-dpd/src/Package.php:68
+#: src/Package.php:69 packages/woocommerce-germanized-dpd/src/Package.php:69
 msgctxt "dpd"
 msgid "DPD MAX"
 msgstr "DPD MAX"
 
-#: src/Package.php:69 packages/woocommerce-germanized-dpd/src/Package.php:69
+#: src/Package.php:70 packages/woocommerce-germanized-dpd/src/Package.php:70
 msgctxt "dpd"
 msgid "DPD PARCELLetter"
 msgstr "DPD PARCELLetter"
 
-#: src/Package.php:70 packages/woocommerce-germanized-dpd/src/Package.php:70
+#: src/Package.php:71 packages/woocommerce-germanized-dpd/src/Package.php:71
 msgctxt "dpd"
 msgid "DPD Priority"
 msgstr "DPD Priority"
 
-#: src/Package.php:76 packages/woocommerce-germanized-dpd/src/Package.php:76
+#: src/Package.php:77 packages/woocommerce-germanized-dpd/src/Package.php:77
 msgctxt "dpd"
 msgid "DPD Classic (Switzerland)"
 msgstr "DPD Classic (Schweiz)"
 
-#: src/Package.php:91 packages/woocommerce-germanized-dpd/src/Package.php:91
+#: src/Package.php:92 packages/woocommerce-germanized-dpd/src/Package.php:92
 msgctxt "dpd"
 msgid ""
 "To enable communication between your shop and DPD, the PHP <a href=\"%s"
@@ -7953,6 +7953,7 @@ msgstr ""
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-vat-validation.php:38
+#: includes/class-wc-gzdp-vat-validation-switzerland.php:26
 msgid "SoapClient is required to enable VAT validation"
 msgstr ""
 "Der SoapClient wird benötigt um die Überprüfung der USt.-ID durchzuführen "
@@ -7984,11 +7985,13 @@ msgstr ""
 
 # @ woocommerce-germanized-pro
 #: includes/class-wc-gzdp-vat-validation.php:143
-#: includes/class-wc-gzdp-vat-helper.php:1328
+#: includes/class-wc-gzdp-vat-helper.php:1341
+#: includes/class-wc-gzdp-vat-validation-switzerland.php:63
 msgid "The VAT ID you've provided is invalid."
 msgstr "Die USt.-ID scheint leider nicht gültig zu sein."
 
 #: includes/class-wc-gzdp-vat-validation.php:152
+#: includes/class-wc-gzdp-vat-validation-switzerland.php:72
 msgid ""
 "There was an error while validating your VAT ID. Please try again in a few "
 "minutes."
@@ -8122,34 +8125,34 @@ msgstr ""
 msgid "New"
 msgstr "Neu"
 
-#: includes/class-wc-gzdp-vat-helper.php:138
+#: includes/class-wc-gzdp-vat-helper.php:139
 msgid "VAT ID validation result"
 msgstr "USt.-ID Validierungsprotokoll"
 
-#: includes/class-wc-gzdp-vat-helper.php:151
-#: includes/class-wc-gzdp-vat-helper.php:170
+#: includes/class-wc-gzdp-vat-helper.php:152
+#: includes/class-wc-gzdp-vat-helper.php:171
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:59
 msgid "Company"
 msgstr "Firma"
 
-#: includes/class-wc-gzdp-vat-helper.php:152
+#: includes/class-wc-gzdp-vat-helper.php:153
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:60
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: includes/class-wc-gzdp-vat-helper.php:153
+#: includes/class-wc-gzdp-vat-helper.php:154
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:61
 msgid "City"
 msgstr "Stadt"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-vat-helper.php:162
-#: includes/class-wc-gzdp-vat-helper.php:879
-#: includes/class-wc-gzdp-vat-helper.php:884
-#: includes/class-wc-gzdp-vat-helper.php:895
-#: includes/class-wc-gzdp-vat-helper.php:905
-#: includes/class-wc-gzdp-vat-helper.php:1177
-#: includes/class-wc-gzdp-vat-helper.php:1178
+#: includes/class-wc-gzdp-vat-helper.php:163
+#: includes/class-wc-gzdp-vat-helper.php:880
+#: includes/class-wc-gzdp-vat-helper.php:885
+#: includes/class-wc-gzdp-vat-helper.php:896
+#: includes/class-wc-gzdp-vat-helper.php:906
+#: includes/class-wc-gzdp-vat-helper.php:1186
+#: includes/class-wc-gzdp-vat-helper.php:1187
 #: includes/admin/settings/class-wc-gzdp-settings-tab-taxes.php:18
 #: includes/api/class-wc-gzdp-rest-orders-controller.php:90
 #: includes/api/class-wc-gzdp-rest-orders-controller.php:96
@@ -8158,58 +8161,58 @@ msgstr "Stadt"
 msgid "VAT ID"
 msgstr "USt.-ID"
 
-#: includes/class-wc-gzdp-vat-helper.php:164
+#: includes/class-wc-gzdp-vat-helper.php:165
 msgid "Name"
 msgstr "Name"
 
-#: includes/class-wc-gzdp-vat-helper.php:167
+#: includes/class-wc-gzdp-vat-helper.php:168
 msgid "Request ID"
 msgstr "Request ID"
 
 # @ woocommerce
-#: includes/class-wc-gzdp-vat-helper.php:173
+#: includes/class-wc-gzdp-vat-helper.php:174
 msgid "Address"
 msgstr "Adresse"
 
-#: includes/class-wc-gzdp-vat-helper.php:181
+#: includes/class-wc-gzdp-vat-helper.php:182
 #: src/StoreaBill/PackingSlip/DefaultTemplate.php:96
 msgid "Date"
 msgstr "Datum"
 
-#: includes/class-wc-gzdp-vat-helper.php:184
+#: includes/class-wc-gzdp-vat-helper.php:185
 msgid "Qualified"
 msgstr "Qualifiziert"
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-vat-helper.php:184
+#: includes/class-wc-gzdp-vat-helper.php:185
 msgid "Successfully checked fields: %s"
 msgstr "Erfolgreich geprüfte Felder: %s"
 
-#: includes/class-wc-gzdp-vat-helper.php:301
+#: includes/class-wc-gzdp-vat-helper.php:302
 msgid "A valid VAT ID is required to register."
 msgstr "Eine gültige USt.-ID wird benötigt zur Registrierung."
 
-#: includes/class-wc-gzdp-vat-helper.php:311
+#: includes/class-wc-gzdp-vat-helper.php:312
 msgid "Sorry but we do not support VAT IDs within %s."
 msgstr "Entschuldige aber wir unterstützen keine USt.-IDs in %s."
 
-#: includes/class-wc-gzdp-vat-helper.php:313
+#: includes/class-wc-gzdp-vat-helper.php:314
 msgid "Sorry but we do not support VAT IDs within your country."
 msgstr "Entschuldige aber wir unterstützen keine USt.-IDs aus deinem Land."
 
-#: includes/class-wc-gzdp-vat-helper.php:570
+#: includes/class-wc-gzdp-vat-helper.php:571
 msgid "Please choose a shipping country before saving your VAT ID."
 msgstr "Bitte wähle ein Lieferland bevor zu deine USt.-ID speicherst."
 
 # @ woocommerce-germanized-pro
-#: includes/class-wc-gzdp-vat-helper.php:873
+#: includes/class-wc-gzdp-vat-helper.php:874
 msgid ""
 "VAT ID seems to be invalid but was still saved. Please check the ID again."
 msgstr ""
 "USt. ID scheint nicht korrekt zu sein wurde aber trotzdem gespeichert. Bitte "
 "überprüfe die ID manuell."
 
-#: includes/class-wc-gzdp-vat-helper.php:1299
+#: includes/class-wc-gzdp-vat-helper.php:1308
 msgid "Please provide your company name to check your VAT ID."
 msgstr ""
 "Bitte gib deinen Firmennamen an, damit deine USt.-ID geprüft werden kann."
@@ -8690,7 +8693,7 @@ msgstr "Rechnungen aktivieren"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/class-wc-gzdp-admin-setup-wizard.php:85
-#: woocommerce-germanized-pro.php:696
+#: woocommerce-germanized-pro.php:700
 msgid "Support"
 msgstr "Support"
 
@@ -8817,7 +8820,7 @@ msgstr "Während des Imports sind Fehler aufgetreten:"
 
 # @ woocommerce-germanized-pro
 #: includes/admin/views/html-shipment-packing-slip.php:15
-#: src/StoreaBill/PackingSlips.php:428
+#: src/StoreaBill/PackingSlips.php:443
 #: src/StoreaBill/PackingSlip/DefaultTemplate.php:76
 msgid "Packing Slip"
 msgstr "Lieferschein"
@@ -9690,6 +9693,10 @@ msgctxt "admin-field"
 msgid "Unset attachment"
 msgstr "Anhang entfernen"
 
+#: templates/checkout/multistep/privacy.php:34
+msgid "required"
+msgstr "erforderlich"
+
 # @ woocommerce-germanized-pro
 #: templates/checkout/multistep/submit.php:28
 msgctxt "multistep"
@@ -9799,7 +9806,7 @@ msgid "upgrade"
 msgstr "upgrade"
 
 # @ woocommerce
-#: woocommerce-germanized-pro.php:695
+#: woocommerce-germanized-pro.php:699
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -9870,7 +9877,7 @@ msgstr ""
 msgid "Invalid shipment."
 msgstr "Sendung nicht verfügbar."
 
-#: src/StoreaBill/Ajax.php:65 src/StoreaBill/PackingSlips.php:364
+#: src/StoreaBill/Ajax.php:65 src/StoreaBill/PackingSlips.php:379
 msgid "Error while generating packing slip."
 msgstr "Fehler beim Erzeugen des Lieferscheins."
 
@@ -9894,73 +9901,73 @@ msgstr "Standard Beitragstitel"
 msgid "Forward your withdrawal online"
 msgstr "Erteile deinen Widerruf online"
 
-#: src/StoreaBill/PackingSlips.php:165
+#: src/StoreaBill/PackingSlips.php:180
 msgid "Shipment number (e.g. 123)"
 msgstr "Sendungsnummer (z.B. 123)"
 
-#: src/StoreaBill/PackingSlips.php:166
+#: src/StoreaBill/PackingSlips.php:181
 msgid "Order number (e.g. 1234)"
 msgstr "Bestellnummer (z.B. 1234)"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:429 src/StoreaBill/PackingSlips.php:582
+#: src/StoreaBill/PackingSlips.php:444 src/StoreaBill/PackingSlips.php:597
 msgid "Packing Slips"
 msgstr "Lieferscheine"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:439 src/StoreaBill/PackingSlips.php:445
+#: src/StoreaBill/PackingSlips.php:454 src/StoreaBill/PackingSlips.php:460
 #: src/StoreaBill/PackingSlip/DefaultTemplate.php:86
 msgid "Order number"
 msgstr "Bestellnummer"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:449
+#: src/StoreaBill/PackingSlips.php:464
 #: src/StoreaBill/PackingSlip/DefaultTemplate.php:85
 msgid "Shipment number"
 msgstr "Sendungsnummer"
 
-#: src/StoreaBill/PackingSlips.php:453
+#: src/StoreaBill/PackingSlips.php:468
 msgid "Return reasons"
 msgstr "Rücksendegründe"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:475
+#: src/StoreaBill/PackingSlips.php:490
 msgctxt "woocommerce-germanized-pro"
 msgid "Download %s"
 msgstr "Download %s"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:485
+#: src/StoreaBill/PackingSlips.php:500
 msgid "Generate and download packing slips"
 msgstr "Lieferscheine erstellen und downloaden"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:494
+#: src/StoreaBill/PackingSlips.php:509
 msgctxt "invoices"
 msgid "Download %s"
 msgstr "%s downloaden"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:501
+#: src/StoreaBill/PackingSlips.php:516
 msgid "Generate Packing Slip"
 msgstr "Lieferschein generieren"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:535
+#: src/StoreaBill/PackingSlips.php:550
 msgid "Automation"
 msgstr "Automatisierung"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:536
+#: src/StoreaBill/PackingSlips.php:551
 msgid "Automatically create packing slips to shipments."
 msgstr "Erstelle automatisch Lieferscheine zu Sendungen."
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:543
+#: src/StoreaBill/PackingSlips.php:558
 msgid "Shipment status(es)"
 msgstr "Sendungsstatus"
 
-#: src/StoreaBill/PackingSlips.php:544
+#: src/StoreaBill/PackingSlips.php:559
 msgid ""
 "Select one or more shipment statuses. A packing slip is generated as soon as "
 "a shipment reaches one of the statuses selected."
@@ -9968,22 +9975,22 @@ msgstr ""
 "Wähle einen oder mehrere Sendungsstatus aus. Ein Lieferschein wird erzeugt "
 "sobald die Sendung einen der ausgewählten Status erreicht."
 
-#: src/StoreaBill/PackingSlips.php:556
+#: src/StoreaBill/PackingSlips.php:571
 msgid "Send to admin"
 msgstr "An den Admin versenden"
 
-#: src/StoreaBill/PackingSlips.php:557
+#: src/StoreaBill/PackingSlips.php:572
 msgid "Send the packing slip via <a href=\"%s\">email</a> after rendering."
 msgstr ""
 "Versende den Lieferschein per <a href=\"%s\">E-Mail</a> nach dem Erstellen."
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:565
+#: src/StoreaBill/PackingSlips.php:580
 msgctxt "woocommerce-germanized-pro"
 msgid "Layout"
 msgstr "Layout"
 
-#: src/StoreaBill/PackingSlips.php:565
+#: src/StoreaBill/PackingSlips.php:580
 msgctxt "woocommerce-germanized-pro"
 msgid ""
 "Manage your %1$s templates by using the visual editor <a href=\"%2$s\" class="
@@ -9993,11 +10000,11 @@ msgstr ""
 "class=\"button button-secondary\">Mehr erfahren</a>"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/PackingSlips.php:570
+#: src/StoreaBill/PackingSlips.php:585
 msgid "Manage template"
 msgstr "Vorlage verwalten"
 
-#: src/StoreaBill/AccountingHelper.php:213
+#: src/StoreaBill/AccountingHelper.php:235
 msgid ""
 "The accounting feature is currently disabled. To edit PDF templates and "
 "settings, please <a href=\"%s\">activate</a> the feature first."
@@ -10005,53 +10012,53 @@ msgstr ""
 "Die Buchhaltungsfunktion ist aktuell deaktiviert. Um Vorlagen anpassen zu "
 "können, <a href=\"%s\">aktiviere</a> die Funktion zuerst."
 
-#: src/StoreaBill/AccountingHelper.php:586
-#: src/StoreaBill/AccountingHelper.php:589
-#: src/StoreaBill/AccountingHelper.php:596
+#: src/StoreaBill/AccountingHelper.php:628
+#: src/StoreaBill/AccountingHelper.php:631
+#: src/StoreaBill/AccountingHelper.php:638
 msgctxt "unit"
 msgid "kg"
 msgstr "kg"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:603
+#: src/StoreaBill/AccountingHelper.php:645
 msgid "3-4 days"
 msgstr "3-4 Tage"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:607
+#: src/StoreaBill/AccountingHelper.php:649
 msgid "Unit Price"
 msgstr "Grundpreis"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:613
+#: src/StoreaBill/AccountingHelper.php:655
 msgid "Cart Description"
 msgstr "Warenkorbkurzbeschreibung"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:614
+#: src/StoreaBill/AccountingHelper.php:656
 msgid "Just an item cart description."
 msgstr "Nur eine simple Warenkorbkurzbeschreibung."
 
-#: src/StoreaBill/AccountingHelper.php:619
+#: src/StoreaBill/AccountingHelper.php:661
 msgid "Product Units"
 msgstr "Produkteinheiten"
 
-#: src/StoreaBill/AccountingHelper.php:625
+#: src/StoreaBill/AccountingHelper.php:667
 msgid "Delivery Time"
 msgstr "Lieferzeit"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:635
+#: src/StoreaBill/AccountingHelper.php:677
 msgid "Unit Price (excl. tax)"
 msgstr "Grundpreis (exkl. MwSt.)"
 
-#: src/StoreaBill/AccountingHelper.php:681
+#: src/StoreaBill/AccountingHelper.php:723
 msgctxt "storeabill-template"
 msgid "Phone: %s"
 msgstr "Telefon: %s"
 
 # @ woocommerce-germanized-pro
-#: src/StoreaBill/AccountingHelper.php:689
+#: src/StoreaBill/AccountingHelper.php:731
 msgctxt "storeabill-template"
 msgid "VAT ID: %s"
 msgstr "USt.-ID: %s"

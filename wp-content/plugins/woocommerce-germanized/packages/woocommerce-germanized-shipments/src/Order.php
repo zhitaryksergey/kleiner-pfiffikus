@@ -162,6 +162,35 @@ class Order {
         }
     }
 
+	/**
+	 * @param Shipment $shipment
+	 */
+    public function calculate_shipment_additional_total( $shipment ) {
+	    $fees_total = 0;
+
+	    foreach ( $this->get_order()->get_fees() as $item ) {
+		    $fees_total += ( (float) $item->get_total() + (float) $item->get_total_tax() );
+	    }
+
+	    $additional_total = $fees_total + $this->get_order()->get_shipping_total() + $this->get_order()->get_shipping_tax();
+
+    	foreach( $this->get_simple_shipments() as $simple_shipment ) {
+    		if ( $shipment->get_id() === $simple_shipment->get_id() ) {
+    			continue;
+		    }
+
+    		$additional_total -= (float) $simple_shipment->get_additional_total();
+	    }
+
+    	$additional_total = wc_format_decimal( $additional_total, '' );
+
+    	if ( $additional_total < 0 ) {
+    		$additional_total = 0;
+	    }
+
+    	return $additional_total;
+    }
+
     public function validate_shipment_item_quantities( $shipment_id = false ) {
         $shipment    = $shipment_id ? $this->get_shipment( $shipment_id ) : false;
         $shipments   = ( $shipment_id && $shipment ) ? array( $shipment ) : $this->get_simple_shipments();
@@ -207,7 +236,7 @@ class Order {
                     if ( $quantity <= 0 ) {
                         $shipment->remove_item( $item->get_id() );
                     } else {
-                        $new_quantity = $item->get_quantity();
+                        $new_quantity = absint( $item->get_quantity() );
 
                         if ( $item->get_quantity() > $quantity ) {
                             $new_quantity = $quantity;
@@ -347,10 +376,10 @@ class Order {
                 if ( $item = $shipment->get_item_by_order_item_id( $order_item->get_id() ) ) {
 	                if ( 'return' === $shipment->get_type() ) {
 	                	if ( $shipment->is_shipped() ) {
-			                $quantity_left += $item->get_quantity();
+			                $quantity_left += absint( $item->get_quantity() );
 		                }
 	                } else {
-		                $quantity_left -= $item->get_quantity();
+		                $quantity_left -= absint( $item->get_quantity() );
 	                }
                 }
             }
@@ -384,7 +413,7 @@ class Order {
 		    }
 
     		if ( $item = $shipment->get_item_by_order_item_id( $order_item_id ) ) {
-    			$quantity += $item->get_quantity();
+    			$quantity += absint( $item->get_quantity() );
 		    }
 	    }
 
@@ -415,7 +444,7 @@ class Order {
 			}
 
 			if ( $shipment_item = $shipment->get_item_by_order_item_id( $order_item_id ) ) {
-				$quantity_left -= $shipment_item->get_quantity();
+				$quantity_left -= absint( $shipment_item->get_quantity() );
 			}
 		}
 
@@ -697,7 +726,7 @@ class Order {
 					$new_item = clone $item;
 					$items[ $item->get_order_item_id() ] = $new_item;
 				} else {
-					$new_quantity = $items[ $item->get_order_item_id() ]->get_quantity() + $item->get_quantity();
+					$new_quantity = absint( $items[ $item->get_order_item_id() ]->get_quantity() ) + absint( $item->get_quantity() );
 					$items[ $item->get_order_item_id() ]->set_quantity( $new_quantity );
 				}
 			}
@@ -717,14 +746,14 @@ class Order {
 	}
 
     public function get_shippable_item_quantity( $order_item ) {
-        $refunded_qty = $this->get_order()->get_qty_refunded_for_item( $order_item->get_id() );
+        $refunded_qty = absint( $this->get_order()->get_qty_refunded_for_item( $order_item->get_id() ) );
 
         // Make sure we are safe to substract quantity for logical purposes
         if ( $refunded_qty < 0 ) {
             $refunded_qty *= -1;
         }
 
-        $quantity_left = $order_item->get_quantity() - $refunded_qty;
+        $quantity_left = absint( $order_item->get_quantity() ) - $refunded_qty;
 
 	    /**
 	     * Filter that allows adjusting the quantity left for shipping or a specific order item.
@@ -772,7 +801,7 @@ class Order {
 		$count = 0;
 
 		foreach( $this->get_returnable_items() as $item ) {
-			$count += $item->get_quantity();
+			$count += absint( $item->get_quantity() );
 		}
 
 		/**

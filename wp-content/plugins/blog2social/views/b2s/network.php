@@ -34,10 +34,10 @@ $networkData = $networkItem->getData();
                                     <?php echo $networkItem->getSelectMandantHtml($networkData['mandanten']); ?>
                                     <div class="form-group b2s-network-mandant-area">
                                         <?php if (B2S_PLUGIN_USER_VERSION > 1) { ?>
-                                            <button href="#" class="btn btn-primary btn-sm b2s-network-add-mandant-btn">
+                                            <button href="#" class="btn btn-default btn-sm b2s-network-add-mandant-btn">
                                                 <span class="glyphicon glyphicon-plus"></span> <?php esc_html_e('Create new network collection', 'blog2social') ?> <span class="label label-success"></button>
                                         <?php } else { ?>
-                                            <button href="#" class="btn btn-primary btn-sm b2s-btn-disabled b2sProFeatureModalBtn" data-type="create-network-profile" data-title="<?php esc_html_e('You want to define a new combination of networks?', 'blog2social') ?>">
+                                            <button href="#" class="btn btn-default btn-sm b2s-btn-disabled b2sProFeatureModalBtn" data-type="create-network-profile" data-title="<?php esc_html_e('You want to define a new combination of networks?', 'blog2social') ?>">
                                                 <span class="glyphicon glyphicon-plus"></span> <?php esc_html_e('Create new network collection', 'blog2social') ?> <span class="label label-success"> <?php esc_html_e("PRO", "blog2social") ?></span></button>
                                         <?php } ?>
 
@@ -49,9 +49,9 @@ $networkData = $networkItem->getData();
                                     </div>
                                     <div class="form-group b2s-network-time-manager-area pull-right hidden-xs">
                                         <?php if (B2S_PLUGIN_USER_VERSION > 0) { ?>
-                                            <a href="#" class="btn btn-primary btn-sm b2s-get-settings-sched-time-default">
+                                            <a href="#" class="btn btn-default btn-sm b2s-get-settings-sched-time-default">
                                             <?php } else { ?>
-                                                <a href="#" class="btn btn-primary btn-sm b2s-btn-disabled" data-title = "<?php esc_html_e('You want to schedule your posts and use the Best Time Scheduler?', 'blog2social') ?>" data-toggle ="modal" data-target ="#b2sInfoSchedTimesModal">
+                                                <a href="#" class="btn btn-default btn-sm b2s-btn-disabled" data-title = "<?php esc_html_e('You want to schedule your posts and use the Best Time Scheduler?', 'blog2social') ?>" data-toggle ="modal" data-target ="#b2sInfoSchedTimesModal">
                                                 <?php } ?>  <span class="glyphicon glyphicon-time"></span> <?php esc_html_e('Load Best Times', 'blog2social'); ?></a>
                                     </div>
                                 </div>
@@ -233,6 +233,9 @@ $networkData = $networkItem->getData();
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-18" alt="Google My Business" src="<?php echo plugins_url('/assets/images/portale/18_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-19" alt="Xing" src="<?php echo plugins_url('/assets/images/portale/19_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
                 <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-24" alt="Telegram" src="<?php echo plugins_url('/assets/images/portale/24_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
+                <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-25" alt="Blogger" src="<?php echo plugins_url('/assets/images/portale/25_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
+                <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-26" alt="Ravelry" src="<?php echo plugins_url('/assets/images/portale/26_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
+                <img class="pull-left hidden-xs b2s-img-network b2s-edit-template-network-img" id="b2s-edit-template-network-img-27" alt="Instapaper" src="<?php echo plugins_url('/assets/images/portale/27_flat.png', B2S_PLUGIN_FILE); ?>" style="display: none;">
                 <h4 class="modal-title b2s-edit-template-title"><?php esc_html_e('Edit Post Template', 'blog2social') ?></h4> <?php echo ((B2S_PLUGIN_USER_VERSION == 0) ? '<span class="label label-success">' . esc_html__('SMART', 'blog2social') . '</span>' : '') ?>
             </div>
             <div class="row b2s-loading-area width-100">

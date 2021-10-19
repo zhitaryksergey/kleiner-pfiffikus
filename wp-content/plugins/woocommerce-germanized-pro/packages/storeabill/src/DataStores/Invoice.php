@@ -99,7 +99,7 @@ class Invoice extends Document {
 			case "is_reverse_charge":
 			case "is_oss":
 			case "is_taxable":
-				$value = wc_bool_to_string( $value );
+				$value = sab_bool_to_string( $value );
 				break;
 			case "payment_status":
 				$value = $this->get_payment_status( $document );

@@ -35,6 +35,14 @@ class BulkSync extends BulkActionHandler {
 		}
 	}
 
+	public function parse_ids_ascending() {
+		if ( 'customer' === $this->get_object_type() ) {
+			return false;
+		} else {
+			return parent::parse_ids_ascending();
+		}
+	}
+
 	/**
 	 * @return bool|SyncHandler
 	 */

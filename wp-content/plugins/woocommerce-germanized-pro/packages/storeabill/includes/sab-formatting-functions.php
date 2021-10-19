@@ -509,3 +509,31 @@ function sab_timezone_string() {
 function sab_get_current_datetime() {
 	return sab_string_to_datetime( current_time( 'mysql' ) );
 }
+
+function sab_normalize_postcode( $postcode ) {
+	return wc_normalize_postcode( $postcode );
+}
+
+function sab_strtoupper( $string ) {
+	return wc_strtoupper( $string );
+}
+
+/**
+ * Converts a string (e.g. 'yes' or 'no') to a bool.
+ *
+ * @param string|bool $string String to convert. If a bool is passed it will be returned as-is.
+ * @return bool
+ */
+function sab_string_to_bool( $string ) {
+	return wc_string_to_bool( $string );
+}
+
+/**
+ * Converts a bool to a 'yes' or 'no'.
+ *
+ * @param bool|string $bool Bool to convert. If a string is passed it will first be converted to a bool.
+ * @return string
+ */
+function sab_bool_to_string( $bool ) {
+	return wc_bool_to_string( $bool );
+}

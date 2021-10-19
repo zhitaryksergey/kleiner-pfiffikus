@@ -177,7 +177,7 @@ abstract class SyncHandler implements ExternalSync {
 	}
 
 	public function is_enabled() {
-		return wc_string_to_bool( $this->get_setting( 'enabled' ) );
+		return sab_string_to_bool( $this->get_setting( 'enabled' ) );
 	}
 
 	public function is_syncable( $object ) {

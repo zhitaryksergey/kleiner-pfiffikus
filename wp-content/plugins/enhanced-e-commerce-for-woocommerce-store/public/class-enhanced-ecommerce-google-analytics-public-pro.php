@@ -464,7 +464,6 @@ class Enhanced_Ecommerce_Google_Analytics_Public {
           gtag("config", "'.esc_js($this->gm_id).'",{'.$ga_ip_anonymization.' "cookie_domain":"'.$this->ga_Dname.'",
             "custom_map": {
               "dimension1": "user_id",
-              "dimension2": "client_id",
               "dimension3": "user_type",
               "dimension4": "page_type",
               "dimension5": "day_type",
@@ -495,7 +494,6 @@ class Enhanced_Ecommerce_Google_Analytics_Public {
           gtag("config", "'.esc_js($this->gm_id).'",{'.$ga_ip_anonymization.' "cookie_domain":"'.$this->ga_Dname.'",
             "custom_map": {
               "dimension1": "user_id",
-              "dimension2": "client_id",
               "dimension3": "user_type",
               "dimension4": "page_type",
               "dimension5": "day_type",
@@ -525,7 +523,6 @@ class Enhanced_Ecommerce_Google_Analytics_Public {
           gtag("config", "'.esc_js($this->ga_id).'",{'.$ga_ip_anonymization.' "cookie_domain":"'.$this->ga_Dname.'",
             "custom_map": {
               "dimension1": "user_id",
-              "dimension2": "client_id",
               "dimension3": "user_type",
               "dimension4": "page_type",
               "dimension5": "day_type",

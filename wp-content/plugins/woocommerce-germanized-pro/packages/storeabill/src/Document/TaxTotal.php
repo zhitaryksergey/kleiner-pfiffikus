@@ -298,4 +298,8 @@ class TaxTotal {
 		$this->set_item_type_subtotals( $subtotals );
 		$this->set_item_type_net_subtotals( $net_subtotals );
 	}
+
+	public function get_taxes() {
+		return $this->taxes;
+	}
 }

@@ -198,14 +198,21 @@ class Customer implements \Vendidero\StoreaBill\Interfaces\Customer {
 	}
 
 	public function has_shipping_address() {
-		foreach( $this->data['shipping_address'] as $address_field ) {
-			// Trim guards against a case where a subset of saved shipping address fields contain whitespace.
-			if ( strlen( trim( $address_field ) ) > 0 ) {
-				return true;
+		/**
+		 * Some fields (e.g. shipping email) may have a value although there is no address available
+		 */
+		$fields_to_check            = array( 'address_1', 'country', 'postcode' );
+		$has_valid_shipping_address = true;
+
+		foreach( $fields_to_check as $field_name ) {
+			$value = array_key_exists( $field_name, $this->data['shipping_address'] ) ? trim( $this->data['shipping_address'][ $field_name ] ) : '';
+
+			if ( strlen( $value ) <= 0 ) {
+				$has_valid_shipping_address = false;
 			}
 		}
 
-		return false;
+		return $has_valid_shipping_address;
 	}
 
 	public function get_meta( $key, $single = true, $context = 'view' ) {

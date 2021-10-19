@@ -288,6 +288,8 @@ class Admin {
 				$bulk_actions[ sanitize_key( $handler->get_action() ) ] = array(
 					'title' => $handler->get_title(),
 					'nonce' => wp_create_nonce( $handler->get_nonce_action() ),
+					'parse_ids_ascending' => $handler->parse_ids_ascending(),
+					'id_order_by_column'  => $handler->get_id_order_by_column()
 				);
 			}
 

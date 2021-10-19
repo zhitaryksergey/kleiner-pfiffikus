@@ -145,6 +145,11 @@ if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
 					</div>
 				<?php
 			}
+
+			// Double check if the woosea_cron_hook is there, when it is not create a new one
+                	if (!wp_next_scheduled( 'woosea_cron_hook' ) ) {
+                        	wp_schedule_event ( time(), 'hourly', 'woosea_cron_hook');
+                	}
 			?>
 
                         <div class="woo-product-feed-pro-form-style-2-heading"><?php _e( 'Manage feeds','woo-product-feed-pro' );?></div>

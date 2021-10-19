@@ -50,7 +50,10 @@ class Helper {
 		add_action( 'enqueue_block_assets', array( __CLASS__, 'prevent_third_party_assets' ), 999 );
 
 		add_filter( 'use_block_editor_for_post', array( __CLASS__, 'remove_theme_editor_styles' ), 999, 2 );
+		add_filter( 'block_editor_no_javascript_message', array( __CLASS__, 'reset_theme_file_path_filter' ), 999 );
+
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_editor_assets' ) );
+		add_filter( 'block_editor_settings_all', array( __CLASS__, 'prevent_theme_settings' ), 999, 2 );
 
 		add_action( 'admin_footer', array( __CLASS__, 'add_footer_styles' ), 150 );
 
@@ -846,14 +849,74 @@ class Helper {
 		return $replace;
 	}
 
+	/**
+	 * @param $args
+	 * @param \WP_Block_Editor_Context $block_editor_context
+	 */
+	public static function prevent_theme_settings( $args, $block_editor_context ) {
+		if ( $block_editor_context->post && self::is_document_template( $block_editor_context->post ) ) {
+			unset( $args['styles'] );
+			unset( $args['colors'] );
+			unset( $args['gradients'] );
+
+			$args['disableCustomColors']    = false;
+
+			$args['disableCustomGradients'] = true;
+			$args['enableCustomUnits']      = false;
+			$args['supportsLayout']         = false;
+
+			if ( isset( $args['__experimentalFeatures']['color']['customDuotone'] ) ) {
+				$args['__experimentalFeatures']['color']['customDuotone'] = false;
+			}
+
+			if ( isset( $args['__experimentalFeatures']['color']['palette']['theme'] ) ) {
+				unset( $args['__experimentalFeatures']['color']['palette']['theme'] );
+			}
+		}
+
+		return $args;
+	}
+
 	public static function remove_theme_editor_styles( $enable, $post ) {
 		if ( self::is_document_template( $post ) ) {
 			if ( function_exists( 'remove_editor_styles' ) ) {
 				remove_editor_styles();
+				remove_theme_support( 'wp-block-styles' );
+				remove_theme_support( 'editor-color-palette' );
+				remove_theme_support( 'disable-custom-font-sizes' );
+
+				add_theme_support( 'disable-custom-colors' );
 			}
+
+			/**
+			 * Setup a global filter to prevent Gutenberg from loading theme-specific settings for the editor (e.g. theme.json)
+			 */
+			add_filter( 'theme_file_path', array( __CLASS__, 'prevent_valid_theme_json_file' ), 999, 2 );
 		}
 
 		return $enable;
+	}
+
+	public static function reset_theme_file_path_filter( $message ) {
+		remove_filter( 'theme_file_path', array( __CLASS__, 'prevent_valid_theme_json_file' ), 999 );
+
+		return $message;
+	}
+
+	/**
+	 * Prevent Gutenberg from loading the theme.json file which may override color palettes.
+	 *
+	 * @param $stylesheet_dir
+	 * @param $file
+	 *
+	 * @return mixed|string
+	 */
+	public static function prevent_valid_theme_json_file( $stylesheet_dir, $file ) {
+		if ( $file && 'theme.json' === $file ) {
+			$stylesheet_dir = trailingslashit( WP_CONTENT_DIR ) . 'themes';
+		}
+
+		return $stylesheet_dir;
 	}
 
 	protected static function allow_third_party_asset( $src ) {

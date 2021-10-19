@@ -115,10 +115,10 @@ if (isset($_GET['connect']) && isset($_GET['subscription_id'])) {
       $TVC_Admin_Helper->update_remarketing_snippets();
       if(isset($googleDetail->google_merchant_center_id) || isset($googleDetail->google_ads_id) ){
         if( $googleDetail->google_merchant_center_id != "" && $googleDetail->google_ads_id != ""){      
-          wp_redirect("admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=sync_product_page&welcome_msg=true");
+          wp_redirect("admin.php?page=conversios-google-shopping-feed&tab=sync_product_page&welcome_msg=true");
             exit;
         }else{
-          wp_redirect("admin.php?page=enhanced-ecommerce-google-analytics-admin-display&tab=gaa_config_page&welcome_msg=true");
+          wp_redirect("admin.php?page=conversios-google-shopping-feed&tab=gaa_config_page&welcome_msg=true");
             exit;
         }
       }
@@ -420,7 +420,7 @@ $(document).ready(function () {
       $.ajax({
         type: "POST",
         dataType: "json",
-        url: myAjaxNonces.ajaxurl,
+        url: tvc_ajax_url,
         data: data,
         beforeSend: function(){
           tvc_helper.loaderSection(true);

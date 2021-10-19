@@ -93,6 +93,7 @@ class AccountingHelper {
 		 * Maybe allow additional cost tax rounding
 		 */
 		add_filter( 'storeabill_woo_order_item_type_includes_tax', array( __CLASS__, 'maybe_treat_additional_costs_including_tax' ), 10, 3 );
+		add_filter( 'storeabill_woo_order_item_type_round_tax_at_subtotal', array( __CLASS__, 'maybe_round_additional_costs_tax_at_subtotal' ), 10, 3 );
 		add_filter( 'storeabill_woo_order_allow_round_split_taxes_at_subtotal', array( __CLASS__, 'maybe_allow_round_split_taxes_at_subtotal' ), 10, 2 );
 
 		add_filter( 'storeabill_document_template_editor_asset_whitelist_paths', array( __CLASS__, 'register_asset_whitelist_paths' ), 10 );
@@ -110,6 +111,27 @@ class AccountingHelper {
 
 		// Whitelist shipment emails
 		add_filter( 'storeabill_woo_order_transactional_email_ids_whitelist', array( __CLASS__, 'register_additional_emails' ), 10 );
+
+		/**
+         * TM Product Options
+         */
+		add_filter( 'storeabill_woo_order_item_before_retrieve_attributes', array( __CLASS__, 'set_tm_admin_filter' ), 20 );
+		add_filter( 'storeabill_woo_shipment_item_before_retrieve_attributes', array( __CLASS__, 'set_tm_admin_filter' ), 20 );
+
+		add_filter( 'storeabill_woo_order_item_after_retrieve_attributes', array( __CLASS__, 'remove_tm_admin_filter' ), 20 );
+		add_filter( 'storeabill_woo_shipment_item_after_retrieve_attributes', array( __CLASS__, 'remove_tm_admin_filter' ), 20 );
+	}
+
+	public static function set_tm_admin_filter() {
+	    if ( apply_filters( 'woocommerce_gzdp_suppress_epo_admin_filter', true ) ) {
+		    add_filter( 'wc_epo_admin_in_shop_order', '__return_false', 99 );
+        }
+    }
+
+	public static function remove_tm_admin_filter() {
+		if ( apply_filters( 'woocommerce_gzdp_suppress_epo_admin_filter', true ) ) {
+			remove_filter( 'wc_epo_admin_in_shop_order', '__return_false', 99 );
+		}
 	}
 
 	/**
@@ -269,6 +291,26 @@ class AccountingHelper {
 		$enable_split_tax = function_exists( 'wc_gzd_enable_additional_costs_split_tax_calculation' ) ? wc_gzd_enable_additional_costs_split_tax_calculation() : 'yes' === get_option( 'woocommerce_gzd_shipping_tax' );
 
 		return $enable_split_tax;
+	}
+
+	/**
+     * Make sure to mark shipping costs to be tax-rounded at subtotal e.g. in case the overall
+     * tax settings are set to excluded but additional costs do still include taxes due to a filter.
+     *
+	 * @param boolean $round_tax_at_subtotal
+	 * @param string $order_item_type
+	 * @param Order $order
+	 *
+	 * @return bool
+	 */
+	public static function maybe_round_additional_costs_tax_at_subtotal( $round_tax_at_subtotal, $order_item_type, $order ) {
+		if ( in_array( $order_item_type, array( 'shipping', 'fee' ) ) && self::enable_split_tax_calculation() ) {
+            if ( self::maybe_treat_additional_costs_including_tax( true, $order_item_type, $order ) ) {
+                $round_tax_at_subtotal = true;
+            }
+		}
+
+		return $round_tax_at_subtotal;
 	}
 
 	/**

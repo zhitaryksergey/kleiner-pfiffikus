@@ -377,7 +377,7 @@ abstract class CsvExporter extends \WC_CSV_Batch_Exporter implements Exporter {
 	}
 
 	protected function has_meta_support() {
-	    $has_meta_support = $this->get_filter( 'enable_meta' ) ? wc_string_to_bool( $this->get_filter( 'enable_meta' ) ) : false;
+	    $has_meta_support = $this->get_filter( 'enable_meta' ) ? sab_string_to_bool( $this->get_filter( 'enable_meta' ) ) : false;
 
 	    return $has_meta_support;
 	}

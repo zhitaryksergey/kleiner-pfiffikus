@@ -187,6 +187,34 @@ class B2S_Settings_Item {
         }
         $content .='<input type="text" ' . (($readonly) ? "readonly" : "") . ' value="' . esc_attr((($this->generalOptions->_getOption('og_default_image') !== false && !empty($this->generalOptions->_getOption('og_default_image'))) ? $this->generalOptions->_getOption('og_default_image') : '')) . '" name="b2s_og_default_image" class="form-control" id="b2s_og_default_image">';
         $content .='<span>' . esc_html__('Please note: Facebook supports images with a minimum dimension of 200x200 pixels and an aspect ratio of 1:1.', 'blog2social') . '</span>';
+        
+        $content .='<br><br>';
+        $content .= '<input type="checkbox" value="1" name="b2s_og_imagedata_active" ' . (($readonly) ? 'disabled="true"' : "") . '  id="b2s_og_imagedata_active" ' . (($this->generalOptions->_getOption('og_imagedata_active') == 1) ? 'checked="checked"' : '') . ' /><label for="b2s_og_imagedata_active"> ' . esc_html__('Add Open Graph Image Data.', 'blog2social', 'blog2social') . '</label>';
+        
+        $content .='<br><br>';
+        $content .= '<input type="checkbox" value="1" name="b2s_og_objecttype_active" ' . (($readonly) ? 'disabled="true"' : "") . '  id="b2s_og_objecttype_active" ' . (($this->generalOptions->_getOption('og_objecttype_active') == 1) ? 'checked="checked"' : '') . ' /><label for="b2s_og_objecttype_active"> ' . esc_html__('Add Open Graph Object Type.', 'blog2social', 'blog2social') . '</label>';
+        
+        $content .='<br><br>';
+        $content .= '<input type="checkbox" value="1" name="b2s_og_locale_active" ' . (($readonly) ? 'disabled="true"' : "") . '  id="b2s_og_locale_active" ' . (($this->generalOptions->_getOption('og_locale_active') == 1) ? 'checked="checked"' : '') . ' /><label for="b2s_og_locale_active"> ' . esc_html__('Add Open Graph Locale.', 'blog2social', 'blog2social') . '</label> ';
+        $content .=  '<select class="b2s_og_locale" name="b2s_og_locale">';
+        require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+        $languages = wp_get_available_translations();
+        $b2sOgLocale = $this->generalOptions->_getOption('og_locale');
+        if($b2sOgLocale == false || empty($b2sOgLocale)) {
+            $b2sOgLocale = get_locale();
+        }
+        $addBlogLocale = true;
+        foreach ($languages as $key => $value) {
+            if(get_locale() == $key) {
+                $addBlogLocale = false;
+            }
+            $content .= '<option value="'.$key.'" ' . (($b2sOgLocale == $key) ? 'selected="selected"' : '') . '>'.$key.'</option>';
+        }
+        if($addBlogLocale) {
+            $content .= '<option value="'.get_locale().'" ' . (($b2sOgLocale == get_locale()) ? 'selected="selected"' : '') . '>'.get_locale().'</option>';
+        }
+        $content .= '</select>';
+        
         $content .='</div>';
         $content .='</div>';
         $content .='<div class="clearfix"></div>';

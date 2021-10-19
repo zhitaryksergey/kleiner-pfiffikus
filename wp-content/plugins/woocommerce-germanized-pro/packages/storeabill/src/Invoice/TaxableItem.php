@@ -139,7 +139,7 @@ abstract class TaxableItem extends Item implements Taxable, Summable, Priceable 
 	}
 
 	public function set_is_taxable( $is_taxable ) {
-		$this->set_prop( 'is_taxable', wc_string_to_bool( $is_taxable ) );
+		$this->set_prop( 'is_taxable', sab_string_to_bool( $is_taxable ) );
 	}
 
 	public function has_taxes() {
@@ -264,7 +264,7 @@ abstract class TaxableItem extends Item implements Taxable, Summable, Priceable 
 	 * @param bool|string $value Either bool or string (yes/no).
 	 */
 	public function set_prices_include_tax( $value ) {
-		$this->set_prop( 'prices_include_tax', wc_string_to_bool( $value ) );
+		$this->set_prop( 'prices_include_tax', sab_string_to_bool( $value ) );
 	}
 
 	public function get_total_net() {
@@ -449,14 +449,40 @@ abstract class TaxableItem extends Item implements Taxable, Summable, Priceable 
 		}
 	}
 
-	public function round_tax_at_subtotal() {
-		if ( $document = $this->get_document() ) {
-			if ( is_a( $document, '\Vendidero\StoreaBill\Interfaces\Invoice' ) ) {
-				return $document->round_tax_at_subtotal();
+	/**
+	 * Returns whether taxes are round at subtotal or per line.
+	 *
+	 * @param string $context
+	 *
+	 * @return bool True if taxes are round at subtotal.
+	 */
+	public function get_round_tax_at_subtotal( $context = 'view' ) {
+		$round_tax = $this->get_prop( 'round_tax_at_subtotal', $context );
+
+		if ( 'view' === $context && is_null( $round_tax ) ) {
+			if ( $document = $this->get_document() ) {
+				if ( is_a( $document, '\Vendidero\StoreaBill\Interfaces\Invoice' ) ) {
+					return $document->round_tax_at_subtotal();
+				}
 			}
+
+			return sab_string_to_bool( get_option( 'woocommerce_tax_round_at_subtotal' ) );
 		}
 
-		return wc_string_to_bool( get_option( 'woocommerce_tax_round_at_subtotal' ) );
+		return $round_tax;
+	}
+
+	/**
+	 * Set whether invoice taxes are round at subtotal or not.
+	 *
+	 * @param bool|string $value Either bool or string (yes/no).
+	 */
+	public function set_round_tax_at_subtotal( $value ) {
+		$this->set_prop( 'round_tax_at_subtotal', '' === $value ? null : sab_string_to_bool( $value ) );
+	}
+
+	public function round_tax_at_subtotal() {
+		return $this->get_round_tax_at_subtotal();
 	}
 
 	public function calculate_tax_totals() {
@@ -488,6 +514,7 @@ abstract class TaxableItem extends Item implements Taxable, Summable, Priceable 
 		$total_tax      = 0;
 		$subtotal_tax   = 0;
 		$rates          = $this->get_tax_rates();
+
 		$taxes          = Tax::calc_tax( $this->get_line_total_taxable(), $rates, $this->prices_include_tax() );
 		$subtotal_taxes = Tax::calc_tax( $this->get_line_subtotal(), $rates, $this->prices_include_tax() );
 

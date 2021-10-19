@@ -18,6 +18,24 @@ window.storeabill.admin = window.storeabill.admin || {};
                 .on( 'click', '#doaction, #doaction2', self.onBulkSubmit );
         },
 
+        getCurrentSort: function( column ) {
+            var self = storeabill.admin.bulk_actions,
+                sorted = 'desc',
+                $form  = self.getForm(),
+                columnIdentifier = column;
+
+            var $thead = $form.find( 'table.wp-list-table thead' );
+            var $th    = $thead.find( "th[class*='" + columnIdentifier + "']" ).first();
+
+            if ( $th.length > 0 ) {
+                if ( $th.hasClass( 'asc' ) ) {
+                    sorted = 'asc';
+                }
+            }
+
+            return sorted;
+        },
+
         onBulkSubmit: function() {
             var self   = storeabill.admin.bulk_actions,
                 action = $( this ).parents( '.bulkactions' ).find( 'select[name^=action]' ).val(),
@@ -31,6 +49,15 @@ window.storeabill.admin = window.storeabill.admin || {};
             if ( self.params.bulk_actions.hasOwnProperty( action ) && ids.length > 0 ) {
 
                 var actionData = self.params.bulk_actions[ action ];
+                var sort       = self.getCurrentSort( actionData['id_order_by_column'] );
+
+                /**
+                 * In case ids are sorted descending - reverse array in case
+                 * this bulk handler expects ids to be parsed in an ascending order
+                 */
+                if ( 'desc' === sort && actionData['parse_ids_ascending'] ) {
+                    ids = ids.reverse();
+                }
 
                 $( '.sab-bulk-action-wrapper' ).find( '.bulk-title' ).text( actionData['title'] );
                 $( '.sab-bulk-action-wrapper' ).addClass( 'processing' );

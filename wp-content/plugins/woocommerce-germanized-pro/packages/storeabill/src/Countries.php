@@ -126,13 +126,9 @@ class Countries {
 		 * In any other case consider every non-base-country as third country.
 		 */
 		if ( in_array( self::get_base_country(), self::get_eu_vat_countries() ) ) {
-			$is_third_country = ! in_array( $country, self::get_eu_vat_countries() );
+			$is_third_country = ! self::is_eu_vat_country( $country, $postcode );
 		} else {
 			$is_third_country = $country !== self::get_base_country();
-		}
-
-		if ( self::is_northern_ireland( $country, $postcode ) ) {
-			$is_third_country = false;
 		}
 
 		return apply_filters( 'storeabill_is_third_country', $is_third_country, $country, $postcode );
@@ -157,14 +153,14 @@ class Countries {
 	}
 
 	public static function is_eu_vat_postcode_exemption( $country, $postcode = '' ) {
-		$country    = wc_strtoupper( $country );
-		$postcode   = wc_normalize_postcode( $postcode );
+		$country    = sab_strtoupper( $country );
+		$postcode   = sab_normalize_postcode( $postcode );
 		$exemptions = self::get_eu_vat_postcode_exemptions();
 		$is_exempt  = false;
 
 		if ( ! empty( $postcode ) && in_array( $country, self::get_eu_vat_countries() ) ) {
 			if ( array_key_exists( $country, $exemptions ) ) {
-				$wildcards = wc_get_wildcard_postcodes( $postcode, $country );
+				$wildcards = sab_get_wildcard_postcodes( $postcode, $country );
 
 				foreach( $exemptions[ $country ] as $exempt_postcode ) {
 					if ( in_array( $exempt_postcode, $wildcards, true ) ) {
@@ -179,8 +175,8 @@ class Countries {
 	}
 
 	public static function is_eu_vat_country( $country, $postcode = '' ) {
-		$country           = wc_strtoupper( $country );
-		$postcode          = wc_normalize_postcode( $postcode );
+		$country           = sab_strtoupper( $country );
+		$postcode          = sab_normalize_postcode( $postcode );
 		$is_eu_vat_country = in_array( $country, self::get_eu_vat_countries() );
 
 		if ( self::is_northern_ireland( $country, $postcode ) ) {

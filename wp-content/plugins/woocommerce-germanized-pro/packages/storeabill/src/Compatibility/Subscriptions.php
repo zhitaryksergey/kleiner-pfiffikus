@@ -4,10 +4,12 @@ namespace Vendidero\StoreaBill\Compatibility;
 
 use Vendidero\StoreaBill\Document\Shortcodes;
 use Vendidero\StoreaBill\Interfaces\Compatibility;
+use Vendidero\StoreaBill\Invoice\Invoice;
 use Vendidero\StoreaBill\Invoice\Simple;
 use Vendidero\StoreaBill\WooCommerce\Automation;
 use Vendidero\StoreaBill\WooCommerce\Helper;
 use Vendidero\StoreaBill\WooCommerce\Order;
+use Vendidero\StoreaBill\WooCommerce\OrderItem;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,6 +31,11 @@ class Subscriptions implements Compatibility {
 		add_action( 'storeabill_woo_order_synced_invoice', array( __CLASS__, 'sync_invoice_date_of_service' ), 50, 2 );
 
 		/**
+		 * Sync the date of service with the invoice
+		 */
+		add_action( 'storeabill_woo_order_item_belongs_to_invoice', array( __CLASS__, 'maybe_exclude_item_from_invoice' ), 50, 5 );
+
+		/**
 		 * Add order related shortcodes.
 		 */
 		add_filter( 'storeabill_shortcode_get_document_reference_data', array( __CLASS__, 'shortcode_result' ), 10, 4 );
@@ -42,6 +49,154 @@ class Subscriptions implements Compatibility {
 		 * On renewals
 		 */
 		add_filter( 'wcs_renewal_order_created', array( __CLASS__, 'maybe_trigger_auto' ), 5000, 2 );
+	}
+
+	/**
+	 * This filter ensures that only subscriptions items of the same billing period (e.g. 1 month)
+	 * are included within the same invoice to make sure the invoice date of service is in sync for the whole document.
+	 *
+	 * @param boolean $include
+	 * @param OrderItem $order_item
+	 * @param array $props
+	 * @param Invoice $invoice
+	 * @param Order $order
+	 */
+	public static function maybe_exclude_item_from_invoice( $include, $order_item, $props, $invoice, $order ) {
+		if ( self::item_is_subscription( $order_item, $order ) ) {
+			if ( ! self::item_belongs_to_invoice( $invoice, $order_item, $order ) ) {
+				$include = false;
+			}
+		}
+
+		return $include;
+	}
+
+	/**
+	 * @param Invoice $invoice
+	 * @param Order $order
+	 */
+	protected static function get_subscription_dates_of_service_end( $invoice, $order ) {
+		$items = array();
+
+		foreach( $invoice->get_items( 'product' ) as $item ) {
+			if ( $reference = $item->get_reference() ) {
+				if ( $end_date = self::get_date_of_service_end_by_item( $order, $reference, $invoice ) ) {
+					$items[ $item->get_id() ] = $end_date;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+	/**
+	 * @param OrderItem $order_item
+	 * @param Order $order
+	 */
+	protected static function item_is_subscription( $order_item, $order ) {
+		$woo_order            = $order->get_order();
+		$item_is_subscription = false;
+
+		if ( function_exists( 'wcs_order_contains_subscription' ) &&
+		     function_exists( 'wcs_add_time' ) &&
+		     function_exists( 'wcs_get_subscriptions_for_order' ) &&
+		     function_exists( 'wcs_get_canonical_product_id' ) )
+		{
+			if ( 'line_item' === $order_item->get_type() ) {
+				$woo_order_item         = $order_item->get_object();
+				$order_items_product_id = wcs_get_canonical_product_id( $woo_order_item );
+
+				foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => 'parent' ) ) as $subscription ) {
+					foreach ( $subscription->get_items() as $line_item ) {
+						if ( wcs_get_canonical_product_id( $line_item ) == $order_items_product_id ) {
+							$item_is_subscription = true;
+							break 2;
+						}
+					}
+				}
+			}
+		}
+
+		return $item_is_subscription;
+	}
+
+	/**
+	 * @param Order $order
+	 * @param OrderItem $order_item
+	 * @param Invoice $invoice
+	 */
+	protected static function get_date_of_service_end_by_item( $order, $order_item, $invoice ) {
+		$woo_order           = $order->get_order();
+		$woo_order_item      = $order_item->get_object();
+		$date_of_service_end = null;
+
+		if ( function_exists( 'wcs_order_contains_subscription' ) &&
+		     function_exists( 'wcs_add_time' ) &&
+		     function_exists( 'wcs_get_subscriptions_for_order' ) &&
+		     function_exists( 'wcs_get_canonical_product_id' ) &&
+		     wcs_order_contains_subscription( $woo_order, 'any' ) )
+		{
+			$order_items_product_id = wcs_get_canonical_product_id( $woo_order_item );
+			$start_date             = $invoice->get_date_of_service();
+
+			foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => 'parent' ) ) as $subscription ) {
+				foreach ( $subscription->get_items() as $line_item ) {
+					if ( wcs_get_canonical_product_id( $line_item ) == $order_items_product_id ) {
+						if ( $end_date = self::get_subscription_date_of_service_end( $subscription, $start_date ) ) {
+							$date_of_service_end = $end_date;
+							break 2;
+						}
+					}
+				}
+			}
+		}
+
+		return $date_of_service_end;
+	}
+
+	protected static function get_subscription_date_of_service_end( $subscription, $start_date ) {
+		$end_date = null;
+
+		if ( function_exists( 'wcs_add_time' ) ) {
+			$end_date = wcs_add_time( $subscription->get_billing_interval(), $subscription->get_billing_period(), $start_date->getTimestamp() );
+			/**
+			 * Remove one day from the end date, e.g. for one month billing period the end of service date should be the last day of the month
+			 */
+			$end_date = strtotime('-1 day', $end_date );
+
+			/**
+			 * In case the start date equals the end date, do not add
+			 */
+			if ( $start_date->getTimestamp() == $end_date ) {
+				$end_date = null;
+			}
+		}
+
+		return $end_date;
+	}
+
+	/**
+	 * @param Invoice $invoice
+	 * @param OrderItem $order_item
+	 * @param Order $order
+	 */
+	public static function item_belongs_to_invoice( $invoice, $order_item, $order ) {
+		$should_belong = true;
+
+		if ( $item_date_of_service_end = self::get_date_of_service_end_by_item( $order, $order_item, $invoice ) ) {
+			$subscription_items = self::get_subscription_dates_of_service_end( $invoice, $order );
+
+			if ( ! empty( $subscription_items ) ) {
+				foreach( $subscription_items as $item_id => $date_of_service_end ) {
+					if ( $item_date_of_service_end != $date_of_service_end ) {
+						$should_belong = false;
+						break;
+					}
+				}
+			}
+		}
+
+		return $should_belong;
 	}
 
 	public static function maybe_trigger_auto( $renewal_order, $subscription ) {
@@ -152,19 +307,17 @@ class Subscriptions implements Compatibility {
 	public static function sync_invoice_date_of_service( $invoice, $order ) {
 		$woo_order = $order->get_order();
 
-		if ( function_exists( 'wcs_order_contains_subscription' ) &&
-		     function_exists( 'wcs_add_time' ) &&
-		     function_exists( 'wcs_get_subscriptions_for_order' ) &&
-		     wcs_order_contains_subscription( $woo_order, 'any' ) )
-		{
-			$subscriptions = wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => 'any' ) );
-			$start_date    = $invoice->get_date_of_service();
+		if ( function_exists( 'wcs_order_contains_subscription' ) && wcs_order_contains_subscription( $woo_order, 'any' ) ) {
+			foreach( $invoice->get_items( 'product' ) as $item ) {
+				if ( $order_item = $item->get_reference() ) {
+					if ( self::item_is_subscription( $order_item, $order ) ) {
+						$end_date = self::get_date_of_service_end_by_item( $order, $order_item, $invoice );
 
-			foreach( $subscriptions as $subscription ) {
-				$end_date = wcs_add_time( $subscription->get_billing_interval(), $subscription->get_billing_period(), $start_date->getTimestamp() );
-
-				if ( $end_date ) {
-					$invoice->set_date_of_service_end( $end_date );
+						if ( $end_date ) {
+							$invoice->set_date_of_service_end( $end_date );
+							break;
+						}
+					}
 				}
 			}
 		}

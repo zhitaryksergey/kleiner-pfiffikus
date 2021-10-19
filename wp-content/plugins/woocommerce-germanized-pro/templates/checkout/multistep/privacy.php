@@ -12,7 +12,7 @@
  *
  * @see https://vendidero.de/dokument/template-struktur-templates-im-theme-ueberschreiben
  * @package Germanized/Pro/Templates
- * @version 1.0.0
+ * @version 1.0.1
  */
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 ?>
@@ -30,5 +30,8 @@ do_action( 'woocommerce_gzdp_checkout_before_privacy_policy' );
 			<input type="checkbox" class="woocommerce-form__input woocommerce-form__input-checkbox input-checkbox" name="gzdp_privacy_policy" id="gzdp-privacy-policy" />
 		<?php endif; ?>
 		<span class="woocommerce-gzdp-multistep-privacy-policy-checkbox-text"><?php echo wc_gzdp_get_privacy_policy_text(); ?></span>
+		<?php if ( get_option( 'woocommerce_gzdp_checkout_privacy_policy_checkbox' ) === 'yes' ) : ?>
+            &nbsp;<abbr class="required" title="<?php echo esc_attr__( 'required', 'woocommerce-germanized-pro' ); ?>">*</abbr>
+		<?php endif; ?>
 	</label>
 </p>

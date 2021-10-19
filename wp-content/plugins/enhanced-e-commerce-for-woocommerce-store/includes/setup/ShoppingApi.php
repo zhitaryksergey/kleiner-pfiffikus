@@ -13,7 +13,6 @@ class ShoppingApi {
         $this->customApiObj = new CustomApi();
         //$queries = new TVC_Queries();
         $this->apiDomain = TVC_API_CALL_URL;
-        //$this->apiDomain = 'http://127.0.0.1:8000/api';
         $this->token = 'MTIzNA==';
         $this->merchantId = $this->TVC_Admin_Helper->get_merchantId();
         $this->customerId = $this->TVC_Admin_Helper->get_currentCustomerId();
@@ -118,7 +117,6 @@ class ShoppingApi {
                 'from_date' => $from_date,
                 'to_date' => $to_date
             ];
-
             $args = array(
                 'headers' => array(
                     'Authorization' => "Bearer $this->token",
@@ -126,6 +124,8 @@ class ShoppingApi {
                 ),
                 'body' => wp_json_encode($data)
             );
+
+
 
             // Send remote request
             $request = wp_remote_post($url, $args);
@@ -145,6 +145,82 @@ class ShoppingApi {
             } else {
                 return new WP_Error($response_code, $response_message, $response_body);
             }
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function accountPerformance_for_dashboard($date_range_type, $days = 0, $from_date = '', $to_date = '') {
+        try {
+            $days_diff = 0;
+            if ($date_range_type == 2) {
+                $days_diff = strtotime($to_date) - strtotime($from_date);
+                $days_diff = abs(round($days_diff / 86400));
+            }
+            $curl_url = $this->apiDomain . '/reports/account-performance';
+            $data = [
+                'customer_id' => $this->customerId,
+                'graph_type' => ($date_range_type == 2 && $days_diff > 61) ? 'month' : 'day',
+                'date_range_type' => $date_range_type,
+                'days' => $days,
+                'from_date' => $from_date,
+                'to_date' => $to_date
+            ];
+
+            $header = array(
+                "Authorization: Bearer $this->token",
+                "content-type: application/json"
+            );
+            $postData = json_encode($data);
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_URL => esc_url($curl_url),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 2000,
+                CURLOPT_HTTPHEADER => $header,
+                CURLOPT_POSTFIELDS => $postData
+            ));
+            $response = curl_exec($ch);
+            $response = json_decode($response);
+            $response->data->graph_type = $data['graph_type'];
+            return $response;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function campaign_performance($date_range_type, $days = 0, $from_date = '', $to_date = '') {
+        try {
+            $curl_url = $this->apiDomain . '/reports/campaign-performance';
+            $days_diff = 0;
+            if ($date_range_type == 2) {
+                $days_diff = strtotime($to_date) - strtotime($from_date);
+                $days_diff = abs(round($days_diff / 86400));
+            }
+            $data = [
+                'customer_id' => $this->customerId,
+                'graph_type' => ($date_range_type == 2 && $days_diff > 61) ? 'month' : 'day',
+                'date_range_type' => $date_range_type,
+                'days' => $days,
+                'from_date' => $from_date,
+                'to_date' => $to_date
+            ];
+            $header = array(
+                "Authorization: Bearer $this->token",
+                "content-type: application/json"
+            );
+            $postData = json_encode($data);
+            $ch = curl_init();
+            curl_setopt_array($ch, array(
+                CURLOPT_URL => esc_url($curl_url),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 2000,
+                CURLOPT_HTTPHEADER => $header,
+                CURLOPT_POSTFIELDS => $postData
+            ));
+            $response = curl_exec($ch);
+            $response = json_decode($response);
+           // $response->data->graph_type = $data['graph_type'];
+            return $response;
         } catch (Exception $e) {
             return $e->getMessage();
         }

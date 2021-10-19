@@ -85,7 +85,7 @@ class Font {
 	}
 
 	public function set_is_google_font( $is_google_font ) {
-		$this->data['is_google_font'] = wc_string_to_bool( $is_google_font );
+		$this->data['is_google_font'] = sab_string_to_bool( $is_google_font );
 	}
 
 	public function is_google_font() {

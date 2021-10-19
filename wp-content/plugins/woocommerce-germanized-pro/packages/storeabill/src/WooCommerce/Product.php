@@ -70,11 +70,11 @@ class Product implements \Vendidero\StoreaBill\Interfaces\Product {
 	}
 
 	public function is_virtual() {
-		return $this->product->is_virtual();
+		return $this->product->is_virtual() || $this->product->is_downloadable();
 	}
 
 	public function is_service() {
-		$is_service = wc_string_to_bool( $this->product->get_meta( '_service' ) );
+		$is_service = sab_string_to_bool( $this->product->get_meta( '_service' ) );
 
 		return $is_service;
 	}
@@ -170,6 +170,18 @@ class Product implements \Vendidero\StoreaBill\Interfaces\Product {
 
 	public function get_meta( $key, $single = true, $context = 'view' ) {
 		return $this->product->get_meta( $key, $single, $context );
+	}
+
+	public function get_category_list( $sep = ', ', $before = '', $after = '' ) {
+		$product = $this->product;
+
+		if ( $this->product->get_parent_id() > 0 ) {
+			if ( $parent_product = wc_get_product( $this->product->get_parent_id() ) ) {
+				$product = $parent_product;
+			}
+		}
+
+		return strip_tags( wc_get_product_category_list( $product->get_id(), $sep, $before, $after ) );
 	}
 
 	/**

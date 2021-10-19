@@ -3,8 +3,7 @@
  * Stock Manager in app offers
  *
  * @package  woocommerce-stock-manager/sa-includes/
- * @version  1.2.0
- *
+ * @version  1.2.1
  */
 
 // Exit if accessed directly.
@@ -127,7 +126,7 @@ class SA_In_App_Offers {
 		$end             = strtotime( $this->end );
 		if ( ( $current_date >= $start ) && ( $current_date <= $end ) ) {
 			$option_value  = get_option( $this->option_name, '' );
-			$get_post_type = isset( $_GET['post_type'] ) ? sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) : ''; // phpcs:ignore
+			$get_post_type = ( ! empty( $_GET['post_type'] ) ) ? wc_clean( wp_unslash( $_GET['post_type'] ) ) : ''; // phpcs:ignore
 
 			if ( ( 'product' === $get_post_type || $this->is_plugin_page ) && '' === $option_value ) {
 				return true;

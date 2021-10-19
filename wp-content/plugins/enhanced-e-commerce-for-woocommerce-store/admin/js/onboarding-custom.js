@@ -7,15 +7,15 @@ function loaderSection(isShow) {
 }
 var tvc_time_out="";
 function add_message(type, msg, is_close = true){
-  let tvc_popup_box = document.getElementById('tvc_popup_box');
+  let tvc_popup_box = document.getElementById('tvc_onboarding_popup_box');
   tvc_popup_box.classList.remove("tvc_popup_box_close");
   tvc_popup_box.classList.add("tvc_popup_box");
   if(type == "success"){
-    document.getElementById('tvc_popup_box').innerHTML ="<div class='alert tvc-alert-success'>"+msg+"</div>";
+    document.getElementById('tvc_onboarding_popup_box').innerHTML ="<div class='alert tvc-alert-success'>"+msg+"</div>";
   }else if(type == "error"){
-    document.getElementById('tvc_popup_box').innerHTML ="<div class='alert tvc-alert-error'>"+msg+"</div>";
+    document.getElementById('tvc_onboarding_popup_box').innerHTML ="<div class='alert tvc-alert-error'>"+msg+"</div>";
   }else if(type == "warning"){
-    document.getElementById('tvc_popup_box').innerHTML ="<div class='alert tvc-alert-warning'>"+msg+"</div>";
+    document.getElementById('tvc_onboarding_popup_box').innerHTML ="<div class='alert tvc-alert-warning'>"+msg+"</div>";
   }
   if(is_close){
     tvc_time_out = setTimeout(function(){  //tvc_popup_box.style.display = "none";       
@@ -494,26 +494,30 @@ function list_analytics_web_properties(type, tvc_data) {
     url: tvc_ajax_url,
     data: {action: "get_analytics_web_properties", type: type, tvc_data:tvc_data, conversios_onboarding_nonce:conversios_onboarding_nonce},
     success: function (response) {
-      if (response.error === false) {
+      //  console.log(response);
+      if (response.error == false) {
         if (type == "UA" || type == "BOTH") {
           //web_properties_dropdown
           var subscriptionPropertyId = $("#subscriptionPropertyId").val();
           var ga_view_id = $("#ga_view_id").val();
           var PropOptions = '<option value="">Select Property Id</option>';
-          $.each(response.data.wep_properties, function (propKey, propValue) {
-              var selected ="";              
-              if (subscriptionPropertyId == propValue.webPropertyId) {
-                if(ga_view_id != "" && ga_view_id == propValue.id){
-                  selected = "selected='selected'";
-                }else if(ga_view_id =="" ){
-                  selected = "selected='selected'";
+          //console.log(Object.keys(response.data.wep_properties).length +"=="+response.data.wep_properties.length);
+          if(response.data.wep_properties.length > 0){
+            $.each(response.data.wep_properties, function (propKey, propValue) {
+                var selected ="";              
+                if (subscriptionPropertyId == propValue.webPropertyId) {
+                  if(ga_view_id != "" && ga_view_id == propValue.id){
+                    selected = "selected='selected'";
+                  }else if(ga_view_id =="" ){
+                    selected = "selected='selected'";
+                  }
+                      
+                }else{
+                  selected = "";
                 }
-                    
-              }else{
-                selected = "";
-              }
-              PropOptions = PropOptions + '<option value="' + propValue.webPropertyId + '" ' + selected + ' data-accountid="' + propValue.accountId + '" data-profileid="' + propValue.id + '"> ' + propValue.accountName + ' - ' + propValue.propertyName + ' - ' + propValue.name + '</option>';
-          });
+                PropOptions = PropOptions + '<option value="' + propValue.webPropertyId + '" ' + selected + ' data-accountid="' + propValue.accountId + '" data-profileid="' + propValue.id + '"> ' + propValue.accountName + ' - ' + propValue.propertyName + ' - ' + propValue.name + '</option>';
+            });
+          }
           $('#ua_web_property_id').html(PropOptions);
           $('#both_web_property_id').html(PropOptions);
         }
@@ -521,19 +525,24 @@ function list_analytics_web_properties(type, tvc_data) {
           //web_measurement_dropdown
           var subscriptionMeasurementId = $("#subscriptionMeasurementId").val();
           var MeasOptions = '<option value="">Select Measurement Id</option>';
-          $.each(response.data.wep_measurement, function (measKey, measValue) {
-            if (subscriptionMeasurementId == measValue.measurementId) {
-              var selected = "selected='selected'";
-            } else {
-              var selected = "";
-            }
-            var web_property = measValue.name.split("/");
-            MeasOptions = MeasOptions + '<option value="' + measValue.measurementId + '" ' + selected + ' data-name="'+web_property[1] +'"'+ ' data-accountid="' + measValue.accountId + '"> ' + measValue.accountName + ' - ' + web_property[1] + ' - ' + measValue.measurementId + '</option>';
-          });
+          if(response.data.wep_measurement.length > 0){
+            $.each(response.data.wep_measurement, function (measKey, measValue) {
+              if (subscriptionMeasurementId == measValue.measurementId) {
+                var selected = "selected='selected'";
+              } else {
+                var selected = "";
+              }
+              var web_property = measValue.name.split("/");
+              MeasOptions = MeasOptions + '<option value="' + measValue.measurementId + '" ' + selected + ' data-name="'+web_property[1] +'"'+ ' data-accountid="' + measValue.accountId + '"> ' + measValue.accountName + ' - ' + web_property[1] + ' - ' + measValue.measurementId + '</option>';
+            });
+          }
           $('#ga4_web_measurement_id').html(MeasOptions);
           $('#both_web_measurement_id').html(MeasOptions);
         }
         $(".slect2bx").select2();
+      }else{
+        const errors = JSON.parse(response.errors[0]);
+        add_message("error",errors.message);
       }
       is_validate_step("step_1");
       loaderSection(false);
@@ -566,18 +575,19 @@ function list_googl_ads_account(tvc_data) {
         if (response.data.length == 0) {
           add_message("warning","There are no Google ads accounts associated with email.");
         } else {
-          $.each(response.data, function (key, value) {
-
-            if (selectedValue == value) {
-              $('#ads-account').append($('<option>', { value: value, text: value,selected: "selected"}));
-            } else {
-              if(selectedValue == "" && key == 0){                
+          if(response.data.length > 0){
+            $.each(response.data, function (key, value) {
+              if (selectedValue == value) {
                 $('#ads-account').append($('<option>', { value: value, text: value,selected: "selected"}));
-              }else{
-                $('#ads-account').append($('<option>', { value: value, text: value,}));
+              } else {
+                if(selectedValue == "" && key == 0){                
+                  $('#ads-account').append($('<option>', { value: value, text: value,selected: "selected"}));
+                }else{
+                  $('#ads-account').append($('<option>', { value: value, text: value,}));
+                }
               }
-            }
-          });
+            });
+          }
         }
       } else {
         add_message("warning","There are no Google ads accounts associated with email.");

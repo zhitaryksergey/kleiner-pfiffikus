@@ -11,6 +11,7 @@ class WC_GZDP_VAT_Helper {
 		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -432,8 +433,8 @@ class WC_GZDP_VAT_Helper {
 
 		// Northern Ireland belongs to the UK
 		$map = array(
-			'XI' => 'GB',
-            'UK' => 'GB'
+			'XI'  => 'GB',
+            'UK'  => 'GB',
 		);
 
 		if ( isset( $map[ $vat_id_prefix ] ) ) {
@@ -446,7 +447,7 @@ class WC_GZDP_VAT_Helper {
 	public function get_vat_id_from_string( $number, $expected_country = '' ) {
 	    // Make sure all letters are uppercase
 	    $number = strtoupper( $number );
-		$number = trim( preg_replace( "/[^a-z0-9.]+/i", "", sanitize_text_field( $number ) ) );
+		$number = trim( preg_replace( "/[^a-z0-9]+/i", "", sanitize_text_field( $number ) ) );
 
 		if ( ! empty( $expected_country ) ) {
 			$expected_country = $this->get_vat_id_prefix_by_country( $expected_country );
@@ -1127,6 +1128,10 @@ class WC_GZDP_VAT_Helper {
 		if ( 'yes' === get_option( 'woocommerce_gzdp_vat_id_base_country_included' ) && WC()->countries->get_base_country() === $country ) {
 			$supports_vat = true;
 		}
+
+		if ( 'CH' === $country ) {
+		    $supports_vat = true;
+		}
 		
 		return apply_filters( 'woocommerce_gzdp_country_supports_vat_id', $supports_vat, $country, $postcode );
 	}
@@ -1143,6 +1148,10 @@ class WC_GZDP_VAT_Helper {
 		 */
 		if ( Vendidero\StoreaBill\Countries::is_eu_vat_postcode_exemption( $country, $postcode ) ) {
 			$supports_vat_exempt = false;
+		}
+
+		if ( 'CH' === $country ) {
+		    $supports_vat_exempt = true;
 		}
 
 		return apply_filters( 'woocommerce_gzdp_country_supports_vat_exempt', $supports_vat_exempt, $country, $postcode );
@@ -1303,10 +1312,14 @@ class WC_GZDP_VAT_Helper {
 			return true;
         }
 
-		$vat = new WC_GZDP_VAT_Validation( array(
-		    'requester_vat_id' => get_option( 'woocommerce_gzdp_vat_requester_vat_id' ),
-            'address_expected' => $address_expected
-        ) );
+		if ( 'CH' === $country ) {
+		    $vat = new WC_GZDP_VAT_Validation_Switzerland();
+		} else {
+			$vat = new WC_GZDP_VAT_Validation( array(
+				'requester_vat_id' => get_option( 'woocommerce_gzdp_vat_requester_vat_id' ),
+				'address_expected' => $address_expected
+			) );
+		}
 
 		if ( $vat->check( $country, $number ) ) {
             $vat_result = $vat->get_data();

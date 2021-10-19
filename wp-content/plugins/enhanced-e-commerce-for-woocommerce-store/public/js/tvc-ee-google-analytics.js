@@ -81,7 +81,7 @@ class TVC_Enhanced {
           "page_type": this.options.page_type,
           "user_type": this.options.user_type,
           "user_id": this.options.user_id,
-          "client_id": this.getClientId(),
+          //"client_id": this.getClientId(),
           "day_type": this.options.day_type,
           "local_time_slot_of_the_day": this.options.local_time
         });
@@ -100,7 +100,7 @@ class TVC_Enhanced {
         gtag("event", "view_item", {
           "event_category": "Enhanced-Ecommerce",
           "event_label": "view_item_"+tvc_po.tvc_n,
-          "currency": tvc_lc,
+          "currency": this.options.currency,
           "items": [{
             "item_id": tvc_po.tvc_i,
             "item_name":  tvc_po.tvc_n,
@@ -109,7 +109,7 @@ class TVC_Enhanced {
             "affiliation": this.options.affiliation,
             "item_variant": tvc_po.tvc_var,
             "price": tvc_po.tvc_p,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "quantity": tvc_po.tvc_q,
             "index":1
           }],
@@ -118,7 +118,7 @@ class TVC_Enhanced {
           "page_type": this.options.page_type,
           "user_type": this.options.user_type,
           "user_id": this.options.user_id,
-          "client_id": this.getClientId(),
+          //"client_id": this.getClientId(),
           "day_type": this.options.day_type,
           "local_time_slot_of_the_day": this.options.local_time
         });
@@ -238,7 +238,7 @@ class TVC_Enhanced {
           "page_type": this.options.page_type,
           "user_type": this.options.user_type,
           "user_id": this.options.user_id,
-          "client_id":this.getClientId(),
+          //"client_id":this.getClientId(),
           "day_type": this.options.day_type,
           "local_time_slot_of_the_day": this.options.local_time,
           "product_discount": tvc_po.tvc_pd,
@@ -257,17 +257,18 @@ class TVC_Enhanced {
      */
     }else if( this.options.tracking_option == "GA4" && this.options.measurement_id ){
       try {
+        console.log("call GA4");
         gtag("event", "add_to_cart", {
           "event_category":"Enhanced-Ecommerce",
           "event_label":"add_to_cart_click",
-          "currency": tvc_lc,
+          "currency": this.options.currency,
           "non_interaction": true,
           "items": [{
             "item_id" : tvc_po.tvc_i,
             "item_name": tvc_po.tvc_n,
             "item_category" :tvc_po.tvc_c,
             "price":varPrice,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "quantity": jQuery(this).parent().find("input[name=quantity]").val(),
             "item_variant": variation_attribute_name,
             "discount": tvc_po.tvc_pd,
@@ -276,7 +277,7 @@ class TVC_Enhanced {
           "page_type": this.options.page_type,
           "user_type": this.options.user_type,
           "user_id": this.options.user_id,
-          "client_id":this.getClientId(),
+          //"client_id":this.getClientId(),
           "day_type": this.options.day_type,
           "local_time_slot_of_the_day": this.options.local_time,
           "product_discount": tvc_po.tvc_pd,
@@ -375,7 +376,7 @@ class TVC_Enhanced {
             "transaction_id":tvc_td.id,
             "affiliation": tvc_td.affiliation,
             "value":tvc_td.revenue,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "tax": tvc_td.tax,
             "shipping": tvc_td.shipping,
             "coupon": tvc_td.coupon,
@@ -386,7 +387,7 @@ class TVC_Enhanced {
             "page_type": this.options.page_type,
             "user_type": this.options.user_type,
             "user_id": this.options.user_id,
-            "client_id":this.getClientId(),
+            //"client_id":this.getClientId(),
             "day_type": this.options.day_type,
             "local_time_slot_of_the_day": purchase_time
           });
@@ -396,7 +397,7 @@ class TVC_Enhanced {
             "transaction_id":tvc_td.id,
             "affiliation": tvc_td.affiliation,
             "value":tvc_td.revenue,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "tax": tvc_td.tax,
             "shipping": tvc_td.shipping,
             "coupon": tvc_td.coupon,          
@@ -407,7 +408,7 @@ class TVC_Enhanced {
             "page_type": this.options.page_type,
             "user_type": this.options.user_type,
             "user_id": this.options.user_id,
-            "client_id":this.getClientId(),
+            //"client_id":this.getClientId(),
             "day_type": this.options.day_type,
             "local_time_slot_of_the_day": purchase_time,
             "time_taken_to_make_the_purchase": time_to_purchase
@@ -435,7 +436,7 @@ class TVC_Enhanced {
             "item_category": tvc_oc[t_item].tvc_c,
             "item_variant": tvc_oc[t_item].tvc_attr,
             "price": tvc_oc[t_item].tvc_p,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "quantity": tvc_oc[t_item].tvc_q
           });         
         }
@@ -447,7 +448,7 @@ class TVC_Enhanced {
             "transaction_id":tvc_td.id,
             "affiliation": tvc_td.affiliation,
             "value":tvc_td.revenue,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "tax": tvc_td.tax,
             "shipping": tvc_td.shipping,
             "coupon": tvc_td.coupon,
@@ -458,7 +459,7 @@ class TVC_Enhanced {
             "page_type": this.options.page_type,
             "user_type": this.options.user_type,
             "user_id": this.options.user_id,
-            "client_id":this.getClientId(),
+            //"client_id":this.getClientId(),
             "day_type": this.options.day_type,
             "local_time_slot_of_the_day": purchase_time
           });
@@ -468,7 +469,7 @@ class TVC_Enhanced {
             "transaction_id":tvc_td.id,
             "affiliation": tvc_td.affiliation,
             "value":tvc_td.revenue,
-            "currency": tvc_lc,
+            "currency": this.options.currency,
             "tax": tvc_td.tax,
             "shipping": tvc_td.shipping,
             "coupon": tvc_td.coupon,          
@@ -479,7 +480,7 @@ class TVC_Enhanced {
             "page_type": this.options.page_type,
             "user_type": this.options.user_type,
             "user_id": this.options.user_id,
-            "client_id":this.getClientId(),
+            //"client_id":this.getClientId(),
             "day_type": this.options.day_type,
             "local_time_slot_of_the_day": purchase_time,
             "time_taken_to_make_the_purchase": time_to_purchase

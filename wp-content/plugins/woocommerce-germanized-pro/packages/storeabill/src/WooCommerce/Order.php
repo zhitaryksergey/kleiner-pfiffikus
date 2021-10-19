@@ -3,6 +3,7 @@
 namespace Vendidero\StoreaBill\WooCommerce;
 
 use Vendidero\StoreaBill\Countries;
+use Vendidero\StoreaBill\Document\Item;
 use Vendidero\StoreaBill\Invoice\Cancellation;
 use Vendidero\StoreaBill\Invoice\FeeItem;
 use Vendidero\StoreaBill\Invoice\Invoice;
@@ -197,7 +198,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 	}
 
 	public function is_reverse_charge() {
-		$is_reverse_charge = wc_string_to_bool( $this->get_order()->get_meta( 'is_vat_exempt', true ) );
+		$is_reverse_charge = sab_string_to_bool( $this->get_order()->get_meta( 'is_vat_exempt', true ) );
 
 		if ( ! $is_reverse_charge ) {
 			$is_reverse_charge = apply_filters( 'woocommerce_order_is_vat_exempt', $is_reverse_charge, $this->get_order() );
@@ -390,7 +391,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 
 			$shipping_address = $this->get_order()->get_address( 'shipping' );
 
-			if ( ! array_key_exists( 'vat_id', $shipping_address ) || empty( $shipping_address['vat_id'] ) ) {
+			if ( $this->get_order()->has_shipping_address() && ( ! array_key_exists( 'vat_id', $shipping_address ) || empty( $shipping_address['vat_id'] ) ) ) {
 				$shipping_address['vat_id'] = $this->get_vat_id( 'shipping' );
 			}
 
@@ -542,19 +543,31 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 						}
 					}
 
-					$document_item->set_document( $invoice );
-
-					$sync_data = array_replace( $props, array(
-						'order_tax_rates'    => $rates,
-						'prices_include_tax' => $this->order_item_type_includes_tax( $order_item->get_order_item(), $invoice->prices_include_tax() ),
-					) );
-
-					$order_item->sync( $document_item, $sync_data );
-
-					do_action( "{$this->get_hook_prefix()}synced_invoice_item", $document_item, $order_item, $this );
+					$belongs_to_invoice = true;
 
 					if ( $is_new && ! $invoice->get_item_by_reference_id( $order_item_id ) ) {
-						$invoice->add_item( $document_item );
+						$belongs_to_invoice = apply_filters( "{$this->get_hook_prefix()}item_belongs_to_invoice", true, $order_item, $props, $invoice, $this );
+					}
+
+					if ( $belongs_to_invoice ) {
+						$document_item->set_document( $invoice );
+
+						$sync_data = array_replace( $props, array(
+							'order_tax_rates'    => $rates,
+							'prices_include_tax' => $this->order_item_type_includes_tax( $order_item->get_order_item(), $invoice->prices_include_tax() ),
+						) );
+
+						if ( in_array( $document_item->get_item_type(), $invoice->get_item_types_additional_costs() ) ) {
+							$sync_data['round_tax_at_subtotal'] = $this->order_item_type_round_tax_at_subtotal( $order_item->get_order_item(), $invoice->round_tax_at_subtotal() );
+						}
+
+						$order_item->sync( $document_item, $sync_data );
+
+						do_action( "{$this->get_hook_prefix()}synced_invoice_item", $document_item, $order_item, $this );
+
+						if ( $is_new && ! $invoice->get_item_by_reference_id( $order_item_id ) ) {
+							$invoice->add_item( $document_item );
+						}
 					}
 				}
 			}
@@ -583,147 +596,6 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 
 			if ( $this->get_order()->is_paid() ) {
 				$invoice->set_payment_status( 'complete' );
-			}
-
-			$invoice_total   = sab_format_decimal( ( $invoice->prices_include_tax() ? $invoice->get_total() : $invoice->get_net_total_ex_voucher() ), '' );
-			$order_total_tax = $this->get_order_total_tax_to_bill() - $this->get_total_tax_billed( true );
-			$order_total     = $this->get_order_total_to_bill() - $this->get_total_billed( true );
-
-			if ( ! $invoice->prices_include_tax() ) {
-				$order_total -= $order_total_tax;
-			}
-
-			$order_total       = sab_format_decimal( $order_total, '' );
-			$order_plain_total = sab_format_decimal( $this->get_order_total_to_bill(), '' );
-			$has_discounts     = $invoice->get_discount_total() > 0;
-
-			/**
-			 * In case the order total does not match the invoice total there seems to be some plugin
-			 * manipulating order total calculation (e.g. a voucher plugin). In this case we will add a fee (or discount)
-			 * to the invoice dynamically.
-			 *
-			 * Check net total in case the prices exclude tax to make sure no unnecessary fees are added in case of
-			 * inconsistencies.
-			 *
-			 * Do only prove full consistency for full syncs (e.g. without specific items as arguments)
-			 */
-			if ( empty( $args['items'] ) && $args['validate_total'] && ( ( $order_plain_total == 0 && $order_total == 0 ) || $order_total != 0 ) && $invoice_total != $order_total ) {
-				$invoice_total_tax = sab_format_decimal( $invoice->get_total_tax(), '' );
-				$order_total_tax   = sab_format_decimal( ( $this->get_order_total_tax_to_bill() - $this->get_total_tax_billed( true ) ), '' );
-
-				$total_diff        = $order_total - $invoice_total;
-				$has_tax_diff      = $order_total_tax != 0 && $invoice_total_tax != $order_total_tax;
-
-				if ( $total_diff > 0 ) {
-					$fee = new FeeItem();
-					$fee->set_name( _x( 'Fee', 'storeabill-core', 'woocommerce-germanized-pro' ) );
-					$fee->set_line_total( $total_diff );
-					$fee->set_line_subtotal( $total_diff );
-					$fee->set_is_taxable( $has_tax_diff > 0 ? true : false );
-					$fee->set_total_tax( 0 );
-					$fee->set_prices_include_tax( $this->order_item_type_includes_tax( 'fee', $invoice->prices_include_tax() ) );
-
-					/**
-					 * Detected a tax diff. Lets check order total taxes to
-					 * determine tax diff per rate.
-					 */
-					if ( $has_tax_diff ) {
-						$invoice_taxes  = $invoice->get_tax_totals();
-						$tax_rate_diffs = array();
-
-						foreach( $this->get_order()->get_tax_totals() as $tax_total_obj ) {
-							$percentage = $this->get_tax_rate_percent( $tax_total_obj->rate_id );
-							$merge_key  = Tax::get_tax_rate_merge_key( array(
-								'percent'     => $percentage,
-								'is_compound' => $tax_total_obj->is_compound,
-								'is_oss'      => $this->tax_is_oss( $tax_total_obj->rate_id )
-							) );
-
-							$order_tax_rate_total = $tax_total_obj->amount - $this->get_order()->get_total_tax_refunded_by_rate_id( $tax_total_obj->rate_id ) - $this->get_total_tax_billed_by_reference_id( $tax_total_obj->rate_id, true );
-
-							if ( $order_tax_rate_total > 0 ) {
-								if ( array_key_exists( $merge_key, $invoice_taxes ) ) {
-									$invoice_tax_obj = $invoice_taxes[ $merge_key ];
-									$tax_rate_diff   = $order_tax_rate_total - $invoice_tax_obj->get_total_tax( false );
-
-									if ( sab_format_decimal( $tax_rate_diff, '' ) != 0 ) {
-										if ( ! array_key_exists( $merge_key, $tax_rate_diffs ) ) {
-											$tax_rate_diffs[ $merge_key ] = 0;
-										}
-
-										$tax_rate_diffs[ $merge_key ] += $tax_rate_diff;
-									}
-								}
-							}
-						}
-
-						$total_fee_tax = 0;
-						$round_taxes   = apply_filters( 'storeabill_round_tax_at_subtotal_split_tax_calculation', $fee->round_tax_at_subtotal(), $fee );
-
-						foreach( $tax_rate_diffs as $merge_key => $tax_diff ) {
-							$item = new TaxItem();
-							$item->set_round_tax_at_subtotal( $round_taxes );
-							$item->set_tax_rate( $invoice_taxes[ $merge_key ]->get_tax_rate() );
-							$item->set_total_tax( $tax_diff );
-							$item->set_subtotal_tax( $tax_diff );
-							$item->set_tax_type( 'fee' );
-
-							$fee->add_tax( $item );
-
-							$item->set_total_net( $this->order_item_type_includes_tax( 'fee', $invoice->prices_include_tax() ) ? ( $total_diff - $item->get_total_tax() ) : $total_diff );
-							$item->set_subtotal_net( $this->order_item_type_includes_tax( 'fee', $invoice->prices_include_tax() ) ? ( $total_diff - $item->get_subtotal_tax() ) : $total_diff );
-
-							$total_fee_tax += $item->get_total_tax();
-						}
-
-						$fee->set_total_tax( $total_fee_tax );
-						$fee->set_subtotal_tax( $total_fee_tax );
-					}
-
-					$invoice->add_item( $fee );
-					$invoice->calculate_totals( false );
-
-					do_action( "{$this->get_hook_prefix()}added_order_total_diff_as_fee", $fee, $invoice, $this );
-
-				} elseif ( $total_diff < 0 ) {
-					$args = array(
-						'is_voucher' => false,
-						'item_types' => array( 'product' )
-					);
-
-					$product_total = $invoice->get_product_total();
-					$discount      = abs( $total_diff );
-					$has_taxes     = $invoice->get_total_tax() > 0;
-
-					if ( $discount > $product_total ) {
-						$args['item_types'] = array( 'product', 'shipping', 'fee' );
-					}
-
-					if ( ! $has_tax_diff && $has_taxes ) {
-						$args['is_voucher'] = true;
-					}
-
-					$invoice->apply_discount( $discount, 'fixed', $args );
-
-					$discount_notice = '';
-
-					if ( $this->has_negative_fee() ) {
-						$count = 0;
-
-						foreach ( $this->get_negative_fee_names() as $fee_name ) {
-							$discount_notice .= $count > 0 ? ', ' : '' . $fee_name;
-							$count++;
-						}
-					}
-
-					$discount_notice = apply_filters( "{$this->get_hook_prefix()}forced_discount_notice", $discount_notice, $discount, $invoice, $this );
-
-					if ( ! $has_discounts && ! empty( $discount_notice ) ) {
-						$invoice->add_discount_notice( $discount_notice );
-					}
-
-					do_action( "{$this->get_hook_prefix()}added_order_total_diff_as_discount", $invoice, $this, $discount, $args );
-				}
 			}
 
 			do_action( "{$this->get_hook_prefix()}synced_invoice", $invoice, $this );
@@ -800,12 +672,30 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 
 		$this->maybe_cancel();
 
+		$editable_invoices = $this->get_editable_invoices();
+
 		if ( $this->needs_billing() || $this->get_last_editable_invoice() ) {
-			if ( $invoice = $this->get_last_editable_invoice() ) {
+
+			foreach( $editable_invoices as $invoice ) {
 				$this->sync( $invoice, $args );
-			} elseif ( $add_new ) {
-				$invoice = sab_get_invoice( 0 );
-				$this->sync( $invoice, $args );
+			}
+
+			if ( $add_new ) {
+				while( $this->needs_billing() ) {
+					$invoice = sab_get_invoice( 0 );
+					$this->sync( $invoice, $args );
+
+					/**
+					 * Add an emergency break to prevent infinite loops
+					 */
+					if ( sizeof( $invoice->get_items() ) === 0 ) {
+						break;
+					}
+				}
+			}
+
+			if ( ! $this->needs_billing() && $this->get_last_editable_invoice() ) {
+				$this->book_order_divergences( $args );
 			}
 		}
 
@@ -832,9 +722,9 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 
 		if ( $has_cancelled ) {
 			if ( empty( $this->get_editable_invoices() ) ) {
-				$result->add( 'cancelled-order', _x( 'An invoice could not be created due to changes to or inconsistent order data. Please review the corresponding order.', 'storeabil-core', 'storeabill' ) );
+				$result->add( 'cancelled-order', _x( 'An invoice could not be created due to changes to or inconsistent order data. Please review the corresponding order.', 'storeabill-core', 'woocommerce-germanized-pro' ) );
 			} else {
-				$result->add( 'cancelled-order', _x( 'The invoices needed a (partial) cancellation due to changes to or inconsistent order data. Please review the corresponding order.', 'storeabil-core', 'storeabill' ) );
+				$result->add( 'cancelled-order', _x( 'The invoices needed a (partial) cancellation due to changes to or inconsistent order data. Please review the corresponding order.', 'storeabill-core', 'woocommerce-germanized-pro' ) );
 			}
 		}
 
@@ -842,6 +732,165 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 			return $result;
 		} else {
 			return true;
+		}
+	}
+
+	/**
+	 * @param Invoice $invoice
+	 */
+	protected function book_order_divergences( $args = array() ) {
+		$args               = wp_parse_args( $args, array( 'validate_total' => true ) );
+		$last_invoice       = $this->get_last_editable_invoice();
+		$total_billed       = $last_invoice->prices_include_tax() ? $this->get_total_billed() : $this->get_net_total_billed();
+		$total_tax_billed   = $this->get_total_tax_billed();
+		$order_total_tax    = $this->get_order_total_tax_to_bill();
+		$order_total        = $this->get_order_total_to_bill();
+		$has_discounts      = $last_invoice->get_discount_total() > 0;
+		$invoice_taxes      = array();
+
+		if ( ! $last_invoice->prices_include_tax() ) {
+			$order_total -= $order_total_tax;
+		}
+
+		$order_total       = sab_format_decimal( $order_total, '' );
+		$order_plain_total = sab_format_decimal( $this->get_order_total_to_bill(), '' );
+		$total_billed      = sab_format_decimal( $total_billed, '' );
+		$total_tax_billed  = sab_format_decimal( $total_tax_billed, '' );
+
+		foreach( $this->get_editable_invoices() as $editable_invoice ) {
+			foreach( $editable_invoice->get_tax_totals() as $merge_key => $tax_total ) {
+				if ( ! isset( $invoice_tax_totals[ $merge_key ] ) ) {
+					$invoice_taxes[ $merge_key ] = clone $tax_total;
+				} else {
+					foreach( $tax_total->get_taxes() as $tax ) {
+						$invoice_taxes[ $merge_key ]->add_tax( $tax );
+					}
+				}
+			}
+		}
+
+		/**
+		 * In case the order total does not match the invoice total there seems to be some plugin
+		 * manipulating order total calculation (e.g. a voucher plugin). In this case we will add a fee (or discount)
+		 * to the invoice dynamically.
+		 *
+		 * Check net total in case the prices exclude tax to make sure no unnecessary fees are added in case of
+		 * inconsistencies.
+		 *
+		 * Do only prove full consistency for full syncs (e.g. without specific items as arguments)
+		 */
+		if ( $args['validate_total'] && ( ( $order_plain_total == 0 && $order_total == 0 ) || $order_total != 0 ) && $total_billed != $order_total ) {
+			$total_diff        = $order_total - $total_billed;
+			$has_tax_diff      = $order_total_tax != 0 && $total_tax_billed != $order_total_tax;
+
+			if ( $total_diff > 0 ) {
+				$fee = new FeeItem();
+				$fee->set_name( _x( 'Fee', 'storeabill-core', 'woocommerce-germanized-pro' ) );
+				$fee->set_line_total( $total_diff );
+				$fee->set_line_subtotal( $total_diff );
+				$fee->set_is_taxable( $has_tax_diff > 0 ? true : false );
+				$fee->set_total_tax( 0 );
+				$fee->set_prices_include_tax( $this->order_item_type_includes_tax( 'fee', $last_invoice->prices_include_tax() ) );
+
+				/**
+				 * Detected a tax diff. Lets check order total taxes to
+				 * determine tax diff per rate.
+				 */
+				if ( $has_tax_diff ) {
+					$tax_rate_diffs = array();
+
+					foreach( $this->get_order()->get_tax_totals() as $tax_total_obj ) {
+						$percentage = $this->get_tax_rate_percent( $tax_total_obj->rate_id );
+						$merge_key  = Tax::get_tax_rate_merge_key( array(
+							'percent'     => $percentage,
+							'is_compound' => $tax_total_obj->is_compound,
+							'is_oss'      => $this->tax_is_oss( $tax_total_obj->rate_id )
+						) );
+
+						$order_tax_rate_total = $tax_total_obj->amount - $this->get_order()->get_total_tax_refunded_by_rate_id( $tax_total_obj->rate_id ) - $this->get_total_tax_billed_by_reference_id( $tax_total_obj->rate_id, true );
+
+						if ( $order_tax_rate_total > 0 ) {
+							if ( array_key_exists( $merge_key, $invoice_taxes ) ) {
+								$invoice_tax_obj = $invoice_taxes[ $merge_key ];
+								$tax_rate_diff   = $order_tax_rate_total - $invoice_tax_obj->get_total_tax( false );
+
+								if ( sab_format_decimal( $tax_rate_diff, '' ) != 0 ) {
+									if ( ! array_key_exists( $merge_key, $tax_rate_diffs ) ) {
+										$tax_rate_diffs[ $merge_key ] = 0;
+									}
+
+									$tax_rate_diffs[ $merge_key ] += $tax_rate_diff;
+								}
+							}
+						}
+					}
+
+					$total_fee_tax = 0;
+					$round_taxes   = apply_filters( 'storeabill_round_tax_at_subtotal_split_tax_calculation', $fee->round_tax_at_subtotal(), $fee );
+
+					foreach( $tax_rate_diffs as $merge_key => $tax_diff ) {
+						$item = new TaxItem();
+						$item->set_round_tax_at_subtotal( $round_taxes );
+						$item->set_tax_rate( $invoice_taxes[ $merge_key ]->get_tax_rate() );
+						$item->set_total_tax( $tax_diff );
+						$item->set_subtotal_tax( $tax_diff );
+						$item->set_tax_type( 'fee' );
+
+						$fee->add_tax( $item );
+
+						$item->set_total_net( $this->order_item_type_includes_tax( 'fee', $last_invoice->prices_include_tax() ) ? ( $total_diff - $item->get_total_tax() ) : $total_diff );
+						$item->set_subtotal_net( $this->order_item_type_includes_tax( 'fee', $last_invoice->prices_include_tax() ) ? ( $total_diff - $item->get_subtotal_tax() ) : $total_diff );
+
+						$total_fee_tax += $item->get_total_tax();
+					}
+
+					$fee->set_total_tax( $total_fee_tax );
+					$fee->set_subtotal_tax( $total_fee_tax );
+				}
+
+				$last_invoice->add_item( $fee );
+				$last_invoice->calculate_totals( false );
+
+				do_action( "{$this->get_hook_prefix()}added_order_total_diff_as_fee", $fee, $last_invoice, $this );
+
+			} elseif ( $total_diff < 0 ) {
+				$args = array(
+					'is_voucher' => false,
+					'item_types' => array( 'product' )
+				);
+
+				$product_total = $last_invoice->get_product_total();
+				$discount      = abs( $total_diff );
+				$has_taxes     = $last_invoice->get_total_tax() > 0;
+
+				if ( $discount > $product_total ) {
+					$args['item_types'] = array( 'product', 'shipping', 'fee' );
+				}
+
+				if ( ! $has_tax_diff && $has_taxes ) {
+					$args['is_voucher'] = true;
+				}
+
+				$last_invoice->apply_discount( $discount, 'fixed', $args );
+				$discount_notice = '';
+
+				if ( $this->has_negative_fee() ) {
+					$count = 0;
+
+					foreach ( $this->get_negative_fee_names() as $fee_name ) {
+						$discount_notice .= $count > 0 ? ', ' : '' . $fee_name;
+						$count++;
+					}
+				}
+
+				$discount_notice = apply_filters( "{$this->get_hook_prefix()}forced_discount_notice", $discount_notice, $discount, $last_invoice, $this );
+
+				if ( ! $has_discounts && ! empty( $discount_notice ) ) {
+					$last_invoice->add_discount_notice( $discount_notice );
+				}
+
+				do_action( "{$this->get_hook_prefix()}added_order_total_diff_as_discount", $last_invoice, $this, $discount, $args );
+			}
 		}
 	}
 
@@ -881,6 +930,10 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 				 */
 				$this->sync( $document );
 			}
+		}
+
+		if ( ! $this->needs_billing() && $this->get_last_editable_invoice() ) {
+			$this->book_order_divergences();
 		}
 
 		$this->maybe_cancel();
@@ -1314,6 +1367,18 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 	}
 
 	/**
+	 * Decides whether the order item type rounds taxes at subtotal or not.
+	 *
+	 * @param WC_Order_Item|string $order_item
+	 */
+	protected function order_item_type_round_tax_at_subtotal( $order_item_type, $default_round_at_subtotal = true ) {
+		$round_at_subtotal = $default_round_at_subtotal;
+		$order_item_type   = is_callable( array( $order_item_type, 'get_type' ) ) ? $order_item_type->get_type() : $order_item_type;
+
+		return apply_filters( "{$this->get_hook_prefix()}item_type_round_tax_at_subtotal", $round_at_subtotal, $order_item_type, $this );
+	}
+
+	/**
 	 * @param WC_Order_Item $order_item
 	 */
 	public function get_billable_item_total( $order_item, $args = array() ) {
@@ -1362,7 +1427,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		/**
 		 * Do not bill negative fees - use discount instead.
 		 */
-		if ( $order_item && 'fee' === $order_item->get_type() && $total_left_rounded <= 0 ) {
+		if ( $order_item && 'fee' === $order_item->get_type() && $total_left_rounded <= 0 && $this->bill_negative_fee_as_discount( $order_item ) ) {
 			$total_left = 0;
 		}
 
@@ -1377,6 +1442,32 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		 * @package Vendidero/StoreaBill
 		 */
 		return apply_filters( "{$this->get_hook_prefix()}billable_order_item_total", $total_left, $order_item, $this, $args['incl_tax'] );
+	}
+
+	/**
+	 * @param \WC_Order_Item_Fee $order_item
+	 */
+	protected function bill_negative_fee_as_discount( $order_item ) {
+		$bill_as_discount = true;
+
+		/**
+		 * In case the negative fee taxes have a higher accuracy than price decimals (e.g. 7,012 vs 7,01)
+		 * booking this fee as a discount will lead to tax rounding issues as the tax totals will already be rounded per position
+		 * in case of net prices. There is no other option way than booking these negative fees separately as a negative fee.
+		 */
+		if ( $order = $order_item->get_order() ) {
+			if ( ! $order->get_prices_include_tax() ) {
+				$tax_totals        = $order_item->get_taxes();
+				$tax_total_rounded = array_sum( array_map( 'wc_round_tax_total', $tax_totals['total'] ) );
+				$tax_total         = array_sum( $tax_totals['total'] );
+
+				if ( $tax_total !== $tax_total_rounded ) {
+					$bill_as_discount = false;
+				}
+			}
+		}
+
+		return apply_filters( "{$this->get_hook_prefix()}bill_negative_fee_as_discount", $bill_as_discount, $order_item, $this );
 	}
 
 	/**
@@ -1438,7 +1529,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		/**
 		 * Do not bill negative fees - use discount instead.
 		 */
-		if ( $order_item && 'fee' === $order_item->get_type() && $total_left_rounded <= 0 ) {
+		if ( $order_item && 'fee' === $order_item->get_type() && $total_left_rounded <= 0 && $this->bill_negative_fee_as_discount( $order_item ) ) {
 			$total_left = 0;
 		}
 
@@ -1736,13 +1827,14 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		$order_item_data = array();
 
 		foreach( $this->get_order_items() as $order_item ) {
+			$item_includes_tax   = $this->order_item_type_includes_tax( $order_item->get_type(), $this->get_order()->get_prices_include_tax() );
 			$total_refunded      = $this->get_order_item_refunded_total( $order_item );
 			$total_refunded_excl = $this->get_order_item_refunded_total( $order_item, false );
 			$quantity            = $order_item->get_quantity() - $this->get_order_item_refunded_quantity( $order_item );
 			$total               = $this->get_order()->get_line_total( $order_item, true, false ) - $total_refunded;
 			$tax_total_refunded  = $this->get_order_item_refunded_tax_total( $order_item );
 			$line_total_tax      = $this->get_order()->get_line_tax( $order_item ) - $tax_total_refunded;
-			$line_total          = $this->get_order()->get_line_total( $order_item, $this->get_order()->get_prices_include_tax(), false ) - ( $this->get_order()->get_prices_include_tax() ? $total_refunded : $total_refunded_excl );
+			$line_total          = $this->get_order()->get_line_total( $order_item, $item_includes_tax, false ) - ( $item_includes_tax ? $total_refunded : $total_refunded_excl );
 
 			$order_item_data[ $order_item->get_id() ] = array(
 				'quantity'     => $quantity,
@@ -2208,6 +2300,28 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		return sab_format_decimal( $total );
 	}
 
+	public function get_net_total_billed( $finalized_only = false, $ex_voucher = true ) {
+		$total = 0;
+
+		foreach( $this->get_documents() as $document ) {
+			if ( $finalized_only && ! $document->is_finalized() ) {
+				continue;
+			}
+
+			if ( 'cancellation' === $document->get_invoice_type() ) {
+				$total -= $ex_voucher ? $document->get_net_total_ex_voucher() : $document->get_total_net();
+			} else {
+				$total += $ex_voucher ? $document->get_net_total_ex_voucher() : $document->get_total_net();
+			}
+		}
+
+		if ( sab_format_decimal( $total, '' ) == 0 ) {
+			$total = 0;
+		}
+
+		return sab_format_decimal( $total );
+	}
+
 	public function get_total_tax_billed( $finalized_only = false ) {
 		$total = 0;
 
@@ -2260,12 +2374,19 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 		}
 
 		foreach( $this->documents as $invoice_type => $invoices ) {
-			foreach( $invoices as $key => $invoice ) {
-
-				if ( $sync_editable && $invoice->get_id() > 0 ) {
-					$this->sync( $invoice );
+			if ( $sync_editable ) {
+				foreach( $invoices as $invoice ) {
+					if ( $sync_editable && $invoice->get_id() > 0 ) {
+						$this->sync( $invoice );
+					}
 				}
 
+				if ( 'invoice' === $invoice_type && $this->get_last_editable_invoice() && ! $this->needs_billing() ) {
+					$this->book_order_divergences();
+				}
+			}
+
+			foreach( $invoices as $key => $invoice ) {
 				$id = $invoice->save();
 
 				/**

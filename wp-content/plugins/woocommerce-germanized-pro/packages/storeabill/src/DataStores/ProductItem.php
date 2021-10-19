@@ -20,6 +20,7 @@ class ProductItem extends DocumentItem {
 	protected $internal_meta_keys = array(
 		'_product_id',
 		'_prices_include_tax',
+		'_round_tax_at_subtotal',
 		'_price',
 		'_price_subtotal',
 		'_price_tax',
@@ -44,8 +45,15 @@ class ProductItem extends DocumentItem {
 			case "is_virtual":
 			case "is_service":
 			case "has_differential_taxation":
-				$value = wc_bool_to_string( $value );
+				$value = sab_bool_to_string( $value );
 				break;
+		}
+
+		/**
+		 * Round tax at subtotal prop may only be overridden for additional costs (e.g. shipping, fee).
+		 */
+		if ( 'round_tax_at_subtotal' === $prop ) {
+			$value = '';
 		}
 
 		return $value;
