@@ -18,7 +18,7 @@ class Package {
      *
      * @var string
      */
-    const VERSION = '1.6.1';
+    const VERSION = '1.6.3';
 
     public static $upload_dir_suffix = '';
 
@@ -291,7 +291,8 @@ class Package {
 					'AX*', // Åland Islands
 				),
 				'CY' => array(
-					'99*', // Northern Cyprus
+					'9*', // Northern Cyprus
+					'5*' // Northern Cyprus
 				),
 			);
 

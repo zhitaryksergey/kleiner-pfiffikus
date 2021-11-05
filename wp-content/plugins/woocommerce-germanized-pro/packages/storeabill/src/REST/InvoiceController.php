@@ -1160,6 +1160,19 @@ class InvoiceController extends DocumentController {
 						),
 					),
 				),
+				'taxable_country' => array(
+					'description' => _x( 'Taxable country code in ISO 3166-1 alpha-2 format.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+					'label'       => _x( 'Taxable country code', 'storeabill-core', 'woocommerce-germanized-pro' ),
+					'type'        => 'string',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit' ),
+				),
+				'taxable_postcode' => array(
+					'description' => _x( 'Taxable postcode.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+					'type'        => 'string',
+					'readonly'    => true,
+					'context'     => array( 'view', 'edit' ),
+				),
 				'meta_data'        => array(
 					'description' => _x( 'Meta data.', 'storeabill-core', 'woocommerce-germanized-pro' ),
 					'type'        => 'array',

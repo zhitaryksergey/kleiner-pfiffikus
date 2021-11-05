@@ -14,11 +14,13 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 		protected $plan_id = 1;
 		protected $tvc_data = array();
 		protected $last_login;
+		protected $is_refresh_token_expire;
 		public function __construct( ){
 			if ( ! is_admin() ) {
 				return;
 			}
 			$this->includes();
+
 			/**
 			 *  Set Var
 			 */
@@ -29,6 +31,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 
 			$this->connect_url =  $this->TVC_Admin_Helper->get_connect_url();
 			$this->tvc_data = $this->TVC_Admin_Helper->get_store_data();
+			$this->is_refresh_token_expire = $this->TVC_Admin_Helper->is_refresh_token_expire();
 			/**
 				* check last login for check RefreshToken
 				*/
@@ -111,6 +114,8 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 					$ee_additional_data = $this->TVC_Admin_Helper->get_ee_additional_data();
 					$ee_additional_data['ee_last_login'] = current_time( 'timestamp' );
 					$this->TVC_Admin_Helper->set_ee_additional_data($ee_additional_data);
+
+					$this->is_refresh_token_expire = false;
 				}			
 	  		//$this->tvc_data = json_encode($this->tvc_data);
 			}
@@ -199,7 +204,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 		            <!-- onborading left start -->
 								<div class="onboardingstepwrap">									
 									<!-- step-0 start -->
-								  <div class="onbordording-step onbrdstep-0 gglanystep <?php if($this->subscriptionId == "" || $this->tvc_data['g_mail']==""){ echo "activestep"; }else{echo "selectedactivestep";} ?>">
+								  <div class="onbordording-step onbrdstep-0 gglanystep <?php if($this->subscriptionId == "" || $this->tvc_data['g_mail']=="" || $this->is_refresh_token_expire == true ){ echo "activestep"; }else{echo "selectedactivestep";} ?>">
 							      <div class="stepdtltop" data-is-done="<?php echo $complete_step['step-0']; ?>" id="google-signing" data-id="step_0">
 						          <div class="stepleftround">
 						            <img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/check-wbg.png'; ?>" alt="" />
@@ -210,8 +215,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 						          </div>
 							      </div>
 							      <div class="stepmoredtlwrp">
-						          <div class="stepmoredtl">
-						          	
+						          <div class="stepmoredtl">						          	
 						          	<?php if(!isset($this->tvc_data['g_mail']) || $this->tvc_data['g_mail'] == "" || $this->subscriptionId == ""){?>
 						          		<div class="google_connect_url google-btn">
 													  <div class="google-icon-wrapper">
@@ -220,20 +224,31 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 													  <p class="btn-text"><b>Sign in with google</b></p>
 													</div>
 						          	<?php } else{?>
-						          		<div class="google_connect_url google-btn">
-													  <div class="google-icon-wrapper">
-													    <img class="google-icon" src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/g-logo.png'; ?>"/>
-													  </div>
-													  <p class="btn-text mr-35"><b>Reauthorize</b></p>
-													</div>
-						          	<?php } ?>
+						          		
+													<?php if($this->is_refresh_token_expire == true){?>
+														<p class="alert alert-primary">It seems the token to access your Google accounts is expired. Sign in again to continue.</p>
+														<div class="google_connect_url google-btn">
+														  <div class="google-icon-wrapper">
+														    <img class="google-icon" src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/g-logo.png'; ?>"/>
+														  </div>
+														  <p class="btn-text"><b>Sign in with google</b></p>
+														</div>
+													<?php } else{ ?>
+														<div class="google_connect_url google-btn">
+														  <div class="google-icon-wrapper">
+														    <img class="google-icon" src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/g-logo.png'; ?>"/>
+														  </div>
+														  <p class="btn-text mr-35"><b>Reauthorize</b></p>
+														</div>
+													<?php } ?>
+												<?php } ?>
 						          	<p>Make sure you sign in with the google account that has all privileges to access google analytics, google ads and google merchant center account.</p>						          	
 						          </div>
 						        </div>
 								  </div>
 								  <!-- step-0 over -->
 								  <!-- step-1 start -->
-								  <div class="onbordording-step onbrdstep-1 gglanystep <?php echo ($complete_step['step-1']==1 && $this->tvc_data['g_mail'])?'selectedactivestep':''; ?> <?php if($this->subscriptionId != "" && $this->tvc_data['g_mail']){ echo "activestep"; } ?>">
+								  <div class="onbordording-step onbrdstep-1 gglanystep <?php echo ($complete_step['step-1']==1 && $this->tvc_data['g_mail'] && $this->is_refresh_token_expire == false )?'selectedactivestep':''; ?> <?php if($this->subscriptionId != "" && $this->tvc_data['g_mail'] && $this->is_refresh_token_expire == false){ echo "activestep"; } ?>">
 							      <div class="stepdtltop" data-is-done="<?php echo $complete_step['step-1']; ?>" id="google-analytics" data-id="step_1">
 						          <div class="stepleftround">
 						            <img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/check-wbg.png'; ?>" alt="" />
@@ -323,7 +338,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 								  </div>
 								  <!-- step-1 over -->
 								  <!-- step-2 start -->
-								  <div class="onbordording-step onbrdstep-2 ggladsstep <?php echo ($complete_step['step-2']==1)?'selectedactivestep':''; ?>">
+								  <div class="onbordording-step onbrdstep-2 ggladsstep <?php echo ($complete_step['step-2']==1 && $this->is_refresh_token_expire == false)?'selectedactivestep':''; ?>">
 							      <div class="stepdtltop" data-is-done="<?php echo $complete_step['step-2']; ?>" id="google-ads" data-id="step_2">
 						          <div class="stepleftround">
 						            <img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/check-wbg.png'; ?>" alt="" />
@@ -414,7 +429,7 @@ if ( ! class_exists( 'Conversios_Onboarding' ) ) {
 								  </div>
 								  <!-- step-2 over -->
 								  <!-- step-3 start -->
-								  <div class="onbordording-step onbrdstep-3 gglmrchntstep <?php echo ($complete_step['step-3']==1)?'selectedactivestep':''; ?>">
+								  <div class="onbordording-step onbrdstep-3 gglmrchntstep <?php echo ($complete_step['step-3']==1 && $this->is_refresh_token_expire == false )?'selectedactivestep':''; ?>">
 							      <div class="stepdtltop" data-is-done="<?php echo $complete_step['step-3']; ?>" id="gmc-account" data-id="step_3">
 						          <div class="stepleftround">
 						            <img src="<?php echo ENHANCAD_PLUGIN_URL.'/admin/images/check-wbg.png'; ?>" alt="" />

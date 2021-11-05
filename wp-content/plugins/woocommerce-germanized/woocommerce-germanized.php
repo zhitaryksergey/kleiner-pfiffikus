@@ -3,13 +3,13 @@
  * Plugin Name: Germanized for WooCommerce
  * Plugin URI: https://www.vendidero.de/woocommerce-germanized
  * Description: Germanized for WooCommerce extends WooCommerce to become a legally compliant store in the german market.
- * Version: 3.6.1
+ * Version: 3.6.3
  * Author: vendidero
  * Author URI: https://vendidero.de
  * Requires at least: 5.4
  * Tested up to: 5.8
  * WC requires at least: 3.9
- * WC tested up to: 5.7
+ * WC tested up to: 5.9
  *
  * Text Domain: woocommerce-germanized
  * Domain Path: /i18n/languages/
@@ -69,7 +69,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 *
 		 * @var string
 		 */
-		public $version = '3.6.1';
+		public $version = '3.6.3';
 
 		/**
 		 * @var WooCommerce_Germanized $instance of the plugin
@@ -629,6 +629,7 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					'woo-poly-integration'                        => 'WC_GZD_Compatibility_Woo_Poly_Integration',
 					'woocommerce-dynamic-pricing'                 => 'WC_GZD_Compatibility_WooCommerce_Dynamic_Pricing',
 					'woocommerce-product-bundles'                 => 'WC_GZD_Compatibility_WooCommerce_Product_Bundles',
+					'woocommerce-composite-products'              => 'WC_GZD_Compatibility_WooCommerce_Composite_Products',
 					'woocommerce-product-addons'                  => 'WC_GZD_Compatibility_WooCommerce_Product_Addons',
 					'woocommerce-role-based-prices'               => 'WC_GZD_Compatibility_WooCommerce_Role_Based_Prices',
 					'woocommerce-role-based-price'                => 'WC_GZD_Compatibility_WooCommerce_Role_Based_Price',
@@ -1100,6 +1101,16 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 			);
 		}
 
+		public function get_custom_email_ids() {
+		    return array(
+			    'WC_GZD_Email_Customer_Paid_For_Order'            => 'customer_paid_for_order',
+			    'WC_GZD_Email_Customer_New_Account_Activation'    => 'customer_new_account_activation',
+			    'WC_GZD_Email_Customer_Revocation'                => 'customer_revocation',
+			    'WC_GZD_Email_Customer_SEPA_Direct_Debit_Mandate' => 'customer_sepa_direct_debit_mandate',
+			    'WC_GZD_Email_Customer_Cancelled_Order'           => 'customer_cancelled_order',
+            );
+		}
+
 		/**
 		 * Add Custom Email templates
 		 *
@@ -1109,10 +1120,14 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 		 */
 		public function add_emails( $mails ) {
 
-			$mails['WC_GZD_Email_Customer_Paid_For_Order']         = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-paid-for-order.php';
-			$mails['WC_GZD_Email_Customer_Cancelled_Order']        = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-cancelled-order.php';
-			$mails['WC_GZD_Email_Customer_New_Account_Activation'] = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-new-account-activation.php';
-			$mails['WC_GZD_Email_Customer_Revocation']             = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-revocation.php';
+		    foreach( $this->get_custom_email_ids() as $class_name => $email_id ) {
+		        $path     = WC_GERMANIZED_ABSPATH . 'includes/emails/';
+			    $file     = 'class-' . trim( str_replace( '_', '-', strtolower( $class_name ) ) ) . '.php';
+
+			    if ( $path && is_readable( $path . $file ) ) {
+			        $mails[ $class_name ] =  include( $path . $file );
+			    }
+		    }
 
 			// Make sure the Processing Order Email is named Order Confirmation for better understanding
 			if ( isset( $mails['WC_Email_Customer_Processing_Order'] ) ) {
@@ -1125,8 +1140,6 @@ if ( ! class_exists( 'WooCommerce_Germanized' ) ) :
 					$mails['WC_Email_Customer_On_Hold_Order'] = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-on-hold-order.php';
 				}
 			}
-
-			$mails['WC_GZD_Email_Customer_SEPA_Direct_Debit_Mandate'] = include WC_GERMANIZED_ABSPATH . 'includes/emails/class-wc-gzd-email-customer-sepa-direct-debit-mandate.php';
 
 			return $mails;
 		}

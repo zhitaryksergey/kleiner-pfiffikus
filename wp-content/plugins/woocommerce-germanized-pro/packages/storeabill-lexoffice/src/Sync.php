@@ -364,11 +364,19 @@ class Sync extends SyncHandler {
 			$voucher_number = $invoice->get_order_number();
 		}
 
+		$shipping_date = $invoice->get_date_created()->date_i18n( 'Y-m-d' );
+
+		if ( $invoice->get_date_of_service_end() ) {
+			$shipping_date = $invoice->get_date_of_service_end()->date_i18n( 'Y-m-d' );
+		} elseif( $invoice->get_date_of_service() ) {
+			$shipping_date = $invoice->get_date_of_service()->date_i18n( 'Y-m-d' );
+		}
+
 		$request = array(
 			'type'                 => 'cancellation' === $invoice->get_invoice_type() ? 'salescreditnote' : 'salesinvoice',
 			'voucherNumber'        => apply_filters( "{$this->get_hook_prefix()}voucher_number", $voucher_number, $invoice ),
 			'voucherDate'          => $invoice->get_date_created()->date_i18n( 'Y-m-d' ),
-			'shippingDate'         => $invoice->get_date_of_service_end() ? $invoice->get_date_of_service_end()->date_i18n( 'Y-m-d' ) : $invoice->get_date_of_service()->date_i18n( 'Y-m-d' ),
+			'shippingDate'         => $shipping_date,
 			'dueDate'              => $invoice->get_date_due() ? $invoice->get_date_due()->date_i18n( 'Y-m-d' ) : $invoice->get_date_created()->date_i18n( 'Y-m-d' ),
 			'totalGrossAmount'     => sab_format_decimal( $invoice->get_total(), 2 ),
 			'totalTaxAmount'       => $total_tax,

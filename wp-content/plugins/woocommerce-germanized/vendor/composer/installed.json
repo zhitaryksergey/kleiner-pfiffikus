@@ -252,17 +252,17 @@
         },
         {
             "name": "dvdoug/boxpacker",
-            "version": "3.9.2",
-            "version_normalized": "3.9.2.0",
+            "version": "3.9.3",
+            "version_normalized": "3.9.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dvdoug/BoxPacker.git",
-                "reference": "175f8ab63961975ff1fe52df1379b2c28742a9cd"
+                "reference": "b9063023729c403e3c20a7635663f29fac569c96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/175f8ab63961975ff1fe52df1379b2c28742a9cd",
-                "reference": "175f8ab63961975ff1fe52df1379b2c28742a9cd",
+                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/b9063023729c403e3c20a7635663f29fac569c96",
+                "reference": "b9063023729c403e3c20a7635663f29fac569c96",
                 "shasum": ""
             },
             "require": {
@@ -272,12 +272,12 @@
             },
             "require-dev": {
                 "behat/behat": "^3.7",
-                "dvdoug/behat-code-coverage": "^5.0",
+                "dvdoug/behat-code-coverage": "^5.0.1",
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "monolog/monolog": "^1.0||^2.0",
-                "phpunit/phpunit": "^7.5.20||^8.5.13||^9.5.0"
+                "phpunit/phpunit": "^7.5.20||^8.5.21||^9.5.8"
             },
-            "time": "2021-07-04T17:20:38+00:00",
+            "time": "2021-09-26T19:22:28+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -314,7 +314,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dvdoug/BoxPacker/issues",
-                "source": "https://github.com/dvdoug/BoxPacker/tree/3.9.2"
+                "source": "https://github.com/dvdoug/BoxPacker/tree/3.9.3"
             },
             "funding": [
                 {
@@ -564,17 +564,17 @@
         },
         {
             "name": "vendidero/one-stop-shop-woocommerce",
-            "version": "v1.1.5",
-            "version_normalized": "1.1.5.0",
+            "version": "v1.1.6",
+            "version_normalized": "1.1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/one-stop-shop-woocommerce.git",
-                "reference": "9919101058bf57c324eb36fd36b5d6326c5fb827"
+                "reference": "e15b7a8ec378e7af1cc5eb0315b0b1422f527a24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/one-stop-shop-woocommerce/zipball/9919101058bf57c324eb36fd36b5d6326c5fb827",
-                "reference": "9919101058bf57c324eb36fd36b5d6326c5fb827",
+                "url": "https://api.github.com/repos/vendidero/one-stop-shop-woocommerce/zipball/e15b7a8ec378e7af1cc5eb0315b0b1422f527a24",
+                "reference": "e15b7a8ec378e7af1cc5eb0315b0b1422f527a24",
                 "shasum": ""
             },
             "require": {
@@ -583,7 +583,7 @@
             "require-dev": {
                 "phpunit/phpunit": "6.5.14"
             },
-            "time": "2021-09-16T09:49:23+00:00",
+            "time": "2021-10-19T10:25:33+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -605,24 +605,24 @@
             "description": "One Stop Shop Helper for WooCommerce",
             "homepage": "https://github.com/vendidero/one-stop-shop-woocommerce",
             "support": {
-                "source": "https://github.com/vendidero/one-stop-shop-woocommerce/tree/v1.1.5",
+                "source": "https://github.com/vendidero/one-stop-shop-woocommerce/tree/v1.1.6",
                 "issues": "https://github.com/vendidero/one-stop-shop-woocommerce/issues"
             },
             "install-path": "../../packages/one-stop-shop-woocommerce"
         },
         {
             "name": "vendidero/woocommerce-germanized-dhl",
-            "version": "v1.6.1",
-            "version_normalized": "1.6.1.0",
+            "version": "v1.6.2",
+            "version_normalized": "1.6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/woocommerce-germanized-dhl.git",
-                "reference": "70efa64dbf4cf54fb0d2864792df59ee776a1321"
+                "reference": "c0cb29c298a29be64662c1174abf2f787565869b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/70efa64dbf4cf54fb0d2864792df59ee776a1321",
-                "reference": "70efa64dbf4cf54fb0d2864792df59ee776a1321",
+                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/c0cb29c298a29be64662c1174abf2f787565869b",
+                "reference": "c0cb29c298a29be64662c1174abf2f787565869b",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +633,7 @@
             "require-dev": {
                 "phpunit/phpunit": "6.5.14"
             },
-            "time": "2021-09-16T09:39:31+00:00",
+            "time": "2021-10-19T10:16:56+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -657,24 +657,24 @@
             "description": "The Germanized DHL implementation.",
             "homepage": "https://github.com/vendidero/woocommerce-germanized-dhl",
             "support": {
-                "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.6.1",
+                "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.6.2",
                 "issues": "https://github.com/vendidero/woocommerce-germanized-dhl/issues"
             },
             "install-path": "../../packages/woocommerce-germanized-dhl"
         },
         {
             "name": "vendidero/woocommerce-germanized-shipments",
-            "version": "v1.6.1",
-            "version_normalized": "1.6.1.0",
+            "version": "v1.6.3",
+            "version_normalized": "1.6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/woocommerce-germanized-shipments.git",
-                "reference": "14f36456fa29a88683736b0fa65892d0d38811ca"
+                "reference": "aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/14f36456fa29a88683736b0fa65892d0d38811ca",
-                "reference": "14f36456fa29a88683736b0fa65892d0d38811ca",
+                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d",
+                "reference": "aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
             "require-dev": {
                 "phpunit/phpunit": "7.5.14"
             },
-            "time": "2021-09-16T10:39:13+00:00",
+            "time": "2021-10-21T12:04:14+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -708,7 +708,7 @@
             "description": "The Germanized Shipments implementation.",
             "homepage": "https://github.com/vendidero/woocommerce-germanized-shipments",
             "support": {
-                "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.6.1",
+                "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.6.3",
                 "issues": "https://github.com/vendidero/woocommerce-germanized-shipments/issues"
             },
             "install-path": "../../packages/woocommerce-germanized-shipments"

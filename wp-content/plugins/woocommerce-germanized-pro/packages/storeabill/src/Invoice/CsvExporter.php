@@ -19,6 +19,10 @@ class CsvExporter extends \Vendidero\StoreaBill\Document\CsvExporter {
 		'formatted_address',
 		'formatted_shipping_address',
 		'meta_data',
+	);
+
+	protected $spreadable_column_names = array(
+		'address',
 		'shipping_address'
 	);
 
@@ -52,7 +56,7 @@ class CsvExporter extends \Vendidero\StoreaBill\Document\CsvExporter {
 	}
 
 	protected function get_columns_with_extra_handling() {
-		return array_merge( parent::get_columns_with_extra_handling(), array( 'net_totals', 'tax_totals' ) );
+		return array_merge( parent::get_columns_with_extra_handling(), array( 'net_totals', 'tax_totals', 'shipping_address' ) );
 	}
 
 	protected function prepare_extra_data_for_export( $document, &$row ) {
@@ -71,6 +75,12 @@ class CsvExporter extends \Vendidero\StoreaBill\Document\CsvExporter {
 				$this->column_names[ $column_key ] = sprintf( _x( 'Total Net: %s', 'storeabill-core', 'woocommerce-germanized-pro' ), $tax_total_data['rate']['percent'] );
 
 				$row[ $column_key ] = $tax_total_data['total_net'];
+			}
+		}
+
+		foreach( $document['shipping_address'] as $address_prop => $value ) {
+			if ( $this->is_column_exporting( 'shipping_address_' . $address_prop ) ) {
+				$row[ 'shipping_address_' . $address_prop ] = $value;
 			}
 		}
 	}

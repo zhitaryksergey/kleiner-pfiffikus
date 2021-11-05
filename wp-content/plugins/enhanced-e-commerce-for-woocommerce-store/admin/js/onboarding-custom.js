@@ -112,9 +112,9 @@ $(document).ready(function () {
   });
   
   //select2
-	//$(".select2").select2();
+  //$(".select2").select2();
   // desable to close advance settings
-	$(".advance-settings .dropdown-menu").click(function(e){
+  $(".advance-settings .dropdown-menu").click(function(e){
       e.stopPropagation();
   });
 });
@@ -494,8 +494,8 @@ function list_analytics_web_properties(type, tvc_data) {
     url: tvc_ajax_url,
     data: {action: "get_analytics_web_properties", type: type, tvc_data:tvc_data, conversios_onboarding_nonce:conversios_onboarding_nonce},
     success: function (response) {
-      //  console.log(response);
-      if (response.error == false) {
+        console.log(response);
+      if (response != null && response.error == false) {
         if (type == "UA" || type == "BOTH") {
           //web_properties_dropdown
           var subscriptionPropertyId = $("#subscriptionPropertyId").val();
@@ -515,7 +515,7 @@ function list_analytics_web_properties(type, tvc_data) {
                 }else{
                   selected = "";
                 }
-                PropOptions = PropOptions + '<option value="' + propValue.webPropertyId + '" ' + selected + ' data-accountid="' + propValue.accountId + '" data-profileid="' + propValue.id + '"> ' + propValue.accountName + ' - ' + propValue.propertyName + ' - ' + propValue.name + '</option>';
+                PropOptions = PropOptions + '<option value="' + propValue.webPropertyId + '" ' + selected + ' data-accountid="' + propValue.accountId + '" data-profileid="' + propValue.id + '"> ' + propValue.accountName + ' - ' + propValue.propertyName + ' - ' + propValue.name + ' - ' + propValue.webPropertyId +'</option>';
             });
           }
           $('#ua_web_property_id').html(PropOptions);
@@ -540,10 +540,12 @@ function list_analytics_web_properties(type, tvc_data) {
           $('#both_web_measurement_id').html(MeasOptions);
         }
         $(".slect2bx").select2();
+      }else if( response != null && response.error == true && response.errors != undefined){
+        const errors = response.errors[0];
+        add_message("error",errors);
       }else{
-        const errors = JSON.parse(response.errors[0]);
-        add_message("error",errors.message);
-      }
+      add_message("error","It seems "+type +" Google analytics account not fetched");
+    }
       is_validate_step("step_1");
       loaderSection(false);
     }

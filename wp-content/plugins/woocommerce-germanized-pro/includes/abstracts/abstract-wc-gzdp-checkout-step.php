@@ -137,10 +137,15 @@ abstract class WC_GZDP_Checkout_Step {
 			WC()->session->set( 'checkout_step', $this->next->get_id() );
 		}
 
+		/**
+		 * Explicitly set result to failure instead of unknown (in terms of WC) identifier like "step".
+		 * This change was made to ensure compatibility e.g. with the WooCommerce Payments Plugin which seems
+		 * to explicitly check the AJAX response result and does trigger the Stripe Confirmation in case the result is not failure.
+		 */
 		wp_send_json (
 			array(
 				'fragments' => WC_GZDP_Multistep_Checkout::instance()->refresh_order_fragments( array() ),
-				'result'	=> 'step',
+				'result'	=> 'failure',
 				'step'		=> $this->number,
 				'refresh'	=> 'true',
 				'messages'  => ' ',

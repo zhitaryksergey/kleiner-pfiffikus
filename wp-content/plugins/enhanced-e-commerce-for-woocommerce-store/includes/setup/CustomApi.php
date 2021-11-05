@@ -17,7 +17,7 @@ class CustomApi{
         }else{
             $TVC_Admin_Helper = new TVC_Admin_Helper();
             $google_detail = $TVC_Admin_Helper->get_ee_options_data();          
-            $this->access_token = $google_detail['setting']->access_token;
+            $this->access_token = (isset($google_detail['setting']->access_token))?$google_detail['setting']->access_token:"";
             return $this->access_token;
         }
     }
@@ -31,7 +31,7 @@ class CustomApi{
         }else{
             $TVC_Admin_Helper = new TVC_Admin_Helper();
             $google_detail = $TVC_Admin_Helper->get_ee_options_data();          
-            $this->refresh_token = $google_detail['setting']->refresh_token;
+            $this->refresh_token = (isset($google_detail['setting']->refresh_token))?$google_detail['setting']->refresh_token:"";
             return $this->refresh_token;
         }
     }

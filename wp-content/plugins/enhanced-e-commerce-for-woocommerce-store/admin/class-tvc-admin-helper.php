@@ -871,7 +871,7 @@ Class TVC_Admin_Helper{
 		    if(isset($claimWebsite->error) && !empty($claimWebsite->errors)){ 
 		    	return array('error'=>true, 'msg'=>$claimWebsite->errors[0]);
 		    }else{
-		      $this->set_update_api_to_db();
+		      $this->update_subscription_details_api_to_db();
 		      return array('error'=>false, 'msg'=>"Domain claimed successfully.");
 		    }
 		  }else{
@@ -926,7 +926,7 @@ Class TVC_Admin_Helper{
           		if(isset($siteVerification_tag->error) && !empty($siteVerification_tag->errors)){
           			return array('error'=>true, 'msg'=>$siteVerification_tag->errors[0]);
           		}else{
-          			$this->set_update_api_to_db();
+          			$this->update_subscription_details_api_to_db();
           			return array('error'=>false, 'msg'=>"Site verification successfully.");
           		}
           	}else{
@@ -934,7 +934,7 @@ Class TVC_Admin_Helper{
           	}       	
           	// one more try
           }else{
-            $this->set_update_api_to_db();
+            $this->update_subscription_details_api_to_db();
 		      	return array('error'=>false, 'msg'=>"Site verification successfully.");
           }
         }
@@ -1141,6 +1141,21 @@ Class TVC_Admin_Helper{
 	  	if(isset($google_detail['setting'])){
 			   return $google_detail['setting'];
 			}  	
+	}
+	/*
+   * Check refresh tocken status
+   */
+	public function is_refresh_token_expire(){
+		$access_token = $this->customApiObj->get_tvc_access_token();
+		$refresh_token = $this->customApiObj->get_tvc_refresh_token();
+		if($access_token != "" && $refresh_token != ""){
+			$access_token = $this->customApiObj->generateAccessToken($access_token, $refresh_token);
+		}		
+		if($access_token != ""){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	/*

@@ -315,7 +315,7 @@ var tvc_helper = {
       url: tvc_ajax_url,
       data: post_data,
       success: function (response) {
-      	console.log(post_data);
+      	console.log(response);
       	if(response.error == false){
       		if(Object.keys(response.data).length > 0){
       			v_this.set_google_analytics_reports_value(response.data, post_data);

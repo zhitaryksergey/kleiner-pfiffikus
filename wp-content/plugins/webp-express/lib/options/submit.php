@@ -790,6 +790,6 @@ if (!$result['saved-both-config']) {
     }
 }
 
-wp_redirect( $_SERVER['HTTP_REFERER']);
+wp_redirect(Paths::getSettingsUrl());
 
 exit();

@@ -1,4 +1,4 @@
-===  Google Analytics and Google Shopping plugin for WooCommerce ===
+=== Conversios.io - Google Analytics and Google Shopping plugin for WooCommerce ===
 Contributors: Tatvic, Conversios
 Plugin Name: Enhanced Ecommerce for WooCommerce Store
 Plugin URI: https://wordpress.org/plugins/enhanced-e-commerce-for-woocommerce-store/
@@ -8,8 +8,8 @@ Author: Tatvic
 Requires at least: 1.4.1
 Tested up to: 5.8.1
 Requires PHP: 5.6 or Higher
-Stable tag: 4.3.3
-Version: 4.3.3
+Stable tag: 4.4.0
+Version: 4.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -379,6 +379,19 @@ You can resolve the duplication of data by removing the manually implemented GA 
 
 
 == Changelog ==
+
+= 4.4.0 - 01/11/2021 =
+
+* In this release, we have added product type and custom attributes for the product sync capability which will help in enhancing your product feeds in Google Merchant Center. These attributed will automatically collected and pushed to GMC when you are syncing products.
+
+= 4.3.5 - 23/10/2021 =
+
+* We have fixed the onboarding signup issue which was raised by some users.
+
+= 4.3.4 - 21/10/2021 =
+
+* Site verification and domainc claim issue got fixed for the manually created merchant center accounts
+* Some users were facing difficulty on the onboarding page because of the access token expiry. The issue is fixed now.
 
 = 4.3.3 - 14/10/2021 =
 

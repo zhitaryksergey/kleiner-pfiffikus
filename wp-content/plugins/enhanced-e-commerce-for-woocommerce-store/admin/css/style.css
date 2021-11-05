@@ -933,6 +933,7 @@ button:disabled,button[disabled], button:disabled:hover,button[disabled]:hover{b
 
 /* RC*/
 .onbordingbody{padding-top: 10px;}
+.onbordording-step .click_here{font-weight: 600; cursor: pointer;}
 .dashboard_page_conversios_onboarding, .index_page_conversios_onboarding, .onbordingbody-wapper{background: #fff;}
 .bodyrightpart{padding: 20px 10px 10px 0;}
 .blueupgrdbtn{display: inline-block;}

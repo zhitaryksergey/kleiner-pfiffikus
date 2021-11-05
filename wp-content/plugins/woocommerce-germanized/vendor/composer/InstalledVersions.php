@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1bc689398a55189f713ac4f6be07dde8909e2f5a',
+    'reference' => '8a87c30db1621f68c17d835bb9044a49ffcb9d73',
     'name' => 'vendidero/woocommerce-germanized',
   ),
   'versions' => 
@@ -53,12 +53,12 @@ private static $installed = array (
     ),
     'dvdoug/boxpacker' => 
     array (
-      'pretty_version' => '3.9.2',
-      'version' => '3.9.2.0',
+      'pretty_version' => '3.9.3',
+      'version' => '3.9.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '175f8ab63961975ff1fe52df1379b2c28742a9cd',
+      'reference' => 'b9063023729c403e3c20a7635663f29fac569c96',
     ),
     'myclabs/deep-copy' => 
     array (
@@ -116,12 +116,12 @@ private static $installed = array (
     ),
     'vendidero/one-stop-shop-woocommerce' => 
     array (
-      'pretty_version' => 'v1.1.5',
-      'version' => '1.1.5.0',
+      'pretty_version' => 'v1.1.6',
+      'version' => '1.1.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9919101058bf57c324eb36fd36b5d6326c5fb827',
+      'reference' => 'e15b7a8ec378e7af1cc5eb0315b0b1422f527a24',
     ),
     'vendidero/woocommerce-germanized' => 
     array (
@@ -130,25 +130,25 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1bc689398a55189f713ac4f6be07dde8909e2f5a',
+      'reference' => '8a87c30db1621f68c17d835bb9044a49ffcb9d73',
     ),
     'vendidero/woocommerce-germanized-dhl' => 
     array (
-      'pretty_version' => 'v1.6.1',
-      'version' => '1.6.1.0',
+      'pretty_version' => 'v1.6.2',
+      'version' => '1.6.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '70efa64dbf4cf54fb0d2864792df59ee776a1321',
+      'reference' => 'c0cb29c298a29be64662c1174abf2f787565869b',
     ),
     'vendidero/woocommerce-germanized-shipments' => 
     array (
-      'pretty_version' => 'v1.6.1',
-      'version' => '1.6.1.0',
+      'pretty_version' => 'v1.6.3',
+      'version' => '1.6.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '14f36456fa29a88683736b0fa65892d0d38811ca',
+      'reference' => 'aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d',
     ),
     'vendidero/woocommerce-trusted-shops' => 
     array (

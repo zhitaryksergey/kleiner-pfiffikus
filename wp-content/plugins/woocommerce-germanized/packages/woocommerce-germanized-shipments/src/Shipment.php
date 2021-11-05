@@ -783,12 +783,11 @@ abstract class Shipment extends WC_Data {
 	 *
 	 * @return string
 	 */
-	public function get_tracking_instruction() {
+	public function get_tracking_instruction( $plain = false ) {
 		$instruction = '';
 
 		if ( $provider = $this->get_shipping_provider_instance() ) {
-			// $instruction = sprintf( _x( 'Your shipment is being processed by %s. If you want to track the shipment, please use the following tracking number: %s. Depending on the chosen shipping method it is possible that the tracking data does not reflect the current status when receiving this email.', 'shipments', 'woocommerce-germanized' ), wc_gzd_get_shipping_provider_title( $this->get_shipping_provider() ), $this->get_tracking_id() );
-			$instruction = $provider->get_tracking_desc( $this );
+			$instruction = $provider->get_tracking_desc( $this, $plain );
 		}
 
 		/**
@@ -814,7 +813,7 @@ abstract class Shipment extends WC_Data {
 	 * @return boolean
 	 */
 	public function has_tracking_instruction() {
-    	$instruction = $this->get_tracking_instruction();
+    	$instruction = $this->get_tracking_instruction( true );
 
     	return ( ! empty( $instruction ) ) ? true : false;
 	}
@@ -1104,6 +1103,16 @@ abstract class Shipment extends WC_Data {
     }
 
 	/**
+	 * Returns the shipment address customs reference number.
+	 *
+	 * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+	 * @return string
+	 */
+	public function get_customs_reference_number( $context = 'view' ) {
+		return $this->get_address_prop( 'customs_reference_number', $context ) ? $this->get_address_prop( 'customs_reference_number', $context ) : '';
+	}
+
+	/**
 	 * Returns a sender address prop by checking the corresponding provider and falling back to
 	 * global sender address setting data.
 	 *
@@ -1331,6 +1340,16 @@ abstract class Shipment extends WC_Data {
 	 */
 	public function get_sender_state( $context = 'view' ) {
 		return $this->get_sender_address_prop( 'state', $context );
+	}
+
+	/**
+	 * Returns the sender address customs reference number.
+	 *
+	 * @param  string $context What the value is for. Valid values are 'view' and 'edit'.
+	 * @return string
+	 */
+	public function get_sender_customs_reference_number( $context = 'view' ) {
+		return $this->get_sender_address_prop( 'customs_reference_number', $context ) ? $this->get_sender_address_prop( 'customs_reference_number', $context ) : '';
 	}
 
 	public function get_formatted_sender_state() {

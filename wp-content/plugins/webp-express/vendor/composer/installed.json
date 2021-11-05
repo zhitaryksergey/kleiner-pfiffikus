@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.11.0",
-            "version_normalized": "1.11.0.0",
+            "version": "v1.12.0",
+            "version_normalized": "1.12.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "ae03311f45dfe194412081526be2e003960df74b"
+                "reference": "d20a64ed3c94748397ff5973488761b22f6d3f19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/ae03311f45dfe194412081526be2e003960df74b",
-                "reference": "ae03311f45dfe194412081526be2e003960df74b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d20a64ed3c94748397ff5973488761b22f6d3f19",
+                "reference": "d20a64ed3c94748397ff5973488761b22f6d3f19",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,7 @@
                 "symfony/phpunit-bridge": "^4.2 || ^5",
                 "symfony/process": "^2.3"
             },
-            "time": "2021-04-28T06:42:17+00:00",
+            "time": "2021-09-13T08:19:44+00:00",
             "type": "composer-plugin",
             "extra": {
                 "class": "Composer\\Installers\\Plugin",
@@ -113,6 +113,7 @@
                 "modx",
                 "moodle",
                 "osclass",
+                "pantheon",
                 "phpbb",
                 "piwik",
                 "ppi",
@@ -135,7 +136,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v1.11.0"
+                "source": "https://github.com/composer/installers/tree/v1.12.0"
             },
             "funding": [
                 {
@@ -155,28 +156,25 @@
         },
         {
             "name": "rosell-dk/dom-util-for-webp",
-            "version": "0.4.0",
-            "version_normalized": "0.4.0.0",
+            "version": "0.4.1",
+            "version_normalized": "0.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rosell-dk/dom-util-for-webp.git",
-                "reference": "5928aecf64d59124b341dce23ce8ecf48a6eded6"
+                "reference": "f06a38fe0950e2ca0e5137a6ecd44e93d9b6b2d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rosell-dk/dom-util-for-webp/zipball/5928aecf64d59124b341dce23ce8ecf48a6eded6",
-                "reference": "5928aecf64d59124b341dce23ce8ecf48a6eded6",
+                "url": "https://api.github.com/repos/rosell-dk/dom-util-for-webp/zipball/f06a38fe0950e2ca0e5137a6ecd44e93d9b6b2d9",
+                "reference": "f06a38fe0950e2ca0e5137a6ecd44e93d9b6b2d9",
                 "shasum": ""
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.11",
-                "phpunit/phpunit": "5.7.27",
+                "phpunit/phpunit": "^9.3",
                 "squizlabs/php_codesniffer": "3.*"
             },
-            "suggest": {
-                "phpstan/phpstan": "Suggested for dev, in order to analyse code before committing"
-            },
-            "time": "2020-02-02T11:16:27+00:00",
+            "time": "2021-06-23T17:58:50+00:00",
             "type": "library",
             "extra": {
                 "scripts-descriptions": {
@@ -211,6 +209,20 @@
                 "html",
                 "images",
                 "replace"
+            ],
+            "support": {
+                "issues": "https://github.com/rosell-dk/dom-util-for-webp/issues",
+                "source": "https://github.com/rosell-dk/dom-util-for-webp/tree/0.4.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rosell-dk",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/rosell",
+                    "type": "ko_fi"
+                }
             ],
             "install-path": "../rosell-dk/dom-util-for-webp"
         },
@@ -279,25 +291,25 @@
         },
         {
             "name": "rosell-dk/image-mime-type-guesser",
-            "version": "0.3",
-            "version_normalized": "0.3.0.0",
+            "version": "0.3.1",
+            "version_normalized": "0.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rosell-dk/image-mime-type-guesser.git",
-                "reference": "204fd61ca81e3b0ba46c6165dab8f74816b1fe99"
+                "reference": "5915934d66a7869cecc7141adf90581aad81023d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rosell-dk/image-mime-type-guesser/zipball/204fd61ca81e3b0ba46c6165dab8f74816b1fe99",
-                "reference": "204fd61ca81e3b0ba46c6165dab8f74816b1fe99",
+                "url": "https://api.github.com/repos/rosell-dk/image-mime-type-guesser/zipball/5915934d66a7869cecc7141adf90581aad81023d",
+                "reference": "5915934d66a7869cecc7141adf90581aad81023d",
                 "shasum": ""
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.11",
-                "phpunit/phpunit": "^5.7.27",
+                "phpunit/phpunit": "^9.3",
                 "squizlabs/php_codesniffer": "3.*"
             },
-            "time": "2019-03-29T09:33:28+00:00",
+            "time": "2021-06-30T19:14:59+00:00",
             "type": "library",
             "extra": {
                 "scripts-descriptions": {
@@ -333,21 +345,35 @@
                 "mime",
                 "mime type"
             ],
+            "support": {
+                "issues": "https://github.com/rosell-dk/image-mime-type-guesser/issues",
+                "source": "https://github.com/rosell-dk/image-mime-type-guesser/tree/0.3.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/rosell-dk",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/rosell",
+                    "type": "ko_fi"
+                }
+            ],
             "install-path": "../rosell-dk/image-mime-type-guesser"
         },
         {
             "name": "rosell-dk/webp-convert",
-            "version": "2.6.0",
-            "version_normalized": "2.6.0.0",
+            "version": "2.7.0",
+            "version_normalized": "2.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rosell-dk/webp-convert.git",
-                "reference": "ed230afe56d3157dc402c33585e3ab7f15c7ac80"
+                "reference": "9f1677e56352b7aa23f00680d4ed41d53f3c4d8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rosell-dk/webp-convert/zipball/ed230afe56d3157dc402c33585e3ab7f15c7ac80",
-                "reference": "ed230afe56d3157dc402c33585e3ab7f15c7ac80",
+                "url": "https://api.github.com/repos/rosell-dk/webp-convert/zipball/9f1677e56352b7aa23f00680d4ed41d53f3c4d8a",
+                "reference": "9f1677e56352b7aa23f00680d4ed41d53f3c4d8a",
                 "shasum": ""
             },
             "require": {
@@ -365,7 +391,7 @@
                 "ext-vips": "to use Vips extension for converting.",
                 "php-stan/php-stan": "Suggested for dev, in order to analyse code before committing"
             },
-            "time": "2021-05-20T10:56:47+00:00",
+            "time": "2021-10-25T08:34:22+00:00",
             "type": "library",
             "extra": {
                 "scripts-descriptions": {
@@ -414,7 +440,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rosell-dk/webp-convert/issues",
-                "source": "https://github.com/rosell-dk/webp-convert/tree/2.6.0"
+                "source": "https://github.com/rosell-dk/webp-convert/tree/2.7.0"
             },
             "funding": [
                 {

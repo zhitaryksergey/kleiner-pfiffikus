@@ -103,7 +103,19 @@ window.germanized = window.germanized || {};
                 $button.parents( '.step-wrapper' ).trigger( 'refresh' );
 
                 $( 'body' ).bind( 'wc_gzdp_step_refreshed', function() {
-                    if ( $( '.woocommerce-error' ).length == 0 ) {
+                    var hasError = false,
+                        $errorWrapper = $( '.woocommerce-error' );
+
+                    /**
+                     * Explicitly check whether the error wrapper exists and has children.
+                     * Some payment plugins might treat the failure response created by the AJAX
+                     * step response manually and try to add (empty) error messages returned by the request via JS.
+                     */
+                    if ( $errorWrapper.length > 0 && $errorWrapper.children().length > 0 ) {
+                        hasError = true;
+                    }
+
+                    if ( ! hasError ) {
                         // next step
                         $( '.step-' + next ).trigger( 'change', $( '.step-' + next ) );
                     }

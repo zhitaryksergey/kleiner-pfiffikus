@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '337176ddc58fec6b6a44abded70654bb58607613',
+    'reference' => '3fb0c336e20a21bcd731144a4d9e4c7521b61d5f',
     'name' => 'vendidero/woocommerce-germanized-pro',
   ),
   'versions' => 
@@ -58,21 +58,21 @@ private static $installed = array (
     ),
     'vendidero/storeabill' => 
     array (
-      'pretty_version' => 'v1.8.1',
-      'version' => '1.8.1.0',
+      'pretty_version' => 'v1.8.2',
+      'version' => '1.8.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b1816a97f62836710b174bb47b015e4373e6d80d',
+      'reference' => 'df0e34c6460599434011e515a1125d8bf3654b67',
     ),
     'vendidero/storeabill-lexoffice' => 
     array (
-      'pretty_version' => 'v1.1.5',
-      'version' => '1.1.5.0',
+      'pretty_version' => 'v1.1.6',
+      'version' => '1.1.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'da1f4b53aa89818d7b84312b5ba6f3498bb6340e',
+      'reference' => '66406847fbfd336c2fae4de302ec56a93da4a874',
     ),
     'vendidero/storeabill-sevdesk' => 
     array (
@@ -99,7 +99,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '337176ddc58fec6b6a44abded70654bb58607613',
+      'reference' => '3fb0c336e20a21bcd731144a4d9e4c7521b61d5f',
     ),
   ),
 );

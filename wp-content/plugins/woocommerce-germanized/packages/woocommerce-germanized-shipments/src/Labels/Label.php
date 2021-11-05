@@ -790,7 +790,7 @@ class Label extends WC_Data implements ShipmentLabel {
 			$product_value = $product_total < 0.01 ? wc_format_decimal( apply_filters( "{$this->get_general_hook_prefix()}customs_item_min_price", 0.01, $item, $this, $shipment ), 2 ) : wc_format_decimal( $product_total, 2 );
 
 			$customs_items[ $key ] = apply_filters( "{$this->get_general_hook_prefix()}customs_item", array(
-				'description'               => apply_filters( "{$this->get_general_hook_prefix()}item_description", wc_clean( substr( $item->get_name(), 0, $max_desc_length ) ), $item, $this, $shipment ),
+				'description'               => apply_filters( "{$this->get_general_hook_prefix()}item_description", wc_clean( mb_substr( $item->get_name(), 0, $max_desc_length ) ), $item, $this, $shipment ),
 				'category'                  => apply_filters( "{$this->get_general_hook_prefix()}item_category", $category, $item, $this, $shipment ),
 				'origin_code'               => ( $shipment_product && $shipment_product->get_manufacture_country() ) ? $shipment_product->get_manufacture_country() : Package::get_base_country(),
 				'tariff_number'             => $shipment_product ? $shipment_product->get_hs_code() : '',
@@ -810,18 +810,22 @@ class Label extends WC_Data implements ShipmentLabel {
 			$total_value        += (float) $customs_items[ $key ]['value'];
 		}
 
-		$item_description = substr( $item_description, 0, $max_desc_length );
+		$item_description = mb_substr( $item_description, 0, $max_desc_length );
 
 		$customs_data = apply_filters( "{$this->get_general_hook_prefix()}customs_data", array(
 			'shipment_id'                   => $shipment->get_id(),
 			'additional_fee'                => wc_format_decimal( $shipment->get_additional_total(), 2 ),
 			'export_type_description'       => $item_description,
-			'place_of_commital'             => $shipment->get_country(),
+			'place_of_commital'             => $shipment->get_sender_city(),
+			// e.g. EORI number
+			'sender_customs_ref_number'     => $shipment->get_sender_customs_reference_number(),
+			'receiver_customs_ref_number'   => $shipment->get_customs_reference_number(),
 			'items'                         => $customs_items,
 			'item_total_weight_in_kg'       => $total_weight,
 			'item_total_gross_weight_in_kg' => $total_gross_weight,
 			'item_total_value'              => $total_value,
-			'currency'                      => $order ? $order->get_currency() : get_woocommerce_currency()
+			'currency'                      => $order ? $order->get_currency() : get_woocommerce_currency(),
+			'invoice_number'                => '',
 		), $this, $shipment );
 
 		return $customs_data;

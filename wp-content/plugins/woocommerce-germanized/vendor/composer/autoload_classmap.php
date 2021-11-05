@@ -284,6 +284,7 @@ return array(
     'Vendidero\\OneStopShop\\AdminNote' => $baseDir . '/packages/one-stop-shop-woocommerce/src/AdminNote.php',
     'Vendidero\\OneStopShop\\AsyncReportGenerator' => $baseDir . '/packages/one-stop-shop-woocommerce/src/AsyncReportGenerator.php',
     'Vendidero\\OneStopShop\\CSVExporter' => $baseDir . '/packages/one-stop-shop-woocommerce/src/CSVExporter.php',
+    'Vendidero\\OneStopShop\\CSVExporterBOP' => $baseDir . '/packages/one-stop-shop-woocommerce/src/CSVExporterBOP.php',
     'Vendidero\\OneStopShop\\DeliveryThresholdEmailNotification' => $baseDir . '/packages/one-stop-shop-woocommerce/src/DeliveryThresholdEmailNotification.php',
     'Vendidero\\OneStopShop\\DeliveryThresholdWarning' => $baseDir . '/packages/one-stop-shop-woocommerce/src/DeliveryThresholdWarning.php',
     'Vendidero\\OneStopShop\\Install' => $baseDir . '/packages/one-stop-shop-woocommerce/src/Install.php',

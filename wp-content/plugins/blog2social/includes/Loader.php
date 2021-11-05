@@ -487,7 +487,7 @@ class B2S_Loader {
                         $meta->setMeta('og_title', $title);
                         $meta->setMeta('og_desc', $desc);
                         $meta->setMeta('og_image', (($image_url !== false) ? trim(esc_url(urldecode($image_url))) : ''));
-                        $meta->setMeta('og_image_alt', ((isset(array_values($images_urls)[0][1]) && !empty(array_values($images_urls)[0][1])) ? esc_attr(array_values($images_urls)[0][1]) : ''));
+                        $meta->setMeta('og_image_alt', ((is_array($images_urls) && !empty($images_urls) && isset($images_urls[0][1]) && !empty($images_urls[0][1])) ? esc_attr($images_urls[0][1]) : ''));
                         $meta->updateMeta((int) $_POST['post_ID']);
                     }
 

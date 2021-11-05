@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78
+class ComposerStaticInitd24f8a82822df06338be9382a9d68d41
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
@@ -389,6 +389,7 @@ class ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78
         'Vendidero\\OneStopShop\\AdminNote' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/AdminNote.php',
         'Vendidero\\OneStopShop\\AsyncReportGenerator' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/AsyncReportGenerator.php',
         'Vendidero\\OneStopShop\\CSVExporter' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/CSVExporter.php',
+        'Vendidero\\OneStopShop\\CSVExporterBOP' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/CSVExporterBOP.php',
         'Vendidero\\OneStopShop\\DeliveryThresholdEmailNotification' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/DeliveryThresholdEmailNotification.php',
         'Vendidero\\OneStopShop\\DeliveryThresholdWarning' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/DeliveryThresholdWarning.php',
         'Vendidero\\OneStopShop\\Install' => __DIR__ . '/../..' . '/packages/one-stop-shop-woocommerce/src/Install.php',
@@ -483,9 +484,9 @@ class ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4eb25cefb40ec599ed6a13e060992a78::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd24f8a82822df06338be9382a9d68d41::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd24f8a82822df06338be9382a9d68d41::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitd24f8a82822df06338be9382a9d68d41::$classMap;
 
         }, null, ClassLoader::class);
     }

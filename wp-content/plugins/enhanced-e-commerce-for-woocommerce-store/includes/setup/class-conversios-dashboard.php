@@ -27,6 +27,7 @@ if ( ! class_exists( 'Conversios_Dashboard' ) ) {
 
     protected $connect_url;
     protected $g_mail;
+    protected $is_refresh_token_expire;
 		public function __construct( ){
       
       $this->TVC_Admin_Helper = new TVC_Admin_Helper();
@@ -42,6 +43,7 @@ if ( ! class_exists( 'Conversios_Dashboard' ) ) {
       } else if(isset($_GET['subscription_id']) && $_GET['subscription_id']){
         $this->notice = "You tried signing in with different email. Please try again by signing it with the email id that you used to set up the plugin earlier. <a href=\'".$this->TVC_Admin_Helper->get_conversios_site_url()."\' target=\'_blank\'>Reach out to us</a> if you have any difficulty.";
       }
+      $this->is_refresh_token_expire = $this->TVC_Admin_Helper->is_refresh_token_expire();
       $this->subscription_data = $this->TVC_Admin_Helper->get_user_subscription_data();
       $this->pro_plan_site = $this->TVC_Admin_Helper->get_pro_plan_site().'?utm_source=EE+Plugin+User+Interface&utm_medium=dashboard&utm_campaign=Upsell+at+Conversios';
       if(isset($this->subscription_data->plan_id) && !in_array($this->subscription_data->plan_id, array("1"))){
@@ -51,14 +53,14 @@ if ( ! class_exists( 'Conversios_Dashboard' ) ) {
         $this->google_ads_id = $this->subscription_data->google_ads_id;
       }
 
-
-
       if( $this->subscription_id != "" ){
         $this->g_mail = get_option('ee_customer_gmail');
         $this->ga_traking_type = $this->subscription_data->tracking_option; // UA,GA4,BOTH
         $this->ga3_property_id = $this->subscription_data->property_id; // GA3
         $this->ga3_ua_analytic_account_id = $this->subscription_data->ua_analytic_account_id;
-        $this->set_ga3_view_id_and_ga3_currency();
+        if($this->is_refresh_token_expire == false){
+          $this->set_ga3_view_id_and_ga3_currency();
+        }
         $this->ga4_measurement_id = $this->subscription_data->measurement_id; //GA4 ID
       }else{
         wp_redirect("admin.php?page=conversios_onboarding");
@@ -131,6 +133,9 @@ if ( ! class_exists( 'Conversios_Dashboard' ) ) {
       }
       var plan_id = '<?php echo $this->plan_id; ?>';
       var g_mail = '<?php echo $this->g_mail; ?>';
+      var is_refresh_token_expire = '<?php echo $this->is_refresh_token_expire; ?>';
+      is_refresh_token_expire = (is_refresh_token_expire == "")?false:true;
+      console.log(is_refresh_token_expire);
       //$(function() {
         var start = moment().subtract(30, 'days');
         var end = moment();
@@ -159,8 +164,14 @@ if ( ! class_exists( 'Conversios_Dashboard' ) ) {
               conversios_nonce:'<?php echo wp_create_nonce( 'conversios_nonce' ); ?>'
             };
             // Call API
-            if(notice == ""){
+            if(notice == "" && is_refresh_token_expire == false){
               tvc_helper.get_google_analytics_reports(data);
+            }
+
+            if(notice == "" && is_refresh_token_expire == true && g_mail != ""){ 
+              tvc_helper.tvc_alert("error","","It seems the token to access your Google Analytics account is expired. Sign in with "+g_mail+" again to reactivate the token. <span class='google_connect_url'>Click here..</span>");
+            }else if(notice == "" && is_refresh_token_expire == true ){
+              tvc_helper.tvc_alert("error","","It seems the token to access your Google Analytics account is expired. Sign in with the connected email again to reactivate the token. <span class='google_connect_url'>Click here..</span>");
             }
         }
         $('#reportrange').daterangepicker({

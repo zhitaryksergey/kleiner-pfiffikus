@@ -38,7 +38,7 @@ class WC_GZDP_Dependencies {
 	 *
 	 * @var string
 	 */
-	public $wc_gzd_maximum_version_supported = '3.6';
+	public $wc_gzd_maximum_version_supported = '3.7';
 
 	/**
 	 * Lazy initiated activated plugins list

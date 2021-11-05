@@ -277,6 +277,8 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 		$data['is_oss']                     = $this->is_oss();
 		$data['is_reverse_charge']          = $this->is_reverse_charge();
 		$data['is_eu_cross_border_taxable'] = $this->is_eu_cross_border_taxable();
+		$data['taxable_country']            = $this->get_taxable_country();
+		$data['taxable_postcode']           = $this->get_taxable_postcode();
 
 		$data['discount_percentage']             = $this->get_discount_percentage();
 		$data['formatted_discount_notice']       = $this->get_formatted_discount_notice();

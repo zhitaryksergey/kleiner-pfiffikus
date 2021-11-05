@@ -128,7 +128,9 @@ class Queue {
 	}
 
 	public static function use_date_paid() {
-		return apply_filters( 'oss_woocommerce_report_use_date_paid', true );
+		$use_date_paid = 'date_paid' === get_option( 'oss_report_date_type', 'date_paid' );
+
+		return apply_filters( 'oss_woocommerce_report_use_date_paid', $use_date_paid );
 	}
 
 	public static function get_order_statuses() {
@@ -159,6 +161,11 @@ class Queue {
 
 		if ( 'date_paid' === $args['date_field'] ) {
 			/**
+			 * Add one day to the end date to capture timestamps (including time data) in between
+			 */
+			$end_adjusted = strtotime( $args['end'] ) + DAY_IN_SECONDS;
+
+			/**
 			 * Use a max end date to limit potential query results in case date_paid meta field is used.
 			 * This way we will only register payments made max 2 month after the order created date.
 			 */
@@ -176,7 +183,7 @@ class Queue {
 				$args['start'],
 				$max_end->format( 'Y-m-d' ),
 				strtotime( $args['start'] ),
-				strtotime( $args['end'] ),
+				$end_adjusted,
 				$args['start'],
 				$args['end']
 			);

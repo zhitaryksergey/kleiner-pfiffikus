@@ -75,6 +75,11 @@ class Automation {
 					self::log( sprintf( 'Calculate shipments for order %s. Shipping class: %s. Total items available: %s', $order_id, $shipping_class, sizeof( $items ) ) );
 
 					$packer = new \DVDoug\BoxPacker\InfalliblePacker();
+					/**
+					 * Make sure to not try to spread/balance weights. Instead try to pack
+					 * the first box as full as possible to make sure a smaller box can be used for a second box.
+					 */
+					$packer->setMaxBoxesToBalanceWeight( 0 );
 
 					foreach( Helper::get_available_packaging() as $packaging ) {
 						$packer->addBox( $packaging );
@@ -83,6 +88,8 @@ class Automation {
 					foreach( $items as $item ) {
 						$packer->addItem( $item );
 					}
+
+					do_action( 'woocommerce_gzdp_before_auto_pack_shipments_for_order', $packer );
 
 					$boxes = $packer->pack();
 

@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: WooCommerce Germanized Pro\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-"
 "germanized-pro\n"
-"POT-Creation-Date: 2021-10-15T15:02:35+00:00\n"
-"PO-Revision-Date: 2021-10-15 17:04+0200\n"
+"POT-Creation-Date: 2021-11-01T10:51:30+00:00\n"
+"PO-Revision-Date: 2021-11-01 11:53+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE@formal\n"
@@ -854,9 +854,9 @@ msgctxt "storeabill-core"
 msgid "Fee total (Before discounts, net)"
 msgstr "Gebührenbetrag (vor Rabatt, netto)"
 
-#: includes/sab-document-functions.php:340 src/Invoice/Invoice.php:525
+#: includes/sab-document-functions.php:340 src/Invoice/Invoice.php:527
 #: packages/storeabill/includes/sab-document-functions.php:340
-#: packages/storeabill/src/Invoice/Invoice.php:525
+#: packages/storeabill/src/Invoice/Invoice.php:527
 msgctxt "storeabill-core"
 msgid "Fee: %s"
 msgstr "Gebühr: %s"
@@ -2909,34 +2909,34 @@ msgctxt "storeabill-core"
 msgid "Error during status transition."
 msgstr "Fehler bei der Verarbeitung des Statuswechsels."
 
-#: src/Document/CsvExporter.php:270
-#: packages/storeabill/src/Document/CsvExporter.php:270
+#: src/Document/CsvExporter.php:268
+#: packages/storeabill/src/Document/CsvExporter.php:268
 msgctxt "storeabill-core"
 msgid "Which columns should be exported?"
 msgstr "Welche Spalten sollen exportiert werden?"
 
-#: src/Document/CsvExporter.php:273
-#: packages/storeabill/src/Document/CsvExporter.php:273
+#: src/Document/CsvExporter.php:271
+#: packages/storeabill/src/Document/CsvExporter.php:271
 msgctxt "storeabill-core"
 msgid "Export all columns"
 msgstr "Alle Spalten exportieren"
 
 # @ woocommerce-germanized-pro
-#: src/Document/CsvExporter.php:286
-#: packages/storeabill/src/Document/CsvExporter.php:286
+#: src/Document/CsvExporter.php:284
+#: packages/storeabill/src/Document/CsvExporter.php:284
 msgctxt "storeabill-core"
 msgid "Export custom meta?"
 msgstr "Individuelle Meta-Daten exportieren?"
 
-#: src/Document/CsvExporter.php:290
-#: packages/storeabill/src/Document/CsvExporter.php:290
+#: src/Document/CsvExporter.php:288
+#: packages/storeabill/src/Document/CsvExporter.php:288
 msgctxt "storeabill-core"
 msgid "Yes, export all custom meta"
 msgstr "Ja, exportiere alle Meta-Daten"
 
 #. translators: %s: meta data name
-#: src/Document/CsvExporter.php:416
-#: packages/storeabill/src/Document/CsvExporter.php:416
+#: src/Document/CsvExporter.php:414
+#: packages/storeabill/src/Document/CsvExporter.php:414
 msgctxt "storeabill-core"
 msgid "Meta: %s"
 msgstr "Meta: %s"
@@ -4610,477 +4610,495 @@ msgctxt "storeabill-core"
 msgid "Shipping VAT ID."
 msgstr "Versand USt.-ID."
 
-#: src/REST/InvoiceController.php:1164 src/REST/InvoiceController.php:1442
-#: src/REST/InvoiceController.php:1571
+#: src/REST/InvoiceController.php:1164
 #: packages/storeabill/src/REST/InvoiceController.php:1164
-#: packages/storeabill/src/REST/InvoiceController.php:1442
-#: packages/storeabill/src/REST/InvoiceController.php:1571
+msgctxt "storeabill-core"
+msgid "Taxable country code in ISO 3166-1 alpha-2 format."
+msgstr "Besteuerbarer Ländercode in ISO 3166-1 Alpha-2-Format."
+
+#: src/REST/InvoiceController.php:1165
+#: packages/storeabill/src/REST/InvoiceController.php:1165
+msgctxt "storeabill-core"
+msgid "Taxable country code"
+msgstr "Besteuerbarer Ländercode"
+
+#: src/REST/InvoiceController.php:1171
+#: packages/storeabill/src/REST/InvoiceController.php:1171
+msgctxt "storeabill-core"
+msgid "Taxable postcode."
+msgstr "Besteuerbare Postleitzahl."
+
+#: src/REST/InvoiceController.php:1177 src/REST/InvoiceController.php:1455
+#: src/REST/InvoiceController.php:1584
+#: packages/storeabill/src/REST/InvoiceController.php:1177
+#: packages/storeabill/src/REST/InvoiceController.php:1455
+#: packages/storeabill/src/REST/InvoiceController.php:1584
 msgctxt "storeabill-core"
 msgid "Meta data."
 msgstr "Meta-Daten."
 
-#: src/REST/InvoiceController.php:1173
-#: packages/storeabill/src/REST/InvoiceController.php:1173
+#: src/REST/InvoiceController.php:1186
+#: packages/storeabill/src/REST/InvoiceController.php:1186
 msgctxt "storeabill-core"
 msgid "Product items data."
 msgstr "Produktpositionen."
 
 # @ woocommerce
-#: src/REST/InvoiceController.php:1180
-#: packages/storeabill/src/REST/InvoiceController.php:1180
+#: src/REST/InvoiceController.php:1193
+#: packages/storeabill/src/REST/InvoiceController.php:1193
 msgctxt "storeabill-core"
 msgid "Product ID."
 msgstr "Produkt-ID."
 
-#: src/REST/InvoiceController.php:1185
-#: packages/storeabill/src/REST/InvoiceController.php:1185
+#: src/REST/InvoiceController.php:1198
+#: packages/storeabill/src/REST/InvoiceController.php:1198
 msgctxt "storeabill-core"
 msgid "SKU."
 msgstr "Artikelnummer."
 
-#: src/REST/InvoiceController.php:1190
-#: packages/storeabill/src/REST/InvoiceController.php:1190
+#: src/REST/InvoiceController.php:1203
+#: packages/storeabill/src/REST/InvoiceController.php:1203
 msgctxt "storeabill-core"
 msgid "Whether this is a virtual item."
 msgstr "Gibt an, ob es sich um eine virtuelle Position handelt."
 
-#: src/REST/InvoiceController.php:1195
-#: packages/storeabill/src/REST/InvoiceController.php:1195
+#: src/REST/InvoiceController.php:1208
+#: packages/storeabill/src/REST/InvoiceController.php:1208
 msgctxt "storeabill-core"
 msgid "Whether this item is a service or not."
 msgstr ""
 "Gibt an, ob es sich bei dieser Position um eine Dienstleistung handelt oder "
 "nicht."
 
-#: src/REST/InvoiceController.php:1200
-#: packages/storeabill/src/REST/InvoiceController.php:1200
+#: src/REST/InvoiceController.php:1213
+#: packages/storeabill/src/REST/InvoiceController.php:1213
 msgctxt "storeabill-core"
 msgid "Whether this item differential taxed or not."
 msgstr "Gibt an, ob diese Position differenzbesteuert wird oder nicht."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1208
-#: packages/storeabill/src/REST/InvoiceController.php:1208
+#: src/REST/InvoiceController.php:1221
+#: packages/storeabill/src/REST/InvoiceController.php:1221
 msgctxt "storeabill-core"
 msgid "Tax items."
 msgstr "Steuerpositionen."
 
 # @ woocommerce
-#: src/REST/InvoiceController.php:1218
-#: packages/storeabill/src/REST/InvoiceController.php:1218
+#: src/REST/InvoiceController.php:1231
+#: packages/storeabill/src/REST/InvoiceController.php:1231
 msgctxt "storeabill-core"
 msgid "Shipping items."
 msgstr "Versandpositionen."
 
-#: src/REST/InvoiceController.php:1225 src/REST/InvoiceController.php:1240
-#: packages/storeabill/src/REST/InvoiceController.php:1225
-#: packages/storeabill/src/REST/InvoiceController.php:1240
+#: src/REST/InvoiceController.php:1238 src/REST/InvoiceController.php:1253
+#: packages/storeabill/src/REST/InvoiceController.php:1238
+#: packages/storeabill/src/REST/InvoiceController.php:1253
 msgctxt "storeabill-core"
 msgid "Whether to enable split-tax calculation."
 msgstr "Gibt an, ob diese Position per Split-Tax-Berechnung besteuert wird."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1233
-#: packages/storeabill/src/REST/InvoiceController.php:1233
+#: src/REST/InvoiceController.php:1246
+#: packages/storeabill/src/REST/InvoiceController.php:1246
 msgctxt "storeabill-core"
 msgid "Fee lines data."
 msgstr "Gebührenpositionen."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1248
-#: packages/storeabill/src/REST/InvoiceController.php:1248
+#: src/REST/InvoiceController.php:1261
+#: packages/storeabill/src/REST/InvoiceController.php:1261
 msgctxt "storeabill-core"
 msgid "Total data."
 msgstr "Gesamtpositionen."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1253
-#: packages/storeabill/src/REST/InvoiceController.php:1253
+#: src/REST/InvoiceController.php:1266
+#: packages/storeabill/src/REST/InvoiceController.php:1266
 msgctxt "storeabill-core"
 msgid "Total type."
 msgstr "Gesamttyp."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1259
-#: packages/storeabill/src/REST/InvoiceController.php:1259
+#: src/REST/InvoiceController.php:1272
+#: packages/storeabill/src/REST/InvoiceController.php:1272
 msgctxt "storeabill-core"
 msgid "Total amount."
 msgstr "Gesamtbetrag."
 
-#: src/REST/InvoiceController.php:1265
-#: packages/storeabill/src/REST/InvoiceController.php:1265
+#: src/REST/InvoiceController.php:1278
+#: packages/storeabill/src/REST/InvoiceController.php:1278
 msgctxt "storeabill-core"
 msgid "Total formatted amount."
 msgstr "Formatierter Gesamtbetrag."
 
-#: src/REST/InvoiceController.php:1271
-#: packages/storeabill/src/REST/InvoiceController.php:1271
+#: src/REST/InvoiceController.php:1284
+#: packages/storeabill/src/REST/InvoiceController.php:1284
 msgctxt "storeabill-core"
 msgid "Total placeholders."
 msgstr "Platzhalter."
 
-#: src/REST/InvoiceController.php:1279
-#: packages/storeabill/src/REST/InvoiceController.php:1279
+#: src/REST/InvoiceController.php:1292
+#: packages/storeabill/src/REST/InvoiceController.php:1292
 msgctxt "storeabill-core"
 msgid "Tax total data."
 msgstr "Steuer-Gesamtbeträge."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1286
-#: packages/storeabill/src/REST/InvoiceController.php:1286
+#: src/REST/InvoiceController.php:1299
+#: packages/storeabill/src/REST/InvoiceController.php:1299
 msgctxt "storeabill-core"
 msgid "Total net."
 msgstr "Netto-Gesamtbetrag."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1292
-#: packages/storeabill/src/REST/InvoiceController.php:1292
+#: src/REST/InvoiceController.php:1305
+#: packages/storeabill/src/REST/InvoiceController.php:1305
 msgctxt "storeabill-core"
 msgid "Total tax."
 msgstr "Steuer-Gesamtbetrag."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1303
-#: packages/storeabill/src/REST/InvoiceController.php:1303
+#: src/REST/InvoiceController.php:1316
+#: packages/storeabill/src/REST/InvoiceController.php:1316
 msgctxt "storeabill-core"
 msgid "Net totals."
 msgstr "Netto-Gesamtbeträge."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1309 src/REST/InvoiceController.php:1500
-#: packages/storeabill/src/REST/InvoiceController.php:1309
-#: packages/storeabill/src/REST/InvoiceController.php:1500
+#: src/REST/InvoiceController.php:1322 src/REST/InvoiceController.php:1513
+#: packages/storeabill/src/REST/InvoiceController.php:1322
+#: packages/storeabill/src/REST/InvoiceController.php:1513
 msgctxt "storeabill-core"
 msgid "Product net total."
 msgstr "Nettobetrag der Produkte."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1315
-#: packages/storeabill/src/REST/InvoiceController.php:1315
+#: src/REST/InvoiceController.php:1328
+#: packages/storeabill/src/REST/InvoiceController.php:1328
 msgctxt "storeabill-core"
 msgid "Shipping net total."
 msgstr "Nettobetrag der Verbandkosten."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1321
-#: packages/storeabill/src/REST/InvoiceController.php:1321
+#: src/REST/InvoiceController.php:1334
+#: packages/storeabill/src/REST/InvoiceController.php:1334
 msgctxt "storeabill-core"
 msgid "Fee net total."
 msgstr "Nettobetrag der Gebühren."
 
-#: src/REST/InvoiceController.php:1329
-#: packages/storeabill/src/REST/InvoiceController.php:1329
+#: src/REST/InvoiceController.php:1342
+#: packages/storeabill/src/REST/InvoiceController.php:1342
 msgctxt "storeabill-core"
 msgid "Tax totals."
 msgstr "Steuer-Gesamtbeträge."
 
-#: src/REST/InvoiceController.php:1335
-#: packages/storeabill/src/REST/InvoiceController.php:1335
+#: src/REST/InvoiceController.php:1348
+#: packages/storeabill/src/REST/InvoiceController.php:1348
 msgctxt "storeabill-core"
 msgid "Product tax total."
 msgstr "Steuer-Gesamtbetrag der Produkte."
 
 # @ woocommerce
-#: src/REST/InvoiceController.php:1341
-#: packages/storeabill/src/REST/InvoiceController.php:1341
+#: src/REST/InvoiceController.php:1354
+#: packages/storeabill/src/REST/InvoiceController.php:1354
 msgctxt "storeabill-core"
 msgid "Shipping tax total."
 msgstr "Steuerbetrag der Verbandkasten."
 
-#: src/REST/InvoiceController.php:1347
-#: packages/storeabill/src/REST/InvoiceController.php:1347
+#: src/REST/InvoiceController.php:1360
+#: packages/storeabill/src/REST/InvoiceController.php:1360
 msgctxt "storeabill-core"
 msgid "Fee tax total."
 msgstr "Steuer-Gesamtbetrag der Gebühren."
 
-#: src/REST/InvoiceController.php:1366
-#: packages/storeabill/src/REST/InvoiceController.php:1366
+#: src/REST/InvoiceController.php:1379
+#: packages/storeabill/src/REST/InvoiceController.php:1379
 msgctxt "storeabill-core"
 msgid "Item ID."
 msgstr "Positions-ID."
 
 # @ woocommerce
-#: src/REST/InvoiceController.php:1372
-#: packages/storeabill/src/REST/InvoiceController.php:1372
+#: src/REST/InvoiceController.php:1385
+#: packages/storeabill/src/REST/InvoiceController.php:1385
 msgctxt "storeabill-core"
 msgid "Product name."
 msgstr "Produktbezeichnung."
 
 # @ woocommerce
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1377
-#: packages/storeabill/src/REST/InvoiceController.php:1377
+#: src/REST/InvoiceController.php:1390
+#: packages/storeabill/src/REST/InvoiceController.php:1390
 msgctxt "storeabill-core"
 msgid "Quantity billed."
 msgstr "Anzahl."
 
-#: src/REST/InvoiceController.php:1382
-#: packages/storeabill/src/REST/InvoiceController.php:1382
+#: src/REST/InvoiceController.php:1395
+#: packages/storeabill/src/REST/InvoiceController.php:1395
 msgctxt "storeabill-core"
 msgid "Whether the item is taxable or not."
 msgstr "Gibt an, ob diese Position besteuerbar ist oder nicht."
 
-#: src/REST/InvoiceController.php:1387
-#: packages/storeabill/src/REST/InvoiceController.php:1387
+#: src/REST/InvoiceController.php:1400
+#: packages/storeabill/src/REST/InvoiceController.php:1400
 msgctxt "storeabill-core"
 msgid "Line subtotal (before discounts)."
 msgstr "Zwischensumme der Zeile (vor Rabatt)."
 
-#: src/REST/InvoiceController.php:1392
-#: packages/storeabill/src/REST/InvoiceController.php:1392
+#: src/REST/InvoiceController.php:1405
+#: packages/storeabill/src/REST/InvoiceController.php:1405
 msgctxt "storeabill-core"
 msgid "Discount total."
 msgstr "Rabatt Gesamtbetrag."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1398
-#: packages/storeabill/src/REST/InvoiceController.php:1398
+#: src/REST/InvoiceController.php:1411
+#: packages/storeabill/src/REST/InvoiceController.php:1411
 msgctxt "storeabill-core"
 msgid "Discount net total."
 msgstr "Rabatt Netto-Gesamtbetrag."
 
-#: src/REST/InvoiceController.php:1404
-#: packages/storeabill/src/REST/InvoiceController.php:1404
+#: src/REST/InvoiceController.php:1417
+#: packages/storeabill/src/REST/InvoiceController.php:1417
 msgctxt "storeabill-core"
 msgid "Discount tax total."
 msgstr "Steuer-Gesamtbetrag der Rabatte."
 
-#: src/REST/InvoiceController.php:1410
-#: packages/storeabill/src/REST/InvoiceController.php:1410
+#: src/REST/InvoiceController.php:1423
+#: packages/storeabill/src/REST/InvoiceController.php:1423
 msgctxt "storeabill-core"
 msgid "Discount percentage."
 msgstr "Rabatt-Prozentsatz."
 
-#: src/REST/InvoiceController.php:1416
-#: packages/storeabill/src/REST/InvoiceController.php:1416
+#: src/REST/InvoiceController.php:1429
+#: packages/storeabill/src/REST/InvoiceController.php:1429
 msgctxt "storeabill-core"
 msgid "Line subtotal tax (before discounts)."
 msgstr "Steuer-Zwischensumme der Zeile (vor Rabatt)."
 
-#: src/REST/InvoiceController.php:1422
-#: packages/storeabill/src/REST/InvoiceController.php:1422
+#: src/REST/InvoiceController.php:1435
+#: packages/storeabill/src/REST/InvoiceController.php:1435
 msgctxt "storeabill-core"
 msgid "Line total (after discounts)."
 msgstr "Gesamt pro Zeile (nach Rabatt)."
 
-#: src/REST/InvoiceController.php:1427
-#: packages/storeabill/src/REST/InvoiceController.php:1427
+#: src/REST/InvoiceController.php:1440
+#: packages/storeabill/src/REST/InvoiceController.php:1440
 msgctxt "storeabill-core"
 msgid "Line total tax (after discounts)."
 msgstr "Steuersumme der Zeile (nach Rabatt)."
 
-#: src/REST/InvoiceController.php:1433
-#: packages/storeabill/src/REST/InvoiceController.php:1433
+#: src/REST/InvoiceController.php:1446
+#: packages/storeabill/src/REST/InvoiceController.php:1446
 msgctxt "storeabill-core"
 msgid "Product taxes."
 msgstr "Steuern der Produkte."
 
-#: src/REST/InvoiceController.php:1451
-#: packages/storeabill/src/REST/InvoiceController.php:1451
+#: src/REST/InvoiceController.php:1464
+#: packages/storeabill/src/REST/InvoiceController.php:1464
 msgctxt "storeabill-core"
 msgid "Item attributes."
 msgstr "Position Eigenschaften."
 
-#: src/REST/InvoiceController.php:1460
-#: packages/storeabill/src/REST/InvoiceController.php:1460
+#: src/REST/InvoiceController.php:1473
+#: packages/storeabill/src/REST/InvoiceController.php:1473
 msgctxt "storeabill-core"
 msgid "Product price."
 msgstr "Produktpreis."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1465
-#: packages/storeabill/src/REST/InvoiceController.php:1465
+#: src/REST/InvoiceController.php:1478
+#: packages/storeabill/src/REST/InvoiceController.php:1478
 msgctxt "storeabill-core"
 msgid "Product net price."
 msgstr "Produktpreis netto."
 
-#: src/REST/InvoiceController.php:1471
-#: packages/storeabill/src/REST/InvoiceController.php:1471
+#: src/REST/InvoiceController.php:1484
+#: packages/storeabill/src/REST/InvoiceController.php:1484
 msgctxt "storeabill-core"
 msgid "Product price tax."
 msgstr "Produktpreis Steuern."
 
-#: src/REST/InvoiceController.php:1477
-#: packages/storeabill/src/REST/InvoiceController.php:1477
+#: src/REST/InvoiceController.php:1490
+#: packages/storeabill/src/REST/InvoiceController.php:1490
 msgctxt "storeabill-core"
 msgid "Product price (before discounts)."
 msgstr "Produktpreis (vor Rabatt)"
 
-#: src/REST/InvoiceController.php:1482
-#: packages/storeabill/src/REST/InvoiceController.php:1482
+#: src/REST/InvoiceController.php:1495
+#: packages/storeabill/src/REST/InvoiceController.php:1495
 msgctxt "storeabill-core"
 msgid "Product price tax (before discounts)."
 msgstr "Produktpreis (nach Rabatt)"
 
-#: src/REST/InvoiceController.php:1488
-#: packages/storeabill/src/REST/InvoiceController.php:1488
+#: src/REST/InvoiceController.php:1501
+#: packages/storeabill/src/REST/InvoiceController.php:1501
 msgctxt "storeabill-core"
 msgid "Product net price (before discounts)."
 msgstr "Produkt-Nettopreis (nach Rabatt)."
 
-#: src/REST/InvoiceController.php:1494
-#: packages/storeabill/src/REST/InvoiceController.php:1494
+#: src/REST/InvoiceController.php:1507
+#: packages/storeabill/src/REST/InvoiceController.php:1507
 msgctxt "storeabill-core"
 msgid "Product total."
 msgstr "Produkt Gesamtbetrag."
 
-#: src/REST/InvoiceController.php:1506
-#: packages/storeabill/src/REST/InvoiceController.php:1506
+#: src/REST/InvoiceController.php:1519
+#: packages/storeabill/src/REST/InvoiceController.php:1519
 msgctxt "storeabill-core"
 msgid "Product subtotal."
 msgstr "Produkt Zwischensumme."
 
-#: src/REST/InvoiceController.php:1512
-#: packages/storeabill/src/REST/InvoiceController.php:1512
+#: src/REST/InvoiceController.php:1525
+#: packages/storeabill/src/REST/InvoiceController.php:1525
 msgctxt "storeabill-core"
 msgid "Product net subtotal."
 msgstr "Produkt Zwischensumme netto."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1523
-#: packages/storeabill/src/REST/InvoiceController.php:1523
+#: src/REST/InvoiceController.php:1536
+#: packages/storeabill/src/REST/InvoiceController.php:1536
 msgctxt "storeabill-core"
 msgid "Tax item ID."
 msgstr "Steuer Position-ID."
 
-#: src/REST/InvoiceController.php:1528
-#: packages/storeabill/src/REST/InvoiceController.php:1528
+#: src/REST/InvoiceController.php:1541
+#: packages/storeabill/src/REST/InvoiceController.php:1541
 msgctxt "storeabill-core"
 msgid "Tax type e.g. product."
 msgstr "Steuertyp, z.B. product."
 
-#: src/REST/InvoiceController.php:1534
-#: packages/storeabill/src/REST/InvoiceController.php:1534
+#: src/REST/InvoiceController.php:1547
+#: packages/storeabill/src/REST/InvoiceController.php:1547
 msgctxt "storeabill-core"
 msgid "True in case tax is rounded at subtotal."
 msgstr "Wahr, falls Steuern auf Basis der Zwischensumme gerundet werden."
 
-#: src/REST/InvoiceController.php:1540
-#: packages/storeabill/src/REST/InvoiceController.php:1540
+#: src/REST/InvoiceController.php:1553
+#: packages/storeabill/src/REST/InvoiceController.php:1553
 msgctxt "storeabill-core"
 msgid "Is OSS tax?"
 msgstr "OSS Steuern?"
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1546
-#: packages/storeabill/src/REST/InvoiceController.php:1546
+#: src/REST/InvoiceController.php:1559
+#: packages/storeabill/src/REST/InvoiceController.php:1559
 msgctxt "storeabill-core"
 msgid "Tax total."
 msgstr "Steuer Gesamtbetrag."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1551
-#: packages/storeabill/src/REST/InvoiceController.php:1551
+#: src/REST/InvoiceController.php:1564
+#: packages/storeabill/src/REST/InvoiceController.php:1564
 msgctxt "storeabill-core"
 msgid "Tax net total."
 msgstr "Steuer Nettobetrag."
 
-#: src/REST/InvoiceController.php:1556
-#: packages/storeabill/src/REST/InvoiceController.php:1556
+#: src/REST/InvoiceController.php:1569
+#: packages/storeabill/src/REST/InvoiceController.php:1569
 msgctxt "storeabill-core"
 msgid "Tax subtotal."
 msgstr "Steuer-Zwischensumme."
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1561
-#: packages/storeabill/src/REST/InvoiceController.php:1561
+#: src/REST/InvoiceController.php:1574
+#: packages/storeabill/src/REST/InvoiceController.php:1574
 msgctxt "storeabill-core"
 msgid "Tax net subtotal."
 msgstr "Steuer Nettobetrag Zwischensumme."
 
-#: src/REST/InvoiceController.php:1580
-#: packages/storeabill/src/REST/InvoiceController.php:1580
+#: src/REST/InvoiceController.php:1593
+#: packages/storeabill/src/REST/InvoiceController.php:1593
 msgctxt "storeabill-core"
 msgid "Attributes."
 msgstr "Eigenschaften."
 
-#: src/REST/InvoiceController.php:1594
-#: packages/storeabill/src/REST/InvoiceController.php:1594
+#: src/REST/InvoiceController.php:1607
+#: packages/storeabill/src/REST/InvoiceController.php:1607
 msgctxt "storeabill-core"
 msgid "Attribute value."
 msgstr "Wert der Eigenschaft."
 
-#: src/REST/InvoiceController.php:1600
-#: packages/storeabill/src/REST/InvoiceController.php:1600
+#: src/REST/InvoiceController.php:1613
+#: packages/storeabill/src/REST/InvoiceController.php:1613
 msgctxt "storeabill-core"
 msgid "Attribute key."
 msgstr "Schlüssel der Eigenschaft."
 
-#: src/REST/InvoiceController.php:1605
-#: packages/storeabill/src/REST/InvoiceController.php:1605
+#: src/REST/InvoiceController.php:1618
+#: packages/storeabill/src/REST/InvoiceController.php:1618
 msgctxt "storeabill-core"
 msgid "Attribute label."
 msgstr "Bezeichnung der Eigenschaft."
 
-#: src/REST/InvoiceController.php:1610
-#: packages/storeabill/src/REST/InvoiceController.php:1610
+#: src/REST/InvoiceController.php:1623
+#: packages/storeabill/src/REST/InvoiceController.php:1623
 msgctxt "storeabill-core"
 msgid "Attribute formatted label."
 msgstr "Formatierte Bezeichnung der Eigenschaft."
 
-#: src/REST/InvoiceController.php:1616
-#: packages/storeabill/src/REST/InvoiceController.php:1616
+#: src/REST/InvoiceController.php:1629
+#: packages/storeabill/src/REST/InvoiceController.php:1629
 msgctxt "storeabill-core"
 msgid "Attribute formatted value."
 msgstr "Formatierter Wert der Eigenschaft."
 
-#: src/REST/InvoiceController.php:1627
-#: packages/storeabill/src/REST/InvoiceController.php:1627
+#: src/REST/InvoiceController.php:1640
+#: packages/storeabill/src/REST/InvoiceController.php:1640
 msgctxt "storeabill-core"
 msgid "Meta ID."
 msgstr "Meta-ID."
 
-#: src/REST/InvoiceController.php:1633
-#: packages/storeabill/src/REST/InvoiceController.php:1633
+#: src/REST/InvoiceController.php:1646
+#: packages/storeabill/src/REST/InvoiceController.php:1646
 msgctxt "storeabill-core"
 msgid "Meta key."
 msgstr "Meta-Schlüssel."
 
-#: src/REST/InvoiceController.php:1638
-#: packages/storeabill/src/REST/InvoiceController.php:1638
+#: src/REST/InvoiceController.php:1651
+#: packages/storeabill/src/REST/InvoiceController.php:1651
 msgctxt "storeabill-core"
 msgid "Meta value."
 msgstr "Meta-Wert."
 
-#: src/REST/InvoiceController.php:1648
-#: packages/storeabill/src/REST/InvoiceController.php:1648
+#: src/REST/InvoiceController.php:1661
+#: packages/storeabill/src/REST/InvoiceController.php:1661
 msgctxt "storeabill-core"
 msgid "Tax percentage."
 msgstr "Steuer-Prozentsatz."
 
-#: src/REST/InvoiceController.php:1653
-#: packages/storeabill/src/REST/InvoiceController.php:1653
+#: src/REST/InvoiceController.php:1666
+#: packages/storeabill/src/REST/InvoiceController.php:1666
 msgctxt "storeabill-core"
 msgid "Formatted tax percentage."
 msgstr "Formatierter Steuer-Prozentsatz."
 
-#: src/REST/InvoiceController.php:1658
-#: packages/storeabill/src/REST/InvoiceController.php:1658
+#: src/REST/InvoiceController.php:1671
+#: packages/storeabill/src/REST/InvoiceController.php:1671
 msgctxt "storeabill-core"
 msgid "Tax country."
 msgstr "Land der Besteuerung."
 
-#: src/REST/InvoiceController.php:1663
-#: packages/storeabill/src/REST/InvoiceController.php:1663
+#: src/REST/InvoiceController.php:1676
+#: packages/storeabill/src/REST/InvoiceController.php:1676
 msgctxt "storeabill-core"
 msgid "Tax priority."
 msgstr "Steuer-Priorität."
 
-#: src/REST/InvoiceController.php:1668
-#: packages/storeabill/src/REST/InvoiceController.php:1668
+#: src/REST/InvoiceController.php:1681
+#: packages/storeabill/src/REST/InvoiceController.php:1681
 msgctxt "storeabill-core"
 msgid "Is compound?"
 msgstr "Zusammengesetzt?"
 
-#: src/REST/InvoiceController.php:1673
-#: packages/storeabill/src/REST/InvoiceController.php:1673
+#: src/REST/InvoiceController.php:1686
+#: packages/storeabill/src/REST/InvoiceController.php:1686
 msgctxt "storeabill-core"
 msgid "Is OSS?"
 msgstr "Ist OSS?"
 
 # @ woocommerce-germanized-pro
-#: src/REST/InvoiceController.php:1678
-#: packages/storeabill/src/REST/InvoiceController.php:1678
+#: src/REST/InvoiceController.php:1691
+#: packages/storeabill/src/REST/InvoiceController.php:1691
 msgctxt "storeabill-core"
 msgid "Tax rate label."
 msgstr "Steuersatz Beschriftung."
@@ -5187,9 +5205,9 @@ msgctxt "storeabill-core"
 msgid "Tax Rate"
 msgstr "Steuersatz"
 
-#: src/Editor/Blocks/ItemTotalRow.php:143 src/Invoice/Invoice.php:525
+#: src/Editor/Blocks/ItemTotalRow.php:143 src/Invoice/Invoice.php:527
 #: packages/storeabill/src/Editor/Blocks/ItemTotalRow.php:143
-#: packages/storeabill/src/Invoice/Invoice.php:525
+#: packages/storeabill/src/Invoice/Invoice.php:527
 msgctxt "storeabill-core"
 msgid "Discount: %s"
 msgstr "Rabatt: %s"
@@ -5573,41 +5591,41 @@ msgid "Invoices finalized successfully"
 msgstr "Rechnungen erfolgreich festgeschrieben"
 
 # @ woocommerce-germanized-pro
-#: src/Invoice/CsvExporter.php:49
-#: packages/storeabill/src/Invoice/CsvExporter.php:49
+#: src/Invoice/CsvExporter.php:53
+#: packages/storeabill/src/Invoice/CsvExporter.php:53
 msgctxt "storeabill-core"
 msgid "Tax totals"
 msgstr "Steuer-Gesamtbeträge"
 
 # @ woocommerce-germanized-pro
-#: src/Invoice/CsvExporter.php:50
-#: packages/storeabill/src/Invoice/CsvExporter.php:50
+#: src/Invoice/CsvExporter.php:54
+#: packages/storeabill/src/Invoice/CsvExporter.php:54
 msgctxt "storeabill-core"
 msgid "Net totals"
 msgstr "Netto-Gesamtbeträge"
 
-#: src/Invoice/CsvExporter.php:62
-#: packages/storeabill/src/Invoice/CsvExporter.php:62
+#: src/Invoice/CsvExporter.php:66
+#: packages/storeabill/src/Invoice/CsvExporter.php:66
 msgctxt "storeabill-core"
 msgid "Tax Total: %s"
 msgstr "Steuern gesamt: %s"
 
 # @ woocommerce-germanized-pro
-#: src/Invoice/CsvExporter.php:71
-#: packages/storeabill/src/Invoice/CsvExporter.php:71
+#: src/Invoice/CsvExporter.php:75
+#: packages/storeabill/src/Invoice/CsvExporter.php:75
 msgctxt "storeabill-core"
 msgid "Total Net: %s"
 msgstr "Gesamt netto: %s"
 
 # @ woocommerce-germanized-pro
-#: src/Invoice/CsvExporter.php:79
-#: packages/storeabill/src/Invoice/CsvExporter.php:79
+#: src/Invoice/CsvExporter.php:89
+#: packages/storeabill/src/Invoice/CsvExporter.php:89
 msgctxt "storeabill-core"
 msgid "Export invoices as CSV"
 msgstr "Rechnungen als CSV exportieren"
 
-#: src/Invoice/CsvExporter.php:83
-#: packages/storeabill/src/Invoice/CsvExporter.php:83
+#: src/Invoice/CsvExporter.php:93
+#: packages/storeabill/src/Invoice/CsvExporter.php:93
 msgctxt "storeabill-core"
 msgid ""
 "This tool allows you to generate and download a CSV file containing a list "
@@ -5676,42 +5694,42 @@ msgstr ""
 "Dieses Dokument wurde bereits festgeschrieben und kann nicht erneut erzeugt "
 "werden."
 
-#: src/Invoice/Invoice.php:1016
-#: packages/storeabill/src/Invoice/Invoice.php:1016
+#: src/Invoice/Invoice.php:1018
+#: packages/storeabill/src/Invoice/Invoice.php:1018
 msgctxt "storeabill-discount-notice"
 msgid "%1$s (%2$s)"
 msgstr "%1$s (%2$s)"
 
-#: src/Invoice/Invoice.php:1654
-#: packages/storeabill/src/Invoice/Invoice.php:1654
+#: src/Invoice/Invoice.php:1656
+#: packages/storeabill/src/Invoice/Invoice.php:1656
 msgctxt "storeabill-core"
 msgid "This invoice is already finalized and cannot be discounted."
 msgstr ""
 "Diese Rechnung wurde bereits festgeschrieben und kann nicht mehr rabattiert "
 "werden."
 
-#: src/Invoice/Invoice.php:2264
-#: packages/storeabill/src/Invoice/Invoice.php:2264
+#: src/Invoice/Invoice.php:2266
+#: packages/storeabill/src/Invoice/Invoice.php:2266
 msgctxt "storeabill-core"
 msgid "Update payment status event failed."
 msgstr "Fehler beim Statuswechsel-Event des Zahlungsstatus."
 
 #. translators: 1: old payment status 2: new payment status
-#: src/Invoice/Invoice.php:3001
-#: packages/storeabill/src/Invoice/Invoice.php:3001
+#: src/Invoice/Invoice.php:3003
+#: packages/storeabill/src/Invoice/Invoice.php:3003
 msgctxt "storeabill-core"
 msgid "Invoice payment status changed from %1$s to %2$s."
 msgstr "Zahlungsstatus der Rechnung von %1$s zu %2$s geändert."
 
 #. translators: %s: new document status
-#: src/Invoice/Invoice.php:3037
-#: packages/storeabill/src/Invoice/Invoice.php:3037
+#: src/Invoice/Invoice.php:3039
+#: packages/storeabill/src/Invoice/Invoice.php:3039
 msgctxt "storeabill-core"
 msgid "Invoice payment status set to %s."
 msgstr "Zahlungsstatus der Rechnung zu %s geändert."
 
-#: src/Invoice/Invoice.php:3050
-#: packages/storeabill/src/Invoice/Invoice.php:3050
+#: src/Invoice/Invoice.php:3052
+#: packages/storeabill/src/Invoice/Invoice.php:3052
 msgctxt "storeabill-core"
 msgid "Error during payment status transition."
 msgstr "Fehler bei der Verarbeitung des Statuswechsels."
@@ -6904,23 +6922,23 @@ msgctxt "lexoffice"
 msgid "WooCommerce customer"
 msgstr "WooCommerce Kunde"
 
-#: src/Sync.php:567 packages/storeabill-lexoffice/src/Sync.php:567
+#: src/Sync.php:575 packages/storeabill-lexoffice/src/Sync.php:575
 msgctxt "lexoffice"
 msgid "Tax round difference: %s"
 msgstr "Steuer-Rundungsdifferenz: %s"
 
-#: src/Sync.php:800 packages/storeabill-lexoffice/src/Sync.php:800
+#: src/Sync.php:808 packages/storeabill-lexoffice/src/Sync.php:808
 msgctxt "lexoffice"
 msgid "The authorization code is unknown"
 msgstr "Der Autorisierungscode ist nicht bekannt"
 
-#: src/Sync.php:802 packages/storeabill-lexoffice/src/Sync.php:802
+#: src/Sync.php:810 packages/storeabill-lexoffice/src/Sync.php:810
 msgctxt "lexoffice"
 msgid "The following error occurred during a lexoffice API call: %s"
 msgstr "Der folgende Fehler ist beim Aufruf der lexoffice aufgetreten: %s"
 
 #. translators: 1: error type 2: error description 3: error source
-#: src/Sync.php:810 packages/storeabill-lexoffice/src/Sync.php:810
+#: src/Sync.php:818 packages/storeabill-lexoffice/src/Sync.php:818
 msgctxt "lexoffice"
 msgid ""
 "This voucher cannot be modified due to it's payment status or state (%1$s: "
@@ -6930,12 +6948,12 @@ msgstr ""
 "bearbeitet werden (%1$s: %2$s: %3$s)."
 
 #. translators: 1: error type 2: error description 3: error source
-#: src/Sync.php:813 packages/storeabill-lexoffice/src/Sync.php:813
+#: src/Sync.php:821 packages/storeabill-lexoffice/src/Sync.php:821
 msgctxt "lexoffice"
 msgid "Lexoffice %1$s: %2$s: %3$s"
 msgstr "Lexoffice %1$s: %2$s: %3$s"
 
-#: src/Sync.php:820 packages/storeabill-lexoffice/src/Sync.php:820
+#: src/Sync.php:828 packages/storeabill-lexoffice/src/Sync.php:828
 msgctxt "lexoffice"
 msgid ""
 "There seems to be an issue while contacting lexoffice. Seems like the API is "
@@ -6944,18 +6962,18 @@ msgstr ""
 "Es scheint ein Problem zu geben eine Verbindung zu lexoffice herzustellen. "
 "Die API scheint aktuell nicht verfügbar zu sein."
 
-#: src/Sync.php:822 packages/storeabill-lexoffice/src/Sync.php:822
+#: src/Sync.php:830 packages/storeabill-lexoffice/src/Sync.php:830
 msgctxt "lexoffice"
 msgid "A version conflict has been detected. Please try again."
 msgstr "Ein Versionskonflikt wurde erkannt. Bitte versuche es erneut."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:824 packages/storeabill-lexoffice/src/Sync.php:824
+#: src/Sync.php:832 packages/storeabill-lexoffice/src/Sync.php:832
 msgctxt "lexoffice"
 msgid "The requested resource could not be found."
 msgstr "Die angeforderte Ressource konnte nicht gefunden werden."
 
-#: src/Sync.php:826 packages/storeabill-lexoffice/src/Sync.php:826
+#: src/Sync.php:834 packages/storeabill-lexoffice/src/Sync.php:834
 msgctxt "lexoffice"
 msgid ""
 "Seems like your connection to lexoffice was lost. Please <a href=\"%s"
@@ -6964,7 +6982,7 @@ msgstr ""
 "Deine Verbindung zu lexoffice scheint zu fehlen. Bitte <a "
 "href=„%s“>verknüpfe</a> Germanized mit lexoffice."
 
-#: src/Sync.php:828 packages/storeabill-lexoffice/src/Sync.php:828
+#: src/Sync.php:836 packages/storeabill-lexoffice/src/Sync.php:836
 msgctxt "lexoffice"
 msgid ""
 "Error while connecting to lexoffice. Please make sure that your host allows "
@@ -6974,27 +6992,27 @@ msgstr ""
 "Hoster ausgehende Verbindungen zu lexoffice erlaubt."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:842 packages/storeabill-lexoffice/src/Sync.php:842
+#: src/Sync.php:850 packages/storeabill-lexoffice/src/Sync.php:850
 msgctxt "lexoffice"
 msgid "Invoices"
 msgstr "Rechnungen"
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:847 src/Sync.php:871 src/Sync.php:884
-#: packages/storeabill-lexoffice/src/Sync.php:847
-#: packages/storeabill-lexoffice/src/Sync.php:871
-#: packages/storeabill-lexoffice/src/Sync.php:884
+#: src/Sync.php:855 src/Sync.php:879 src/Sync.php:892
+#: packages/storeabill-lexoffice/src/Sync.php:855
+#: packages/storeabill-lexoffice/src/Sync.php:879
+#: packages/storeabill-lexoffice/src/Sync.php:892
 msgctxt "lexoffice"
 msgid "Automation"
 msgstr "Automatisierung"
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:849 packages/storeabill-lexoffice/src/Sync.php:849
+#: src/Sync.php:857 packages/storeabill-lexoffice/src/Sync.php:857
 msgctxt "lexoffice"
 msgid "Automatically transfer invoices to lexoffice."
 msgstr "Automatisch Rechnungen an lexoffice übertragen."
 
-#: src/Sync.php:849 packages/storeabill-lexoffice/src/Sync.php:849
+#: src/Sync.php:857 packages/storeabill-lexoffice/src/Sync.php:857
 msgctxt "lexoffice"
 msgid ""
 "By enabling this option, invoices are transferred to lexoffice automatically "
@@ -7004,12 +7022,12 @@ msgstr ""
 "übertragen sobald die Rechnung festgeschrieben ist."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:854 packages/storeabill-lexoffice/src/Sync.php:854
+#: src/Sync.php:862 packages/storeabill-lexoffice/src/Sync.php:862
 msgctxt "lexoffice"
 msgid "Number type"
 msgstr "Belegnummer"
 
-#: src/Sync.php:856 packages/storeabill-lexoffice/src/Sync.php:856
+#: src/Sync.php:864 packages/storeabill-lexoffice/src/Sync.php:864
 msgctxt "lexoffice"
 msgid ""
 "Choose whether to submit the invoice number or order number as voucher "
@@ -7024,30 +7042,30 @@ msgstr ""
 "Rechnungsnummer nicht funktionieren."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:859 packages/storeabill-lexoffice/src/Sync.php:859
+#: src/Sync.php:867 packages/storeabill-lexoffice/src/Sync.php:867
 msgctxt "lexoffice"
 msgid "Invoice number"
 msgstr "Rechnungsnummer"
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:860 packages/storeabill-lexoffice/src/Sync.php:860
+#: src/Sync.php:868 packages/storeabill-lexoffice/src/Sync.php:868
 msgctxt "lexoffice"
 msgid "Order number"
 msgstr "Bestellnummer"
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:866 packages/storeabill-lexoffice/src/Sync.php:866
+#: src/Sync.php:874 packages/storeabill-lexoffice/src/Sync.php:874
 msgctxt "lexoffice"
 msgid "Cancellations"
 msgstr "Stornierungen"
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:873 packages/storeabill-lexoffice/src/Sync.php:873
+#: src/Sync.php:881 packages/storeabill-lexoffice/src/Sync.php:881
 msgctxt "lexoffice"
 msgid "Automatically transfer cancellations to lexoffice."
 msgstr "Automatisch Stornierungen an lexoffice übertragen."
 
-#: src/Sync.php:873 packages/storeabill-lexoffice/src/Sync.php:873
+#: src/Sync.php:881 packages/storeabill-lexoffice/src/Sync.php:881
 msgctxt "lexoffice"
 msgid ""
 "By enabling this option, cancellations are transferred to lexoffice "
@@ -7057,18 +7075,18 @@ msgstr ""
 "übertragen sobald die Stornierung festgeschrieben ist."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:879 packages/storeabill-lexoffice/src/Sync.php:879
+#: src/Sync.php:887 packages/storeabill-lexoffice/src/Sync.php:887
 msgctxt "lexoffice"
 msgid "Customers"
 msgstr "Kunden"
 
-#: src/Sync.php:886 packages/storeabill-lexoffice/src/Sync.php:886
+#: src/Sync.php:894 packages/storeabill-lexoffice/src/Sync.php:894
 msgctxt "lexoffice"
 msgid "Create and/or update contacts as soon as customer data changes."
 msgstr ""
 "Erstelle und/oder aktualisiere Kunden sobald Kundendaten verändert wurden."
 
-#: src/Sync.php:886 packages/storeabill-lexoffice/src/Sync.php:886
+#: src/Sync.php:894 packages/storeabill-lexoffice/src/Sync.php:894
 msgctxt "lexoffice"
 msgid ""
 "By enabling this option, customers are transferred to lexoffice "
@@ -7078,12 +7096,12 @@ msgstr ""
 "übertragen sobald ein Kunde erstellt oder aktualisiert wurde."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:891 packages/storeabill-lexoffice/src/Sync.php:891
+#: src/Sync.php:899 packages/storeabill-lexoffice/src/Sync.php:899
 msgctxt "lexoffice"
 msgid "Link Contacts"
 msgstr "Kunden verknüpfen"
 
-#: src/Sync.php:893 packages/storeabill-lexoffice/src/Sync.php:893
+#: src/Sync.php:901 packages/storeabill-lexoffice/src/Sync.php:901
 msgctxt "lexoffice"
 msgid ""
 "Link vouchers (invoices, cancellations) with individually created contacts."
@@ -7091,7 +7109,7 @@ msgstr ""
 "Verknüpfe Belege (Rechnungen, Stornierungen) mit individuell erstellten "
 "Kunden."
 
-#: src/Sync.php:893 packages/storeabill-lexoffice/src/Sync.php:893
+#: src/Sync.php:901 packages/storeabill-lexoffice/src/Sync.php:901
 msgctxt "lexoffice"
 msgid ""
 "Your vouchers are linked to individually created contacts. By disabling this "
@@ -7102,12 +7120,12 @@ msgstr ""
 "Sammelkunden verknüpfen möchtest."
 
 # @ woocommerce-germanized-pro
-#: src/Sync.php:901 packages/storeabill-lexoffice/src/Sync.php:901
+#: src/Sync.php:909 packages/storeabill-lexoffice/src/Sync.php:909
 msgctxt "lexoffice"
 msgid "Guest Checkouts"
 msgstr "Gastkäufe"
 
-#: src/Sync.php:903 packages/storeabill-lexoffice/src/Sync.php:903
+#: src/Sync.php:911 packages/storeabill-lexoffice/src/Sync.php:911
 msgctxt "lexoffice"
 msgid "Force creating individual lexoffice customers for guest checkouts too."
 msgstr "Erzwinge die Erstellung individueller lexoffice Kunden für Gastkäufe."

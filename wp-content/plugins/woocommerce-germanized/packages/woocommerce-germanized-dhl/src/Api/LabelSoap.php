@@ -26,6 +26,24 @@ class LabelSoap extends Soap {
         }
     }
 
+	/**
+	 * Use the current local WSDL file instead as DHL
+	 * does not seem to server minor version WSDL files via URL.
+	 *
+	 * @param $wsdl_link
+	 *
+	 * @return string
+	 */
+	protected function get_wsdl_file( $wsdl_link ) {
+		$core_file = Package::get_core_wsdl_file( 'geschaeftskundenversand-api-3.1.8.wsdl' );
+
+		if ( $core_file ) {
+			return $core_file;
+		} else {
+			return $wsdl_link;
+		}
+	}
+
     public function get_access_token() {
         return $this->get_auth_api()->get_access_token( Package::get_gk_api_user(), Package::get_gk_api_signature() );
     }
@@ -307,7 +325,8 @@ class LabelSoap extends Soap {
      * @throws Exception
      */
     protected function get_create_label_request( $label ) {
-        $shipment = $label->get_shipment();
+        $shipment     = $label->get_shipment();
+        $dhl_provider = Package::get_dhl_shipping_provider();
 
         if ( ! $shipment ) {
             throw new Exception( sprintf( _x( 'Could not fetch shipment %d.', 'dhl', 'woocommerce-germanized' ), $label->get_shipment_id() ) );
@@ -487,7 +506,7 @@ class LabelSoap extends Soap {
 	     * @since 3.0.5
 	     * @package Vendidero/Germanized/DHL
 	     */
-	    $shipper_reference = apply_filters( 'woocommerce_gzd_dhl_label_api_shipper_reference', '', $label );
+	    $shipper_reference = apply_filters( 'woocommerce_gzd_dhl_label_api_shipper_reference', $dhl_provider->has_custom_shipper_reference() ? $dhl_provider->get_label_custom_shipper_reference() : '', $label );
 
 	    if ( ! empty( $shipper_reference ) ) {
 		    $dhl_label_body['ShipmentOrder']['Shipment']['ShipperReference'] = $shipper_reference;
@@ -635,11 +654,13 @@ class LabelSoap extends Soap {
             }
 
             $customs_data = array(
-            	'termsOfTrade'          => $label->get_duties(),
-	            'additionalFee'         => $customs_label_data['additional_fee'],
-	            'exportTypeDescription' => $customs_label_data['export_type_description'],
-	            'placeOfCommital'       => $customs_label_data['place_of_commital'],
-	            'ExportDocPosition'     => $customs_items,
+            	'termsOfTrade'               => $label->get_duties(),
+	            'additionalFee'              => $customs_label_data['additional_fee'],
+	            'exportTypeDescription'      => $customs_label_data['export_type_description'],
+	            'placeOfCommital'            => $customs_label_data['place_of_commital'],
+	            'addresseesCustomsReference' => $customs_label_data['receiver_customs_ref_number'],
+	            'sendersCustomsReference'    => $customs_label_data['sender_customs_ref_number'],
+	            'ExportDocPosition'          => $customs_items,
 	            /**
 	             * Filter to allow adjusting the export type of a DHL label (for customs). Could be:
 	             * <ul>

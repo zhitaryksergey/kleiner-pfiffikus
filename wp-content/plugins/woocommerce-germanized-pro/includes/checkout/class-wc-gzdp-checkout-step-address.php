@@ -61,7 +61,7 @@ class WC_GZDP_Checkout_Step_Address extends WC_GZDP_Checkout_Step {
 		wp_send_json (
 			array(
 				'fragments' => WC_GZDP_Multistep_Checkout::instance()->refresh_order_fragments( array() ),
-				'result'	=> 'step',
+				'result'	=> 'failure',
 				'step'		=> $this->number,
 				'refresh'	=> 'true',
 				'messages'  => ' ',

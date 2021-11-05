@@ -84,7 +84,26 @@ if ( ! class_exists( 'TVC_Admin_Auto_Product_sync_Helper' ) ) {
       }
 
     }
-
+    public function get_product_category($product_id){
+      $output    = [];
+      $terms_ids = wp_get_post_terms( $product_id, 'product_cat', array('fields' => 'ids') );   
+      // Loop though terms ids (product categories)
+      foreach( $terms_ids as $term_id ) {
+          $term_names = [];
+          // Loop through product category ancestors
+          foreach( get_ancestors( $term_id, 'product_cat') as $ancestor_id ){
+            $term_names[] = get_term( $ancestor_id, 'product_cat')->name;
+            if(isset($output[$ancestor_id]) && $output[$ancestor_id] != ""){
+              unset($output[$ancestor_id]);
+            }
+          }
+          $term_names[] = get_term( $term_id, 'product_cat' )->name;
+          // Add the formatted ancestors with the product category to main array
+          $output[$term_id] = implode(' > ', $term_names);
+      }
+      $output = array_values($output);
+      return $output;
+    }
     public function import_last_sync_in_db(){
       $ee_prod_mapped_cats = unserialize(get_option('ee_prod_mapped_cats'));
       $ee_prod_mapped_attrs = unserialize(get_option('ee_prod_mapped_attrs'));
@@ -213,110 +232,95 @@ if ( ! class_exists( 'TVC_Admin_Auto_Product_sync_Helper' ) ) {
 
           $product = array_merge($temp_product,$product);
           if( !empty($prd) && $prd->get_type() == "variable" ){             
-            $variation_attributes = $prd->get_variation_attributes();
-            $can_add_item_group_id = false;
-            $is_color_size = false;
-            if(!empty($variation_attributes)){
-              foreach($variation_attributes as $va_key => $va_value ){
-                $va_key = str_replace("_", " ", $va_key);                  
-                if (strpos($va_key, 'color') !== false) {
-                  $can_add_item_group_id = true;
-                  $is_color_size = true;
-                  break;
-                }else if (strpos($va_key, 'size') !== false) {
-                  $can_add_item_group_id = true;
-                  $is_color_size = true;
-                  break;
+            //$variation_attributes = $prd->get_variation_attributes();           
+            $p_variations = $prd->get_available_variations();                
+            if(!empty($p_variations)){                  
+              foreach ($p_variations as $v_key => $v_value) {
+                $postmeta_var = (object)$this->TVC_Admin_Helper->tvc_get_post_meta($v_value['variation_id']);
+                $formArray_val = $formArray['title'];
+                $product['title'] = (isset($postObj->$formArray_val))?$postObj->$formArray_val:get_the_title($postvalue->w_product_id);
+                $tvc_temp_desc_key = $formArray['description'];
+                $product['description'] = (isset($v_value['variation_description']) && $v_value['variation_description'] != "")?$v_value['variation_description']:$postObj->$tvc_temp_desc_key;
+                $product['offer_id'] = $v_value['variation_id'];
+                $product['id'] = $v_value['variation_id'];
+                $product['item_group_id'] = $postvalue->w_product_id;
+                $productTypes = $this->get_product_category($postvalue->w_product_id);
+                if(!empty($productTypes)){
+                  $product['productTypes'] = $productTypes;
                 }
-              }
-            }
-            if(isset($formArray['gender']) && $formArray['gender']!= ""){
-              $can_add_item_group_id = true;
-            }else if(isset($formArray['age_group']) && $formArray['age_group']!= ""){
-              $can_add_item_group_id = true;
-            }
-            if($can_add_item_group_id == true){
-              $p_variations = $prd->get_available_variations();                
-              if(!empty($p_variations)){                  
-                foreach ($p_variations as $v_key => $v_value) {
-                  $postmeta_var = (object)$this->TVC_Admin_Helper->tvc_get_post_meta($v_value['variation_id']);
-                  $formArray_val = $formArray['title'];
-                  $product['title'] = (isset($postObj->$formArray_val))?$postObj->$formArray_val:get_the_title($postvalue->w_product_id);
-                  $tvc_temp_desc_key = $formArray['description'];
-                  $product['description'] = (isset($v_value['variation_description']) && $v_value['variation_description'] != "")?$v_value['variation_description']:$postObj->$tvc_temp_desc_key;
-                  $product['offer_id'] = $v_value['variation_id'];
-                  $product['id'] = $v_value['variation_id'];
-                  $product['item_group_id'] = $postvalue->w_product_id;
-                  $image_id = $v_value['image_id'];
-                  $product['image_link'] = wp_get_attachment_image_url($image_id, 'full');
-                  if($is_color_size == true){
-                    if(isset($v_value['attributes']) && !empty($v_value['attributes']) ){
-                      foreach($v_value['attributes'] as $va_key => $va_value ){
-                        $va_key = str_replace("_", " ", $va_key);                  
-                        if (strpos($va_key, 'color') !== false) {
-                          $product['color'] = $va_value;
-                        }else if (strpos($va_key, 'size') !== false) {
-                          $product['sizes'] = $va_value;
-                        }
-                      }
+                $image_id = $v_value['image_id'];
+                $product['image_link'] = wp_get_attachment_image_url($image_id, 'full');        
+                if(isset($v_value['attributes']) && !empty($v_value['attributes']) ){
+                  foreach($v_value['attributes'] as $va_key => $va_value ){
+                    $va_key = str_replace("_", " ", $va_key);                  
+                    if (strpos($va_key, 'color') !== false) {
+                      $product['color'] = $va_value;
+                    }else if (strpos($va_key, 'size') !== false) {
+                      $product['sizes'] = $va_value;
+                    }else{
+                      $va_key = str_replace("attribute", "", $va_key);
+                      $product['customAttributes'][] = array("name"=>$va_key, "value"=>$va_value);
                     }
                   }
-                  foreach($formArray as $key => $value){
-                    if($key == 'price'){
-                      if(isset($postmeta_var->$value) && $postmeta_var->$value > 0){
-                        $product[$key]['value'] = $postmeta_var->$value;
-                      }else if(isset($postmeta_var->_regular_price) && $postmeta_var->_regular_price && $postmeta_var->_regular_price >0 ){
-                        $product[$key]['value'] = $postmeta_var->_regular_price;
-                      }else if(isset($postmeta_var->_price) && $postmeta_var->_price && $postmeta_var->_price >0 ){
-                        $product[$key]['value'] = $postmeta_var->_price;
-                      }else if(isset($postmeta_var->_sale_price) && $postmeta_var->_sale_price && $postmeta_var->_sale_price >0 ){
-                        $product[$key]['value'] = $postmeta_var->_sale_price;
-                      }
-                      if(isset($product[$key]['value']) && $product[$key]['value'] >0){
-                        $product[$key]['currency'] = $tvc_currency;
-                      }else{
-                        $skipProducts[$postmeta_var->ID] = $postmeta_var;
-                      }
-                    }else if($key == 'sale_price'){
-                      if(isset($postmeta_var->$value) && $postmeta_var->$value > 0){
-                        $product[$key]['value'] = $postmeta_var->$value;
-                      }else if(isset($postmeta_var->_sale_price) && $postmeta_var->_sale_price && $postmeta_var->_sale_price >0 ){
-                        $product[$key]['value'] = $postmeta_var->_sale_price;
-                      }
-                      if(isset($product[$key]['value']) && $product[$key]['value'] >0){
-                        $product[$key]['currency'] = $tvc_currency;
-                      }                                                
-                    }else if($key == 'availability'){
-                      $tvc_find = array("instock","outofstock","onbackorder");
-                      $tvc_replace = array("in stock","out of stock","preorder");
-                      if(isset($postmeta_var->$value) && $postmeta_var->$value != ""){
-                        $stock_status = $postmeta_var->$value;
-                        $stock_status = str_replace($tvc_find,$tvc_replace,$stock_status);
-                        $product[$key] = $stock_status;
-                      }else{
-                        $stock_status = $postmeta_var->_stock_status;
-                        $stock_status = str_replace($tvc_find,$tvc_replace,$stock_status);
-                        $product[$key] = $stock_status;
-                      }
-                    }else if(isset($postmeta_var->$value) && $postmeta_var->$value != ""){$product[$key] = $postmeta_var->$value;                        
-                    }
-                  }
-                  $item = [
-                    'merchant_id' => $merchantId,
-                    'batch_id' => ++$batchId,
-                    'method' => 'insert',
-                    'product' => $product
-                  ];
-                  $items[] = $item;
                 }
+                
+                foreach($formArray as $key => $value){
+                  if($key == 'price'){
+                    if(isset($postmeta_var->$value) && $postmeta_var->$value > 0){
+                      $product[$key]['value'] = $postmeta_var->$value;
+                    }else if(isset($postmeta_var->_regular_price) && $postmeta_var->_regular_price && $postmeta_var->_regular_price >0 ){
+                      $product[$key]['value'] = $postmeta_var->_regular_price;
+                    }else if(isset($postmeta_var->_price) && $postmeta_var->_price && $postmeta_var->_price >0 ){
+                      $product[$key]['value'] = $postmeta_var->_price;
+                    }else if(isset($postmeta_var->_sale_price) && $postmeta_var->_sale_price && $postmeta_var->_sale_price >0 ){
+                      $product[$key]['value'] = $postmeta_var->_sale_price;
+                    }
+                    if(isset($product[$key]['value']) && $product[$key]['value'] >0){
+                      $product[$key]['currency'] = $tvc_currency;
+                    }else{
+                      $skipProducts[$postmeta_var->ID] = $postmeta_var;
+                    }
+                  }else if($key == 'sale_price'){
+                    if(isset($postmeta_var->$value) && $postmeta_var->$value > 0){
+                      $product[$key]['value'] = $postmeta_var->$value;
+                    }else if(isset($postmeta_var->_sale_price) && $postmeta_var->_sale_price && $postmeta_var->_sale_price >0 ){
+                      $product[$key]['value'] = $postmeta_var->_sale_price;
+                    }
+                    if(isset($product[$key]['value']) && $product[$key]['value'] >0){
+                      $product[$key]['currency'] = $tvc_currency;
+                    }                                                
+                  }else if($key == 'availability'){
+                    $tvc_find = array("instock","outofstock","onbackorder");
+                    $tvc_replace = array("in stock","out of stock","preorder");
+                    if(isset($postmeta_var->$value) && $postmeta_var->$value != ""){
+                      $stock_status = $postmeta_var->$value;
+                      $stock_status = str_replace($tvc_find,$tvc_replace,$stock_status);
+                      $product[$key] = $stock_status;
+                    }else{
+                      $stock_status = $postmeta_var->_stock_status;
+                      $stock_status = str_replace($tvc_find,$tvc_replace,$stock_status);
+                      $product[$key] = $stock_status;
+                    }
+                  }else if(isset($postmeta_var->$value) && $postmeta_var->$value != ""){$product[$key] = $postmeta_var->$value;                        
+                  }
+                }
+                $item = [
+                  'merchant_id' => $merchantId,
+                  'batch_id' => ++$batchId,
+                  'method' => 'insert',
+                  'product' => $product
+                ];
+                $items[] = $item;
               }
-            }else{
-              goto simpleproduct;
             }
+            
           }else if( !empty($prd) ){
-            simpleproduct: 
             $image_id = $prd->get_image_id();
-            $product['image_link'] = wp_get_attachment_image_url($image_id, 'full');     
+            $product['image_link'] = wp_get_attachment_image_url($image_id, 'full');
+            $productTypes = $this->get_product_category($postvalue->w_product_id);
+            if(!empty($productTypes)){
+              $product['productTypes'] = $productTypes;
+            }    
             foreach($formArray as $key => $value){
               if($key == 'price'){
                 if(isset($postObj->$value) && $postObj->$value > 0){

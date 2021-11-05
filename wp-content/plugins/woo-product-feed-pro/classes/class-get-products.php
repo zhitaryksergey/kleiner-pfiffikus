@@ -2590,7 +2590,11 @@ class WooSEA_Get_Products {
 			* availability will always return out of stock, even when the stock quantity > 0
 			* Therefor, we need to check the stock_status and overwrite te availability value
 			*/
-			$stock_status = $product->get_stock_status();
+                        if(!is_bool($product)){
+                                $stock_status = $product->get_stock_status();
+                        } else {
+                                $stock_status = "instock";
+                        }
 			$product_data['stock_status'] = $stock_status;
 
 			if ($stock_status == "outofstock"){
@@ -4101,7 +4105,9 @@ class WooSEA_Get_Products {
 			 * When a size is not on stock remove it
 			 */
 			if($project_config['fields'] == "skroutz"){
+
 				if(isset($product_data['id'])){
+
 		        		foreach($project_config['attributes'] as $ky => $vy){
                                			if(isset($vy['attribute'])){
                                         		if($vy['attribute'] == "size"){
@@ -4123,7 +4129,8 @@ class WooSEA_Get_Products {
 					}
 
 					// HIER MOET EEN CHECK IN OP product_type
-					if(isset($product_data['item_group_id']) AND ($product_data['product_type'] == "variable")){
+					if(isset($product_data['item_group_id']) AND ($product_data['product_type'] == "variation")){
+
 						if($product_data['item_group_id'] > 0){
 							$product_skroutz = wc_get_product($product_data['item_group_id']);
                                      			$variations = $product_skroutz->get_available_variations();
@@ -4133,6 +4140,7 @@ class WooSEA_Get_Products {
                                        				$clr_variation = get_post_meta( $var_id, "attribute_".$clr_attribute, true );
                                        				$size_variation = get_post_meta( $var_id, "attribute_".$sz_attribute, true );
                                					$stock_variation = get_post_meta( $var_id, "_stock_status", true );
+
 								if($clr_variation == $clr_attr_value){
 									if($stock_variation == "outofstock"){
 										// Remove this size as it is not on stock
@@ -4142,6 +4150,12 @@ class WooSEA_Get_Products {
 											$product_data[$sz_attribute] = rtrim($product_data[$sz_attribute], " ");
 											$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
 										}	
+									} else {
+										// Add comma's in the size field and put availability on stock as at least one variation is on stock
+										$size_variation_new = $size_variation.",";
+										$product_data[$sz_attribute] = str_replace($size_variation,$size_variation_new,$product_data[$sz_attribute]);
+										$product_data[$sz_attribute] = trim($product_data[$sz_attribute], ",");
+										$product_data['availability'] = "in stock";
 									}
 								}
 							}
@@ -5632,7 +5646,14 @@ class WooSEA_Get_Products {
                                                                 } elseif ((strlen($pd_value > 0)) && ($pr_array['than'] == "include_only")){
                                                                         $allowed = 0;
                                                                 }
-                                                                break;
+								break;
+							case($pr_array['condition'] = "notempty"):
+                                                                if ((strlen($pd_value) > 1) && ($pr_array['than'] == "exclude")){
+                                                                        $allowed = 0;
+                                                                } elseif ((strlen($pd_value < 0)) && ($pr_array['than'] == "include_only")){
+                                                                        $allowed = 0;
+                                                                }
+								break;
                                                         default:
                                                                 break;
                                                 }
@@ -5765,7 +5786,22 @@ class WooSEA_Get_Products {
                                                                                                 }
                                                                                         }
                                                                                 }
-                                                                                break;
+										break;
+                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                if (strlen($v) > 1){
+                                                                                        if($pr_array['than'] == "include_only"){
+                                                                                                if($allowed <> 0){
+                                                                                                        $allowed = 1;
+                                                                                                }
+                                                                                        } else {
+                                                                                                if(!empty($pt_value)){
+                                                                                                        $allowed = 1;
+                                                                                                } else {
+                                                                                                        $allowed = 0;
+                                                                                                }
+                                                                                        }
+                                                                                }
+										break;
                                                                         default:
                                                                                 break;
                                                                 }
@@ -5843,7 +5879,16 @@ class WooSEA_Get_Products {
                                                                                 } else {
                                                                                         $allowed = 0;
                                                                                 }
-                                                                                break;
+										break;
+                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                if($pr_array['than'] == "include_only"){
+                                                                                        if($allowed <> 0){
+                                                                                                $allowed = 0;
+                                                                                        }
+                                                                                } else {
+                                                                                        $allowed = 1;
+                                                                                }
+										break;
                                                                         default:
                                                                                 break;
                                                                 }
@@ -5899,7 +5944,12 @@ class WooSEA_Get_Products {
                                                                                                 if (strlen($vv) < 1){
                                                                                                         $allowed = 0;
                                                                                                 }
-                                                                                                break;
+												break;
+                                                                                        case($pr_array['condition'] = "notempty"):
+                                                                                                if (strlen($vv) > 1){
+                                                                                                        $allowed = 0;
+                                                                                                }
+												break;
                                                                                         default:
                                                                                                 break;
                                                                                 }
@@ -6035,7 +6085,18 @@ class WooSEA_Get_Products {
                                                                 } elseif ((strlen($pd_value) > 0) && ($pr_array['than'] == "include_only")){
                                                                         $allowed = 0;
                                                                 }
-                                                                break;
+								break;
+                                                        case($pr_array['condition'] = "notempty"):
+                                                                if ((strlen($pd_value) > 0) && ($pr_array['than'] == "exclude")){
+                                                                        $allowed = 0;
+                                                                } elseif ((strlen($pd_value) < 1) && ($pr_array['than'] == "exclude")){
+                                                                        if($allowed <> 0){
+                                                                                $allowed = 1;
+                                                                        }
+                                                                } elseif ((strlen($pd_value) < 1) && ($pr_array['than'] == "include_only")){
+                                                                        $allowed = 0;
+                                                                }
+								break;
                                                         default:
                                                                 break;
                                                 }

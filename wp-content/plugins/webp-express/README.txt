@@ -3,8 +3,8 @@ Contributors: rosell.dk
 Donate link: https://ko-fi.com/rosell
 Tags: webp, images, performance
 Requires at least: 4.0
-Tested up to: 5.7
-Stable tag: 0.20.0
+Tested up to: 5.8
+Stable tag: 0.21.1
 Requires PHP: 5.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -29,18 +29,19 @@ The plugin supports different ways of delivering webps to browsers that supports
 5. You can also deliver webp to *all* browsers and add the [webpjs](http://webpjs.appspot.com) javascript, which provides webp support for browsers that doesn't support webp natively. However, beware that the javascript doesn't support srcset attributes, which is why I haven't added that method to the plugin (yet).
 
 The plugin implements the "WebP On Demand" solution described [here](https://github.com/rosell-dk/webp-convert/blob/master/docs/v2.0/webp-on-demand/webp-on-demand.md) and builds on a bunch of open source libraries (all maintained by me):
-- [WebPConvert](https://github.com/rosell-dk/webp-convert): For converting images to webp
+- [WebP Convert](https://github.com/rosell-dk/webp-convert): For converting images to webp
 - [WebP Convert Cloud Service](https://github.com/rosell-dk/webp-convert-cloud-service): For the Web Service functionality
 - [DOM Util for WebP](https://github.com/rosell-dk/dom-util-for-webp): For the Alter HTML functionality
 - [Image MimeType Guesser](https://github.com/rosell-dk/image-mime-type-guesser): For detecting mime types of images.
 - [HTAccess Capability Tester](https://github.com/rosell-dk/htaccess-capability-tester): For testing .htaccess capabilities in a given directory, using live tests
+- [WebP Convert File Manager](https://github.com/rosell-dk/webp-convert-filemanager): For browsing conversions (planned feature: triggering conversions).
 
 ### Benefits
 - Much faster load time for images in browsers that supports webp. The converted images are typically *less than half the size* (for jpeg), while maintaining the same quality. Bear in mind that for most web sites, images are responsible for the largest part of the waiting time.
 - Better user experience (whether performance goes from terrible to bad, or from good to impressive, it is a benefit).
 - Better ranking in Google searches (performance is taken into account by Google).
 - Less bandwidth consumption - makes a huge difference in the parts of the world where the internet is slow and costly (you know, ~80% of the world population lives under these circumstances).
-- Currently ~94% of all traffic, and ~96% of mobile browsing traffic are done with browsers supporting webp. Check current numbers on [caniuse.com](https://caniuse.com/webp).
+- Currently ~95% of all traffic, and ~96% of mobile browsing traffic are done with browsers supporting webp. Check current numbers on [caniuse.com](https://caniuse.com/webp).
 - It's great for the environment too! Reducing network traffic reduces electricity consumption which reduces CO2 emissions.
 
 == Installation ==
@@ -174,9 +175,10 @@ Bread on the table don't come for free, even though this plugin does, and always
 * Ruben Solvang
 
 **Persons who recently contributed with [ko-fi](https://ko-fi.com/rosell) - Thanks!**
-* 19 May: Gary Wong
-* 12 May: nicoletta
-* 6 May: Hanneke
+* 29 Aug: Pawa Tecnologia
+* 29 Jul: Brian Laursen
+* 24 Jul: Hans Konings
+* 8 Jul: Raj
 
 **Persons who contributed with extra generously amounts of coffee / lifetime backing (>30$) - thanks!:**
 
@@ -187,6 +189,8 @@ Bread on the table don't come for free, even though this plugin does, and always
 * Tammy Lee ($90)
 * Steven Sullivan ($51)
 * Mathieu Gollain-Dupont ($50)
+* Erica Dreisbach ($50)
+* Brian Laursen ($50)
 
 == Frequently Asked Questions ==
 
@@ -755,7 +759,15 @@ If you are wondering why Alter HTML are missing some images, it can be due to on
 = When is feature X coming? / Roadmap =
 No schedule. I move forward as time allows. I currently spend a lot of time answering questions in the support forum. If someone would be nice and help out answering questions here, it would allow me to spend that time developing. Also, donations would allow me to turn down some of the more boring requests from my customers, and speed things up here.
 
-Here are my current plans ahead: 0.21 will probably be a file manager-like interface for converting / bulk converting / viewing conversion logs / comparing original vs webp visually - kind of a merge of current "test converter" and "bulk conversion" interfaces, and with an addition of a file explorer. 0.22 might allow excluding certain files and folders. 0.23 could be supporting Save-Data header in Varied Image Responses mode (send extra compressed images to clients who wants to use as little bandwidth as possible). 0.21 might be displaying rules for NGINX. 0.24 might be an effort to allow webp for all browsers using [this javascript library](http://libwebpjs.hohenlimburg.org/v0.6.0/). Unfortunately, the javascript library does not (currently) support srcset attributes, which is why I moved this item down the priority list. We need srcset to be supported for the feature to be useful. 0.26 might be WAMP support. The current milestones, their subtasks and their progress can be viewed here: https://github.com/rosell-dk/webp-express/milestones
+Right now I am focusing on the File Manager. I would like to add possibility for converting, bulk converting, viewing conversion logs, viewing stats, etc.
+
+Here are other things in pipeline:
+- Excluding certain files and folders. 
+- Supporting Save-Data header in Varied Image Responses mode (send extra compressed images to clients who wants to use as little bandwidth as possible).
+- Displaying rules for NGINX.
+- Allow webp for all browsers using [this javascript library](http://libwebpjs.hohenlimburg.org/v0.6.0/). Unfortunately, the javascript library does not (currently) support srcset attributes, which is why I moved this item down the priority list. We need srcset to be supported for the feature to be useful.
+
+The current milestones, their subtasks and their progress can be viewed here: https://github.com/rosell-dk/webp-express/milestones
 
 If you wish to affect priorities, it is certainly possible. You can try to argue your case in the forum or you can simply let the money do the talking. By donating as little as a cup of coffee on [ko-fi.com/rosell](https://ko-fi.com/rosell), you can leave a wish. I shall take these wishes into account when prioritizing between new features.
 
@@ -771,6 +783,27 @@ If you want to make sure that my coffee supplies don't run dry, you can even buy
 
 == Changelog ==
 
+= 0.21.1 =
+*(released: 27 Oct 2021)*
+* Bugfix: File manager could not handle many images. It now loads tree branches on need basis instead of the complete tree in one go
+* Bugfix: For mulisite, the redirect after settings save was not working (bug introduced in 0.21.0)
+
+For more info, see the closed issues on the [webp-express 0.21.1 milestone](https://github.com/rosell-dk/webp-express/milestone/42?closed=1)
+
+= 0.21.0 =
+*(released: 25 Oct 2021)*
+* Added image browser (in Media tab)
+* Updated webp convert library to 2.7.0.
+* ImageMagick now supports the "near-lossless" option (provided Imagick >= 7.0.10-54)
+* Added "try-common-system-paths" option for ImageMagick (default: true). Thanks to Henrik Alves for adding this option.
+* Bugfix: Handling Uncaught Fatal Exception during .htaccess read failure. Thanks to Manuel D'Orso from Italy for the fix.
+* Bugfix: File names which were not UTF8 caused trouble in the Bulk Convert. Thank to "mills4078" for the fix
+* Bugfix: Redirection back to settings after saving settings failed on some systems. Thanks to Martin Rehberger (@kingkero) from Germany for the fix.
+* Bugfix: Webp urls did not contain port number (only relevant when the website was not on default port number). Thanks to Nicolas LIENART (@nicolnt) from France for providing the fix.
+
+For more info, see the closed issues on the [webp-express 0.21.0 milestone](https://github.com/rosell-dk/webp-express/milestone/41?closed=1) and the
+[webp-convert 2.7.0 milestone](https://github.com/rosell-dk/webp-convert/milestone/24?closed=1)
+
 = 0.20.1 =
 *(released: 20 Jun 2021)*
 * Bugfix: Removed composer.lock. It was locked on PHP 7.2, which caused server error on some sites (only some sites with old php were affected). Also deleted the library which required PHP 7.2 (onnov/detect-encoding/). The functionality is not really needed.
@@ -785,13 +818,15 @@ If you want to make sure that my coffee supplies don't run dry, you can even buy
 
 For more info, see the closed issues on the [0.20.0 milestone on the github repository](https://github.com/rosell-dk/webp-express/milestone/38?closed=1)
 
-= 0.19.1 =
-*(released: 03 May 2021)*
-* Bugfix for PHP 8.0 - fread() does not permit second argument to be 0. Thanks to @trition for reporting and fixing this bug.
-
 For older releases, check out changelog.txt
 
 == Upgrade Notice ==
+
+= 0.21.1 =
+* Two bug fixes
+
+= 0.21.0 =
+* Image browser and various bug fixes
 
 = 0.20.1 =
 * Bugfix for PHP 7.1 and below
