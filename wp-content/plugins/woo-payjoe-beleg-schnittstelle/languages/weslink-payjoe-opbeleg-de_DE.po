@@ -1,0 +1,210 @@
+# Copyright (C) 2017 PayJoe Beleg Schnittstelle
+# This file is distributed under the same license as the PayJoe Beleg Schnittstelle package.
+msgid ""
+msgstr ""
+"Project-Id-Version: PayJoe Beleg Schnittstelle 1.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woo-payjoe-beleg-"
+"schnittstelle\n"
+"POT-Creation-Date: 2021-10-14T19:17:04+02:00\n"
+"PO-Revision-Date: 2021-10-14 19:18+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+msgid "Woo PayJoe Beleg Schnittstelle"
+msgstr "Woo PayJoe Beleg Schnittstelle"
+
+#. Description of the plugin
+msgid "Plugin zum Upload von Rechnungen zu PayJoe"
+msgstr "Plugin zum Upload von Rechnungen zu PayJoe"
+
+#. Author of the plugin
+msgid "WESLINK - Let's Web | Site Shop App"
+msgstr "WESLINK - Let's Web | Site Shop App"
+
+#. Author URI of the plugin
+msgid "https://weslink.de"
+msgstr "http://weslink.de"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:82
+msgid "One of the following PayJoe Settings is missing: "
+msgstr "Eine der folgenden PayJoe Einstellungen fehlt:"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:85
+#: admin/class-weslink-payjoe-opbeleg-admin.php:190
+msgid "API Key"
+msgstr "API Schlüssel"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:88
+#: admin/class-weslink-payjoe-opbeleg-admin.php:186
+msgid "Username"
+msgstr "Benutzername"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:91
+#: admin/class-weslink-payjoe-opbeleg-admin.php:194
+msgid "Account ID"
+msgstr "Zugangs-ID"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:168
+msgid "PayJoe Settings"
+msgstr "PayJoe Einstellungen"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:169
+msgid "PayJoe"
+msgstr "PayJoe"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:187
+msgid "Your E-Mail which your regular login at PayJoe"
+msgstr "Ihre PayJoe E-Mail Adresse"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:191
+msgid "Secret key for API authentication"
+msgstr "Geheimer Schlüssel für die API Authentifizierung"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:195
+msgid "The PayJoe account ID"
+msgstr "Die PayJoe Zugangs-ID"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:200
+#: admin/class-weslink-payjoe-opbeleg-admin.php:237
+msgid "Disable"
+msgstr "Deaktiviert"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:214
+msgid "Interval"
+msgstr "Interval"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:215
+msgid "How often should the documents be transferred (hours)"
+msgstr "Wie oft soll das Dokument übertragen werden (in Stunden)"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:226
+msgid "Start Order Date"
+msgstr "Startdatum Bestellungen"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:227
+msgid "Orders before this date will not be uploaded"
+msgstr "Bestellungen vor diesem Datum werden nicht übertragen."
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:231
+msgid "Upload size"
+msgstr "Uploadgröße"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:232
+msgid ""
+"Number of documents to transfer in a single API upload. (max: 500, default: "
+"100)"
+msgstr ""
+"Anzahl der Dokumente, die mit einem API Upload übertragen werden. (Maximum "
+"500, Standard: 100)"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:238
+msgid "Enable"
+msgstr "Aktiviert"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:245
+msgid "<a href=\"%s\" target=\"_blank\">Download Logging File</a>"
+msgstr "<a href=\"%s\" target=\"_blank\">Download Log Datei</a>"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:249
+msgid "Logging"
+msgstr "Logging"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:250
+msgid "Enable/Disable logging. (Logfiles are stored at uploads/payjoe/)"
+msgstr ""
+"Aktiviere/Deaktiviere Logging (Log-Dateien werden in „uploads/payjoe“ "
+"gespeichert)"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:263
+msgid "Invoice System"
+msgstr "Rechnungssystem"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:264
+msgid "Select the System used to generate the invoices"
+msgstr "Wählen Sie ihr System, dass die Rechnungen erstellt"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:269
+msgid "General Settings"
+msgstr "Allgemeine Einstellungen"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:367
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Sie haben nicht die Berechtigung, diese Seite zu öffnen."
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:372
+msgid "PayJoe order upload"
+msgstr "PayJoe Bestellungsupload"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:374
+msgid "PayJoe_info-text"
+msgstr ""
+"PayJoe hilft Ihnen bei Ihrer Buchhaltung und gleicht Ihre Zahlungen von z.B. "
+"AMAZON, PayPal, Klarna, Billsafe usw. mit den Rechnungen ab. Kostenfreier "
+"Testzugang unter <a href=\"http://www.payjoe.de\" target=\"_blank\">www."
+"payjoe.de</a>"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:385
+msgid "Manually invoice upload"
+msgstr "Manueller Rechnungsupload"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:389
+msgid "Upload new invoices now"
+msgstr "Lade neue Rechnungen jetzt hoch"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:394
+msgid "Resend all invoices"
+msgstr "Alle Rechnungen erneut hochladen"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:398
+msgid "Resend all invoices now"
+msgstr "Alle Rechnungen jetzt erneut hochladen"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:421
+msgid "Weslink-PayJoe-Opbeleg Custom Scheduled CronJob"
+msgstr "Weslink-PayJoe-Opbeleg eigener geplanter CronJob"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:517
+msgid "PayJoe Status"
+msgstr "PayJoe Status"
+
+#: admin/class-weslink-payjoe-opbeleg-admin.php:564
+#: admin/class-weslink-payjoe-opbeleg-admin.php:577
+msgid "Result of order upload"
+msgstr "Ergebnis des Bestellungsuploads"
+
+#: admin/class-weslink-payjoe-opbeleg-orders.php:189
+msgid "No orders availlabe for upload to PayJoe"
+msgstr "Es sind keine Bestellung für den Upload mit PayJoe verfügbar"
+
+#: admin/partials/constants.php:18
+msgid "Not yet transferred"
+msgstr "Noch nicht transferiert"
+
+#: admin/partials/constants.php:19
+msgid "Order has been transferred, all is fine"
+msgstr "Bestellung wurde transferiert, alles in Ordnung"
+
+#: admin/partials/constants.php:20
+msgid "<div title=\"%s\">There has been an error</div>"
+msgstr "<div title=\"%s\">Es ist ein Fehler aufgetreten</div>"
+
+#: admin/partials/constants.php:21
+msgid "Order is planned to be resend"
+msgstr "Bestellung ist geplant erneut gesendet zu werden"
+
+#: weslink-payjoe-opbeleg.php:49
+msgid "Settings"
+msgstr "Einstellungen"
+
+#~ msgid "deactivated"
+#~ msgstr "deaktiviert"
+
+#~ msgid "Transfer count"
+#~ msgstr "Uploadgröße"
