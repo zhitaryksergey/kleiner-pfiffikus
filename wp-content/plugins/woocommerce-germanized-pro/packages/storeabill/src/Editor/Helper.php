@@ -29,7 +29,8 @@ class Helper {
 	protected static $has_registered_assets = false;
 
 	public static function init() {
-		add_filter( 'allowed_block_types', array( __CLASS__, 'allowed_block_types' ), 10, 2 );
+		global $wp_version;
+
 		add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
 		add_filter( 'replace_editor', array( __CLASS__, 'conditionally_load_template' ), 10, 2 );
 
@@ -68,7 +69,21 @@ class Helper {
 		add_action( 'admin_init', array( __CLASS__, 'maybe_merge_template' ), 10 );
 		add_action( 'admin_init', array( __CLASS__, 'force_redirect_on_archive' ), 10 );
 
-		add_filter( 'block_categories', array( __CLASS__, 'register_category' ), 10, 2 );
+		if ( version_compare( $wp_version, '5.8.0', '>=' ) ) {
+			add_filter( 'block_categories_all', array( __CLASS__, 'register_category_all' ), 10, 2 );
+			add_filter( 'allowed_block_types_all', array( __CLASS__, 'allowed_block_types_all' ), 10, 2 );
+		} else {
+			add_filter( 'block_categories', array( __CLASS__, 'register_category' ), 10, 2 );
+			add_filter( 'allowed_block_types', array( __CLASS__, 'allowed_block_types' ), 10, 2 );
+		}
+	}
+
+	public static function register_category_all( $categories, $block_context ) {
+		if ( is_a( $block_context, 'WP_Block_Editor_Context' ) && $block_context->post ) {
+			return self::register_category( $categories, $block_context->post );
+		}
+
+		return $categories;
 	}
 
 	public static function register_category( $categories, $post ) {
@@ -855,12 +870,11 @@ class Helper {
 	 */
 	public static function prevent_theme_settings( $args, $block_editor_context ) {
 		if ( $block_editor_context->post && self::is_document_template( $block_editor_context->post ) ) {
-			unset( $args['styles'] );
 			unset( $args['colors'] );
 			unset( $args['gradients'] );
 
+			$args['styles']                 = array();
 			$args['disableCustomColors']    = false;
-
 			$args['disableCustomGradients'] = true;
 			$args['enableCustomUnits']      = false;
 			$args['supportsLayout']         = false;
@@ -1396,6 +1410,14 @@ class Helper {
 		}
 
 		return $template;
+	}
+
+	public static function allowed_block_types_all( $allowed_block_types, $block_context ) {
+		if ( is_a( $block_context, 'WP_Block_Editor_Context' ) && $block_context->post ) {
+			return self::allowed_block_types( $allowed_block_types, $block_context->post );
+		}
+
+		return $allowed_block_types;
 	}
 
 	public static function allowed_block_types( $allowed_block_types, $post ) {

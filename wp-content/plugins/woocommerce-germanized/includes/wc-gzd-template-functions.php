@@ -148,6 +148,13 @@ if ( ! function_exists( 'woocommerce_gzd_template_single_product_units' ) ) {
 	}
 }
 
+if ( ! function_exists( 'woocommerce_gzd_template_single_defect_description' ) ) {
+
+	function woocommerce_gzd_template_single_defect_description() {
+		wc_get_template( 'single-product/defect-description.php' );
+	}
+}
+
 if ( ! function_exists( 'woocommerce_gzd_template_add_more_variants_unit_price_notice' ) ) {
 
 	/**
@@ -218,6 +225,17 @@ if ( ! function_exists( 'woocommerce_gzd_template_grouped_single_product_units' 
 	}
 }
 
+if ( ! function_exists( 'woocommerce_gzd_template_grouped_single_defect_description' ) ) {
+
+	function woocommerce_gzd_template_grouped_single_defect_description( $html, $grouped_child ) {
+		ob_start();
+		wc_get_template( 'single-product/defect-description.php' );
+		$legal_html = ob_get_clean();
+
+		return $html . $legal_html;
+	}
+}
+
 if ( ! function_exists( 'woocommerce_gzd_template_small_business_info' ) ) {
 
 	/**
@@ -234,7 +252,7 @@ if ( ! function_exists( 'woocommerce_gzd_template_checkout_small_business_info' 
 	 * small business info within checkout
 	 */
 	function woocommerce_gzd_template_checkout_small_business_info() {
-		echo '<tr class="order-total"><td colspan="2">';
+		echo '<tr class="order-total order-total-small-business-notice"><td colspan="2">';
 		wc_get_template( 'global/small-business-info.php' );
 		echo '</td></tr>';
 	}
@@ -366,15 +384,20 @@ if ( ! function_exists( 'woocommerce_gzd_add_variation_options' ) ) {
 	 * Add delivery time and unit price to variations
 	 */
 	function woocommerce_gzd_add_variation_options( $options, $product, $variation ) {
-		$gzd_product = wc_gzd_get_product( $variation );
+		if ( is_array( $options ) ) {
+			$gzd_product = wc_gzd_get_product( $variation );
 
-		$options = array_merge( $options, array(
-			'delivery_time'       => $gzd_product->get_delivery_time_html(),
-			'unit_price'          => $gzd_product->get_unit_price_html(),
-			'product_units'       => $gzd_product->get_unit_product_html(),
-			'tax_info'            => $gzd_product->get_tax_info(),
-			'shipping_costs_info' => $gzd_product->get_shipping_costs_html(),
-		) );
+			do_action( 'woocommerce_gzd_before_add_variation_options', $options, $gzd_product, $product );
+
+			$options = array_merge( $options, array(
+				'delivery_time'       => $gzd_product->get_delivery_time_html(),
+				'unit_price'          => $gzd_product->get_unit_price_html(),
+				'product_units'       => $gzd_product->get_unit_product_html(),
+				'tax_info'            => $gzd_product->get_tax_info(),
+				'shipping_costs_info' => $gzd_product->get_shipping_costs_html(),
+				'defect_description'  => $gzd_product->get_formatted_defect_description(),
+			) );
+		}
 
 		return $options;
 	}
@@ -979,6 +1002,17 @@ if ( ! function_exists( 'woocommerce_gzd_template_add_price_html_suffixes' ) ) {
 
 		return $new_html;
 	}
+}
+
+function wc_gzd_body_class( $classes ) {
+	/**
+	 * Add Germanized specific body class in case the checkout is being germanized.
+	 */
+	if ( is_checkout() && ! wc_gzd_checkout_adjustments_disabled() ) {
+		$classes[] = 'woocommerce-gzd-checkout';
+	}
+
+	return $classes;
 }
 
 ?>

@@ -77,7 +77,16 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 	}
 
 	public function is_paid() {
-		return apply_filters( "{$this->get_hook_prefix()}is_paid", $this->order->is_paid(), $this->get_order() );
+		$is_paid = $this->order->is_paid();
+
+		/**
+		 * The invoice gateway does only support manual payment confirmation.
+		 */
+		if ( 'invoice' === $this->get_payment_method() ) {
+			$is_paid = false;
+		}
+
+		return apply_filters( "{$this->get_hook_prefix()}is_paid", $is_paid, $this->get_order() );
 	}
 
 	public function get_date_paid() {
@@ -406,7 +415,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 				'customer_id'            => $this->get_order()->get_customer_id(),
 				'payment_method_name'    => $this->get_order()->get_payment_method(),
 				'payment_method_title'   => $this->get_order()->get_payment_method_title(),
-				'payment_transaction_id' => $this->get_order()->get_transaction_id(),
+				'payment_transaction_id' => apply_filters( "{$this->get_hook_prefix()}transaction_id", $this->get_order()->get_transaction_id(), $this ),
 				'is_reverse_charge'      => $this->is_reverse_charge(),
 				'tax_display_mode'       => $this->get_tax_display_mode(),
 				'is_oss'                 => $this->is_oss(),
@@ -594,7 +603,7 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 
 			$invoice->calculate_totals();
 
-			if ( $this->get_order()->is_paid() ) {
+			if ( $this->is_paid() ) {
 				$invoice->set_payment_status( 'complete' );
 			}
 
@@ -985,6 +994,10 @@ class Order implements \Vendidero\StoreaBill\Interfaces\Order {
 			$status = 'pending';
 		} else {
 			$status = 'complete';
+
+			if ( in_array( $this->get_status(), array( 'cancelled', 'refunded', 'failed' ) ) ) {
+				$status = 'cancelled';
+			}
 		}
 
 		return $status;

@@ -124,7 +124,6 @@ class Enhanced_Ecommerce_Google_Analytics {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-enhanced-ecommerce-google-analytics-admin.php';
 
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-enhanced-ecommerce-google-analytics-settings.php';
         /**
           * New conversios UI file list
           */
@@ -179,13 +178,11 @@ class Enhanced_Ecommerce_Google_Analytics {
      */
     private function define_admin_hooks() {
         $plugin_admin = new Enhanced_Ecommerce_Google_Analytics_Admin( $this->get_plugin_name(), $this->get_version() );
-        //$this->loader->add_action( 'admin_menu', $plugin_admin, 'display_admin_page' );
-        // $this->loader->add_action("admin_menu", $plugin_admin, "add_new_menu");
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
         $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
         $this->loader->add_action( 'admin_notices', $plugin_admin, 'tvc_admin_notice' );
         if ( is_admin() ) {
-            new TVC_Survey( "Enhanced ecommerce google analytics plugin for woocommerce", ENHANCAD_PLUGIN_NAME );
+            new TVC_Survey( esc_html__("Enhanced ecommerce google analytics plugin for woocommerce"), ENHANCAD_PLUGIN_NAME );
         }
 
     }
@@ -217,7 +214,9 @@ class Enhanced_Ecommerce_Google_Analytics {
             if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
                 $this->loader->run();
             }else if( is_plugin_active( 'enhanced-e-commerce-for-woocommerce-store/enhanced-ecommerce-google-analytics.php' ) ){
-                printf('<div class="notice notice-error"><p>Hey, It seems WooCommerce plugin is not active on your wp-admin. Enhanced ecommerce plugin can only be activated if you have active WooCommerce plugin in your wp-admin.</p></div>');
+                if(!isset($_POST['action'])){
+                    printf('<div class="notice tvc-notice notice-error"><p>%s</p></div>',esc_html__("Hey, It seems WooCommerce plugin is not active on your wp-admin. Conversios.io - Google Analytics and Google Shopping plugin can only be activated if you have active WooCommerce plugin in your wp-admin.","conversios"));
+                }
             }
         }
     }
@@ -258,12 +257,12 @@ class Enhanced_Ecommerce_Google_Analytics {
     public function tvc_plugin_action_links($links) {
         $deactivate_link = $links['deactivate'];
         unset($links['deactivate']);
-        $setting_url = 'admin.php?page=conversios-google-analytics';
-        $links[] = '<a href="' . get_admin_url(null, $setting_url) . '">Settings</a>';
+        $setting_url = esc_url_raw('admin.php?page=conversios-google-analytics');
+        $links[] = '<a href="' . get_admin_url(null, $setting_url) . '">'.esc_html__("Settings","conversios").'</a>';
         
-        $links[] = '<a href="https://wordpress.org/plugins/enhanced-e-commerce-for-woocommerce-store/#faq" target="_blank">FAQ</a>';
-        $links[] = '<a href="https://conversios.io/help-center/Installation-Manual.pdf" target="_blank">Documentation</a>';
-        $links[] = '<a href="https://conversios.io/pricings/?utm_source=EE+Plugin+User+Interface&utm_medium=Plugins+Listing+Page+Upgrade+to+Premium&utm_campaign=Upsell+at+Conversios" target="_blank"><b>Upgrade to Premium</b></a>';
+        $links[] = '<a href="'.esc_url_raw("https://wordpress.org/plugins/enhanced-e-commerce-for-woocommerce-store/#faq").'" target="_blank">'.esc_html__("FAQ","conversios").'</a>';
+        $links[] = '<a href="'.esc_url_raw("https://conversios.io/help-center/Installation-Manual.pdf").'" target="_blank">'.esc_html__("Documentation","conversios").'</a>';
+        $links[] = '<a href="'.esc_url_raw("https://conversios.io/pricings/?utm_source=EE+Plugin+User+Interface&utm_medium=Plugins+Listing+Page+Upgrade+to+Premium&utm_campaign=Upsell+at+Conversios").'" target="_blank"><b>'.esc_html__("Upgrade to Premium","conversios").'</b></a>';
         $links['deactivate'] = $deactivate_link;
         return $links;
     }
@@ -275,7 +274,7 @@ class Enhanced_Ecommerce_Google_Analytics {
 
     public function check_dependency(){
         if ( function_exists('run_actionable_google_analytics')) {
-            _e('<div class="error"><p><strong>'. wp_sprintf( 'Note: ' ) .'</strong>'. wp_sprintf( 'It seems <strong>Actionable Google Analytics Plugin</strong> is active on your store. Kindly deactivate it in order to avoid data duplication in GA.' ) .'</p></div>');
+            printf('<div class="error"><p><strong>%s</strong>%s</p></div>', esc_html__("Note: ","conversios"),esc_html__("It seems Actionable Google Analytics Plugin is active on your store. Kindly deactivate it in order to avoid data duplication in GA.","conversios"));
             die();
         }
     }

@@ -106,7 +106,7 @@ class Subscriptions implements Compatibility {
 				$woo_order_item         = $order_item->get_object();
 				$order_items_product_id = wcs_get_canonical_product_id( $woo_order_item );
 
-				foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => 'parent' ) ) as $subscription ) {
+				foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => array( 'parent', 'renewal' ) ) ) as $subscription ) {
 					foreach ( $subscription->get_items() as $line_item ) {
 						if ( wcs_get_canonical_product_id( $line_item ) == $order_items_product_id ) {
 							$item_is_subscription = true;
@@ -139,7 +139,7 @@ class Subscriptions implements Compatibility {
 			$order_items_product_id = wcs_get_canonical_product_id( $woo_order_item );
 			$start_date             = $invoice->get_date_of_service();
 
-			foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => 'parent' ) ) as $subscription ) {
+			foreach ( wcs_get_subscriptions_for_order( $woo_order, array( 'order_type' => array( 'parent', 'renewal' ) ) ) as $subscription ) {
 				foreach ( $subscription->get_items() as $line_item ) {
 					if ( wcs_get_canonical_product_id( $line_item ) == $order_items_product_id ) {
 						if ( $end_date = self::get_subscription_date_of_service_end( $subscription, $start_date ) ) {

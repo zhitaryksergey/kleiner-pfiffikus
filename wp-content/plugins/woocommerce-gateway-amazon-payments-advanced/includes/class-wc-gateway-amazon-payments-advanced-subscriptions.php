@@ -94,6 +94,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 				'subscription_cancellation',
 				'multiple_subscriptions',
 				'subscription_payment_method_change_customer',
+				'subscription_amount_changes',
 				// TODO: Implement upgrades/downgrades.
 			)
 		);
@@ -296,7 +297,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 			if ( 1 === $subscriptions_in_cart ) {
 				$first_recurring                        = reset( WC()->cart->recurring_carts );
 				$payload['recurringMetadata']['amount'] = array(
-					'amount'       => $first_recurring->get_total( 'edit' ),
+					'amount'       => WC_Amazon_Payments_Advanced::format_amount( $first_recurring->get_total( 'edit' ) ),
 					'currencyCode' => get_woocommerce_currency(),
 				);
 			}
@@ -322,7 +323,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 			$payload['recurringMetadata'] = array(
 				'frequency' => $this->parse_interval_to_apa_frequency( $subscription->get_billing_period( 'edit' ), $subscription->get_billing_interval( 'edit' ) ),
 				'amount'    => array(
-					'amount'       => $subscription->get_total(),
+					'amount'       => WC_Amazon_Payments_Advanced::format_amount( $subscription->get_total() ),
 					'currencyCode' => wc_apa_get_order_prop( $subscription, 'order_currency' ),
 				),
 			);
@@ -346,7 +347,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 			$payload['paymentDetails']['paymentIntent'] = 'Confirm';
 			unset( $payload['paymentDetails']['canHandlePendingAuthorization'] );
 
-			$payload['paymentDetails']['chargeAmount'] = $checkout_session->recurringMetadata->amount; // phpcs:ignore WordPress.NamingConventions
+			$payload['paymentDetails']['chargeAmount'] = WC_Amazon_Payments_Advanced::format_amount( $checkout_session->recurringMetadata->amount ); // phpcs:ignore WordPress.NamingConventions
 
 			return $payload;
 		}
@@ -378,7 +379,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 
 		if ( 1 === $subscriptions_in_cart ) {
 			$payload['recurringMetadata']['amount'] = array(
-				'amount'       => $recurring_total,
+				'amount'       => WC_Amazon_Payments_Advanced::format_amount( $recurring_total ),
 				'currencyCode' => wc_apa_get_order_prop( $order, 'order_currency' ),
 			);
 		}
@@ -387,7 +388,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 			$payload['paymentDetails']['paymentIntent'] = 'Confirm';
 			unset( $payload['paymentDetails']['canHandlePendingAuthorization'] );
 
-			$payload['paymentDetails']['chargeAmount']['amount'] = $recurring_total;
+			$payload['paymentDetails']['chargeAmount']['amount'] = WC_Amazon_Payments_Advanced::format_amount( $recurring_total );
 		}
 
 		return $payload;
@@ -424,7 +425,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 
 		$recurring_total = wc_format_decimal( $recurring_total, '' );
 
-		$payload['chargeAmount']['amount'] = $recurring_total;
+		$payload['chargeAmount']['amount'] = WC_Amazon_Payments_Advanced::format_amount( $recurring_total );
 
 		return $payload;
 	}
@@ -436,7 +437,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 	 * @param  object   $response Response from the API.
 	 */
 	public function copy_meta_to_sub( $order, $response ) {
-		$version = version_compare( $order->get_meta( 'amazon_payment_advanced_version' ), '2.0.0' ) >= 0 ? 'v2' : 'v1';
+		$version = WC_Amazon_Payments_Advanced::get_order_version( $order->get_id() );
 		if ( 'v2' !== strtolower( $version ) ) {
 			return;
 		}
@@ -478,7 +479,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 	 * @return array
 	 */
 	public function copy_meta_from_sub( $meta, $order, $subscription ) {
-		$version = version_compare( $subscription->get_meta( 'amazon_payment_advanced_version' ), '2.0.0' ) >= 0 ? 'v2' : 'v1';
+		$version = WC_Amazon_Payments_Advanced::get_order_version( $subscription->get_id() );
 		if ( 'v2' !== strtolower( $version ) ) {
 			return $meta;
 		}
@@ -512,14 +513,14 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 	 *                                   the subscription was purchased in.
 	 */
 	public function scheduled_subscription_payment( $amount_to_charge, $order ) {
-		$version = version_compare( $order->get_meta( 'amazon_payment_advanced_version' ), '2.0.0' ) >= 0 ? 'v2' : 'v1';
+		$version = WC_Amazon_Payments_Advanced::get_order_version( $order->get_id() );
 		if ( 'v2' !== strtolower( $version ) ) {
 			return;
 		}
 
 		$order_id = $order->get_id();
 
-		$charge_permission_id = $order->get_meta( 'amazon_charge_permission_id' );
+		$charge_permission_id = WC_Amazon_Payments_Advanced::get_order_charge_permission( $order->get_id() );
 
 		$capture_now = true;
 		switch ( WC_Amazon_Payments_Advanced_API::get_settings( 'payment_capture' ) ) {
@@ -543,7 +544,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 				'captureNow'                    => $capture_now,
 				'canHandlePendingAuthorization' => $can_do_async,
 				'chargeAmount'                  => array(
-					'amount'       => $amount_to_charge,
+					'amount'       => WC_Amazon_Payments_Advanced::format_amount( $amount_to_charge ),
 					'currencyCode' => $currency,
 				),
 			)
@@ -569,7 +570,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 	 * @param WC_Subscription $subscription Subscription object.
 	 */
 	public function cancelled_subscription( $subscription ) {
-		$version = version_compare( $subscription->get_meta( 'amazon_payment_advanced_version' ), '2.0.0' ) >= 0 ? 'v2' : 'v1';
+		$version = WC_Amazon_Payments_Advanced::get_order_version( $subscription->get_id() );
 		if ( 'v2' !== strtolower( $version ) ) {
 			return;
 		}
@@ -584,7 +585,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 
 		$order_id = $subscription->get_id();
 
-		$charge_permission_id = $subscription->get_meta( 'amazon_charge_permission_id' );
+		$charge_permission_id = WC_Amazon_Payments_Advanced::get_order_charge_permission( $order_id );
 
 		if ( empty( $charge_permission_id ) ) {
 			unset( $subscription->handled_cancel );
@@ -672,7 +673,7 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 		if ( is_a( $rel_order, 'WC_Subscription' ) ) {
 			$rel_type = 'subscription';
 		}
-		$current_charge_permission_id = $rel_order->get_meta( 'amazon_charge_permission_id' );
+		$current_charge_permission_id = WC_Amazon_Payments_Advanced::get_order_charge_permission( $rel_order->get_id() );
 		if ( $current_charge_permission_id !== $charge_permission_id ) {
 			return;
 		}
@@ -708,14 +709,14 @@ class WC_Gateway_Amazon_Payments_Advanced_Subscriptions {
 	 *
 	 * @param  bool   $update Wether to Update.
 	 * @param  string $method New method.
-	 * @return bool|string False if the gateway shouldn't update, the gateway id if it should be updated.
+	 * @return bool   False if the gateway shouldn't update. True, otherwise.
 	 */
 	public function maybe_not_update_payment_method( $update, $method ) {
 		$id = wc_apa()->get_gateway()->id;
 		if ( $method === $id ) {
 			return false;
 		}
-		return $id;
+		return $update;
 	}
 
 	/**

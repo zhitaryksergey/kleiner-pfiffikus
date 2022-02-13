@@ -1,3 +1,4 @@
+$=jQuery;
 function loaderSection(isShow) {
   if (isShow){
     $('#loader-section').show();
@@ -32,28 +33,28 @@ function is_validate_step(step){
     var tracking_option = $('input[type=radio][name=analytic_tag_type]:checked').val();
     //console.log(tracking_option);
     if(tracking_option == "UA"){
-      web_property_id = $('#ua_web_property_id').val();
-      ua_account_id = $("#ua_web_property_id").find(':selected').data('accountid');
-      if(web_property_id == ""){        
+      web_property_id = $('#ua_web_property_id_option_val').attr("data-val");
+      ua_account_id = $("#ua_web_property_id_option_val").data('accountid');
+      if(web_property_id == undefined || web_property_id == ""){        
         msg = "Please select web property id.";        
       }else{
         is_valide = true;        
       }
     }else if(tracking_option == "GA4"){
-      web_measurement_id = $('#ga4_web_measurement_id').val();
-      ga4_account_id = $("#ga4_web_measurement_id").find(':selected').data('accountid');
-      if(web_measurement_id == ""){
+      web_measurement_id = $('#ga4_web_measurement_id_option_val').attr("data-val");
+      ga4_account_id = $("#ga4_web_measurement_id_option_val").data('accountid');
+      if(web_measurement_id == undefined || web_measurement_id == ""){
         msg = "Please select measurement id.";
       }else{
         is_valide = true;
       }
     }else{
-      web_property_id = $('#both_web_property_id').val();
-      ua_account_id = $("#both_web_property_id").find(':selected').data('accountid');
-      web_measurement_id = $('#both_web_measurement_id').val();
-      ga4_account_id = $("#both_web_measurement_id").find(':selected').data('accountid');
-
-      if(web_property_id == "" || web_measurement_id == ""){
+      web_property_id = $('#both_ua_web_property_id_option_val').attr("data-val");
+      ua_account_id = $("#both_ua_web_property_id_option_val").data('accountid');
+      web_measurement_id = $('#both_ga4_web_measurement_id_option_val').attr("data-val");
+      ga4_account_id = $("#both_ga4_web_measurement_id_option_val").data('accountid');
+      //console.log(web_property_id+"=="+web_measurement_id);
+      if((web_property_id == undefined || web_property_id == "") || (web_measurement_id == undefined || web_measurement_id == "") ){
         msg = "Please select property/measurement id.";
       }else{
         is_valide = true;
@@ -84,6 +85,51 @@ function is_validate_step(step){
 $(document).ready(function () {
   loaderSection(false);
   //step-1
+  $('.tvc-dropdown-header').click(function(event){
+    $(this).next().toggle();
+    event.stopPropagation();
+  })
+
+  $(window).click(function(){
+      $('.tvc-dropdown-content').hide();
+  })
+  $(document.body).on('click', 'option:not(.more)', function(event){
+      //alert('clicked option ' + this.innerHTML);
+
+      var option_id = $(this).parent().parent().attr("id");
+      //console.log(option_id);
+      var val = $(this).attr("value");
+      var accountid = $(this).attr("data-accountid");
+      
+      var text = $(this).html();
+      let tracking_option = $('input:radio[name=analytic_tag_type]:checked').val();
+
+      if(tracking_option == "UA" || (tracking_option == "BOTH" && option_id == "both_ua_web_property_id_option")){
+        var profileid = $(this).attr("data-profileid");
+        profileid = (profileid == undefined)?"":profileid;
+        accountid = (accountid == undefined)?"":accountid;
+        //console.log(accountid+"="+profileid);
+
+        $("#"+option_id+"_val").html(text);
+        $("#"+option_id+"_val").attr("data-accountid",accountid);
+        $("#"+option_id+"_val").attr("data-profileid",profileid);
+        $("#"+option_id+"_val").attr("data-val",val);
+
+      }else if(tracking_option == "GA4" || (tracking_option == "BOTH" && option_id == "both_ga4_web_measurement_id_option") ){
+        var name = $(this).attr("data-name");
+        name = (name == undefined)?"":name;
+        accountid = (accountid == undefined)?"":accountid;
+        $("#"+option_id+"_val").html(text);
+        $("#"+option_id+"_val").attr("data-accountid",accountid);
+        $("#"+option_id+"_val").attr("data-name",name);
+        $("#"+option_id+"_val").attr("data-val",val);
+      }
+      $(this).parent().parent().toggle();
+      validate_google_analytics_sel();
+      event.stopPropagation();
+  })
+
+
   $(".google_analytics_sel").on( "change", function() {
     is_validate_step("step_1");
     $(".onbrdstep-1").removeClass('selectedactivestep');
@@ -118,9 +164,52 @@ $(document).ready(function () {
       e.stopPropagation();
   });
 });
+function validate_google_analytics_sel(){
+  is_validate_step("step_1");
+  $(".onbrdstep-1").removeClass('selectedactivestep');
+  $(".onbrdstep-3").removeClass('selectedactivestep');
+  $(".onbrdstep-2").removeClass('selectedactivestep');
+  $("[data-id=step_1]").attr("data-is-done",0);
+  $("[data-id=step_2]").attr("data-is-done",0);
+  $("[data-id=step_3]").attr("data-is-done",0);
+}
+function is_change_analytics_account(){
+  let tracking_option = $('input[type=radio][name=analytic_tag_type]:checked').val();
+  let old_tracking_option = $('#old_tracking').attr("data-tracking_option");
+  if(tracking_option != old_tracking_option){
+    return true;
+  }else if(tracking_option == "UA"){
+    let web_property_id = $('#ua_web_property_id_option_val').attr("data-val");
+    let old_web_property_id = $('#old_tracking').attr("data-property_id");
+    if(web_property_id != old_web_property_id){
+      return true;
+    }else{
+      return false;
+    }
+  }else if(tracking_option == "GA4"){
+    let web_measurement_id = $('#ga4_web_measurement_id_option_val').attr("data-val");
+    let old_web_measurement_id = $('#old_tracking').attr("data-measurement_id");
+    if(web_measurement_id != old_web_measurement_id){
+      return true;
+    }else{
+      return false;
+    }
+  }else if(tracking_option == "BOTH"){
+    let web_property_id = $('#both_ua_web_property_id_option_val').attr("data-val");
+    let web_measurement_id = $('#both_ga4_web_measurement_id_option_val').attr("data-val");
+    let old_web_property_id = $('#old_tracking').attr("data-property_id");
+    let old_web_measurement_id = $('#old_tracking').attr("data-measurement_id");
+    if(web_measurement_id != old_web_measurement_id || web_property_id != old_web_property_id){
+      return true;
+    }else{
+      return false;
+    }
+  }
+}
 //save nalytics web properties while next button click
 function save_analytics_web_properties(tracking_option, tvc_data, subscription_id){
-  if(subscription_id != ""){
+
+  if(subscription_id != "" && is_change_analytics_account()){
     var web_measurement_id = "";
     var web_property_id = "";
     var ga4_account_id = "";
@@ -128,24 +217,24 @@ function save_analytics_web_properties(tracking_option, tvc_data, subscription_i
     var is_valide = true;
     var msg ="";
     if(tracking_option == "UA"){
-      web_property_id = $('#ua_web_property_id').val();
-      ua_account_id = $("#ua_web_property_id").find(':selected').data('accountid');
+      web_property_id = $('#ua_web_property_id_option_val').attr("data-val");
+      ua_account_id = $("#ua_web_property_id_option_val").attr('data-accountid');
       if(web_property_id == ""){
         is_valide = false;
         msg = "Please select web property id.";
       }
     }else if(tracking_option == "GA4"){
-      web_measurement_id = $('#ga4_web_measurement_id').val();
-      ga4_account_id = $("#ga4_web_measurement_id").find(':selected').data('accountid');
+      web_measurement_id = $('#ga4_web_measurement_id_option_val').attr("data-val");
+      ga4_account_id = $("#ga4_web_measurement_id_option_val").attr('data-accountid');
       if(web_measurement_id == ""){
         is_valide = false;
         msg = "Please select measurement id.";
       }
     }else{
-      web_property_id = $('#both_web_property_id').val();
-      ua_account_id = $("#both_web_property_id").find(':selected').data('accountid');
-      web_measurement_id = $('#both_web_measurement_id').val();
-      ga4_account_id = $("#both_web_measurement_id").find(':selected').data('accountid');
+      web_property_id = $('#both_ua_web_property_id_option_val').attr("data-val");
+      ua_account_id = $("#both_ua_web_property_id_option_val").attr('data-accountid');
+      web_measurement_id = $('#both_ga4_web_measurement_id_option_val').attr("data-val");
+      ga4_account_id = $("#both_ga4_web_measurement_id_option_val").attr('data-accountid');
 
       if(web_property_id == "" || web_measurement_id == ""){
         is_valide = false;
@@ -171,6 +260,7 @@ function save_analytics_web_properties(tracking_option, tvc_data, subscription_i
         tvc_data:tvc_data,
         conversios_onboarding_nonce:conversios_onboarding_nonce
       };
+      //console.log(data);
       $.ajax({
         type: "POST",
         dataType: "json",
@@ -196,7 +286,7 @@ function save_analytics_web_properties(tracking_option, tvc_data, subscription_i
       add_message("warning",msg);
       return false;
     }
-  }else{
+  }else if( subscription_id == "" ){
     add_message("warning","Missing value of subscription id.");
     return false;
   }  
@@ -225,6 +315,7 @@ function save_google_ads_data(google_ads_id, tvc_data, subscription_id, is_skip=
       beforeSend: function () {        
       },
       success: function (response) {
+        //console.log(response);
         if(response.error === false) {
           add_message("success","Google Ads successfully updated.");
           //$("#ads-account").val(google_ads_id);
@@ -233,20 +324,26 @@ function save_google_ads_data(google_ads_id, tvc_data, subscription_id, is_skip=
           if(plan_id != 1){
             check_oradd_conversion_list(google_ads_id, tvc_data);
           }
-          if ($("#link_google_analytics_with_google_ads").is(':checked')) {            
+          
+          if ($("#link_google_analytics_with_google_ads").is(':checked')) {          
             if(tracking_option == "UA" || tracking_option == "BOTH"){
+              if(tracking_option == "BOTH"){
+                s_tracking_option = "both_ua";
+              }
+              var profile_id = $("#"+s_tracking_option+"_web_property_id_option_val").attr('data-profileid');
               var UalinkData = {
                   action: "link_analytic_to_ads_account",
                   type: "UA",
                   ads_customer_id: google_ads_id,
-                  analytics_id: $("#"+s_tracking_option+"_web_property_id").find(':selected').data('accountid'),
-                  web_property_id: $("#"+s_tracking_option+"_web_property_id").val(),
-                  profile_id: $("#"+s_tracking_option+"_web_property_id").find(':selected').data('profileid'),
+                  analytics_id: $("#"+s_tracking_option+"_web_property_id_option_val").attr('data-accountid'),
+                  web_property_id: $("#"+s_tracking_option+"_web_property_id_option_val").attr("data-val"),
+                  profile_id: profile_id,
                   tvc_data:tvc_data,
                   conversios_onboarding_nonce:conversios_onboarding_nonce
               };
+              //console.log("google_ads_id"+google_ads_id+"profile_id"+profile_id);
               //console.log(UalinkData);
-              if(google_ads_id != ""){
+              if(google_ads_id != "" && profile_id != undefined){
                 setTimeout(function(){      
                   link_analytic_to_ads_account(UalinkData);
                 }, 1000); 
@@ -254,16 +351,21 @@ function save_google_ads_data(google_ads_id, tvc_data, subscription_id, is_skip=
               
             }
             if(tracking_option == "GA4" || tracking_option == "BOTH"){
+              if(tracking_option == "BOTH"){
+                s_tracking_option = "both_ga4";
+              }
+              var web_property = $("#"+s_tracking_option+"_web_measurement_id_option_val").attr('data-name');
               var Ga4linkData = {
                 action: "link_analytic_to_ads_account",
                 type: "GA4",
                 ads_customer_id: google_ads_id,
-                web_property_id: $("#"+s_tracking_option+"_web_measurement_id").val(),
-                web_property: $("#"+s_tracking_option+"_web_measurement_id").find(':selected').data('name'),
+                web_property_id: $("#"+s_tracking_option+"_web_measurement_id_option_val").attr("data-val"),
+                web_property: web_property,
                 tvc_data:tvc_data,
                 conversios_onboarding_nonce:conversios_onboarding_nonce
               };
-              if(google_ads_id != ""){
+              //console.log("web_property"+web_property);
+              if(google_ads_id != "" && web_property != undefined){
                 setTimeout(function(){
                   link_analytic_to_ads_account(Ga4linkData);
                 }, 1500); 
@@ -344,9 +446,9 @@ function save_merchant_data(google_merchant_center_id, merchant_id, tvc_data, su
 }
 
 /* get conversion list */
-function check_oradd_conversion_list(google_ads_id, google_merchant_center_id, tvc_data){
+function check_oradd_conversion_list(google_ads_id,  tvc_data){
   var conversios_onboarding_nonce = $("#conversios_onboarding_nonce").val();
-  if(google_ads_id && google_merchant_center_id){
+  if(google_ads_id ){
     var data = {
         action: "get_conversion_list",
         customer_id:google_ads_id,
@@ -390,8 +492,8 @@ function link_analytic_to_ads_account(data) {
       if(response.error === false){
         add_message("success","Google ananlytics and google ads linked successfully.");
       }else{
-        const errors = JSON.parse(response.errors[0]);
-        add_message("error",errors.message);
+        const errors = JSON.parse(response?.errors[0]);
+        add_message("error",errors?.message);
       }
     }
   });
@@ -465,44 +567,57 @@ function get_subscription_details(tvc_data, subscription_id) {
 }
 /* List function */
 //call get list propertie function base on tracking_option
-function call_list_analytics_web_properties(tracking_option, tvc_data){
+function call_list_analytics_web_properties(tracking_option, tvc_data, page =1){
   if (tracking_option == 'UA'){
-    let web_property_id_length = $('#ua_web_property_id option').length;
-    if(web_property_id_length < 2){
-      list_analytics_web_properties("UA", tvc_data);
+    let web_property_id_length = $('#ua_web_property_id_option option').length;
+    if(web_property_id_length < 2 || page != 1){
+      list_analytics_web_properties("UA", tvc_data, page);
+    }else if( page != 1){
+      list_analytics_web_properties("UA", tvc_data, page);
     }
-  }else if (tracking_option == 'GA4'){
-    let web_measurement_id_length = $('#ga4_web_measurement_id option').length;
+  }else if (tracking_option == 'GA4' ){
+    let web_measurement_id_length = $('#ga4_web_measurement_id_option option').length;
     if(web_measurement_id_length < 2){
-      list_analytics_web_properties("GA4", tvc_data);
-    }       
+      list_analytics_web_properties("GA4", tvc_data, page);
+    }else if( page != 1){
+      list_analytics_web_properties("GA4", tvc_data, page);
+    }     
   }else if (tracking_option == 'BOTH'){
-    let web_property_id_length = $('#both_web_property_id option').length;
-    let web_measurement_id_length = $('#both_web_measurement_id option').length;
-    if(web_measurement_id_length < 2 || web_property_id_length < 2){
+    let web_property_id_length = $('#both_ua_web_property_id_option option').length;
+    let web_measurement_id_length = $('#both_ga4_web_measurement_id_option option').length;
+    if(web_measurement_id_length < 2 && web_property_id_length < 2){
       list_analytics_web_properties("BOTH", tvc_data);
+    }else if(web_property_id_length < 2 ){
+      list_analytics_web_properties("UA", tvc_data);
+    }else if(web_measurement_id_length < 2 ){
+      list_analytics_web_properties("GA4", tvc_data);
     }
+
   }
 }
 // get list properties dropdown options
-function list_analytics_web_properties(type, tvc_data) {
+function list_analytics_web_properties(type, tvc_data, page =1) {
   loaderSection(true);
   var conversios_onboarding_nonce = $("#conversios_onboarding_nonce").val();
+  //console.log("page"+page);
   $.ajax({
     type: "POST",
     dataType: "json",
     url: tvc_ajax_url,
-    data: {action: "get_analytics_web_properties", type: type, tvc_data:tvc_data, conversios_onboarding_nonce:conversios_onboarding_nonce},
+    data: {action: "get_analytics_web_properties", type: type, page:page, tvc_data:tvc_data, conversios_onboarding_nonce:conversios_onboarding_nonce},
     success: function (response) {
-        console.log(response);
+        //console.log(response);
+     var s_tracking_option = type.toLowerCase()
       if (response != null && response.error == false) {
         if (type == "UA" || type == "BOTH") {
           //web_properties_dropdown
           var subscriptionPropertyId = $("#subscriptionPropertyId").val();
           var ga_view_id = $("#ga_view_id").val();
-          var PropOptions = '<option value="">Select Property Id</option>';
+          var PropOptions = '';
+          
+          //console.log("call option");
           //console.log(Object.keys(response.data.wep_properties).length +"=="+response.data.wep_properties.length);
-          if(response.data.wep_properties.length > 0){
+          if(response.data != null && response.data.wep_properties.length > 0){
             $.each(response.data.wep_properties, function (propKey, propValue) {
                 var selected ="";              
                 if (subscriptionPropertyId == propValue.webPropertyId) {
@@ -511,33 +626,46 @@ function list_analytics_web_properties(type, tvc_data) {
                   }else if(ga_view_id =="" ){
                     selected = "selected='selected'";
                   }
-                      
+                  if(type == "BOTH"){
+                    s_tracking_option = "both_ua";
+                  }
+                  $("#"+s_tracking_option+"_web_property_id_option_val").attr("data-profileid",propValue.id);                      
                 }else{
                   selected = "";
                 }
                 PropOptions = PropOptions + '<option value="' + propValue.webPropertyId + '" ' + selected + ' data-accountid="' + propValue.accountId + '" data-profileid="' + propValue.id + '"> ' + propValue.accountName + ' - ' + propValue.propertyName + ' - ' + propValue.name + ' - ' + propValue.webPropertyId +'</option>';
             });
+          }else{
+            //console.log("hide option");
+            $(".tvc-ua-option-more").hide();
           }
-          $('#ua_web_property_id').html(PropOptions);
-          $('#both_web_property_id').html(PropOptions);
+          $('#ua_web_property_id_option > .tvc-select-items').append(PropOptions);
+          $('#both_ua_web_property_id_option > .tvc-select-items').append(PropOptions);
         }
         if (type == "GA4" || type == "BOTH") {
           //web_measurement_dropdown
           var subscriptionMeasurementId = $("#subscriptionMeasurementId").val();
-          var MeasOptions = '<option value="">Select Measurement Id</option>';
-          if(response.data.wep_measurement.length > 0){
+          var MeasOptions = '';
+          if(response.data != null && response.data.wep_measurement.length > 0){
             $.each(response.data.wep_measurement, function (measKey, measValue) {
+              var web_property = measValue.name.split("/");
               if (subscriptionMeasurementId == measValue.measurementId) {
                 var selected = "selected='selected'";
+                if(type == "BOTH"){
+                  s_tracking_option = "both_ga4";
+                }
+                $("#"+s_tracking_option+"_web_measurement_id_option_val").attr('data-name',web_property[1]);
               } else {
                 var selected = "";
-              }
-              var web_property = measValue.name.split("/");
+              }              
               MeasOptions = MeasOptions + '<option value="' + measValue.measurementId + '" ' + selected + ' data-name="'+web_property[1] +'"'+ ' data-accountid="' + measValue.accountId + '"> ' + measValue.accountName + ' - ' + web_property[1] + ' - ' + measValue.measurementId + '</option>';
             });
+          }else{
+            //console.log("hide option");
+            $(".tvc-ga4-option-more").hide();
           }
-          $('#ga4_web_measurement_id').html(MeasOptions);
-          $('#both_web_measurement_id').html(MeasOptions);
+          $('#ga4_web_measurement_id_option > .tvc-select-items').append(MeasOptions);
+          $('#both_ga4_web_measurement_id_option > .tvc-select-items').append(MeasOptions);
         }
         $(".slect2bx").select2();
       }else if( response != null && response.error == true && response.errors != undefined){

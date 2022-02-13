@@ -224,11 +224,12 @@ abstract class Item extends Data {
 	}
 
 	public function get_attribute( $key ) {
-		$attributes = $this->get_attributes();
+		$attributes         = $this->get_attributes();
 		$matching_attribute = false;
+		$key                = strtolower( $key );
 
 		foreach( $attributes as $attribute ) {
-			if ( $key == $attribute->get_key() ) {
+			if ( $key == strtolower( $attribute->get_key() ) ) {
 				$matching_attribute = $attribute;
 				break;
 			}

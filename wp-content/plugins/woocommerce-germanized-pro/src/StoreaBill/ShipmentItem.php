@@ -143,8 +143,6 @@ class ShipmentItem implements SyncableReferenceItem {
 		$object->set_props( $props );
 
 		do_action( "storeabill_woo_gzd_shipment_item_synced", $this, $object, $args );
-
-		$object->set_props( $props );
 	}
 
 	public function get_meta( $key, $single = true, $context = 'view' ) {

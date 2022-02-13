@@ -1288,89 +1288,93 @@ class InvoiceController extends DocumentController {
 						),
 					),
 				),
-				'tax_totals'       => array(
-					'description' => _x( 'Tax total data.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-					'type'        => 'array',
-					'context'     => array( 'view', 'edit' ),
-					'items'       => array(
-						'type'       => 'object',
-						'properties' => array(
-							'total_net' => array(
-								'description' => _x( 'Total net.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-								'type'        => 'string',
-								'context'     => array( 'view', 'edit' ),
-								'readonly'    => true,
-							),
-							'total_tax' => array(
-								'description' => _x( 'Total tax.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-								'type'        => 'string',
-								'context'     => array( 'view', 'edit' ),
-								'readonly'    => true,
-							),
-							'tax_rate' => array(
-								'type'       => 'object',
-								'properties' => $this->get_tax_rate_property_schema(),
-								'readonly'   => true,
-							),
-							'net_totals' => array(
-								'description' => _x( 'Net totals.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-								'type'        => 'object',
-								'context'     => array( 'view', 'edit' ),
-								'readonly'    => true,
-								'properties' => array(
-									'product' => array(
-										'description' => _x( 'Product net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-									'shipping' => array(
-										'description' => _x( 'Shipping net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-									'fee' => array(
-										'description' => _x( 'Fee net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-								),
-							),
-							'tax_totals' => array(
-								'description' => _x( 'Tax totals.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-								'type'        => 'object',
-								'context'     => array( 'view', 'edit' ),
-								'readonly'    => true,
-								'properties' => array(
-									'product' => array(
-										'description' => _x( 'Product tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-									'shipping' => array(
-										'description' => _x( 'Shipping tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-									'fee' => array(
-										'description' => _x( 'Fee tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
-										'type'        => 'string',
-										'context'     => array( 'view', 'edit' ),
-										'readonly'    => true,
-									),
-								),
-							),
-						),
-					),
-				)
+				'tax_totals' => $this->get_tax_totals_schema(),
 			),
 		);
 
 		return $this->add_additional_fields_schema( $schema );
+	}
+
+	protected function get_tax_totals_schema() {
+		return array(
+			'description' => _x( 'Tax total data.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+			'type'        => 'array',
+			'context'     => array( 'view', 'edit' ),
+			'items'       => array(
+				'type'       => 'object',
+				'properties' => array(
+					'total_net' => array(
+						'description' => _x( 'Total net.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit' ),
+						'readonly'    => true,
+					),
+					'total_tax' => array(
+						'description' => _x( 'Total tax.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit' ),
+						'readonly'    => true,
+					),
+					'tax_rate' => array(
+						'type'       => 'object',
+						'properties' => $this->get_tax_rate_property_schema(),
+						'readonly'   => true,
+					),
+					'net_totals' => array(
+						'description' => _x( 'Net totals.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+						'type'        => 'object',
+						'context'     => array( 'view', 'edit' ),
+						'readonly'    => true,
+						'properties' => array(
+							'product' => array(
+								'description' => _x( 'Product net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+							'shipping' => array(
+								'description' => _x( 'Shipping net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+							'fee' => array(
+								'description' => _x( 'Fee net total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+						),
+					),
+					'tax_totals' => array(
+						'description' => _x( 'Tax totals.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+						'type'        => 'object',
+						'context'     => array( 'view', 'edit' ),
+						'readonly'    => true,
+						'properties' => array(
+							'product' => array(
+								'description' => _x( 'Product tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+							'shipping' => array(
+								'description' => _x( 'Shipping tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+							'fee' => array(
+								'description' => _x( 'Fee tax total.', 'storeabill-core', 'woocommerce-germanized-pro' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit' ),
+								'readonly'    => true,
+							),
+						),
+					),
+				),
+			),
+		);
 	}
 
 	protected function get_taxable_item_property_schema() {

@@ -23,9 +23,10 @@ class SimplePreview extends Simple implements Previewable {
 		$this->set_is_editor_preview( $args['is_editor_preview'] );
 		$this->set_date_created( time() );
 		$this->set_date_due( sab_calculate_invoice_date_due( sab_string_to_datetime( 'now' ) ) );
-		$this->set_payment_status( 'paid' );
+		$this->set_payment_status( 'complete' );
 		$this->set_date_paid( sab_string_to_datetime( 'now' ) );
 		$this->set_date_of_service( sab_string_to_datetime( 'now' ) );
+		$this->set_date_of_service_end( sab_string_to_datetime( 'now' ) );
 		$this->set_prices_include_tax( true );
 		$this->set_number( 1 );
 		$this->set_order_number( '1234' );

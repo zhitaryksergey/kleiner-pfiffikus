@@ -131,7 +131,6 @@ class WC_GZDP_Unit_Price_Helper {
 	 * @return array
 	 */
 	public function get_product_unit_price_data( $product ) {
-
 		$gzd_product = wc_gzd_get_product( $product );
 
 		$unit_data = array(

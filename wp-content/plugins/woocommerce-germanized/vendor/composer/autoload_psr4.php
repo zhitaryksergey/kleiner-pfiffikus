@@ -15,6 +15,8 @@ return array(
     'Vendidero\\Germanized\\DHL\\' => array($baseDir . '/packages/woocommerce-germanized-dhl/src'),
     'Vendidero\\Germanized\\' => array($baseDir . '/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+    'Digitick\\Sepa\\' => array($vendorDir . '/digitick/sepa-xml/src'),
+    'Defuse\\Crypto\\' => array($vendorDir . '/defuse/php-encryption/src'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'DVDoug\\BoxPacker\\Test\\' => array($vendorDir . '/dvdoug/boxpacker/tests/Test'),
     'DVDoug\\BoxPacker\\' => array($vendorDir . '/dvdoug/boxpacker/src'),

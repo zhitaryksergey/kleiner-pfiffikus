@@ -45,7 +45,7 @@ class WC_GZD_Admin {
 
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'add_legal_page_metabox' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_product_mini_desc' ) );
+		add_action( 'add_meta_boxes', array( $this, 'register_product_meta_boxes' ) );
 		add_action( 'admin_menu', array( $this, 'hide_metaboxes' ), 10 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_scripts' ) );
@@ -97,8 +97,19 @@ class WC_GZD_Admin {
 
 		add_filter( 'woocommerce_gzd_shipment_admin_provider_list', array( $this, 'maybe_register_shipping_providers' ), 10 );
 
+        // Hide custom product taxonomies from quick-edit/bulk-edit
+        add_filter( 'quick_edit_show_taxonomy', array( $this, 'hide_taxonomies_quick_edit' ), 10, 2 );
+
 		$this->wizward = require 'class-wc-gzd-admin-setup-wizard.php';
 	}
+
+    public function hide_taxonomies_quick_edit( $show_in_quick_edit, $taxonomy_name ) {
+        if ( in_array( $taxonomy_name, array( 'product_delivery_time', 'product_price_label', 'product_unit' ) ) ) {
+            return false;
+        }
+
+        return $show_in_quick_edit;
+    }
 
 	/**
 	 * @param \Vendidero\Germanized\Shipments\Interfaces\ShippingProvider $providers
@@ -508,7 +519,7 @@ class WC_GZD_Admin {
 			'title'   => 'Germanized für WooCommerce Pro',
 			'excerpt' => 'Upgrade jetzt auf die Pro Version von Germanized und profitiere von weiteren nützliche Funktionen speziell für den deutschen Markt sowie professionellem Support.',
 			'link'    => 'https://vendidero.de/woocommerce-germanized#upgrade',
-			'price'   => '69 €',
+			'price'   => '79 €',
 		) );
 
 		return $products;
@@ -533,8 +544,20 @@ class WC_GZD_Admin {
 			'woocommerce-gzd-admin'
 		), WC_GERMANIZED_VERSION );
 
-		wp_register_script( 'wc-gzd-admin-product-variations', $admin_script_path . 'product-variations' . $suffix . '.js', array( 'wc-admin-variation-meta-boxes' ), WC_GERMANIZED_VERSION );
-		wp_register_script( 'wc-gzd-admin-legal-checkboxes', $admin_script_path . 'legal-checkboxes' . $suffix . '.js', array(
+		wp_register_script( 'wc-gzd-admin-product', $admin_script_path . 'product' . $suffix . '.js', array( 'wc-admin-product-meta-boxes', 'media-models' ), WC_GERMANIZED_VERSION );
+
+		wp_register_script( 'wc-gzd-admin-product-variations', $admin_script_path . 'product-variations' . $suffix . '.js', array( 'wc-gzd-admin-product', 'wc-admin-variation-meta-boxes' ), WC_GERMANIZED_VERSION );
+
+		wp_localize_script(
+			'wc-gzd-admin-product-variations',
+			'wc_gzd_admin_product_variations_params',
+			array(
+				'i18n_set_delivery_time' => __( 'Insert delivery time name, slug or id.', 'woocommerce-germanized' ),
+				'i18n_set_product_unit'  => __( 'Insert product units amount.', 'woocommerce-germanized' )
+			)
+		);
+
+        wp_register_script( 'wc-gzd-admin-legal-checkboxes', $admin_script_path . 'legal-checkboxes' . $suffix . '.js', array(
 			'jquery',
 			'wp-util',
 			'underscore',
@@ -558,6 +581,7 @@ class WC_GZD_Admin {
 		);
 
 		if ( in_array( $screen->id, array( 'product', 'edit-product' ) ) ) {
+			wp_enqueue_script( 'wc-gzd-admin-product' );
 			wp_enqueue_script( 'wc-gzd-admin-product-variations' );
 		}
 
@@ -602,17 +626,22 @@ class WC_GZD_Admin {
 		) );
 	}
 
-	public function add_product_mini_desc() {
+	public function register_product_meta_boxes() {
 		global $post;
 
-		if ( is_object( $post ) && $post->post_type === 'product' ) {
+		if ( is_object( $post ) && 'product' === $post->post_type ) {
 			$product = wc_get_product( $post );
 
 			if ( $product && ( ! $product->is_type( 'variable' ) ) ) {
-				add_meta_box( 'wc-gzd-product-mini-desc', __( 'Optional Mini Description', 'woocommerce-germanized' ), array(
+				add_meta_box( 'wc-gzd-product-mini-desc', __( 'Cart description', 'woocommerce-germanized' ), array(
 					$this,
 					'init_product_mini_desc'
 				), 'product', 'advanced', 'high' );
+
+                add_meta_box( 'wc-gzd-product-defect-description', __( 'Defect description', 'woocommerce-germanized' ), array(
+                    $this,
+                    'init_product_defect_description'
+                ), 'product', 'advanced', 'high' );
 			}
 		}
 	}
@@ -639,6 +668,16 @@ class WC_GZD_Admin {
 			'media_buttons' => false
 		) );
 	}
+
+    public function init_product_defect_description( $post ) {
+	    echo '<p class="small">' . __( 'Inform your customers about product defects. This description will be shown on top of your product description and during cart/checkout.', 'woocommerce-germanized' ) . '</p>';
+
+	    wp_editor( htmlspecialchars_decode( get_post_meta( $post->ID, '_defect_description', true ) ), 'wc_gzd_product_defect_description', array(
+		    'textarea_name' => '_defect_description',
+		    'textarea_rows' => 5,
+		    'media_buttons' => false
+	    ) );
+    }
 
 	public function check_language_install() {
 		if ( current_user_can( 'manage_woocommerce' ) && isset( $_GET['install-language'] ) && isset( $_GET['_wpnonce'] ) && check_admin_referer( 'wc-gzd-install-language' ) ) {
@@ -718,7 +757,6 @@ class WC_GZD_Admin {
 	}
 
 	public function get_complaints_shortcode_pages() {
-
 		$pages = array(
 			'imprint' => wc_get_page_id( 'imprint' ),
 		);
@@ -751,18 +789,15 @@ class WC_GZD_Admin {
 
 	public function check_complaints_shortcode_append() {
 		if ( current_user_can( 'manage_woocommerce' ) && isset( $_GET['complaints'] ) && 'add' === $_GET['complaints'] && isset( $_GET['_wpnonce'] ) && check_admin_referer( 'append-complaints-shortcode' ) ) {
-
 			$pages = $this->get_complaints_shortcode_pages();
 
 			foreach ( $pages as $page_name => $page_id ) {
-
 				if ( $page_id != 1 ) {
 					$this->insert_complaints_shortcode( $page_id );
 				}
 			}
 
-			// Redirect to check for updates
-			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=germanized' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings&tab=germanized-general&section=disputes' ) );
 		}
 	}
 
@@ -781,12 +816,22 @@ class WC_GZD_Admin {
 		}
 
 		$page = get_post( $page_id );
-		wp_update_post(
-			array(
-				'ID'           => $page_id,
-				'post_content' => $page->post_content . "\n[gzd_complaints]",
-			)
-		);
+
+        if ( function_exists( 'has_blocks' ) && has_blocks( $page_id ) ) {
+	        wp_update_post(
+		        array(
+			        'ID'           => $page_id,
+			        'post_content' => $page->post_content . "\n" . "<!-- wp:shortcode -->\n" . " [gzd_complaints] " . "\n  <!-- /wp:shortcode -->",
+		        )
+	        );
+        } else {
+	        wp_update_post(
+		        array(
+			        'ID'           => $page_id,
+			        'post_content' => $page->post_content . "\n[gzd_complaints]",
+		        )
+	        );
+        }
 	}
 
 	public function check_encryption_key_insert() {

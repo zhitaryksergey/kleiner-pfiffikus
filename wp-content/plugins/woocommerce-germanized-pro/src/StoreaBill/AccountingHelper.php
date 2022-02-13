@@ -120,7 +120,29 @@ class AccountingHelper {
 
 		add_filter( 'storeabill_woo_order_item_after_retrieve_attributes', array( __CLASS__, 'remove_tm_admin_filter' ), 20 );
 		add_filter( 'storeabill_woo_shipment_item_after_retrieve_attributes', array( __CLASS__, 'remove_tm_admin_filter' ), 20 );
+
+        add_filter( 'woocommerce_gzd_product_warranties_email_product_ids', array( __CLASS__, 'warranties_product_ids' ), 10, 3 );
 	}
+
+    public static function warranties_product_ids( $product_ids, $object, $mail_id ) {
+        if ( is_a( $object, '\Vendidero\StoreaBill\Invoice\Invoice' ) ) {
+            $product_ids = array();
+
+            foreach( $object->get_items( 'product' ) as $product ) {
+                $product_ids[] = $product->get_product_id();
+            }
+        } elseif ( is_a( $object, '\Vendidero\Germanized\Pro\StoreaBill\PackingSlip' ) ) {
+	        $product_ids = array();
+
+            foreach( $object->get_items( 'product' ) as $product ) {
+                if ( $instance = $product->get_product() ) {
+                    $product_ids[] = $instance->get_id();
+                }
+            }
+        }
+
+        return $product_ids;
+    }
 
 	public static function set_tm_admin_filter() {
 	    if ( apply_filters( 'woocommerce_gzdp_suppress_epo_admin_filter', true ) ) {
@@ -625,7 +647,7 @@ class AccountingHelper {
 		$product_units   = '';
 
 		if ( $item ) {
-			$unit_price      = wc_gzd_format_unit_price( $preview->get_formatted_price( $item->get_price_subtotal() ), wc_gzd_format_unit( _x( 'kg', 'unit', 'woocommerce-germanized-pro' ) ), wc_gzd_format_unit_base( 1 ) );
+			$unit_price = wc_gzd_format_unit_price( $preview->get_formatted_price( $item->get_price_subtotal() ), wc_gzd_format_unit( _x( 'kg', 'unit', 'woocommerce-germanized-pro' ) ), wc_gzd_format_unit_base( 1 ) );
 
 			if ( is_callable( array( $item, 'get_price_subtotal_net' ) ) ) {
 				$unit_price_excl = wc_gzd_format_unit_price( $preview->get_formatted_price( $item->get_price_subtotal_net() ), wc_gzd_format_unit( _x( 'kg', 'unit', 'woocommerce-germanized-pro' ) ), wc_gzd_format_unit_base( 1 ) );

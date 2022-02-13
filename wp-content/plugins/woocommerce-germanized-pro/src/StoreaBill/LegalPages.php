@@ -367,7 +367,14 @@ class LegalPages {
 	}
 
 	public static function get_legal_page_ids( $ignore_empty = true ) {
-		$pages = wc_gzd_get_email_attachment_order();
+		try {
+			$func = new \ReflectionFunction( 'wc_gzd_get_email_attachment_order' );
+			$num  = $func->getNumberOfParameters();
+		} catch( \Exception $e ) {
+			$num = 0;
+		}
+
+		$pages = $num >= 1 ? wc_gzd_get_email_attachment_order( true ) : wc_gzd_get_email_attachment_order();
 		$ids   = array();
 
 		foreach ( $pages as $page => $title ) {

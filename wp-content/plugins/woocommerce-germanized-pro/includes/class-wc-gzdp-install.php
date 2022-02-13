@@ -101,6 +101,10 @@ class WC_GZDP_Install {
 	 * Install WC_Germanized
 	 */
 	public static function install() {
+		if ( ! function_exists( 'WC' ) ) {
+			wp_die( sprintf( __( 'Please install and activate <a href="%s" target="_blank">WooCommerce</a> before installing Germanized Pro. Thank you!', 'woocommerce-germanized-pro' ), 'http://wordpress.org/plugins/woocommerce/' ) );
+		}
+
 		self::create_capabilities();
 		self::create_cron_jobs();
 		self::install_packages();
@@ -489,11 +493,28 @@ class WC_GZDP_Install {
 			self::upgrade_3_0_0();
 		} elseif( version_compare( $current_db_version, '3.2.2', '<' ) ) {
 			self::upgrade_3_2_2();
+		} elseif( version_compare( $current_db_version, '3.4.0', '<' ) ) {
+			self::upgrade_3_4_0();
 		}
 	}
 
 	protected static function upgrade_3_2_2() {
 	    update_option( 'woocommerce_gzdp_checkout_layout_style', 'navigation' );
+	}
+
+	protected static function upgrade_3_4_0() {
+		if ( \Vendidero\Germanized\DPD\Package::has_dependencies() && \Vendidero\Germanized\DPD\Package::is_dpd_enabled() && ( $provider = \Vendidero\Germanized\DPD\Package::get_dpd_shipping_provider() ) ) {
+            $username = \Vendidero\Germanized\DPD\Package::get_api_username();
+            $password = \Vendidero\Germanized\DPD\Package::get_api_password();
+
+			/**
+			 * If the DPD web connect API has already been in use make sure to switch the default API type back to web_connect.
+			 */
+            if ( ! empty( $username ) && ! empty( $password ) ) {
+                $provider->update_setting( 'api_type', 'web_connect' );
+                $provider->save();
+            }
+		}
 	}
 
 	protected static function upgrade_3_0_0() {

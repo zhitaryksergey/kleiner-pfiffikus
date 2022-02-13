@@ -55,7 +55,7 @@ class WC_GZDP_VAT_Validation_Switzerland {
 					$this->valid = true;
 
 				} else {
-					$instance->log( sprintf( 'VAT is invalid: %s', $args['countryCode'] . $args['vatNumber'] ), 'info', 'vat-validation' );
+					$instance->log( sprintf( 'VAT is invalid: %s', $args['vatNumber'] ), 'info', 'vat-validation' );
 
 					$this->valid = false;
 					$this->data = array();

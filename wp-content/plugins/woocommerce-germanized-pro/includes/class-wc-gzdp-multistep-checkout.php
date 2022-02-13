@@ -91,7 +91,7 @@ class WC_GZDP_Multistep_Checkout {
 	}
 
 	public function maybe_insert_privacy_checkbox( $step ) {
-		if ( ! is_ajax() && 'address' === $step->get_id() ) {
+		if ( ! wp_doing_ajax() && 'address' === $step->get_id() ) {
 		    wc_get_template( 'checkout/multistep/privacy.php' );
 		}
 	}
@@ -330,8 +330,11 @@ class WC_GZDP_Multistep_Checkout {
 					'mollie_wc_gateway_creditcard',
 					'payone',
 					'stripe_cc',
+					'stripe_eps',
 					'stripe',
 					'stripe_sepa',
+					'stripe_sofort',
+					'stripe_klarna',
 					'woocommerce_payments'
 				) ),
 				'force_enable' => has_filter( 'woocommerce_gzdp_multistep_checkout_enable_payment_compatibility_mode' ) ? true : false
@@ -866,6 +869,16 @@ class WC_GZDP_Multistep_Checkout {
 		$address = apply_filters( 'woocommerce_gzdp_checkout_billing_address_data', $this->get_address_data( 'billing' ), $this );
 
 		return apply_filters( 'woocommerce_gzdp_checkout_formatted_billing_address', WC()->countries->get_formatted_address( $address ), $address );
+	}
+
+	public function supports_shipping_address() {
+		if ( $cart = WC()->cart ) {
+			if ( $cart->needs_shipping() || $cart->needs_shipping_address() ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function get_formatted_shipping_address() {

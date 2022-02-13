@@ -83,6 +83,7 @@ class Shipment implements SyncableReference {
 					$is_new        = true;
 				}
 
+				$document_item->set_document( $packing_slip );
 				$shipment_item->sync( $document_item );
 
 				if ( $is_new ) {

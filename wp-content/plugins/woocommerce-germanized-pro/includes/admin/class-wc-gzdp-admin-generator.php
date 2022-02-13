@@ -378,9 +378,19 @@ class WC_GZDP_Admin_Generator {
 		if ( get_option( 'woocommerce_gzd_default_delivery_time' ) ) {
 		    $delivery_time_term_slug = get_option( 'woocommerce_gzd_default_delivery_time' );
 
-		    if ( $term = get_term_by( 'id', $delivery_time_term_slug, 'product_delivery_time' ) ) {
-		        $return['default_delivery_time_text'] = $term->name;
-		    }
+			if ( is_numeric( $delivery_time_term_slug ) ) {
+				$term = get_term_by( 'id', $delivery_time_term_slug, 'product_delivery_time' );
+			} else {
+				$term = get_term_by( 'slug', $delivery_time_term_slug, 'product_delivery_time' );
+			}
+
+			if ( is_array( $term ) ) {
+				$term = $term[0];
+			}
+
+			if ( $term && ! is_wp_error( $term ) ) {
+				$return['default_delivery_time_text'] = $term->name;
+			}
         }
 
 		return apply_filters( 'woocommerce_gzdp_generator_settings', $return, $like, $keys );

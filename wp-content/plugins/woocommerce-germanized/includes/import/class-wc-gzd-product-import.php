@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 class WC_GZD_Product_Import {
 
 	public $columns = array();
@@ -41,10 +43,17 @@ class WC_GZD_Product_Import {
 	}
 
 	public function init() {
-		add_filter( 'woocommerce_csv_product_import_mapping_options', array( $this, 'set_columns' ) );
-		add_filter( 'woocommerce_csv_product_import_mapping_default_columns', array( $this, 'set_mappings' ) );
+		add_filter( 'woocommerce_csv_product_import_mapping_options', array( $this, 'set_columns' ), 10, 2 );
+		add_filter( 'woocommerce_csv_product_import_mapping_default_columns', array( $this, 'set_mappings' ), 10 );
+		add_filter( 'woocommerce_csv_product_import_mapping_special_columns', array( $this, 'set_special_columns' ), 10 );
 		add_filter( 'woocommerce_product_import_pre_insert_product_object', array( $this, 'import' ), 10, 2 );
 		add_filter( 'woocommerce_product_importer_parsed_data', array( $this, 'parse_data' ), 10, 1 );
+	}
+
+	public function set_special_columns( $columns ) {
+		$columns[ __( 'Delivery Time: %s', 'woocommerce-germanized' ) ] = 'delivery_time:';
+
+		return $columns;
 	}
 
 	public function get_formatting_callbacks() {
@@ -60,18 +69,23 @@ class WC_GZD_Product_Import {
 		 */
 		return apply_filters( 'woocommerce_gzd_product_import_formatting_callbacks', array(
 			'mini_desc'                => 'wp_filter_post_kses',
+			'defect_description'       => 'wp_filter_post_kses',
 			'unit_price_regular'       => 'wc_format_decimal',
 			'unit_price_sale'          => 'wc_format_decimal',
 			'unit_base'                => 'wc_format_decimal',
 			'unit_product'             => 'wc_format_decimal',
 			'unit_price_auto'          => array( $this, 'parse_bool_str' ),
 			'service'                  => array( $this, 'parse_bool_str' ),
+			'used_good'                => array( $this, 'parse_bool_str' ),
+			'defective_copy'           => array( $this, 'parse_bool_str' ),
 			'differential_taxation'    => array( $this, 'parse_bool_str' ),
 			'free_shipping'            => array( $this, 'parse_bool_str' ),
 			'delivery_time'            => array( $this, 'parse_delivery_time' ),
+			'min_age'                  => array( $this, 'parse_min_age' ),
 			'sale_price_label'         => array( $this, 'parse_sale_price_label' ),
 			'sale_price_regular_label' => array( $this, 'parse_sale_price_label' ),
 			'unit'                     => array( $this, 'parse_unit' ),
+			'warranty_attachment_id'   => 'absint',
 		) );
 	}
 
@@ -91,15 +105,42 @@ class WC_GZD_Product_Import {
 			}
 		}
 
+		$country_specific_delivery_times = array();
+
+		foreach( $data as $key => $value ) {
+			if ( $this->starts_with( $key, 'delivery_time:' ) ) {
+				$country = str_replace( 'delivery_time:', '', $key );
+
+				$country_specific_delivery_times[ $country ] = $this->parse_delivery_time( $value );
+
+				unset( $data[ $key ] );
+			}
+		}
+
+		if ( ! empty( $country_specific_delivery_times ) ) {
+			$data['country_specific_delivery_times'] = $country_specific_delivery_times;
+		}
+
 		return $data;
 	}
 
-	public function set_columns( $columns ) {
-		return array_merge( $columns, $this->get_columns() );
+	protected function starts_with( $haystack, $needle ) {
+		return substr( $haystack, 0, strlen( $needle ) ) === $needle;
+	}
+
+	public function set_columns( $columns, $item ) {
+		$columns = array_merge( $columns, $this->get_columns() );
+		$country = str_replace( 'delivery_time:', '', $item );
+
+		$columns['delivery_time:' . $country] = __( 'Country specific delivery times', 'woocommerce-germanized' );
+
+		return $columns;
 	}
 
 	public function set_mappings( $columns ) {
-		return array_merge( $columns, array_flip( $this->get_columns() ) );
+		$columns = array_merge( $columns, array_flip( $this->get_columns() ) );
+
+		return $columns;
 	}
 
 	/**
@@ -109,10 +150,11 @@ class WC_GZD_Product_Import {
 	 * @return mixed|void
 	 */
 	public function import( $product, $data ) {
-		$formattings = $this->get_formatting_callbacks();
-		$gzd_product = wc_gzd_get_product( $product );
+		$formattings  = $this->get_formatting_callbacks();
+		$gzd_product  = wc_gzd_get_product( $product );
+		$column_names = array_merge( $this->get_columns(), array( 'country_specific_delivery_times' => '' ) );
 
-		foreach ( $this->get_columns() as $column_name => $column ) {
+		foreach ( array_keys( $column_names ) as $column_name ) {
 			if ( isset( $data[ $column_name ] ) ) {
 				$value = $data[ $column_name ];
 
@@ -174,6 +216,14 @@ class WC_GZD_Product_Import {
 		return $this->parse_term( $name, 'product_delivery_time' );
 	}
 
+	public function parse_min_age( $min_age ) {
+		if ( array_key_exists( (int) $min_age, wc_gzd_get_age_verification_min_ages() ) ) {
+			return (int) $min_age;
+		}
+
+		return '';
+	}
+
 	public function parse_term( $name, $taxonomy, $output = 'term_id' ) {
 		$term = get_term_by( 'name', $name, $taxonomy );
 
@@ -191,11 +241,19 @@ class WC_GZD_Product_Import {
 	 * @return mixed
 	 */
 	public function set_column_value_delivery_time( $product, $value ) {
-		if ( ! empty( $value ) ) {
-			$product->update_meta_data( "_product_delivery_time", $value );
-		} else {
-			$product->update_meta_data( "_delete_product_delivery_time", "yes" );
-		}
+		wc_gzd_get_gzd_product( $product )->set_default_delivery_time_slug( $value );
+
+		return $product;
+	}
+
+	/**
+	 * @param WC_Product $product
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public function set_column_value_country_specific_delivery_times( $product, $value ) {
+		wc_gzd_get_gzd_product( $product )->set_country_specific_delivery_times( $value );
 
 		return $product;
 	}

@@ -255,6 +255,7 @@ class Upgrade
                 'scrollHeight' => 500,
                 'isShowScroll' => 'OFF',
                 'isShowResponseText' => 'ON',
+                'isShowPoweredBy' => 'ON',
 
                 'btnLabel' => $old_option['widget_label'],
                 'btnLabelWidth' => 156,

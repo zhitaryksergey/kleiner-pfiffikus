@@ -100,6 +100,13 @@ class WooSEA_Activation {
 					"taxonomy" => "google_shopping",
 					"utm_source" => "snapchat",
 					"type" => "Advertising" ),
+	     	 		"TikTok Product Catalog" => array (
+                        		"channel_hash" => md5("TikTok Product Catalog"),
+					"name" => "TikTok Product Catalog",
+					"fields" => "tiktok",
+					"taxonomy" => "google_shopping",
+					"utm_source" => "tiktok",
+					"type" => "Advertising" ),
 				"Vivino" => array (
                         		"channel_hash" => md5("Vivino"),
 					"name" => "Vivino",
@@ -621,6 +628,7 @@ class WooSEA_Activation {
 					"utm_source" => "Webmarchand.com",
                         		"type" => "Comparison shopping engine" ),
 				),
+			"French Guiana" => array (),	
 			"Gabon" => array (),
 			"Gambia" => array (),
 			"Georgia" => array (),
@@ -646,7 +654,14 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "AdRoll.de",
                         		"type" => "Advertising" ),
-            			"Smartly.io" => array (
+                                "ElCheapo.de" => array (
+                                        "channel_hash" => md5("ElCheapo.de"),
+                                        "name" => "ElCheapo.de",
+                                        "fields" => "vergelijknl",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "ElCheapo.de",
+                                        "type" => "Comparison shopping engine" ),
+				"Smartly.io" => array (
                         		"channel_hash" => md5("Smartly.io"),
                         		"name" => "Smartly.io",
 					"fields" => "customfeed",
@@ -793,6 +808,13 @@ class WooSEA_Activation {
 					"taxonomy" => "none",
 					"utm_source" => "Medizinfuchs.de",
                         		"type" => "Comparison shopping engine" ),
+		               	"Miinto.de" => array (
+                                        "channel_hash" => md5("Miinto.de"),
+                                        "name" => "Miinto.de",
+                                        "fields" => "miinto_de",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Miinto.de",
+                                        "type" => "Comparison shopping engine" ),	
 				"Moebel.de" => array (
                         		"channel_hash" => md5("Moebel.de"),
                         		"name" => "Moebel.de",
@@ -931,6 +953,7 @@ class WooSEA_Activation {
                         		"type" => "Comparison shopping engine" ),
  				),
 			"Grenada" => array (),
+			"Guadeloupe" => array (),
 			"Guatemala" => array (),
 			"Guinea" => array (),
 			"Guinea-Bissau" => array (),
@@ -1081,6 +1104,7 @@ class WooSEA_Activation {
 			"Mali" => array (),
 			"Malta" => array (),
 			"Marshall Islands" => array (),
+			"Martinique" => array (),
 			"Mauritania" => array (),
 			"Mauritius" => array (),
   		        "Mexico" => array (
@@ -1328,7 +1352,8 @@ class WooSEA_Activation {
                         		"type" => "Comparison shopping engine" ),
  			),
 			"Qatar" => array (),
-  		        "Romania" => array (
+			"Reunion" => array (),
+			"Romania" => array (
                 		"Okazzi" => array (
                         		"channel_hash" => md5("Okazzi.ro"),
                         		"name" => "Okazzi.ro",
@@ -1395,7 +1420,21 @@ class WooSEA_Activation {
                                         "fields" => "heureka",
                                         "taxonomy" => "none",
                                         "utm_source" => "Heureka.sk",
-                                        "type" => "Marketplace" ),
+					"type" => "Marketplace" ),
+			   	"Mall.sk availability" => array (
+                                        "channel_hash" => md5("Mall.sk availability"),
+                                        "name" => "Mall.sk availability",
+                                        "fields" => "mall_availability",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Mall.sk availability",
+					"type" => "Marketplace" ),
+			   	"Mall.sk main feed" => array (
+                                        "channel_hash" => md5("Mall.sk"),
+                                        "name" => "Mall.sk",
+                                        "fields" => "mall",
+                                        "taxonomy" => "none",
+                                        "utm_source" => "Mall.sk",
+					"type" => "Marketplace" ),
 			),
 			"Slovenia" => array (),
 			"Solomon Islands" => array (),

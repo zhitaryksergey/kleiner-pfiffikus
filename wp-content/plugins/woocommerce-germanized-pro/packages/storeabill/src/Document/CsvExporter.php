@@ -116,11 +116,11 @@ abstract class CsvExporter extends \WC_CSV_Batch_Exporter implements Exporter {
 		);
 
 		if ( $start_date = $this->get_start_date() ) {
-			$query_args['after'] = $start_date->format( 'Y-m-d' );
+			$query_args['after'] = $this->get_gm_date( $start_date );
 		}
 
 		if ( $end_date = $this->get_end_date() ) {
-			$query_args['before'] = $end_date->format( 'Y-m-d' );
+			$query_args['before'] = $this->get_gm_date( $end_date );
 		}
 
 		$query_args = array_replace( $query_args, $this->get_additional_query_args() );

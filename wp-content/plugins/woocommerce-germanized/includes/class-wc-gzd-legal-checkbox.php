@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 class WC_GZD_Legal_Checkbox {
 
 	private $id = '';
@@ -52,7 +54,7 @@ class WC_GZD_Legal_Checkbox {
 	public function update( $args = array() ) {
 
 		// Merge html classes to avoid core classes being overriden by empty option
-		$merge = array( 'html_classes', 'html_wrapper_classes' );
+		$merge = array( 'html_classes', 'html_wrapper_classes', 'label_args' );
 
 		foreach ( $merge as $merge_key ) {
 			if ( isset( $args[ $merge_key ] ) ) {

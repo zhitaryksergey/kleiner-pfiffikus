@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8bfb12470f206f0e001f0f796e483442
+class ComposerStaticInit5e65e593b1f19f655df5439e3ecd3ec5
 {
     public static $prefixLengthsPsr4 = array (
         'V' => 
@@ -29,16 +29,21 @@ class ComposerStaticInit8bfb12470f206f0e001f0f796e483442
     );
 
     public static $classMap = array (
+        'Automattic\\Jetpack\\Autoloader\\AutoloadFileWriter' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/AutoloadFileWriter.php',
         'Automattic\\Jetpack\\Autoloader\\AutoloadGenerator' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/AutoloadGenerator.php',
+        'Automattic\\Jetpack\\Autoloader\\AutoloadProcessor' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/AutoloadProcessor.php',
+        'Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/CustomAutoloaderPlugin.php',
+        'Automattic\\Jetpack\\Autoloader\\ManifestGenerator' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/ManifestGenerator.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Vendidero\\TrustedShops\\Package' => __DIR__ . '/../..' . '/src/Package.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit8bfb12470f206f0e001f0f796e483442::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit8bfb12470f206f0e001f0f796e483442::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit8bfb12470f206f0e001f0f796e483442::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5e65e593b1f19f655df5439e3ecd3ec5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5e65e593b1f19f655df5439e3ecd3ec5::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit5e65e593b1f19f655df5439e3ecd3ec5::$classMap;
 
         }, null, ClassLoader::class);
     }

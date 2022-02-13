@@ -62,7 +62,7 @@ function wc_gzd_get_product( $product ) {
  */
 function wc_gzd_get_gzd_product( $product ) {
 
-	if ( is_numeric( $product ) ) {
+	if ( is_numeric( $product ) || is_a( $product, 'WP_Post' ) ) {
 		$product = wc_get_product( $product );
 	} elseif ( is_a( $product, 'WC_GZD_Product' ) ) {
 		return $product;
@@ -191,6 +191,10 @@ function wc_gzd_product_matches_extended_type( $types, $product ) {
 		foreach ( $types as $type ) {
 			if ( 'service' === $type ) {
 				$matches_type = wc_gzd_get_product( $product )->is_service();
+			} elseif ( 'used_good' === $type ) {
+				$matches_type = wc_gzd_get_product( $product )->is_used_good();
+			} elseif ( 'defective_copy' === $type ) {
+				$matches_type = wc_gzd_get_product( $product )->is_defective_copy();
 			} else {
 				$getter = "is_" . $type;
 				try {
@@ -234,7 +238,6 @@ function wc_gzd_product_matches_extended_type( $types, $product ) {
  * @return array|mixed|void
  */
 function wc_gzd_recalculate_unit_price( $args = array(), $product = false ) {
-
 	$default_args = array(
 		'regular_price' => 0,
 		'sale_price'    => 0,
@@ -267,6 +270,16 @@ function wc_gzd_recalculate_unit_price( $args = array(), $product = false ) {
 			$default_args['regular_price'] = wc_get_price_excluding_tax( $wc_product, array( 'price' => $default_args['regular_price'] ) );
 			$default_args['sale_price']    = wc_get_price_excluding_tax( $wc_product, array( 'price' => $default_args['sale_price'] ) );
 			$default_args['price']         = wc_get_price_excluding_tax( $wc_product, array( 'price' => $default_args['price'] ) );
+		}
+	} else {
+		if ( ! isset( $args['price'] ) && isset( $args['regular_price'] ) ) {
+			$args['price'] = $args['regular_price'];
+		} elseif ( ! isset( $args['regular_price'] ) ) {
+			$args['regular_price'] = $args['price'];
+		}
+
+		if ( ! isset( $args['sale_price'] ) ) {
+			$args['sale_price'] = $args['regular_price'];
 		}
 	}
 
@@ -323,4 +336,54 @@ function wc_gzd_recalculate_unit_price( $args = array(), $product = false ) {
 	 *
 	 */
 	return apply_filters( 'woocommerce_gzd_recalculated_unit_prices', $prices, $product, $args );
+}
+
+/**
+ * @param $maybe_slug
+ *
+ * @return array|string|boolean
+ */
+function wc_gzd_get_valid_product_delivery_time_slugs( $maybe_slug, $allow_add_new = true ) {
+	if ( is_array( $maybe_slug ) ) {
+		return array_filter( array_map( function( $maybe_slug ) use ( $allow_add_new ) {
+			return wc_gzd_get_valid_product_delivery_time_slugs( $maybe_slug, $allow_add_new );
+		}, $maybe_slug ), function( $x ) {
+			return false !== $x;
+		} );
+	} else {
+		$slug = false;
+
+		if ( is_a( $maybe_slug, 'WP_Term' ) ) {
+			$slug = $maybe_slug->slug;
+		} elseif ( is_numeric( $maybe_slug ) ) {
+			$term = get_term_by( 'term_id', $maybe_slug, 'product_delivery_time' );
+
+			if ( $term ) {
+				$slug = $term->slug;
+			}
+		}
+
+		if ( ! $slug ) {
+			$possible_name = $maybe_slug;
+			$term          = get_term_by( 'slug', sanitize_title( $possible_name ), 'product_delivery_time' );
+
+			if ( ! $term ) {
+				$slug = false;
+
+				if ( $allow_add_new ) {
+					$term_details = wp_insert_term( $possible_name, 'product_delivery_time' );
+
+					if ( ! is_wp_error( $term_details ) ) {
+						if ( $term = get_term_by( 'id', $term_details['term_id'], 'product_delivery_time' ) ) {
+							$slug = $term->slug;
+						}
+					}
+				}
+ 			} else {
+				$slug = $term->slug;
+			}
+		}
+
+		return $slug;
+	}
 }

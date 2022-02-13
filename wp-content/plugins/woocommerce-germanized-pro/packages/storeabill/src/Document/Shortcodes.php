@@ -40,6 +40,7 @@ class Shortcodes implements ShortcodeHandleable {
 			'document_total'                  => array( $this, 'document_total_data' ),
 			'setting'                         => array( $this, 'setting_data' ),
 			'if_document'                     => array( $this, 'if_document_data' ),
+			'if_customer'                     => array( $this, 'if_customer_data' ),
 			'if_document_reference'           => array( $this, 'if_document_reference_data' ),
 			'if_document_item'                => array( $this, 'if_document_item_data' ),
 			'if_document_item_reference'      => array( $this, 'if_document_item_reference_data' ),
@@ -587,6 +588,10 @@ class Shortcodes implements ShortcodeHandleable {
 				$inner_show = $data === true;
 			} elseif( 'false' === $c ) {
 				$inner_show = $data === false;
+			} elseif( 'in' === $c && is_array( $data ) ) {
+				$inner_show = in_array( $comparison[0], $data );
+			} elseif( 'nin' === $c && is_array( $data ) ) {
+				$inner_show = ! in_array( $comparison[0], $data );
 			}
 
 			if ( 'OR' === $compare && $inner_show ) {
@@ -752,6 +757,8 @@ class Shortcodes implements ShortcodeHandleable {
 			$return_data = $data->get_name();
 		} elseif ( is_a( $data, '\Vendidero\StoreaBill\Document\Item' ) ) {
 			$return_data = $data->get_name();
+		} elseif ( is_a( $data, '\Vendidero\StoreaBill\Document\Attribute' ) ) {
+			$return_data = $data->get_formatted_value();
 		} elseif ( is_a( $data, '\Vendidero\StoreaBill\Document\Total' ) ) {
 			$return_data = $data->get_formatted_label() . ': ' . $data->get_formatted_total();
 		} elseif ( is_array( $data ) ) {

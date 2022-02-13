@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7e235abe15927fd0c28066485e808f5e
+class ComposerStaticInit1418a5a1d0c782b002aa91b1b9126757
 {
     public static $prefixLengthsPsr4 = array (
         'V' => 
@@ -180,9 +180,11 @@ class ComposerStaticInit7e235abe15927fd0c28066485e808f5e
         'Composer\\Installers\\YawikInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/YawikInstaller.php',
         'Composer\\Installers\\ZendInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZendInstaller.php',
         'Composer\\Installers\\ZikulaInstaller' => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
-        'Vendidero\\Germanized\\DPD\\Api' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api.php',
+        'Vendidero\\Germanized\\DPD\\Api\\Api' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api/Api.php',
         'Vendidero\\Germanized\\DPD\\Api\\Authentication' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api/Authentication.php',
+        'Vendidero\\Germanized\\DPD\\Api\\Cloud\\Api' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api/Cloud/Api.php',
         'Vendidero\\Germanized\\DPD\\Api\\Credentials' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api/Credentials.php',
+        'Vendidero\\Germanized\\DPD\\Api\\WebConnect\\Api' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Api/WebConnect/Api.php',
         'Vendidero\\Germanized\\DPD\\Install' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Install.php',
         'Vendidero\\Germanized\\DPD\\Label\\Retoure' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Label/Retoure.php',
         'Vendidero\\Germanized\\DPD\\Label\\Simple' => __DIR__ . '/../..' . '/packages/woocommerce-germanized-dpd/src/Label/Simple.php',
@@ -431,10 +433,10 @@ class ComposerStaticInit7e235abe15927fd0c28066485e808f5e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7e235abe15927fd0c28066485e808f5e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7e235abe15927fd0c28066485e808f5e::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit7e235abe15927fd0c28066485e808f5e::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit7e235abe15927fd0c28066485e808f5e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1418a5a1d0c782b002aa91b1b9126757::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1418a5a1d0c782b002aa91b1b9126757::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1418a5a1d0c782b002aa91b1b9126757::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1418a5a1d0c782b002aa91b1b9126757::$classMap;
 
         }, null, ClassLoader::class);
     }

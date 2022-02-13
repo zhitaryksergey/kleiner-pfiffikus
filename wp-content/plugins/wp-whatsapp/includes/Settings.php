@@ -329,6 +329,7 @@ class Settings
         $new_input['scrollHeight'] = sanitize_text_field($_POST['scrollHeight']);
         $new_input['isShowScroll'] = isset($_POST['isShowScroll']) ? 'ON' : 'OFF';
         $new_input['isShowResponseText'] = isset($_POST['isShowResponseText']) ? 'ON' : 'OFF';
+        $new_input['isShowPoweredBy'] = isset($_POST['isShowPoweredBy']) ? 'ON' : 'OFF';
 
         $new_input['btnLabel'] = wp_kses_post(wp_unslash($_POST['btnLabel'])); // It can be an html tag
         $new_input['btnPosition'] = sanitize_text_field($_POST['btnPosition']);

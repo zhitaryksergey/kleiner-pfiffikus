@@ -309,7 +309,7 @@ if ( ! class_exists( 'WC_GZDP_Admin_Setup_Wizard' ) ) :
 			return $plugins;
 		}
 
-		private function install_plugin( $plugin_to_install_id, $plugin_to_install ) {
+		private function install_plugin( $plugin_to_install_id, $plugin_to_install, $network_wide = true ) {
 
 			if ( ! empty( $plugin_to_install['repo-slug'] ) ) {
 				require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -411,7 +411,7 @@ if ( ! class_exists( 'WC_GZDP_Admin_Setup_Wizard' ) ) :
 				// Activate this thing.
 				if ( $activate ) {
 					try {
-						$result = activate_plugin( $installed ? $installed_plugins[ $plugin_file ] : $plugin_slug . '/' . $plugin_file );
+						$result = activate_plugin( $installed ? $installed_plugins[ $plugin_file ] : $plugin_slug . '/' . $plugin_file, '', $network_wide );
 
 						if ( is_wp_error( $result ) ) {
 							throw new Exception( $result->get_error_message() );

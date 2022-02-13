@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 class WC_GZD_Checkout {
 
 	public $custom_fields = array();
@@ -61,6 +63,7 @@ class WC_GZD_Checkout {
 		), 10, 1 );
 
 		add_action( 'woocommerce_checkout_create_order_line_item', array( $this, 'set_order_item_meta_crud' ), 0, 4 );
+		add_action( 'woocommerce_checkout_create_order_line_item', array( $this, 'set_order_item_meta_crud' ), 1000, 4 );
 
 		// Deactivate checkout shipping selection
 		add_action( 'woocommerce_review_order_before_shipping', array( $this, 'remove_shipping_rates' ), 0 );
@@ -125,7 +128,11 @@ class WC_GZD_Checkout {
 	 */
 	public function maybe_force_street_number( $data, $errors ) {
 		if ( function_exists( 'wc_gzd_split_shipment_street' ) ) {
-			if ( isset( $data['shipping_country'], $data['shipping_address_1'] ) && ! empty( $data['shipping_country'] ) ) {
+			$ship_to_different  = isset( $data['ship_to_different_address'] ) ? $data['ship_to_different_address'] : false;
+			$shipping_country   = $ship_to_different && isset( $data['shipping_country'] ) ? $data['shipping_country'] : $data['billing_country'];
+			$shipping_address_1 = $ship_to_different && isset( $data['shipping_address_1'] ) ? $data['shipping_address_1'] : $data['billing_address_1'];
+
+			if ( ! empty( $shipping_country ) && ! empty( $shipping_address_1 ) && apply_filters( 'woocommerce_gzd_checkout_validate_street_number', true, $data ) ) {
 				$countries = array();
 
 				if ( 'always' === get_option( 'woocommerce_gzd_checkout_validate_street_number' ) ) {
@@ -136,18 +143,28 @@ class WC_GZD_Checkout {
 					$countries = WC()->countries->get_european_union_countries();
 				}
 
-				$is_valid          = true;
-				$ship_to_different = isset( $data['ship_to_different_address'] ) ? $data['ship_to_different_address'] : false;
-				$key               = ( $ship_to_different ? 'shipping' : 'billing' ) . '_address_1';
+				$is_shipping_valid = true;
+				$field_key         = ( $ship_to_different ? 'shipping' : 'billing' ) . '_address_1';
 
-				// Force street number
-				if ( in_array( $data['shipping_country'], $countries ) ) {
-					$parts    = wc_gzd_split_shipment_street( $data['shipping_address_1'] );
-					$is_valid = empty( $parts['number'] ) ? false : true;
+				if ( in_array( $shipping_country, $countries ) ) {
+					$shipping_parts    = wc_gzd_split_shipment_street( $shipping_address_1 );
+					$is_shipping_valid = empty( $shipping_parts['number'] ) ? false : true;
+
+					/**
+					 * In case shipping to another address is chosen make sure to validate the separate billing address as well.
+					 */
+					if ( true === $ship_to_different && isset( $data['billing_address_1'] ) && apply_filters( 'woocommerce_gzd_checkout_validate_billing_street_number', true ) ) {
+						$billing_parts    = wc_gzd_split_shipment_street( $data['billing_address_1'] );
+						$is_billing_valid = empty( $billing_parts['number'] ) ? false : true;
+
+						if ( ! apply_filters( 'woocommerce_gzd_checkout_is_valid_billing_street_number', $is_billing_valid, $data ) ) {
+							$errors->add( 'billing_address_1_validation', apply_filters( 'woocommerce_gzd_checkout_invalid_billing_street_number_error_message', __( 'Please check the street field and make sure to provide a valid street number.', 'woocommerce-germanized' ), $data ), array( 'id' => 'billing_address_1' ) );
+						}
+					}
 				}
 
-				if ( ! apply_filters( 'woocommerce_gzd_checkout_is_valid_street_number', $is_valid, $data ) ) {
-					$errors->add( $key . '_validation', apply_filters( 'woocommerce_gzd_checkout_invalid_street_number_error_message', __( 'Please check the street field and make sure to provide a valid street number.', 'woocommerce-germanized' ), $data ), array( 'id' => $key ) );
+				if ( ! apply_filters( 'woocommerce_gzd_checkout_is_valid_street_number', $is_shipping_valid, $data ) ) {
+					$errors->add( $field_key . '_validation', apply_filters( 'woocommerce_gzd_checkout_invalid_street_number_error_message', __( 'Please check the street field and make sure to provide a valid street number.', 'woocommerce-germanized' ), $data ), array( 'id' => $field_key ) );
 				}
 			}
 		}
@@ -313,7 +330,7 @@ class WC_GZD_Checkout {
 	public function order_parcel_delivery_data_transfer( $order, $posted ) {
 		if ( $checkbox = wc_gzd_get_legal_checkbox( 'parcel_delivery' ) ) {
 
-			if ( ! $checkbox->is_enabled() ) {
+			if ( ! $checkbox->is_enabled() || ! $order->has_shipping_address() ) {
 				return;
 			}
 
@@ -429,6 +446,10 @@ class WC_GZD_Checkout {
 			if ( apply_filters( 'woocommerce_gzd_enable_force_pay_order', true, $order ) ) {
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_force_pay_script' ), 20 );
 				add_action( 'woocommerce_after_pay_action', array( $this, 'maybe_disable_force_pay_script' ), 20 );
+
+				if ( ! defined( 'WC_GZD_FORCE_PAY_ORDER' ) ) {
+					define( 'WC_GZD_FORCE_PAY_ORDER', true );
+				}
 			}
 		}
 	}
@@ -1019,7 +1040,7 @@ class WC_GZD_Checkout {
 		if ( isset( $args['title'] ) ) {
 
 			if ( ! empty( $args['title'] ) ) {
-				$title = is_numeric( $args['title'] ) ? wc_gzd_get_customer_title( $args['title'] ) : $args['title'];
+				$title = wc_gzd_get_customer_title( $args['title'] );
 
 				/**
 				 * Ugly hack to force accusative in addresses

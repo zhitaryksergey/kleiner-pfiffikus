@@ -10,6 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 /**
+ * Add germanized body classes
+ */
+add_filter( 'body_class', 'wc_gzd_body_class' );
+
+/**
  * Hide certain HTML output if activated via options
  */
 add_filter( 'woocommerce_germanized_hide_delivery_time_text', 'woocommerce_gzd_template_maybe_hide_delivery_time', 10, 2 );
@@ -55,7 +60,7 @@ add_filter( 'woocommerce_get_price_html', 'woocommerce_gzd_template_product_bloc
 // Make sure to add a global product object to allow getting the grouped parent product within child display
 add_action( 'woocommerce_before_add_to_cart_form', 'woocommerce_gzd_template_single_setup_global_product' );
 
-add_filter( 'woocommerce_available_variation', 'woocommerce_gzd_add_variation_options', 0, 3 );
+add_filter( 'woocommerce_available_variation', 'woocommerce_gzd_add_variation_options', 5000, 3 );
 
 if ( get_option( 'woocommerce_gzd_display_listings_add_to_cart' ) == 'no' ) {
 	remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart' );
@@ -95,8 +100,7 @@ foreach ( wc_gzd_get_cart_shopmarks() as $shopmark ) {
 
 // Small enterprises
 if ( wc_gzd_is_small_business() ) {
-
-	add_action( 'woocommerce_after_cart_totals', 'woocommerce_gzd_template_small_business_info', wc_gzd_get_hook_priority( 'cart_small_business_info' ) );
+	add_action( 'woocommerce_cart_totals_after_order_total', 'woocommerce_gzd_template_checkout_small_business_info', wc_gzd_get_hook_priority( 'cart_small_business_info' ) );
 	add_action( 'woocommerce_review_order_after_order_total', 'woocommerce_gzd_template_checkout_small_business_info', wc_gzd_get_hook_priority( 'checkout_small_business_info' ) );
 }
 
@@ -136,9 +140,10 @@ function woocommerce_gzd_maybe_add_small_business_vat_notice() {
 
 // Differential Taxation for cart & order
 if ( get_option( 'woocommerce_gzd_differential_taxation_checkout_notices' ) === 'yes' ) {
-	add_action( 'woocommerce_after_cart_totals', 'woocommerce_gzd_template_differential_taxation_notice_cart', wc_gzd_get_hook_priority( 'cart_small_business_info' ) );
+	add_action( 'woocommerce_cart_totals_after_order_total', 'woocommerce_gzd_template_differential_taxation_notice_cart', wc_gzd_get_hook_priority( 'cart_small_business_info' ) );
 	add_action( 'woocommerce_order_details_after_order_table', 'woocommerce_gzd_template_differential_taxation_notice_order', 10 );
 	add_action( 'woocommerce_pay_order_before_submit', 'woocommerce_gzd_template_differential_taxation_notice_order', 10 );
+	add_action( 'woocommerce_review_order_after_order_total', 'woocommerce_gzd_template_differential_taxation_notice_cart', wc_gzd_get_hook_priority( 'checkout_small_business_info' ) );
 }
 
 /**
@@ -146,7 +151,8 @@ if ( get_option( 'woocommerce_gzd_differential_taxation_checkout_notices' ) === 
  */
 add_action( 'woocommerce_before_mini_cart_contents', 'woocommerce_gzd_template_mini_cart_remove_hooks', 5 );
 add_action( 'woocommerce_before_mini_cart_contents', 'woocommerce_gzd_template_mini_cart_add_hooks', 10 );
-add_action( 'woocommerce_after_mini_cart', 'woocommerce_gzd_template_mini_cart_maybe_remove_hooks', 10 );
+// Some themes/plugins (e.g. Elementor pro) might not execute the woocommerce_after_mini_cart hook
+add_action( 'woocommerce_mini_cart_contents', 'woocommerce_gzd_template_mini_cart_maybe_remove_hooks', 10000 );
 
 add_action( 'woocommerce_widget_shopping_cart_before_buttons', 'woocommerce_gzd_template_mini_cart_taxes', 10 );
 
@@ -175,8 +181,18 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 WC_GZD_Hook_Priorities::instance()->change_priority( 'woocommerce_checkout_order_review', 'woocommerce_order_review', wc_gzd_get_hook_priority( 'checkout_order_review' ) );
 WC_GZD_Hook_Priorities::instance()->change_priority( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', wc_gzd_get_hook_priority( 'checkout_payment' ) );
 
-// Load ajax relevant hooks
-add_action( 'init', 'woocommerce_gzd_checkout_load_ajax_relevant_hooks' );
+// Load ajax relevant hooks on init with fallback
+if ( did_action( 'init' ) ) {
+	if ( ! wp_doing_ajax() ) {
+		woocommerce_gzd_checkout_load_ajax_relevant_hooks();
+	}
+} else {
+	add_action( 'init', function() {
+		if ( ! wp_doing_ajax() ) {
+			woocommerce_gzd_checkout_load_ajax_relevant_hooks();
+		}
+	} );
+}
 
 // Remove WooCommerce Terms checkbox
 add_filter( 'woocommerce_checkout_show_terms', 'woocommerce_gzd_template_set_wc_terms_hide', 100 );
@@ -193,12 +209,13 @@ add_action( 'woocommerce_pay_order_before_submit', 'woocommerce_gzd_template_ren
 add_action( 'woocommerce_register_form', 'woocommerce_gzd_template_render_register_checkboxes', 19 );
 add_filter( 'comment_form_submit_button', 'woocommerce_gzd_template_render_review_checkboxes', 10, 2 );
 
+// Add terms placeholder in case validation takes place by third-party plugins (e.g. WooCommerce PayPal Payments)
+add_action( 'woocommerce_pay_order_before_submit', 'woocommerce_gzd_template_checkout_set_terms_manually', 0 );
+
+// Maybe remove checkout adjustments during AJAX requests and before rendering checkout
+add_action( 'woocommerce_checkout_init', 'wc_gzd_maybe_disable_checkout_adjustments', 20 );
+
 function woocommerce_gzd_checkout_load_ajax_relevant_hooks() {
-
-	if ( is_ajax() ) {
-		return;
-	}
-
 	add_action( 'woocommerce_checkout_order_review', 'woocommerce_gzd_template_order_submit', wc_gzd_get_hook_priority( 'checkout_order_submit' ) );
 	add_action( 'woocommerce_checkout_after_order_review', 'woocommerce_gzd_template_order_submit_fallback', 50 );
 
@@ -208,10 +225,6 @@ function woocommerce_gzd_checkout_load_ajax_relevant_hooks() {
 
 	// Add payment title heading
 	add_action( 'woocommerce_review_order_before_payment', 'woocommerce_gzd_template_checkout_payment_title' );
-
-	if ( get_option( 'woocommerce_gzd_differential_taxation_checkout_notices' ) === 'yes' ) {
-		add_action( 'woocommerce_review_order_after_order_total', 'woocommerce_gzd_template_differential_taxation_notice_cart', wc_gzd_get_hook_priority( 'checkout_small_business_info' ) );
-	}
 }
 
 // Display back to cart button

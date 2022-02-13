@@ -38,7 +38,7 @@ class WC_GZDP_Dependencies {
 	 *
 	 * @var string
 	 */
-	public $wc_gzd_maximum_version_supported = '3.7';
+	public $wc_gzd_maximum_version_supported = '3.8';
 
 	/**
 	 * Lazy initiated activated plugins list
@@ -232,8 +232,15 @@ class WC_GZDP_Dependencies {
 		include_once WC_GERMANIZED_PRO_ABSPATH . 'includes/admin/views/html-notice-wp-version.php';
 	}
 
+	protected function is_network_wide_install( $plugin = 'woocommerce-germanized-pro/woocommerce-germanized-pro.php' ) {
+		return function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( $plugin );
+	}
+
 	public function dependencies_notice() {
-		if ( current_user_can( 'activate_plugins' ) ) {
+		/**
+		 * Do not display dependency notices in case this plugin is network-wide activated but is not the main site.
+		 */
+		if ( current_user_can( 'activate_plugins' ) && ( ! $this->is_network_wide_install() || is_main_site() ) ) {
 			global $dependencies;
 			$dependencies = $this;
 
@@ -242,7 +249,10 @@ class WC_GZDP_Dependencies {
 	}
 
 	public function dependencies_gzd_notice() {
-		if ( current_user_can( 'activate_plugins' ) ) {
+		/**
+		 * Do not display dependency notices in case this plugin is network-wide activated but is not the main site.
+		 */
+		if ( current_user_can( 'activate_plugins' ) && ( ! $this->is_network_wide_install() || is_main_site() ) ) {
 			global $dependencies;
 			$dependencies = $this;
 

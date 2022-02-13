@@ -214,6 +214,14 @@ class Customer implements \Vendidero\StoreaBill\Interfaces\Customer {
 		 */
 		if ( empty( $meta ) && $this->customer->get_id() > 0 ) {
 			$meta = get_user_meta( $this->customer->get_id(), $key, $single );
+
+			if ( ! $meta ) {
+				$user = get_user_by( 'id', $this->customer->get_id() );
+
+				if ( $user && isset( $user->{$key} ) ) {
+					$meta = $user->{$key};
+				}
+			}
 		}
 
 		return $meta;

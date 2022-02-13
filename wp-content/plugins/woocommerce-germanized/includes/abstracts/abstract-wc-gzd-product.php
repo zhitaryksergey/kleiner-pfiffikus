@@ -22,6 +22,15 @@ class WC_GZD_Product {
 	protected $child;
 
 	/**
+	 * @var null|WP_Term[]
+	 */
+	protected $delivery_times = null;
+
+	protected $delivery_times_need_update = false;
+
+	protected $warranty_attachment = false;
+
+	/**
 	 * Construct new WC_GZD_Product
 	 *
 	 * @param WC_Product $product
@@ -50,11 +59,12 @@ class WC_GZD_Product {
 		 * @param mixed $value The property value.
 		 * @param WC_GZD_Product $gzd_product The GZD product instance.
 		 * @param WC_Product $product The product instance.
+		 * @param string $context
 		 *
 		 * @since 3.0.0
 		 *
 		 */
-		return apply_filters( "woocommerce_gzd_get_product_{$prop}", $value, $this, $this->child );
+		return apply_filters( "woocommerce_gzd_get_product_{$prop}", $value, $this, $this->child, $context );
 	}
 
 	protected function set_prop( $prop, $value ) {
@@ -77,6 +87,10 @@ class WC_GZD_Product {
 
 	public function get_unit_base( $context = 'view' ) {
 		return $this->get_prop( 'unit_base', $context );
+	}
+
+	public function get_warranty_attachment_id( $context = 'view' ) {
+		return $this->get_prop( 'warranty_attachment_id', $context );
 	}
 
 	public function get_unit_product( $context = 'view' ) {
@@ -127,8 +141,54 @@ class WC_GZD_Product {
 		return $this->get_prop( 'mini_desc', $context );
 	}
 
+	public function get_defect_description( $context = 'view' ) {
+		return $this->get_prop( 'defect_description', $context );
+	}
+
 	public function get_cart_description( $context = 'view' ) {
 		return $this->get_mini_desc();
+	}
+
+	public function get_warranty_attachment( $context = 'view' ) {
+		$warranty_attachment_id = $this->get_warranty_attachment_id( $context );
+
+		if ( ! empty( $warranty_attachment_id ) ) {
+			if ( $post = get_post( $warranty_attachment_id ) ) {
+				$this->warranty_attachment = $post;
+
+				return $this->warranty_attachment;
+			}
+		}
+
+		return false;
+	}
+
+	public function get_warranty_file( $context = 'view' ) {
+		if ( $attachment = $this->get_warranty_attachment( $context ) ) {
+			return get_attached_file( $attachment->ID );
+		}
+
+		return false;
+	}
+
+	public function get_warranty_url( $context = 'view' ) {
+		if ( $this->has_warranty( $context ) ) {
+			return wp_get_attachment_url( $this->get_warranty_attachment_id() );
+		}
+
+		return false;
+	}
+
+	public function get_warranty_filename( $context = 'view' ) {
+		if ( $file = $this->get_warranty_file( $context ) ) {
+			return basename( $file );
+		}
+
+		return false;
+	}
+
+	public function has_warranty( $context = 'view' ) {
+		return $this->get_warranty_attachment_id( $context ) && $this->get_warranty_attachment( $context ) ? true : false;
 	}
 
 	public function has_cart_description() {
@@ -152,7 +212,29 @@ class WC_GZD_Product {
 	}
 
 	public function is_service( $context = 'view' ) {
-		return $this->get_service() === true;
+		return $this->get_service( $context ) === true;
+	}
+
+	public function get_used_good( $context = 'view' ) {
+		$is_used_good = wc_string_to_bool( $this->get_prop( 'used_good', $context ) );
+
+		if ( 'view' === $context && $this->is_differential_taxed( $context ) ) {
+			$is_used_good = apply_filters( "woocommerce_gzd_product_differential_taxed_is_used_good", true, $this );
+		}
+
+		return $is_used_good;
+	}
+
+	public function is_used_good( $context = 'view' ) {
+		return $this->get_used_good( $context ) === true;
+	}
+
+	public function get_defective_copy( $context = 'view' ) {
+		return wc_string_to_bool( $this->get_prop( 'defective_copy', $context ) );
+	}
+
+	public function is_defective_copy( $context = 'view' ) {
+		return $this->get_defective_copy( $context ) === true;
 	}
 
 	public function get_free_shipping( $context = 'view' ) {
@@ -160,7 +242,7 @@ class WC_GZD_Product {
 	}
 
 	public function has_free_shipping( $context = 'view' ) {
-		return $this->get_free_shipping() === true;
+		return $this->get_free_shipping( $context ) === true;
 	}
 
 	public function get_differential_taxation( $context = 'view' ) {
@@ -168,7 +250,12 @@ class WC_GZD_Product {
 	}
 
 	public function is_differential_taxed( $context = 'view' ) {
-		return $this->get_differential_taxation() === true;
+		return $this->get_differential_taxation( $context ) === true;
+	}
+
+	public function set_warranty_attachment_id( $id ) {
+		$this->set_prop( 'warranty_attachment_id', absint( $id ) );
+		$this->warranty_attachment = false;
 	}
 
 	public function set_unit_price( $price ) {
@@ -203,6 +290,14 @@ class WC_GZD_Product {
 		$this->set_prop( 'service', wc_bool_to_string( $service ) );
 	}
 
+	public function set_defective_copy( $is_defective_copy ) {
+		$this->set_prop( 'defective_copy', wc_bool_to_string( $is_defective_copy ) );
+	}
+
+	public function set_used_good( $is_used_good ) {
+		$this->set_prop( 'used_good', wc_bool_to_string( $is_used_good ) );
+	}
+
 	public function set_free_shipping( $shipping ) {
 		$this->set_prop( 'free_shipping', wc_bool_to_string( $shipping ) );
 	}
@@ -221,6 +316,10 @@ class WC_GZD_Product {
 
 	public function set_mini_desc( $desc ) {
 		$this->set_prop( 'mini_desc', $desc );
+	}
+
+	public function set_defect_description( $desc ) {
+		$this->set_prop( 'defect_description', $desc );
 	}
 
 	public function set_cart_description( $desc ) {
@@ -248,11 +347,12 @@ class WC_GZD_Product {
 		 * Executes whenever the unit price is recalculated.
 		 *
 		 * @param WC_GZD_Product $product The product object.
+		 * @param array $args Arguments passed to the recalculation method.
 		 *
 		 * @since 1.9.1
 		 *
 		 */
-		do_action( 'woocommerce_gzd_recalculated_unit_price', $this );
+		do_action( 'woocommerce_gzd_recalculated_unit_price', $this, $args );
 	}
 
 	public function needs_age_verification() {
@@ -269,7 +369,8 @@ class WC_GZD_Product {
 		$product_min_age = $this->get_prop( 'min_age', $context );
 
 		if ( 'view' === $context ) {
-			$categories = wc_get_product_cat_ids( $this->get_id() );
+			// Force using parent product categories in case of variations
+			$categories = wc_get_product_cat_ids( $this->child->get_parent_id() > 0 ? $this->child->get_parent_id() : $this->get_id() );
 
 			// Use product category age as fallback
 			if ( empty( $product_min_age ) ) {
@@ -533,8 +634,12 @@ class WC_GZD_Product {
 	public function hide_shopmarks_due_to_missing_price() {
 		$price_html_checked = true;
 
-		// Prevent infinite loops in case the shopmark is added via the price_html filter
-		if ( ! $this->is_doing_price_html_action() ) {
+		/**
+		 * Prevent infinite loops in case the shopmark is added via the price_html filter.
+		 * Calling get_price_html during cart/checkout may cause side-effects (e.g. subtotal calculation in Measurement Plugin)
+		 * within shopmarks - prevent calls here too.
+	     */
+		if ( ! $this->is_doing_price_html_action() && ! is_cart() && ! is_checkout() && apply_filters( 'woocommerce_gzd_shopmarks_empty_price_html_check_enabled', true, $this ) ) {
 			$price_html_checked = ( '' === $this->child->get_price_html() );
 		}
 
@@ -829,7 +934,7 @@ class WC_GZD_Product {
 			$display_sale_price    = $this->get_formatted_unit_price( 1, $this->get_unit_price_sale(), $tax_display );
 
 			$price_html = ( ( $this->is_on_unit_sale() && $show_sale ) ? $this->get_price_html_from_to( $display_regular_price, $display_sale_price, false ) : wc_price( $display_price ) );
-			$html       = wc_gzd_format_unit_price( $price_html, $this->get_unit_html(), $this->get_unit_base_html() );
+			$html       = wc_gzd_format_unit_price( $price_html, $this->get_unit_html(), $this->get_unit_base_html(), wc_gzd_format_product_units_decimal( $this->get_unit_product() ) );
 		}
 
 		/**
@@ -860,7 +965,6 @@ class WC_GZD_Product {
 	 * @return string
 	 */
 	public function get_unit_product_html() {
-
 		/**
 		 * Filter that allows disabling product units output for a specific product.
 		 *
@@ -889,7 +993,7 @@ class WC_GZD_Product {
 
 		if ( $this->has_unit_product() ) {
 			$replacements = array(
-				'{product_units}' => str_replace( '.', ',', $this->get_unit_product() ),
+				'{product_units}' => wc_gzd_format_product_units_decimal( $this->get_unit_product() ),
 				'{unit}'          => $this->get_unit_html(),
 				'{unit_price}'    => $this->get_unit_price_html(),
 			);
@@ -910,26 +1014,273 @@ class WC_GZD_Product {
 	}
 
 	/**
+	 * @return WP_Term[]
+	 */
+	public function get_delivery_times( $context = 'view' ) {
+		if ( is_null( $this->delivery_times ) ) {
+			$slugs        = $this->get_delivery_time_slugs( $context );
+			$cached_terms = array();
+
+			foreach( $slugs as $slug ) {
+				$term = WC_germanized()->delivery_times->get_delivery_time_term( $slug );
+
+				if ( ! $term ) {
+					continue;
+				}
+
+				$cached_terms[ $term->slug ] = $term;
+			}
+
+			$this->delivery_times = $cached_terms;
+		}
+
+		return $this->delivery_times;
+	}
+
+	public function get_delivery_time_slugs( $context = 'view' ) {
+		/**
+		 * Normally (view context) we are using the term relationship model to retrieve
+		 * the delivery times mapped to the product. While saving we are using the props model
+		 * to enable saving the current object state.
+		 */
+		if ( 'save' === $context || $this->delivery_times_need_update() ) {
+			$slugs = false;
+
+			if ( $this->delivery_times_need_update() ) {
+				$slugs            = array();
+				$default_slug     = $this->get_default_delivery_time_slug( 'save' );
+				$country_specific = array_values( array_unique( $this->get_country_specific_delivery_times( 'save' ) ) );
+
+				if ( ! empty( $default_slug ) ) {
+					$slugs = array_merge( array( $default_slug ), $slugs );
+				}
+
+				if ( ! empty( $country_specific ) ) {
+					$slugs = array_merge( $country_specific, $slugs );
+				}
+
+				$slugs = array_unique( $slugs );
+			}
+
+			return $slugs;
+		} else {
+			$object_id = $this->get_wc_product()->get_id();
+			$terms     = get_the_terms( $object_id, 'product_delivery_time' );
+
+			if ( false === $terms || is_wp_error( $terms ) ) {
+				return array();
+			}
+
+			return wp_list_pluck( $terms, 'slug' );
+		}
+	}
+
+	protected function set_delivery_time_slugs( $slugs ) {
+		$slugs = wc_gzd_get_valid_product_delivery_time_slugs( $slugs );
+
+		$this->set_prop( 'delivery_time_slugs', array_unique( array_map( 'sanitize_title', $slugs ) ) );
+		$this->delivery_times = null;
+	}
+
+	public function delivery_times_need_update() {
+		return $this->delivery_times_need_update;
+	}
+
+	public function set_delivery_times_need_update( $need_update = true ) {
+		$this->delivery_times_need_update = $need_update;
+	}
+
+	public function set_default_delivery_time_slug( $slug ) {
+		$slug    = wc_gzd_get_valid_product_delivery_time_slugs( $slug );
+		$current = $this->get_default_delivery_time_slug();
+
+		$this->set_prop( 'default_delivery_time', $slug );
+
+		if ( $current !== $slug ) {
+			$this->set_delivery_times_need_update();
+		}
+	}
+
+	protected function get_current_customer_shipping_country() {
+		$country = false;
+
+		if ( WC()->customer ) {
+			$country = '' === WC()->customer->get_shipping_country() ? WC()->customer->get_billing_country() : WC()->customer->get_shipping_country();
+		} elseif ( 'base' === get_option( 'woocommerce_default_customer_address' ) ) {
+			$country = WC()->countries->get_base_country();
+		}
+
+		return empty( $country ) ? false : $country;
+	}
+
+	/**
 	 * Returns the current products delivery time term without falling back to default term
 	 *
-	 * @return bool|object false returns false if term does not exist otherwise returns term object
+	 * @return false|WP_Term false returns false if term does not exist otherwise returns term object
 	 */
 	public function get_delivery_time( $context = 'view' ) {
-		$terms = get_the_terms( $this->child->get_id(), 'product_delivery_time' );
+		/**
+		 * Use the edit context to disable global setting fallback
+		 */
+		$delivery_time = $this->get_default_delivery_time( $context );
 
-		if ( 'view' === $context && ( empty( $terms ) && $this->child->is_type( 'variation' ) ) ) {
-			$parent_terms = get_the_terms( $this->child->get_parent_id(), 'product_delivery_time' );
+		if ( 'view' === $context ) {
+			if ( $country = $this->get_current_customer_shipping_country() ) {
+				$delivery_time_country = $this->get_delivery_time_by_country( $country );
 
-			if ( ! empty( $parent_terms ) && ! is_wp_error( $parent_terms ) ) {
-				$terms = $parent_terms;
+				if ( $delivery_time_country ) {
+					$delivery_time = $delivery_time_country;
+				}
 			}
 		}
 
-		if ( is_wp_error( $terms ) || empty( $terms ) ) {
+		return $delivery_time;
+	}
+
+	public function get_default_delivery_time_slug( $context = 'view' ) {
+		return $this->get_prop( "default_delivery_time", $context );
+	}
+
+	public function get_gzd_version( $context = 'view' ) {
+		return $this->get_prop( "gzd_version", $context );
+	}
+
+	/**
+	 * @param string $context
+	 *
+	 * @return false|WP_Term
+	 */
+	public function get_default_delivery_time( $context = 'view' ) {
+		$default_slug  = $this->get_default_delivery_time_slug( $context );
+		$times         = $this->get_delivery_times( $context );
+		$delivery_time = false;
+
+		/**
+		 * In case of older Germanized version which did not support multiple delivery times per product (e.g. per country)
+		 * the default delivery time matches the first (only) delivery time set for the product.
+		 *
+		 * Newer versions include a separate meta field (_default_delivery_time) to indicate the default delivery time.
+		 */
+		if ( ! empty( $default_slug ) && array_key_exists( $default_slug, $times ) ) {
+			$delivery_time = $times[ $default_slug ];
+		} elseif ( ( empty( $this->get_gzd_version() ) || version_compare( $this->get_gzd_version(), '3.7.0', '<' ) ) && ! empty( $times ) ) {
+			$delivery_time = array_values( $times )[0];
+		}
+
+		/**
+		 * Use a global default delivery time from settings as a fallback in case no default delivery time was selected for this product.
+		 */
+		if ( 'view' === $context && ( empty( $delivery_time ) && ! $this->is_downloadable() ) ) {
+			$eu_countries   = WC()->countries->get_european_union_countries();
+			$base_country   = WC()->countries->get_base_country();
+			$delivery_time  = false;
+			$default_option = false;
+
+			if ( ( $country = $this->get_current_customer_shipping_country() ) && $base_country !== $country ) {
+				if ( in_array( $country, $eu_countries ) ) {
+					$default_option = get_option( 'woocommerce_gzd_default_delivery_time_eu' );
+				} elseif ( ! in_array( $country, $eu_countries ) ) {
+					$default_option = get_option( 'woocommerce_gzd_default_delivery_time_third_countries' );
+				}
+
+				if ( $default_option ) {
+					$delivery_time = WC_germanized()->delivery_times->get_delivery_time_term( $default_option, 'slug_fallback' );
+				}
+			}
+
+			if ( ! $delivery_time && get_option( 'woocommerce_gzd_default_delivery_time' ) ) {
+				$default_option = get_option( 'woocommerce_gzd_default_delivery_time' );
+				$delivery_time  = WC_germanized()->delivery_times->get_delivery_time_term( $default_option, 'slug_fallback' );
+			}
+		}
+
+		return $delivery_time;
+	}
+
+	public function get_country_specific_delivery_times( $context = 'view' ) {
+		$countries = $this->get_prop( "delivery_time_countries", $context );
+		$countries = ( ! is_array( $countries ) || empty( $countries ) ) ? array() : $countries;
+
+		ksort( $countries );
+
+		return $countries;
+	}
+
+	public function set_gzd_version( $version ) {
+		$this->set_prop( "gzd_version", $version );
+	}
+
+	protected function is_valid_country_specific_delivery_time( $slug, $country ) {
+		$default_slug = $this->get_default_delivery_time_slug();
+
+		if ( $slug === $default_slug || $country === WC()->countries->get_base_country() ) {
 			return false;
 		}
 
-		return $terms[0];
+		return true;
+	}
+
+	public function set_country_specific_delivery_times( $terms ) {
+		$current = $this->get_country_specific_delivery_times();
+		$terms   = wc_gzd_get_valid_product_delivery_time_slugs( $terms );
+
+		foreach( $terms as $country => $slug ) {
+			if ( ! $this->is_valid_country_specific_delivery_time( $slug, $country ) ) {
+				unset( $terms[ $country ] );
+			}
+		}
+
+		ksort($terms );
+
+		$this->set_prop( "delivery_time_countries", $terms );
+		$this->delivery_times = null;
+
+		if ( $current !== $terms ) {
+			$this->set_delivery_times_need_update();
+		}
+	}
+
+	public function get_delivery_time_by_country( $country = '', $context = 'view' ) {
+		$countries          = $this->get_country_specific_delivery_times( $context );
+		$times              = $this->get_delivery_times( $context );
+		$delivery_time      = false;
+		$eu_countries       = WC()->countries->get_european_union_countries();
+		$base_country       = WC()->countries->get_base_country();
+		$delivery_time_slug = false;
+
+		/**
+		 * EU-wide delivery times in case target country does not match base country
+		 */
+		if ( in_array( $country, $eu_countries ) && $base_country !== $country && array_key_exists( 'EU-wide', $countries ) ) {
+			$delivery_time_slug = $countries['EU-wide'];
+		}
+
+		/**
+		 * Non-EU-wide delivery times in case target country does not match base country
+		 */
+		if ( ! in_array( $country, $eu_countries ) && $base_country !== $country && array_key_exists( 'Non-EU-wide', $countries ) ) {
+			$delivery_time_slug = $countries['Non-EU-wide'];
+		}
+
+		/**
+		 * Allow overriding by custom country rules
+		 */
+		if ( array_key_exists( $country, $countries ) ) {
+			$delivery_time_slug = $countries[ $country ];
+		}
+
+		/**
+		 * Make sure delivery time is related to product
+		 */
+		if ( $delivery_time_slug && array_key_exists( $delivery_time_slug, $times ) ) {
+			$delivery_time = $times[ $delivery_time_slug ];
+		}
+
+		if ( 'view' === $context && ! $delivery_time ) {
+			$delivery_time = $this->get_default_delivery_time( $context );
+		}
+
+		return $delivery_time;
 	}
 
 	/**
@@ -938,23 +1289,13 @@ class WC_GZD_Product {
 	 * @return WP_Term|false
 	 */
 	public function get_delivery_time_term( $context = 'view' ) {
-		$delivery_time = $this->get_delivery_time();
-
-		if ( 'view' === $context && ( empty( $delivery_time ) && get_option( 'woocommerce_gzd_default_delivery_time' ) && ! $this->is_downloadable() ) ) {
-
-			$delivery_time = array( get_term_by( 'id', get_option( 'woocommerce_gzd_default_delivery_time' ), 'product_delivery_time' ) );
-
-			if ( is_array( $delivery_time ) ) {
-				array_values( $delivery_time );
-				$delivery_time = $delivery_time[0];
-			}
-		}
+		$delivery_time = $this->get_delivery_time( $context );
 
 		return ( ! is_wp_error( $delivery_time ) && ! empty( $delivery_time ) ) ? $delivery_time : false;
 	}
 
 	public function get_delivery_time_name( $context = 'view' ) {
-		if ( $term = $this->get_delivery_time_term( $context ) ) {
+		if ( $term = $this->get_delivery_time( $context ) ) {
 			return $term->name;
 		}
 
@@ -966,7 +1307,7 @@ class WC_GZD_Product {
 	 *
 	 * @return string
 	 */
-	public function get_delivery_time_html() {
+	public function get_delivery_time_html( $context = 'view' ) {
 		$html = '';
 
 		/**
@@ -994,8 +1335,8 @@ class WC_GZD_Product {
 			return '';
 		}
 
-		if ( $this->get_delivery_time_term() ) {
-			$html = $this->get_delivery_time_name();
+		if ( $this->get_delivery_time( $context ) ) {
+			$html = $this->get_delivery_time_name( $context );
 		} else {
 			/**
 			 * Filter to adjust empty delivery time text.
@@ -1010,9 +1351,15 @@ class WC_GZD_Product {
 		}
 
 		if ( ! empty( $html ) ) {
+			$delivery_time_str = get_option( 'woocommerce_gzd_delivery_time_text' );
+
 			$replacements = array(
 				'{delivery_time}' => $html,
 			);
+
+			if ( strstr( $delivery_time_str, '{stock_status}' ) ) {
+				$replacements['{stock_status}'] = str_replace( array( '<p ', '</p>' ), array( '<span ', '</span>' ), wc_get_stock_html( $this->child ) );
+			}
 
 			/**
 			 * Filter to adjust product delivery time HTML.
@@ -1026,8 +1373,8 @@ class WC_GZD_Product {
 			 *
 			 */
 			$html = apply_filters( 'woocommerce_germanized_delivery_time_html',
-				wc_gzd_replace_label_shortcodes( get_option( 'woocommerce_gzd_delivery_time_text' ), $replacements ),
-				get_option( 'woocommerce_gzd_delivery_time_text' ),
+				wc_gzd_replace_label_shortcodes( $delivery_time_str, $replacements ),
+				$delivery_time_str,
 				$html,
 				$this
 			);
@@ -1076,6 +1423,19 @@ class WC_GZD_Product {
 	}
 
 	/**
+	 * Returns the defect description html output
+	 *
+	 * @return string
+	 */
+	public function get_formatted_defect_description() {
+		if ( $this->is_defective_copy() ) {
+			return apply_filters( 'woocommerce_gzd_defect_description', htmlspecialchars_decode( $this->get_defect_description() ) );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Returns the shipping costs notice html output
 	 *
 	 * @return string
@@ -1109,6 +1469,32 @@ class WC_GZD_Product {
 		}
 
 		return wc_gzd_get_shipping_costs_text( $this );
+	}
+
+	public function save() {
+		/**
+		 * Update delivery time term slugs if they have been explicitly set during the
+		 * save request.
+		 */
+		$slugs = $this->get_delivery_time_slugs( 'save' );
+
+		if ( false !== $slugs ) {
+			$this->set_delivery_times_need_update( false );
+
+			$id = $this->child->save();
+		}
+
+		if ( false !== $slugs && $id ) {
+			$slugs = array_unique( array_map( 'sanitize_title', $slugs ) );
+
+			if ( empty( $slugs ) ) {
+				wp_delete_object_term_relationships( $id, 'product_delivery_time' );
+			} else {
+				wp_set_post_terms( $id, $slugs, 'product_delivery_time', false );
+			}
+
+			$this->delivery_times = null;
+		}
 	}
 }
 

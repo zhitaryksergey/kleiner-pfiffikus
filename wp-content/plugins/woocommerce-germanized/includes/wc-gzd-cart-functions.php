@@ -160,6 +160,56 @@ function wc_gzd_cart_product_item_desc( $title, $cart_item, $cart_item_key = '' 
 	return $title;
 }
 
+/**
+ * Appends product defect description live data (while checkout) or order meta to product name
+ *
+ * @param string $title
+ * @param array|WC_Order_Item_Product $cart_item
+ *
+ * @return string
+ */
+function wc_gzd_cart_product_defect_description( $title, $cart_item, $cart_item_key = '' ) {
+	$product_desc = "";
+	$echo         = false;
+
+	if ( is_array( $title ) && isset( $title['data'] ) ) {
+		$cart_item     = $title;
+		$cart_item_key = $cart_item;
+		$title         = "";
+		$echo          = true;
+	} elseif( is_numeric( $title ) && wc_gzd_is_checkout_action() && is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+		$echo          = true;
+		$cart_item_key = $title;
+		$title         = '';
+	}
+
+	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
+		if ( $gzd_item = wc_gzd_get_order_item( $cart_item ) ) {
+			$product_desc = $gzd_item->get_defect_description();
+		} elseif( ( $product = $cart_item->get_product() ) && wc_gzd_get_gzd_product( $product )->get_defect_description() ) {
+			$product_desc = wc_gzd_get_gzd_product( $product )->get_formatted_defect_description();
+		}
+	} elseif ( isset( $cart_item['data'] ) ) {
+		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->get_defect_description() ) {
+			$product_desc = wc_gzd_get_product( $product )->get_formatted_defect_description();
+		}
+	} elseif ( isset( $cart_item['item_desc'] ) ) {
+		$product_desc = $cart_item['item_desc'];
+	}
+
+	if ( ! empty( $product_desc ) ) {
+		$title .= '<div class="wc-gzd-cart-info wc-gzd-item-defect-description item-defect-description">' . do_shortcode( $product_desc ) . '</div>';
+	}
+
+	if ( $echo ) {
+		echo $title;
+	}
+
+	return $title;
+}
+
 function wc_gzd_cart_product_attributes( $title, $cart_item, $cart_item_key = '' ) {
 	$item_data = array();
 
@@ -251,13 +301,13 @@ function wc_gzd_cart_product_delivery_time( $title, $cart_item, $cart_item_key =
 	if ( is_a( $cart_item, 'WC_Order_Item_Product' ) ) {
 		if ( $gzd_item = wc_gzd_get_order_item( $cart_item ) ) {
 			$delivery_time = $gzd_item->get_delivery_time();
-		} elseif( ( $product = $cart_item->get_product() ) && wc_gzd_get_product( $product )->get_delivery_time_term() ) {
+		} elseif( ( $product = $cart_item->get_product() ) && wc_gzd_get_product( $product )->get_delivery_time() ) {
 			$delivery_time = wc_gzd_get_product( $product )->get_delivery_time_html();
 		}
 	} elseif ( isset( $cart_item['data'] ) ) {
 		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 
-		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->get_delivery_time_term() ) {
+		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->get_delivery_time() ) {
 			$delivery_time = wc_gzd_get_product( $product )->get_delivery_time_html();
 		}
 
@@ -311,7 +361,53 @@ function wc_gzd_cart_product_unit_price( $price, $cart_item, $cart_item_key = ''
 		$product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 
 		if ( is_a( $product, 'WC_Product' ) && wc_gzd_get_product( $product )->has_unit() ) {
-		    $unit_price = wc_gzd_get_product( $product )->get_unit_price_html( false, $tax_display );
+            $gzd_product  = wc_gzd_get_product( $product );
+
+			/**
+			 * Filter that allows to enable/disable calculating the unit price based on the actual cart content instead of falling back to
+             * actual product data. Using cart data improves compatibility with dynamic pricing plugins.
+			 *
+			 * @param bool $enable_recalculation Whether to enable recalculating the unit price with cart data or not.
+			 * @param array $cart_item The cart item data.
+			 * @param string $cart_item_key The cart item key.
+			 *
+			 * @since 3.7.3
+			 */
+            if ( apply_filters( 'woocommerce_gzd_recalculate_unit_price_cart', true, $cart_item, $cart_item_key ) && isset( $cart_item['line_subtotal'], $cart_item['line_subtotal_tax'], $cart_item['quantity'] ) ) {
+	            $unit_product = $gzd_product->get_unit_product();
+	            $unit_base    = $gzd_product->get_unit_base();
+
+	            /**
+	             * Determines the quantity used to calculate the item total used for unit price (re-) calculation within the cart.
+                 *
+	             * @param float $quantity The item quantity.
+	             * @param array $cart_item The cart item data.
+                 * @param string $cart_item_key The cart item key.
+	             *
+	             * @since 3.7.3
+	             */
+                $quantity = floatval( apply_filters( 'woocommerce_gzd_unit_price_cart_quantity', $cart_item['quantity'], $cart_item, $gzd_product ) );
+
+                if ( $quantity <= 0 ) {
+                    $quantity = 1;
+                }
+
+	            if ( WC()->cart->display_prices_including_tax() ) {
+		            $total = ( $cart_item['line_subtotal'] + $cart_item['line_subtotal_tax'] ) / $quantity;
+	            } else {
+		            $total = $cart_item['line_subtotal'] / $quantity;
+	            }
+
+	            $prices = wc_gzd_recalculate_unit_price( array(
+		            'regular_price' => $total,
+		            'base'          => $unit_base,
+		            'products'      => $unit_product,
+	            ) );
+
+	            $unit_price = wc_gzd_format_unit_price( wc_price( $prices['unit'] ), $gzd_product->get_unit_html(), $gzd_product->get_unit_base_html() );
+            } else {
+	            $unit_price = wc_gzd_get_product( $product )->get_unit_price_html( false, $tax_display );
+            }
 		}
 	} elseif ( isset( $cart_item['unit_price'] ) ) {
 		$unit_price = $cart_item['unit_price'];
@@ -366,6 +462,17 @@ function wc_gzd_cart_product_units( $title, $cart_item, $cart_item_key = '' ) {
 	} elseif ( isset( $cart_item['units'] ) ) {
 		$units = $cart_item['units'];
 	}
+
+	/**
+	 * Filter that allows adjusting the product units HTML content before outputting within cart.
+	 *
+	 * @param string $product_units_html The HTML content.
+	 * @param array  $cart_item The cart item data.
+	 * @param string $cart_item_key The cart item key.
+	 *
+	 * @since 3.7.3
+	 */
+    $units = apply_filters( 'woocommerce_gzd_cart_product_units_html', $units, $cart_item, $cart_item_key );
 
 	if ( ! empty( $units ) ) {
 		$title .= '<p class="wc-gzd-cart-info units-info">' . $units . '</p>';
@@ -586,14 +693,16 @@ function wc_gzd_get_cart_tax_share( $type = 'shipping', $cart_contents = array()
 				$class      = $item->get_tax_class();
 				$line_total = $item->get_total();
 				$taxes      = $item->get_taxes();
-				$tax_rate   = key( $taxes['total'] );
+				$tax_rate   = ! empty( $taxes ) ? key( $taxes['total'] ) : null;
 
 				// Search for the first non-empty tax rate
-				foreach( $taxes['total'] as $rate_id => $tax ) {
-				    if ( ! empty( $tax ) ) {
-				        $tax_rate = $rate_id;
-				        break;
-                    }
+                if ( ! empty( $taxes ) ) {
+	                foreach( $taxes['total'] as $rate_id => $tax ) {
+		                if ( ! empty( $tax ) ) {
+			                $tax_rate = $rate_id;
+			                break;
+		                }
+	                }
                 }
 
 				$tax_rate = apply_filters( 'woocommerce_gzd_tax_share_order_item_tax_rate', $tax_rate, $item, $type );
@@ -601,7 +710,8 @@ function wc_gzd_get_cart_tax_share( $type = 'shipping', $cart_contents = array()
 				$_product   = apply_filters( 'woocommerce_cart_item_product', $item['data'], $item, $key );
 				$class      = $_product->get_tax_class();
 				$line_total = $item['line_total'];
-				$tax_rate   = key( $item['line_tax_data']['total'] );
+				$tax_rate   = ! empty( $item['line_tax_data'] ) ? key( $item['line_tax_data']['total'] ) : null;
+
 				$tax_rate   = apply_filters( 'woocommerce_gzd_tax_share_cart_item_tax_rate', $tax_rate, $item, $type );
 			}
 
@@ -842,4 +952,50 @@ function wc_gzd_get_chosen_shipping_rates( $args = array() ) {
 
 function wc_gzd_get_legal_text_parcel_delivery( $titles = array() ) {
 	wc_deprecated_function( __FUNCTION__, '2.0' );
+}
+
+function wc_gzd_checkout_adjustments_disabled() {
+	return defined( 'WC_GZD_DISABLE_CHECKOUT_ADJUSTMENTS' ) && WC_GZD_DISABLE_CHECKOUT_ADJUSTMENTS && apply_filters( 'woocommerce_gzd_allow_disabling_checkout_adjustments', true );
+}
+
+function wc_gzd_maybe_disable_checkout_adjustments() {
+	if ( wp_doing_ajax() && isset( $_POST['post_data'] ) ) {
+		$result = array();
+		$data   = wp_unslash( $_POST['post_data'] );
+		parse_str( $data, $result );
+
+		if ( ! defined( 'WC_GZD_DISABLE_CHECKOUT_ADJUSTMENTS' ) && isset( $result['wc_gzd_checkout_disabled'] ) ) {
+			define( 'WC_GZD_DISABLE_CHECKOUT_ADJUSTMENTS', true );
+		}
+	} elseif ( ! wp_doing_ajax() && wc_gzd_checkout_adjustments_disabled() ) {
+		add_action( 'woocommerce_review_order_before_payment', function() {
+			echo '<input type="hidden" name="wc_gzd_checkout_disabled" value="1" />';
+		}, 50 );
+	}
+
+	if ( wc_gzd_checkout_adjustments_disabled() ) {
+		remove_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review', 20 );
+		remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 10 );
+
+		// Restore defaults
+		add_action( 'woocommerce_checkout_order_review', 'woocommerce_order_review', 10 );
+		add_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+
+		remove_action( 'woocommerce_review_order_before_submit', 'woocommerce_gzd_template_set_order_button_remove_filter', 1500 );
+		remove_action( 'woocommerce_review_order_after_submit', 'woocommerce_gzd_template_set_order_button_show_filter', 1500 );
+		remove_action( 'woocommerce_gzd_review_order_before_submit', 'woocommerce_gzd_template_set_order_button_show_filter', 1500 );
+
+		remove_action( 'woocommerce_checkout_order_review', 'woocommerce_gzd_template_order_submit', wc_gzd_get_hook_priority( 'checkout_order_submit' ) );
+		remove_action( 'woocommerce_checkout_after_order_review', 'woocommerce_gzd_template_order_submit_fallback', 50 );
+
+		remove_action( 'woocommerce_review_order_after_payment', 'woocommerce_gzd_template_render_checkout_checkboxes', 10 );
+		remove_action( 'woocommerce_review_order_after_payment', 'woocommerce_gzd_template_checkout_set_terms_manually', wc_gzd_get_hook_priority( 'checkout_set_terms' ) );
+
+		add_action( 'woocommerce_review_order_before_payment', 'woocommerce_gzd_template_render_checkout_checkboxes', 10 );
+		add_action( 'woocommerce_review_order_before_payment', 'woocommerce_gzd_template_checkout_set_terms_manually', wc_gzd_get_hook_priority( 'checkout_set_terms' ) );
+
+		remove_action( 'woocommerce_review_order_before_payment', 'woocommerce_gzd_template_checkout_payment_title' );
+
+		do_action( 'woocommerce_gzd_disabled_checkout_adjustments' );
+	}
 }

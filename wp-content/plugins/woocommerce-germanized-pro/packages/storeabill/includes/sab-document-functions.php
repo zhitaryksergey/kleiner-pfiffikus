@@ -96,7 +96,7 @@ function sab_get_document_item_type_title( $item_type ) {
 	$mappings = array(
 		'accounting_product'  => _x( 'Product', 'storeabill-core', 'woocommerce-germanized-pro' ),
 		'accounting_fee'      => _x( 'Fee', 'storeabill-core', 'woocommerce-germanized-pro' ),
-		'accounting-shipping' => _x( 'Shipping', 'storeabill-core', 'woocommerce-germanized-pro' ),
+		'accounting_shipping' => _x( 'Shipping', 'storeabill-core', 'woocommerce-germanized-pro' ),
 		'accounting_tax'      => _x( 'Tax', 'storeabill-core', 'woocommerce-germanized-pro' )
 	);
 
@@ -161,6 +161,7 @@ function sab_register_document_type( $type, $args = array() ) {
 		'barcode_code_types'        => array(),
 		'shortcodes'                => array(),
 		'date_types'                => array(),
+		'document_type'             => $type,
 		'exporters'                 => array(
 			'file' => '\Vendidero\StoreaBill\Document\FileExporter'
 		),
@@ -359,6 +360,14 @@ function sab_register_document_type( $type, $args = array() ) {
 			'taxes' => array(
 				'title' => _x( 'Tax %s %%', 'storeabill-core', 'woocommerce-germanized-pro' ),
 				'desc'  => _x( 'Taxes', 'storeabill-core', 'woocommerce-germanized-pro' )
+			),
+			'shipping_taxes' => array(
+				'title' => _x( 'Shipping Tax %s %%', 'storeabill-core', 'woocommerce-germanized-pro' ),
+				'desc'  => _x( 'Shipping Taxes', 'storeabill-core', 'woocommerce-germanized-pro' )
+			),
+			'fee_taxes' => array(
+				'title' => _x( 'Fee Tax %s %%', 'storeabill-core', 'woocommerce-germanized-pro' ),
+				'desc'  => _x( 'Fee Taxes', 'storeabill-core', 'woocommerce-germanized-pro' )
 			),
 			'net' => array(
 				'title' => _x( 'Net', 'storeabill-core', 'woocommerce-germanized-pro' ),

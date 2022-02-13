@@ -448,6 +448,7 @@ class WC_GZDP_VAT_Helper {
 	    // Make sure all letters are uppercase
 	    $number = strtoupper( $number );
 		$number = trim( preg_replace( "/[^a-z0-9]+/i", "", sanitize_text_field( $number ) ) );
+        $original_expected_country = $expected_country;
 
 		if ( ! empty( $expected_country ) ) {
 			$expected_country = $this->get_vat_id_prefix_by_country( $expected_country );
@@ -473,10 +474,10 @@ class WC_GZDP_VAT_Helper {
 			$number = substr( $number, 2 );
 		}
 
-		return array( 
+		return apply_filters( "woocommerce_gzdp_vat_id_fragments", array(
 			"number" 	=> $number,
 			"country" 	=> $expected_country,
-		);
+		), $number, $original_expected_country );
 	}
 
 	public function set_vat_id_format( $number, $country = '' ) {
@@ -1308,37 +1309,46 @@ class WC_GZDP_VAT_Helper {
 			return new WP_Error( 'vat-id-company-missing', __( 'Please provide your company name to check your VAT ID.', 'woocommerce-germanized-pro' ) );
 		}
 
-		if ( get_transient( $transient_name ) ) {
-			return true;
-        }
+        $vat_validator = false;
 
 		if ( 'CH' === $country ) {
-		    $vat = new WC_GZDP_VAT_Validation_Switzerland();
-		} else {
-			$vat = new WC_GZDP_VAT_Validation( array(
+			$vat_validator = new WC_GZDP_VAT_Validation_Switzerland();
+		} elseif ( in_array( $country, wc_gzdp_get_eu_vat_countries() ) || 'XI' === $country ) {
+			$vat_validator = new WC_GZDP_VAT_Validation( array(
 				'requester_vat_id' => get_option( 'woocommerce_gzdp_vat_requester_vat_id' ),
 				'address_expected' => $address_expected
 			) );
 		}
 
-		if ( $vat->check( $country, $number ) ) {
-            $vat_result = $vat->get_data();
+        if ( $vat_validator ) {
+	        /**
+	         * Cache VAT validation results
+	         */
+	        if ( get_transient( $transient_name ) ) {
+		        return true;
+	        }
 
-            // Save the result as transient
-            set_transient( 'vat_id_validation_result_' . $transient_postfix, $vat_result, 5 * DAY_IN_SECONDS );
+	        if ( $vat_validator->check( $country, $number ) ) {
+		        $vat_result = $vat_validator->get_data();
 
-            if ( get_option( 'woocommerce_gzdp_vat_check_cache' ) ) {
-				$days = (int) get_option( 'woocommerce_gzdp_vat_check_cache', 7 );
+		        // Save the result as transient
+		        set_transient( 'vat_id_validation_result_' . $transient_postfix, $vat_result, 5 * DAY_IN_SECONDS );
 
-				set_transient( $transient_name, 'yes', $days * DAY_IN_SECONDS );
-			}
+		        if ( get_option( 'woocommerce_gzdp_vat_check_cache' ) ) {
+			        $days = (int) get_option( 'woocommerce_gzdp_vat_check_cache', 7 );
 
-			return true;
-		} elseif( $errors = $vat->get_error_messages() ) {
-		    return $errors;
-		}
-		
-		return new WP_Error( 'vat-id-invalid', __( 'The VAT ID you\'ve provided is invalid.', 'woocommerce-germanized-pro' ) );
+			        set_transient( $transient_name, 'yes', $days * DAY_IN_SECONDS );
+		        }
+
+		        return true;
+	        } elseif ( $errors = $vat_validator->get_error_messages() ) {
+		        return $errors;
+	        }
+
+	        return new WP_Error( 'vat-id-invalid', __( 'The VAT ID you\'ve provided is invalid.', 'woocommerce-germanized-pro' ) );
+        } else {
+            return apply_filters( 'woocommerce_gzdp_vat_id_missing_validator_is_valid', true, $country, $number, $address_expected );
+        }
 	}
 
 	/**
@@ -1381,12 +1391,12 @@ class WC_GZDP_VAT_Helper {
 
 		remove_filter( 'get_post_metadata', array( $this, 'product_vat_exempt' ), 0 );
 
-		if ( isset( $data[ 'vat_id' ] ) && $this->country_supports_vat_id( $country ) ) {
+		if ( isset( $data['vat_id'] ) && $this->country_supports_vat_id( $country ) ) {
 
 			$vat_id_elements = $this->get_vat_id_from_string( sanitize_text_field( $data['vat_id'] ), $country );
 
 			// Is VAT exempt
-			if ( WC_GZDP_VAT_Helper::instance()->validate( $vat_id_elements[ 'country' ], $vat_id_elements[ 'number' ] ) ) {
+			if ( WC_GZDP_VAT_Helper::instance()->validate( $vat_id_elements['country'], $vat_id_elements['number'] ) ) {
 				// Remove product taxable status
 				add_filter( 'get_post_metadata', array( $this, 'product_vat_exempt' ), 0, 4 );
 				// Remove order taxes

@@ -18,4 +18,9 @@ $payment_status = $sab_order->get_invoice_payment_status();
 	<span id="sab-order-payment-status" class="sab-status sab-payment-status sab-payment-status-complete sab-status-green">
 	    <?php echo _x( 'Paid', 'storeabill-core', 'woocommerce-germanized-pro' ); ?>
 	</span>
+<?php elseif ( 'cancelled' === $payment_status ): ?>
+    <span id="sab-order-payment-status" class="sab-status sab-payment-status sab-payment-status-cancelled sab-status-red">
+	    <?php echo _x( 'Cancelled', 'storeabill-core', 'woocommerce-germanized-pro' ); ?>
+	</span>
 <?php endif; ?>
+

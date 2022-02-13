@@ -53,6 +53,8 @@ class FileExporter extends Exporter {
 			if ( ! empty( $document['path'] ) && file_exists( $document['path'] ) ) {
 				$this->files[ $document['path'] ] = basename( $document['path'] );
             }
+
+			++ $this->total_exported;
 		}
     }
 
@@ -117,6 +119,7 @@ class FileExporter extends Exporter {
 
 	protected function write_data() {
     	if ( $zip = $this->get_file() ) {
+
     		foreach( $this->files as $file => $filename ) {
     			$zip->addFile( $file, $filename );
 		    }

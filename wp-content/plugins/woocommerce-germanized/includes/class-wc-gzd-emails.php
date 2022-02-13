@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Attaches legal relevant Pages to WooCommerce Emails if has been set by WooCommerce Germanized Options
  *
@@ -34,13 +36,25 @@ class WC_GZD_Emails {
 
 		add_action( 'woocommerce_email', array( $this, 'email_hooks' ), 0, 1 );
 		add_filter( 'wc_get_template', array( $this, 'maybe_set_current_email_instance' ), 1000, 3 );
+		add_filter( 'woocommerce_email_actions', array( $this, 'register_custom_email_actions' ), 10 );
 
 		if ( wc_gzd_send_instant_order_confirmation() ) {
 
 			/**
 			 * Support WooCommerce Gutenberg checkout block
 			 */
-			add_action( '__experimental_woocommerce_blocks_checkout_order_processed', array( $this, 'confirm_order' ) );
+			if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '6.0.0', '>=' ) ) {
+				add_action( 'woocommerce_blocks_checkout_order_processed', array( $this, 'confirm_order' ) );
+			} else {
+				add_action( '__experimental_woocommerce_blocks_checkout_order_processed', array( $this, 'confirm_order' ) );
+			}
+
+			/**
+			 * Register a custom shutdown handler to make sure the order is being confirmed even though the
+			 * woocommerce_payment_successful_result or woocommerce_checkout_no_payment_needed_redirect hooks
+			 * are not executed (e.g. custom gateway logic).
+			 */
+			add_action( 'woocommerce_checkout_order_processed', array( $this, 'register_confirmation_fallback' ), 30 );
 
 			// Send order notice directly after new order is being added - use these filters because order status has to be updated already
 			add_filter( 'woocommerce_payment_successful_result', array(
@@ -103,9 +117,94 @@ class WC_GZD_Emails {
 		add_filter( 'woocommerce_email_headers', array( $this, 'add_bcc_email_headers' ), 10, 4 );
 		add_filter( 'woocommerce_email_footer_text', array( $this, 'reset_email_instance' ), 1000 );
 
+		add_filter( 'woocommerce_email_attachments', array( $this, 'attach_product_warranties' ), 100, 3 );
+
 		if ( is_admin() ) {
 			$this->admin_hooks();
 		}
+	}
+
+	public function register_confirmation_fallback( $order_id ) {
+		register_shutdown_function( array( $this, 'after_order_shutdown' ), $order_id );
+	}
+
+	public function after_order_shutdown( $order_id ) {
+		if ( ! did_action( 'woocommerce_germanized_order_confirmation_sent' ) ) {
+			$this->confirm_order( $order_id );
+		}
+	}
+
+	public function get_email_plain_content( $content_post ) {
+		$shortcodes_allowed = apply_filters( 'woocommerce_gzd_email_attachment_content_shortcodes_allowed', array( 'revocation_form', 'gzd_complaints', 'payment_methods_info' ) );
+		$content            = '';
+		$post               = is_numeric( $content_post ) ? get_post( $content_post ) : $content_post;
+
+		if ( is_a( $post, 'WP_Post' ) ) {
+			remove_shortcode( 'revocation_form' );
+			add_shortcode( 'revocation_form', array( $this, 'revocation_form_replacement' ) );
+
+			if ( ! get_post_meta( $post->ID, '_legal_text', true ) ) {
+				$content = wc_gzd_get_post_plain_content( $post, $shortcodes_allowed );
+			} else {
+				/**
+				 * Filter that allows disabling the `the_content` filter for optional legal page content.
+				 *
+				 * @param bool $enable Enable or disable the `the_content` filter.
+				 * @param string $content The content.
+				 */
+				$apply_content_filters = apply_filters( 'woocommerce_gzd_apply_optional_content_filter_email_attachment', true, $content );
+				$plain_content         = htmlspecialchars_decode( get_post_meta( $post->ID, '_legal_text', true ) );
+				$content               = $apply_content_filters ? apply_filters( 'the_content', $plain_content ) : $plain_content;
+				$content               = str_replace( ']]>', ']]&gt;', $content );
+			}
+
+			add_shortcode( 'revocation_form', 'WC_GZD_Shortcodes::revocation_form' );
+		}
+
+		return apply_filters( 'woocommerce_gzd_email_plain_content', $content );
+	}
+
+	public function attach_product_warranties( $attachments, $mail_id, $object = false ) {
+		$warranty_email_ids = array_filter( (array) get_option( 'woocommerce_gzd_mail_attach_warranties', array() ) );
+
+		if ( $object && in_array( $mail_id, $warranty_email_ids ) ) {
+			$product_ids = array();
+
+			if ( is_a( $object, 'WC_Order' ) ) {
+				foreach( $object->get_items( 'line_item' ) as $item ) {
+					$product_ids[] = $item->get_variation_id() ? $item->get_variation_id() : $item->get_product_id();
+				}
+			} elseif ( is_a( $object, '\Vendidero\Germanized\Shipments\Shipment' ) ) {
+				foreach( $object->get_items() as $item ) {
+					$product_ids[] = $item->get_product_id();
+				}
+			}
+
+			$product_ids = apply_filters( "woocommerce_gzd_product_warranties_email_product_ids", $product_ids, $object, $mail_id );
+			$product_ids = array_filter( array_unique( $product_ids ) );
+
+			if ( ! empty( $product_ids ) ) {
+				foreach( $product_ids as $product_id ) {
+					if ( $gzd_product = wc_gzd_get_gzd_product( $product_id ) ) {
+						if ( $gzd_product->has_warranty() ) {
+							if ( ! in_array( $gzd_product->get_warranty_file(), $attachments ) ) {
+								$attachments[] = $gzd_product->get_warranty_file();
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $attachments;
+	}
+
+	public function register_custom_email_actions( $actions ) {
+		$actions = array_merge( $actions, array(
+			'woocommerce_order_status_pending_to_cancelled',
+		) );
+
+		return $actions;
 	}
 
 	public function prevent_html_url_auto_link( $url ) {
@@ -292,7 +391,7 @@ class WC_GZD_Emails {
 			if ( isset( $args['order'] ) ) {
 				$GLOBALS['wc_gzd_processing_order'] = $args['order'];
 
-				add_filter( 'gettext', array( $this, 'replace_processing_email_text' ), 10, 3 );
+				add_filter( 'gettext', array( $this, 'replace_processing_email_text' ), 9999, 3 );
 			}
 		}
 
@@ -309,9 +408,10 @@ class WC_GZD_Emails {
 		 * @since 3.0.0
 		 *
 		 */
-		if ( strpos( $template_name, 'emails/' ) !== false && isset( $args['order'] ) && apply_filters( 'woocommerce_gzd_replace_email_titles', true ) ) {
+		if ( strpos( $template_name, 'emails/' ) !== false && isset( $args['order'] ) && get_option( 'woocommerce_gzd_email_title_text' ) && apply_filters( 'woocommerce_gzd_replace_email_titles', true ) ) {
 			$GLOBALS['wc_gzd_email_order'] = $args['order'];
-			add_filter( 'gettext', array( $this, 'replace_title_email_text' ), 10, 3 );
+
+			add_filter( 'gettext', array( $this, 'replace_title_email_text' ), 9999, 3 );
 		}
 	}
 
@@ -326,6 +426,7 @@ class WC_GZD_Emails {
 			if ( in_array( $original, $search ) ) {
 				if ( isset( $GLOBALS['wc_gzd_processing_order'] ) ) {
 					$order = $GLOBALS['wc_gzd_processing_order'];
+
 					return $this->get_processing_email_text( $order );
 				}
 			}
@@ -473,7 +574,7 @@ class WC_GZD_Emails {
 
 	private function set_footer_attachments() {
 		// Order attachments
-		$attachment_order         = wc_gzd_get_email_attachment_order();
+		$attachment_order         = wc_gzd_get_email_attachment_order( true );
 		$this->footer_attachments = array();
 
 		foreach ( $attachment_order as $key => $order ) {
@@ -498,12 +599,14 @@ class WC_GZD_Emails {
 			$this->prevent_confirmation_email_sending();
 		}
 
-		// Hook before WooCommerce Footer is applied
-		remove_action( 'woocommerce_email_footer', array( $this->mailer, 'email_footer' ) );
+		/**
+		 * Use 5 as a priority to hook before global WooCommerce email footer (10)
+		 */
+		add_action( 'woocommerce_email_footer', array( $this, 'add_template_footers' ), 5 );
 
-		add_action( 'woocommerce_email_footer', array( $this, 'add_template_footers' ), 0 );
-		add_action( 'woocommerce_email_footer', array( $this->mailer, 'email_footer' ), 1 );
-
+		/**
+		 * The plain email templates do only include a filter to display a footer text
+		 */
 		add_filter( 'woocommerce_email_footer_text', array( $this, 'email_footer_plain' ), 0 );
 		add_filter( 'woocommerce_email_styles', array( $this, 'styles' ) );
 
@@ -521,7 +624,7 @@ class WC_GZD_Emails {
 		}
 
 		// Set email filters
-		add_action( 'woocommerce_email_order_details', array( $this, 'set_order_email_filters' ), 5 );
+		add_action( 'woocommerce_email_order_details', array( $this, 'set_order_email_filters' ), 5, 4 );
 
 		// Remove them after total has been displayed
 		add_action( 'woocommerce_email_after_order_table', array( $this, 'remove_order_email_filters' ), 10 );
@@ -929,9 +1032,11 @@ class WC_GZD_Emails {
 		return false;
 	}
 
-	public function set_order_email_filters() {
+	public function set_order_email_filters( $order, $sent_to_admin, $plain_text, $current = null ) {
 
-		$current = $this->get_current_email_object();
+		if ( ! $current ) {
+			$current = $this->get_current_email_object();
+		}
 
 		if ( ! $current || empty( $current ) ) {
 			return;
@@ -965,6 +1070,10 @@ class WC_GZD_Emails {
 
 		if ( 'yes' === get_option( 'woocommerce_gzd_display_emails_product_item_desc' ) ) {
 			add_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_item_desc', wc_gzd_get_hook_priority( 'email_product_item_desc' ), 2 );
+		}
+
+		if ( 'yes' === get_option( 'woocommerce_gzd_display_emails_product_defect_description' ) ) {
+			add_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_defect_description', wc_gzd_get_hook_priority( 'email_product_defect_description' ), 2 );
 		}
 
 		if ( 'yes' === get_option( 'woocommerce_gzd_display_emails_product_attributes' ) ) {
@@ -1005,6 +1114,7 @@ class WC_GZD_Emails {
 		remove_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_units', wc_gzd_get_hook_priority( 'email_product_units' ) );
 		remove_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_delivery_time', wc_gzd_get_hook_priority( 'email_product_delivery_time' ) );
 		remove_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_item_desc', wc_gzd_get_hook_priority( 'email_product_item_desc' ) );
+		remove_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_defect_description', wc_gzd_get_hook_priority( 'email_product_defect_description' ) );
 		remove_filter( 'woocommerce_order_item_name', 'wc_gzd_cart_product_attributes', wc_gzd_get_hook_priority( 'email_product_attributes' ) );
 
 		remove_filter( 'woocommerce_order_formatted_line_subtotal', 'wc_gzd_cart_product_unit_price', wc_gzd_get_hook_priority( 'email_product_unit_price' ) );
@@ -1069,7 +1179,7 @@ class WC_GZD_Emails {
 			$email = $this->get_current_email_instance();
 		}
 
-		if ( $email ) {
+		if ( is_a( $email, 'WC_Email' ) ) {
 			$email_id = $email->id;
 
 			/**
@@ -1084,6 +1194,17 @@ class WC_GZD_Emails {
 			 *
 			 */
 			do_action( 'woocommerce_germanized_email_footer_' . $email_id, $email );
+		} else {
+			/**
+			 * Global email footer (after content) hook.
+			 *
+			 * This hook serves as entry point for legal attachment texts within emails in case
+			 * not email instance (e.g. sent without an instance) could be detected.
+			 *
+			 * @since 3.7.3
+			 *
+			 */
+			do_action( 'woocommerce_germanized_email_footer_fallback' );
 		}
 	}
 
@@ -1097,6 +1218,8 @@ class WC_GZD_Emails {
 	 * @param integer $page_id
 	 */
 	public function attach_page_content( $page_id, $mail, $email_type = 'html' ) {
+		global $post;
+		$reset_post = $post;
 
 		/**
 		 * Attach email footer.
@@ -1122,36 +1245,37 @@ class WC_GZD_Emails {
 		 */
 		$page_id = apply_filters( 'woocommerce_germanized_attach_email_footer_page_id', $page_id, $mail );
 
-		remove_shortcode( 'revocation_form' );
-		add_shortcode( 'revocation_form', array( $this, 'revocation_form_replacement' ) );
-
 		$template = 'emails/email-footer-attachment.php';
 
 		if ( $email_type == 'plain' ) {
 			$template = 'emails/plain/email-footer-attachment.php';
 		}
 
-		global $post;
+		$content = $this->get_email_plain_content( $page_id );
 
-		$reset_post = $post;
-		$post       = get_post( $page_id );
+		if ( ! empty( $content ) ) {
+			$post = get_post( $page_id );
 
-		if ( $post ) {
-			setup_postdata( $post );
+			if ( is_a( $post, 'WP_Post' ) ) {
+				setup_postdata( $post );
 
-			wc_get_template( $template, array(
-				'post_attach' => $post,
-			) );
+				if ( ! empty( $content ) ) {
+					wc_get_template( $template, array(
+						'print_title'  => ( substr( trim( $content ), 0, 2 ) === '<h' ) ? false : true,
+						'post_content' => $content,
+						'post_id'      => $page_id,
+						'post_attach'  => $post,
+					) );
+				}
 
-			/**
-			 * Reset post data to keep global loop valid.
-			 */
-			if ( $reset_post ) {
-				setup_postdata( $reset_post );
+				/**
+				 * Reset post data to keep global loop valid.
+				 */
+				if ( $reset_post ) {
+					setup_postdata( $reset_post );
+				}
 			}
 		}
-
-		add_shortcode( 'revocation_form', 'WC_GZD_Shortcodes::revocation_form' );
 	}
 
 	/**

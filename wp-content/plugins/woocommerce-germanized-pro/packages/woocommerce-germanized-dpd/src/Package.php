@@ -5,6 +5,7 @@ namespace Vendidero\Germanized\DPD;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Vendidero\Germanized\DPD\Api\Api;
 use Vendidero\Germanized\Shipments\ShippingProvider\Helper;
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +20,7 @@ class Package {
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.2';
+	const VERSION = '1.1.0';
 
 	protected static $api = null;
 
@@ -56,34 +57,6 @@ class Package {
 				add_action( 'admin_notices', array( __CLASS__, 'load_dependencies_notice' ) );
 			}
 		}
-	}
-
-	public static function get_domestic_products() {
-	    return array(
-		    'CL'   => _x( 'DPD Classic', 'dpd', 'woocommerce-germanized-pro' ),
-		    'E830' => _x( 'DPD 8:30', 'dpd', 'woocommerce-germanized-pro' ),
-		    'E10'  => _x( 'DPD 10:00', 'dpd', 'woocommerce-germanized-pro' ),
-		    'E12'  => _x( 'DPD 12:00', 'dpd', 'woocommerce-germanized-pro' ),
-		    'E18'  => _x( 'DPD 18:00', 'dpd', 'woocommerce-germanized-pro' ),
-		    'IE2'  => _x( 'DPD Express', 'dpd', 'woocommerce-germanized-pro' ),
-		    'MAX'  => _x( 'DPD MAX', 'dpd', 'woocommerce-germanized-pro' ),
-		    'PL'   => _x( 'DPD PARCELLetter', 'dpd', 'woocommerce-germanized-pro' ),
-		    'PM4'  => _x( 'DPD Priority', 'dpd', 'woocommerce-germanized-pro' ),
-        );
-    }
-
-    public static function get_international_products() {
-	    return array(
-		    'CL'  => _x( 'DPD Classic (Switzerland)', 'dpd', 'woocommerce-germanized-pro' ),
-		    'IE2' => _x( 'DPD Express', 'dpd', 'woocommerce-germanized-pro' ),
-	    );
-    }
-
-	public static function get_eu_products() {
-		return array(
-			'CL'  => _x( 'DPD Classic', 'dpd', 'woocommerce-germanized-pro' ),
-			'IE2' => _x( 'DPD Express', 'dpd', 'woocommerce-germanized-pro' ),
-        );
 	}
 
 	public static function load_dependencies_notice() {
@@ -156,21 +129,71 @@ class Package {
 		}
 	}
 
+    public static function get_cloud_api_partner_name() {
+	    if ( self::is_debug_mode() ) {
+		    if ( defined( 'WC_GZD_DPD_CLOUD_API_PARTNER_NAME' ) ) {
+                return WC_GZD_DPD_CLOUD_API_PARTNER_NAME;
+		    } else {
+                return 'DPD Sandbox';
+		    }
+	    } else {
+		    return 'Vendidero';
+	    }
+    }
+
+    public static function get_cloud_api_partner_token() {
+	    if ( self::is_debug_mode() && defined( 'WC_GZD_DPD_CLOUD_API_PARTNER_TOKEN' ) ) {
+            return WC_GZD_DPD_CLOUD_API_PARTNER_TOKEN;
+	    } else {
+		    return 'C412B4B6B4C746230786';
+	    }
+    }
+
+	public static function get_cloud_api_username() {
+		if ( self::is_debug_mode() && defined( 'WC_GZD_DPD_CLOUD_API_USERNAME' ) ) {
+			return WC_GZD_DPD_CLOUD_API_USERNAME;
+		} else {
+			return self::get_dpd_shipping_provider()->get_setting( 'cloud_api_username' );
+		}
+	}
+
+	public static function get_cloud_api_password() {
+		if ( self::is_debug_mode() && defined( 'WC_GZD_DPD_CLOUD_API_PASSWORD' ) ) {
+			return WC_GZD_DPD_CLOUD_API_PASSWORD;
+		} else {
+			return self::get_dpd_shipping_provider()->get_setting( 'cloud_api_password' );
+		}
+	}
+
 	public static function get_api_language() {
 		return 'de_DE';
 	}
+
+    public static function get_current_api_type() {
+        $api_type = 'cloud';
+
+        if ( $provider = self::get_dpd_shipping_provider() ) {
+            $api_type = $provider->get_api_type();
+        }
+
+        return apply_filters( "woocommerce_gzd_dpd_api_type", $api_type );
+    }
 
 	/**
 	 * @return Api
 	 */
 	public static function get_api() {
-	    $api = Api::instance();
+        if ( 'cloud' === self::get_current_api_type() ) {
+	        $api = \Vendidero\Germanized\DPD\Api\Cloud\Api::instance();
+        } else {
+	        $api = \Vendidero\Germanized\DPD\Api\WebConnect\Api::instance();
+        }
 
-	    if ( self::is_debug_mode() ) {
-	        $api::dev();
-	    } else {
-	        $api::prod();
-	    }
+		if ( self::is_debug_mode() ) {
+			$api::dev();
+		} else {
+			$api::prod();
+		}
 
 	    return $api;
 	}

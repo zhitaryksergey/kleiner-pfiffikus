@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 class WC_GZD_Order_Helper {
 
 	protected static $_instance = null;
@@ -141,16 +143,6 @@ class WC_GZD_Order_Helper {
 	}
 
 	/**
-	 * @param WC_Order_Item_Product $item
-	 * @param $cart_item_key
-	 * @param $values
-	 * @param $order
-	 */
-	public function set_order_item_meta_crud( $item, $cart_item_key, $values, $order ) {
-		$this->refresh_item_data( $item );
-	}
-
-	/**
 	 * @param WC_Order_Item $item
 	 */
 	public function on_order_item_update( $item ) {
@@ -180,6 +172,7 @@ class WC_GZD_Order_Helper {
 		array_push( $metas, '_unit' );
 		array_push( $metas, '_unit_base' );
 		array_push( $metas, '_min_age' );
+		array_push( $metas, '_defect_description' );
 
 		return $metas;
 	}
@@ -196,6 +189,7 @@ class WC_GZD_Order_Helper {
 				$gzd_item->recalculate_unit_price();
 
 				$gzd_item->set_cart_description( $gzd_product->get_formatted_cart_description() );
+				$gzd_item->set_defect_description( $gzd_product->get_formatted_defect_description() );
 				$gzd_item->set_delivery_time( $gzd_product->get_delivery_time_html() );
 				$gzd_item->set_min_age( $gzd_product->get_min_age() );
 

@@ -79,32 +79,10 @@ class ItemTotalRow extends DynamicBlock {
 		 */
 		$document   = $GLOBALS['document'];
 		$attributes = $this->parse_attributes( $attributes );
+		$attributes['totalType'] = sab_map_invoice_total_type( $attributes['totalType'], $document );
 
 		$classes    = array_merge( sab_generate_block_classes( $attributes ), array( 'item-total' ) );
 		$styles     = sab_generate_block_styles( $attributes );
-
-		/**
-		 * Check whether to use subtotals (before discounts) or totals (after discounts) for fees, shipping.
-		 */
-		if ( in_array( $attributes['totalType'], array( 'fee', 'shipping', 'fee_net', 'shipping_net' ) ) ) {
-			$template  = $document->get_template();
-			$item_type = str_replace( '_net', '', $attributes['totalType'] );
-
-			/**
-			 * Use subtotals in case the item type is not shown as line item type
-			 * e.g. discounts cannot be removed for shipping and fees before showing totals.
-			 */
-			if ( ! in_array( $item_type, $template->get_line_item_types() ) ) {
-				$attributes['totalType'] = $item_type . '_subtotal' . ( strpos( $attributes['totalType'], '_net' ) !== false ? '_net' : '' );
-			}
-		} elseif ( in_array( $attributes['totalType'], array( 'discount' ) ) ) {
-			/**
-			 * Replace default discount with the additional costs discount (e.g. for shipping and fees).
-			 */
-			if ( sab_invoice_has_line_total_after_discounts( $document ) ) {
-				$attributes['totalType'] = 'additional_costs_discount';
-			}
-		}
 
 		$document_totals = $document->get_totals( $attributes['totalType'] );
 

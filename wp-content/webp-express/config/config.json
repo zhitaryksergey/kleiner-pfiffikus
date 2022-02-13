@@ -9,9 +9,11 @@
     "cache-control-max-age": "one-week",
     "cache-control-public": false,
     "scope": [
-        "themes",
-        "uploads"
+        "uploads",
+        "themes"
     ],
+    "enable-logging": false,
+    "prevent-using-webps-larger-than-original": true,
     "enable-redirection-to-converter": true,
     "only-redirect-to-converter-on-cache-miss": false,
     "only-redirect-to-converter-for-webp-enabled-browsers": true,
@@ -106,11 +108,11 @@
     "success-response": "converted",
     "alter-html": {
         "enabled": true,
-        "only-for-webp-enabled-browsers": false,
-        "alter-html-add-picturefill-js": true,
-        "only-for-webps-that-exists": false,
         "replacement": "picture",
         "hooks": "ob",
+        "only-for-webp-enabled-browsers": false,
+        "only-for-webps-that-exists": false,
+        "alter-html-add-picturefill-js": true,
         "hostname-aliases": []
     },
     "web-service": {
@@ -152,8 +154,10 @@
     },
     "base-htaccess-on-these-capability-tests": {
         "passThroughHeaderWorking": false,
-        "passThroughEnvWorking": true,
-        "modHeaderWorking": true
+        "passThroughEnvWorking": null,
+        "modHeaderWorking": null,
+        "canRunTestScriptInWOD": null,
+        "canRunTestScriptInWOD2": null
     },
     "document-root": "/var/www/vhosts/kleiner-pfiffikus.de/httpdocs",
     "paths-used-in-htaccess": {

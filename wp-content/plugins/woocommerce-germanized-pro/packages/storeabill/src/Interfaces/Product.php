@@ -2,6 +2,8 @@
 
 namespace Vendidero\StoreaBill\Interfaces;
 
+use Vendidero\StoreaBill\Document\Attribute;
+
 /**
  * Product Interface
  *
@@ -40,6 +42,19 @@ interface Product extends Reference {
 
 	public function get_parent();
 
+	/**
+	 * @param $slug
+	 *
+	 * @return Attribute
+	 */
+	public function get_attribute_by_slug( $slug );
+
+	/**
+	 * @param array $custom_attribute_slugs
+	 * @param array $existing_slugs
+	 *
+	 * @return Attribute[]
+	 */
 	public function get_additional_attributes( $custom_attribute_slugs, $existing_slugs = array() );
 
 	public function get_image_url( $size = '', $placeholder = false );

@@ -93,7 +93,7 @@ function TotalRowEdit( {
 
 	let innerHeading = heading ? heading : getItemTotalTypeDefaultTitle( totalType );
 
-	if ( 'taxes' === totalType || 'nets' === totalType || 'gross_tax_shares' === totalType ) {
+	if ( 'taxes' === totalType || '_taxes' === totalType.substring( totalType.length - 6 ) || 'nets' === totalType || '_nets' === totalType.substring( totalType.length - 5 ) || 'gross_tax_shares' === totalType || '_gross_tax_shares' === totalType.substring( totalType.length - 17 ) ) {
 		innerHeading = innerHeading.replace( '%s', '<span class="document-shortcode sab-tooltip" data-tooltip="' + _x( 'Tax Rate', 'storeabill-core', 'storeabill' ) + '" contenteditable="false" data-shortcode="document_total?data=rate&total_type=' + totalType + '"><span class="editor-placeholder"></span>' + getPreviewTaxRate() + '</span>' ).replace( '%%', '%' );
 	} else if ( 'fees' === totalType ) {
 		innerHeading = innerHeading.replace( '%s', '<span class="document-shortcode sab-tooltip" data-tooltip="' + _x( 'Fee name', 'storeabill-core', 'storeabill' ) + '" contenteditable="false" data-shortcode="document_total?data=name&total_type=' + totalType + '"><span class="editor-placeholder"></span>' + getPreviewFeeName() + '</span>' ).replace( '%%', '%' );

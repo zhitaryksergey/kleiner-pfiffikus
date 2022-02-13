@@ -27,7 +27,8 @@ class WC_GZDP_Assets {
 			$this->localized_scripts[] = 'wc-gzdp-checkout';
 
 			wp_localize_script( 'wc-gzdp-checkout', 'wc_gzdp_checkout_params', apply_filters( 'wc_gzdp_checkout_params', array(
-				'vat_exempt_postcodes' => Vendidero\StoreaBill\Countries::get_eu_vat_postcode_exemptions(),
+				'vat_exempt_postcodes'          => Vendidero\StoreaBill\Countries::get_eu_vat_postcode_exemptions(),
+				'great_britain_supports_vat_id' => WC_GZDP_VAT_Helper::instance()->country_supports_vat_id( 'GB' ),
 			) ) );
 		}
 	}

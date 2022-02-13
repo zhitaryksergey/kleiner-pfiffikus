@@ -106,7 +106,9 @@ class Discounts extends \WC_Discounts {
 			'discount_type' => $coupon_type,
 		) );
 
-		return parent::apply_coupon( $coupon, false );
+		$result = parent::apply_coupon( $coupon, false );
+
+		return $result;
 	}
 
 	/**

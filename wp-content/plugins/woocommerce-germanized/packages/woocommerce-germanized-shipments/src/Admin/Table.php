@@ -726,11 +726,11 @@ class Table extends WP_List_Table {
      * @return array
      */
     protected function get_sortable_columns() {
-        return array(
+        return apply_filters( "{$this->get_hook_prefix()}sortable_columns", array(
             'date'     => array( 'date_created', false ),
             'weight'   => 'weight',
 			'order'	   => 'order_id'
-        );
+        ), $this );
     }
 
     /**
@@ -1015,7 +1015,7 @@ class Table extends WP_List_Table {
      * @param Shipment $shipment The current shipment object.
      */
     public function column_weight( $shipment ) {
-        echo wc_gzd_format_shipment_weight( $shipment->get_weight(), $shipment->get_weight_unit() );
+        echo wc_gzd_format_shipment_weight( $shipment->get_total_weight(), $shipment->get_weight_unit() );
     }
 
 	/**

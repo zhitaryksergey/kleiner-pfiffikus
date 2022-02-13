@@ -3,6 +3,7 @@
 namespace Vendidero\StoreaBill\sevDesk;
 
 use Vendidero\StoreaBill\ExternalSync\SyncData;
+use Vendidero\StoreaBill\References\Customer;
 use Vendidero\StoreaBill\sevDesk\API\Models;
 
 defined( 'ABSPATH' ) || exit;
@@ -10,12 +11,13 @@ defined( 'ABSPATH' ) || exit;
 class Contact {
 
 	protected $data = array(
-		'first_name'    => '',
-		'last_name'     => '',
-		'vat_id'        => '',
-		'is_vat_exempt' => false,
-		'number'        => '',
-		'title'         => '',
+		'first_name'     => '',
+		'last_name'      => '',
+		'vat_id'         => '',
+		'is_vat_exempt'  => false,
+		'number'         => '',
+		'title'          => '',
+		'academic_title' => '',
 		'address' => array(
 			'street'   => '',
 			'zip'      => '',
@@ -53,6 +55,11 @@ class Contact {
 	protected $api = null;
 
 	/**
+	 * @var null|Customer
+	 */
+	protected $customer = null;
+
+	/**
 	 * Contact constructor.
 	 *
 	 * @param $args
@@ -63,7 +70,11 @@ class Contact {
 		$this->api = $api;
 
 		foreach( $args as $key => $arg ) {
-			$this->set( $key, $arg );
+			if ( 'customer' === $key ) {
+				$this->customer = $arg;
+			} else {
+				$this->set( $key, $arg );
+			}
 		}
 
 		$sync_props = array();
@@ -85,6 +96,17 @@ class Contact {
 				}
 			}
 		}
+	}
+
+	public function set_customer( $customer ) {
+		$this->customer = $customer;
+	}
+
+	/**
+	 * @return Customer|null
+	 */
+	public function get_customer() {
+		return $this->customer;
 	}
 
 	public function is_new() {
@@ -125,6 +147,10 @@ class Contact {
 
 	public function get_first_name() {
 		return $this->get( 'first_name' );
+	}
+
+	public function get_academic_title() {
+		return $this->get( 'academic_title' );
 	}
 
 	public function get_last_name() {
@@ -266,6 +292,10 @@ class Contact {
 			'description'	 => null
 		);
 
+		if ( '' !== $this->get_academic_title() ) {
+			$contact['academicTitle'] = $this->get_academic_title();
+		}
+
 		if ( $this->has_company() ) {
 			$company = array(
 				'name'		     => $this->get_company(),
@@ -302,9 +332,11 @@ class Contact {
 		if ( $this->is_new() ) {
 			$contact['customerNumber'] = $this->get_formatted_number();
 
-			$result = $this->api->create_contact( $contact );
+			$contact = apply_filters( "storeabill_external_sync_sevdesk_contact", $contact, $this );
+			$result  = $this->api->create_contact( $contact );
 		} else {
-			$result = $this->api->update_contact( $this->get_id(), $contact );
+			$contact = apply_filters( "storeabill_external_sync_sevdesk_contact", $contact, $this );
+			$result  = $this->api->update_contact( $this->get_id(), $contact );
 		}
 
 		if ( ! is_wp_error( $result ) ) {
@@ -361,6 +393,8 @@ class Contact {
 			'objectName' => 'Contact',
 			'id'         => $this->get_id(),
 		);
+
+		$address_data = apply_filters( "storeabill_external_sync_sevdesk_address", $address_data, $type, $this );
 
 		if ( ! $this->is_new_address( $id, $address_data ) ) {
 			$response = $this->api->update_address( $id, $address_data );

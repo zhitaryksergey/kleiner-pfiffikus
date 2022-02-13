@@ -66,6 +66,13 @@ class CsvExporter extends \Vendidero\StoreaBill\Document\CsvExporter {
 				$this->column_names[ $column_key ] = sprintf( _x( 'Tax Total: %s', 'storeabill-core', 'woocommerce-germanized-pro' ), $tax_total_data['rate']['percent'] );
 
 				$row[ $column_key ] = $tax_total_data['total_tax'];
+
+				foreach( $tax_total_data['tax_totals'] as $item_type => $tax_total ) {
+					$column_key = 'tax_totals:' . esc_attr( $item_type ) . ':' . esc_attr( $tax_total_data['rate']['percent'] );
+					$this->column_names[ $column_key ] = sprintf( _x( '%1$s Tax Total: %2$s', 'storeabill-core', 'woocommerce-germanized-pro' ), sab_get_document_item_type_title( 'accounting_' . $item_type ), $tax_total_data['rate']['percent'] );
+
+					$row[ $column_key ] = $tax_total;
+				}
 			}
 		}
 
@@ -75,6 +82,13 @@ class CsvExporter extends \Vendidero\StoreaBill\Document\CsvExporter {
 				$this->column_names[ $column_key ] = sprintf( _x( 'Total Net: %s', 'storeabill-core', 'woocommerce-germanized-pro' ), $tax_total_data['rate']['percent'] );
 
 				$row[ $column_key ] = $tax_total_data['total_net'];
+
+				foreach( $tax_total_data['net_totals'] as $item_type => $net_total ) {
+					$column_key = 'net_totals:' . esc_attr( $item_type ) . ':' . esc_attr( $tax_total_data['rate']['percent'] );
+					$this->column_names[ $column_key ] = sprintf( _x( '%1$s Total Net: %2$s', 'storeabill-core', 'woocommerce-germanized-pro' ), sab_get_document_item_type_title( 'accounting_' . $item_type ), $tax_total_data['rate']['percent'] );
+
+					$row[ $column_key ] = $net_total;
+				}
 			}
 		}
 

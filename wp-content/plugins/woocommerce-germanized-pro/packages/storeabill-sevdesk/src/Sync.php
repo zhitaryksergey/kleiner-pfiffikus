@@ -163,9 +163,11 @@ class Sync extends SyncHandler {
 	 */
 	protected function sync_customer( $customer ) {
 		$data = array(
+			'customer'         => $customer,
 			'first_name'       => $customer->get_first_name(),
 			'last_name'        => $customer->get_last_name(),
 			'title'            => $customer->get_formatted_title(),
+			'academic_title'   => '',
 			'email'            => $customer->get_email(),
 			'phone'            => $customer->get_phone(),
 			'company'          => $customer->get_company_name(),
@@ -186,7 +188,7 @@ class Sync extends SyncHandler {
 			),
 		);
 
-		$contact = new Contact( $data, $this->get_api(), $customer->get_external_sync_handler_data( self::get_name() ) );
+		$contact = new Contact( apply_filters( "{$this->get_hook_prefix()}contact_data", $data, $customer, $this ), $this->get_api(), $customer->get_external_sync_handler_data( self::get_name() ) );
 		$result  = $contact->save();
 
 		if ( true === $result ) {
@@ -211,12 +213,14 @@ class Sync extends SyncHandler {
 		$title         = isset( $address_data['title'] ) ? $address_data['title'] : '';
 
 		$customer_data = array(
+            'customer'         => $invoice->get_customer(),
 			'first_name'       => $invoice->get_first_name(),
 			'last_name'        => $invoice->get_last_name(),
 			'email'            => $invoice->get_email(),
 			'phone'            => $invoice->get_phone(),
 			'company'          => $invoice->get_company(),
 			'title'            => $title,
+            'academic_title'   => '',
 			'vat_id'           => $invoice->get_vat_id(),
 			'is_vat_exempt'    => $invoice->is_reverse_charge(),
 			'address'          => array(
@@ -253,7 +257,7 @@ class Sync extends SyncHandler {
 			$customer_sync_data          = array_replace_recursive( $customer_sync_data, $existing_customer_sync_data->get_data() );
 		}
 
-		$contact = new Contact( $customer_data, $this->api, $customer_sync_data );
+		$contact = new Contact( apply_filters( "{$this->get_hook_prefix()}invoice_customer_data", $customer_data, $invoice, $this ), $this->api, $customer_sync_data );
 		$result  = $contact->save();
 
 		if ( ! is_wp_error( $result ) ) {

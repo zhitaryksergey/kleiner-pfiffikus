@@ -139,7 +139,7 @@ abstract class Table extends WP_List_Table {
 		} elseif( 'delete' === $action ) {
 			foreach ( $ids as $id ) {
 				if ( $document = $this->get_document( $id ) ) {
-					if ( $document->delete( true ) ) {
+					if ( $document->delete( false ) ) {
 						$changed++;
                     }
 				}

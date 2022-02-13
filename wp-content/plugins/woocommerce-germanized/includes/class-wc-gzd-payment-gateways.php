@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * WooCommerce Payment Gateways class
  *
@@ -78,7 +80,7 @@ class WC_GZD_Payment_Gateways {
 	}
 
 	public function gateway_ajax_init() {
-		if ( is_ajax() ) {
+		if ( wp_doing_ajax() && class_exists( 'WC_Payment_Gateway' ) ) {
 			$direct_debit = new WC_GZD_Gateway_Direct_Debit();
 		}
 	}

@@ -12,7 +12,7 @@
  *
  * @see https://vendidero.de/dokument/template-struktur-templates-im-theme-ueberschreiben
  * @package Germanized/Pro/Templates
- * @version 1.0.0
+ * @version 1.0.1
  */
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -85,7 +85,11 @@ if ( $method && isset( $gateways[ $method ] ) )
 				<?php do_action( 'woocommerce_gzdp_multistep_confirmation_after_shipping_address', $multistep ); ?>
 			</address>
 
-			<p><a href="#step-address" class="edit step-trigger" data-href="address"><?php echo _x( 'edit', 'multistep', 'woocommerce-germanized-pro' ); ?></a></p>
+            <?php if ( $multistep->supports_shipping_address() ) : ?>
+                <p>
+                    <a href="#step-address" class="edit step-trigger" data-href="address"><?php echo _x( 'edit', 'multistep', 'woocommerce-germanized-pro' ); ?></a>
+                </p>
+            <?php endif; ?>
 
 		</div><!-- /.col-2 -->
 

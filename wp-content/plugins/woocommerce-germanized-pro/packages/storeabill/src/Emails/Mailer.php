@@ -107,6 +107,8 @@ class Mailer {
 						continue;
 					}
 
+					$attributes['totalType'] = sab_map_invoice_total_type( $attributes['totalType'], $invoice );
+
 					$totals        = $invoice->get_totals( $attributes['totalType'] );
 					$total_content = $attributes['content'];
 

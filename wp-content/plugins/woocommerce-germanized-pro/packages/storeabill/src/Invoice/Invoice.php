@@ -177,6 +177,8 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 		 */
 		do_action( "{$this->get_general_hook_prefix()}before_finalize", $this );
 
+		$this->maybe_set_paid();
+
 		$updated = $this->update_status( 'closed' );
 		$defer   = true === $defer_render && ! sab_allow_deferring( 'render' ) ? false : $defer_render;
 
@@ -411,7 +413,9 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 
 		foreach( $total_types as $total_type ) {
 
-			if ( 'nets' === $total_type ) {
+			if ( has_filter( "{$this->get_hook_prefix()}total_type_{$total_type}" ) ) {
+				$document_totals = array_merge( apply_filters( "{$this->get_hook_prefix()}total_type_{$total_type}", array(), $this, $total_type ), $document_totals );
+			} elseif ( 'nets' === $total_type ) {
 				$net_total_zero_rate = $this->get_total_net( 'total', false );
 				$taxes               = $this->get_tax_totals();
 				$has_zero_rate       = false;
@@ -496,8 +500,12 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 						),
 					) );
 				}
-			} elseif( 'taxes' === $total_type ) {
+			} elseif( 'taxes' === $total_type || '_taxes' === substr( $total_type, -6 ) ) {
 				$taxes = $this->get_tax_totals();
+
+				if ( '_taxes' === substr( $total_type, -6 ) ) {
+					$taxes = $this->get_tax_totals( str_replace( '_taxes', '', $total_type ) );
+				}
 
 				foreach ( $taxes as $tax_total ) {
 
@@ -511,7 +519,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 							'{rate}'           => $tax_total->get_tax_rate()->get_percent(),
 							'{formatted_rate}' => $tax_total->get_tax_rate()->get_formatted_percentage(),
 						),
-						'type'         => 'taxes',
+						'type'         => $total_type,
 					) );
 				}
 			} elseif( 'fees' === $total_type ) {
@@ -590,7 +598,7 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 			}
 		}
 
-		return $document_totals;
+		return apply_filters( "{$this->get_hook_prefix()}_totals", $document_totals, $this );
 	}
 
 	/**
@@ -2439,14 +2447,25 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 		/**
 		 * In case the invoice includes a voucher add the voucher amount to certain net types.
 		 */
-		if ( $this->has_voucher() && in_array( $getter_total, array( 'get_total', 'get_product_total' ) ) ) {
-			$total += $this->get_voucher_total();
+		if ( $this->has_voucher() ) {
+			$item_type_getter = array();
 
-			/**
-			 * Only the total amount includes voucher taxes
-			 */
-			if ( 'get_total' !== $getter_total && ! $this->prices_include_tax() ) {
-				$total -= $this->get_voucher_tax();
+			foreach( $this->get_item_types_for_tax_totals() as $item_type ) {
+				$item_type_getter[ "get_{$item_type}_total" ] = $item_type;
+			}
+
+			if ( in_array( $getter_total, array( 'get_total' ) ) ) {
+				$total += $this->get_voucher_total();
+			} elseif ( array_key_exists( $getter_total, $item_type_getter ) ) {
+				$item_type    = $item_type_getter[ $getter_total ];
+				$discount     = $this->get_item_type_discount( $item_type );
+				$discount_tax = $this->get_item_type_discount_tax( $item_type );
+
+				$total += $discount;
+
+				if ( ! $this->prices_include_tax() ) {
+					$total -= $discount_tax;
+				}
 			}
 		}
 
@@ -2772,30 +2791,58 @@ abstract class Invoice extends Document implements \Vendidero\StoreaBill\Interfa
 	/**
 	 * @return TaxTotal[]
 	 */
-	public function get_tax_totals() {
-		if ( is_null( $this->tax_totals ) ) {
-			$this->tax_totals = array();
+	public function get_tax_totals( $item_type = 'total' ) {
+		if ( is_null( $this->tax_totals ) || ! isset( $this->tax_totals[ $item_type ] ) ) {
+			$this->tax_totals          = array();
+			$this->tax_totals['total'] = array();
+
+			foreach( $this->get_item_types_for_tax_totals() as $tax_item_type ) {
+				$this->tax_totals[ $tax_item_type ] = array();
+			}
 
 			foreach ( $this->get_items( 'tax' ) as $key => $tax ) {
+				// E.g. fee, shipping or product
+				$tax_item_type = $tax->get_tax_type();
+
+				if ( ! isset( $this->tax_totals[ $tax_item_type ] ) ) {
+					$this->tax_totals[ $tax_item_type ] = array();
+				}
 
 				if ( $tax_rate = $tax->get_tax_rate() ) {
 					$merge_key = $tax_rate->get_merge_key();
 
-					if ( isset( $this->tax_totals[ $merge_key ] ) ) {
-						$this->tax_totals[ $merge_key ]->add_tax( $tax );
+					/**
+					 * Document totals
+					 */
+					if ( isset( $this->tax_totals['total'][ $merge_key ] ) ) {
+						$this->tax_totals['total'][ $merge_key ]->add_tax( $tax );
 					} else {
 						$merged_tax = new TaxTotal();
 
 						$merged_tax->set_tax_rate( $tax_rate );
 						$merged_tax->add_tax( $tax );
 
-						$this->tax_totals[ $merge_key ] = $merged_tax;
+						$this->tax_totals['total'][ $merge_key ] = $merged_tax;
+					}
+
+					/**
+					 * Item type specific tax totals (e.g. shipping)
+					 */
+					if ( isset( $this->tax_totals[ $tax_item_type ][ $merge_key ] ) ) {
+						$this->tax_totals[ $tax_item_type ][ $merge_key ]->add_tax( $tax );
+					} else {
+						$merged_tax = new TaxTotal();
+
+						$merged_tax->set_tax_rate( $tax_rate );
+						$merged_tax->add_tax( $tax );
+
+						$this->tax_totals[ $tax_item_type ][ $merge_key ] = $merged_tax;
 					}
 				}
 			}
 		}
 
-		return $this->tax_totals;
+		return isset( $this->tax_totals[ $item_type ] ) ? $this->tax_totals[ $item_type ] : $this->tax_totals['totals'];
 	}
 
 	/**

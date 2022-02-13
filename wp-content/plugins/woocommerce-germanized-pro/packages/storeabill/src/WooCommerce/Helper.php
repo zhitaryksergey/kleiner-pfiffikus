@@ -83,9 +83,32 @@ class Helper {
 		add_filter( 'woocommerce_admin_order_preview_get_order_details', array( __CLASS__, 'add_order_preview_data' ), 10, 2 );
 		add_action( 'woocommerce_admin_order_preview_start', array( __CLASS__, 'render_order_preview' ), 10 );
 
+		/**
+		 * Sync transaction meta data
+		 */
+        add_filter( 'storeabill_woo_order_transaction_id', array( __CLASS__, 'sync_transaction_id' ), 10, 2 );
+
 		Automation::init();
 		Server::init();
 	}
+
+	/**
+	 * @param $transaction_id
+	 * @param Order $order
+	 *
+	 * @return string
+	 */
+    public static function sync_transaction_id( $transaction_id, $order ) {
+	    /**
+	     * Mollie uses a separate payment id which is used during mollie exports (e.g. CSV, DATEV).
+         * For improved matching, use the payment id as transaction id.
+	     */
+        if ( $order->get_meta( '_mollie_payment_id' ) ) {
+            $transaction_id = $order->get_meta( '_mollie_payment_id' );
+        }
+
+        return $transaction_id;
+    }
 
 	public static function render_order_preview() {
 		?>

@@ -69,7 +69,10 @@ window.germanized = window.germanized || {};
 
                         postcode = postcode.replace( /[\\s\\-]/, '' );
 
-                        if ( 'GB' === country ) {
+                        /**
+                         * Allow passing a parameter to explicitly allow VAT Ids for UK
+                         */
+                        if ( 'GB' === country && ! self.params.great_britain_supports_vat_id ) {
                             var postcodeStart = postcode.substring( 0, 2 );
 
                             if ( 'BT' === postcodeStart ) {

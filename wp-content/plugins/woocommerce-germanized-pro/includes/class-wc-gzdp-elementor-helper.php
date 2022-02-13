@@ -12,7 +12,8 @@ class WC_GZDP_Elementor_Helper {
         'shipping_notice',
         'tax_notice',
         'unit_price',
-        'units'
+        'units',
+	    'defect_description'
     );
 
     public static function instance() {

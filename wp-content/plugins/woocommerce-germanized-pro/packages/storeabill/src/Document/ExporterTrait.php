@@ -90,6 +90,15 @@ trait ExporterTrait {
 	}
 
 	/**
+	 * @param \WC_DateTime|\DateTime $datetime
+	 *
+	 * @return string
+	 */
+	protected function get_gm_date( $datetime, $format = 'Y-m-d' ) {
+		return is_a( $datetime, 'WC_DateTime' ) ? $datetime->date( $format ) : $datetime->format( $format );
+	}
+
+	/**
 	 * Returns export start date
 	 *
 	 * @since 3.9.0
@@ -176,8 +185,8 @@ trait ExporterTrait {
 		$option_name = $this->get_hook_prefix() . 'default_settings';
 		$new_options = apply_filters( "{$this->get_hook_prefix()}new_default_settings", array(
 			'filters'    => $this->get_filters(),
-			'start_date' => $this->get_start_date()->format( 'Y-m-d' ),
-			'end_date'   => $this->get_end_date()->format( 'Y-m-d' ),
+			'start_date' => $this->get_gm_date( $this->get_start_date() ),
+			'end_date'   => $this->get_gm_date( $this->get_end_date() ),
 		), $this );
 
 		update_option( $option_name, $new_options );

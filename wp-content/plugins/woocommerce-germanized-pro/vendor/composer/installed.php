@@ -1,92 +1,89 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'c7b5b442b93538b88a099b4a2383dd691b0d2fbe',
+        'name' => 'vendidero/woocommerce-germanized-pro',
+        'dev' => false,
     ),
-    'reference' => '3fb0c336e20a21bcd731144a4d9e4c7521b61d5f',
-    'name' => 'vendidero/woocommerce-germanized-pro',
-  ),
-  'versions' => 
-  array (
-    'automattic/jetpack-autoloader' => 
-    array (
-      'pretty_version' => '2.10.1',
-      'version' => '2.10.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '20393c4677765c3e737dcb5aee7a3f7b90dce4b3',
+    'versions' => array(
+        'automattic/jetpack-autoloader' => array(
+            'pretty_version' => '2.10.1',
+            'version' => '2.10.1.0',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../automattic/jetpack-autoloader',
+            'aliases' => array(),
+            'reference' => '20393c4677765c3e737dcb5aee7a3f7b90dce4b3',
+            'dev_requirement' => false,
+        ),
+        'composer/installers' => array(
+            'pretty_version' => 'v1.12.0',
+            'version' => '1.12.0.0',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
+            'dev_requirement' => false,
+        ),
+        'roundcube/plugin-installer' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'shama/baton' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'vendidero/storeabill' => array(
+            'pretty_version' => 'v1.8.5',
+            'version' => '1.8.5.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../packages/storeabill',
+            'aliases' => array(),
+            'reference' => '498201ef9f00f9bddf5e9ccac395e0ff929dd380',
+            'dev_requirement' => false,
+        ),
+        'vendidero/storeabill-lexoffice' => array(
+            'pretty_version' => 'v1.1.6',
+            'version' => '1.1.6.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../packages/storeabill-lexoffice',
+            'aliases' => array(),
+            'reference' => '66406847fbfd336c2fae4de302ec56a93da4a874',
+            'dev_requirement' => false,
+        ),
+        'vendidero/storeabill-sevdesk' => array(
+            'pretty_version' => 'v1.1.3',
+            'version' => '1.1.3.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../packages/storeabill-sevdesk',
+            'aliases' => array(),
+            'reference' => 'e1d491b3d527685e88ac3b81fc29e0e98b2025d1',
+            'dev_requirement' => false,
+        ),
+        'vendidero/woocommerce-germanized-dpd' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../packages/woocommerce-germanized-dpd',
+            'aliases' => array(),
+            'reference' => 'e412323da8fb0a9e642c836c15dbd956000fc531',
+            'dev_requirement' => false,
+        ),
+        'vendidero/woocommerce-germanized-pro' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'c7b5b442b93538b88a099b4a2383dd691b0d2fbe',
+            'dev_requirement' => false,
+        ),
     ),
-    'composer/installers' => 
-    array (
-      'pretty_version' => 'v1.12.0',
-      'version' => '1.12.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
-    ),
-    'roundcube/plugin-installer' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '*',
-      ),
-    ),
-    'shama/baton' => 
-    array (
-      'replaced' => 
-      array (
-        0 => '*',
-      ),
-    ),
-    'vendidero/storeabill' => 
-    array (
-      'pretty_version' => 'v1.8.2',
-      'version' => '1.8.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'df0e34c6460599434011e515a1125d8bf3654b67',
-    ),
-    'vendidero/storeabill-lexoffice' => 
-    array (
-      'pretty_version' => 'v1.1.6',
-      'version' => '1.1.6.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '66406847fbfd336c2fae4de302ec56a93da4a874',
-    ),
-    'vendidero/storeabill-sevdesk' => 
-    array (
-      'pretty_version' => 'v1.1.2',
-      'version' => '1.1.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '5121560fc151b307fb462b12aed6d14fc5166e88',
-    ),
-    'vendidero/woocommerce-germanized-dpd' => 
-    array (
-      'pretty_version' => 'v1.0.2',
-      'version' => '1.0.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'b5ab028959672b2c9b9c3a6e00b6846a6915cd87',
-    ),
-    'vendidero/woocommerce-germanized-pro' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '3fb0c336e20a21bcd731144a4d9e4c7521b61d5f',
-    ),
-  ),
 );

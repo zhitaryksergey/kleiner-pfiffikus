@@ -231,13 +231,24 @@ function wc_gzd_get_shipping_provider_method( $instance_id ) {
 	return apply_filters( 'woocommerce_gzd_shipping_provider_method_fallback', $placeholder, $original_id );
 }
 
-function wc_gzd_get_current_shipping_provider_method() {
+/**
+ * Returns the current shipping method rate id.
+ *
+ * @return false|string
+ */
+function wc_gzd_get_current_shipping_method_id() {
 	$chosen_shipping_methods = WC()->session ? WC()->session->get( 'chosen_shipping_methods' ) : array();
 
 	if ( ! empty( $chosen_shipping_methods ) ) {
-		$method = wc_gzd_get_shipping_provider_method( $chosen_shipping_methods[0] );
+		return reset( $chosen_shipping_methods );
+	}
 
-		return $method;
+	return false;
+}
+
+function wc_gzd_get_current_shipping_provider_method() {
+	if ( $current = wc_gzd_get_current_shipping_method_id() ) {
+		return wc_gzd_get_shipping_provider_method( $current );
 	}
 
 	return false;
@@ -768,45 +779,84 @@ function wc_gzd_shipments_upload_data( $filename, $bits, $relative = true ) {
 	}
 }
 
+function wc_gzd_get_shipment_setting_default_address_fields( $type = 'shipper' ) {
+	$address_fields = array(
+		'first_name'               => _x( 'First Name', 'shipments', 'woocommerce-germanized' ),
+		'last_name'                => _x( 'Last Name', 'shipments', 'woocommerce-germanized' ),
+		'full_name'                => _x( 'Full Name', 'shipments', 'woocommerce-germanized' ),
+		'company'                  => _x( 'Company', 'shipments', 'woocommerce-germanized' ),
+		'address_1'                => _x( 'Address 1', 'shipments', 'woocommerce-germanized' ),
+		'address_2'                => _x( 'Address 2', 'shipments', 'woocommerce-germanized' ),
+		'street'                   => _x( 'Street', 'shipments', 'woocommerce-germanized' ),
+		'street_number'            => _x( 'House Number', 'shipments', 'woocommerce-germanized' ),
+		'postcode'                 => _x( 'Postcode', 'shipments', 'woocommerce-germanized' ),
+		'city'                     => _x( 'City', 'shipments', 'woocommerce-germanized' ),
+		'country'                  => _x( 'Country', 'shipments', 'woocommerce-germanized' ),
+		'state'                    => _x( 'State', 'shipments', 'woocommerce-germanized' ),
+		'phone'                    => _x( 'Phone', 'shipments', 'woocommerce-germanized' ),
+		'email'                    => _x( 'Email', 'shipments', 'woocommerce-germanized' ),
+		'customs_reference_number' => _x( 'Customs Reference Number', 'shipments', 'woocommerce-germanized' ),
+	);
+
+	return apply_filters( 'woocommerce_gzd_shipment_default_address_fields', $address_fields, $type );
+}
+
+/**
+ * @return array
+ */
+function wc_gzd_get_shipment_setting_address_fields( $address_type = 'shipper' ) {
+	$default_address_fields = array_keys( wc_gzd_get_shipment_setting_default_address_fields( $address_type ) );
+	$default_address_data   = array();
+
+	if ( 'return' === $address_type ) {
+		$default_address_data = wc_gzd_get_shipment_setting_address_fields( 'shipper' );
+	}
+
+	foreach( $default_address_fields as $prop ) {
+		$key   = "woocommerce_gzd_shipments_{$address_type}_address_{$prop}";
+		$value = get_option( $key, '' );
+
+		if ( '' === $value && array_key_exists( $prop, $default_address_data ) ) {
+			$value = $default_address_data[ $prop ];
+		}
+
+		$address_fields[ $prop ] = $value;
+	}
+
+	if ( ! empty( $address_fields['country'] ) && strlen( $address_fields['country'] ) > 2 ) {
+		$value                     = wc_format_country_state_string( $address_fields['country'] );
+		$address_fields['country'] = $value['country'];
+		$address_fields['state']   = $value['state'];
+	}
+
+	/**
+	 * Format/split address 1 into street and house number
+	 */
+	if ( ! empty( $address_fields['address_1'] ) ) {
+		$split = wc_gzd_split_shipment_street( $address_fields['address_1'] );
+
+		$address_fields['street']        = $split['street'];
+		$address_fields['street_number'] = $split['number'];
+	} else {
+		$address_fields['street']        = '';
+		$address_fields['street_number'] = '';
+	}
+
+	/**
+	 * Attach formatted full name
+	 */
+	$address_fields['full_name'] = trim( sprintf( _x( '%1$s %2$s', 'full name', 'woocommerce-germanized' ), $address_fields['first_name'], $address_fields['last_name'] ) );
+
+	return apply_filters( "woocommerce_gzd_shipment_{$address_type}_address_fields", $address_fields, $address_type );
+}
+
 /**
  * @param Order $shipment_order
  *
  * @return array
  */
-function wc_gzd_get_shipment_return_address( $shipment_order ) {
-	$address_fields = array(
-		'first_name'               => '',
-		'last_name'                => '',
-		'company'                  => '',
-		'address_1'                => '',
-		'address_2'                => '',
-		'postcode'                 => '',
-		'city'                     => '',
-		'country'                  => '',
-		'state'                    => '',
-		'phone'                    => '',
-		'email'                    => '',
-		'customs_reference_number' => '',
-	);
-
-	foreach( $address_fields as $prop => $default_value ) {
-		$key   = "woocommerce_gzd_shipments_return_address_{$prop}";
-		$value = get_option( $key, '' );
-
-		if ( '' === $value ) {
-			$value = get_option( "woocommerce_gzd_shipments_shipper_address_{$prop}" );
-		}
-
-		if ( 'country' === $prop ) {
-			$value                     = wc_format_country_state_string( $value );
-			$address_fields['country'] = $value['country'];
-			$address_fields['state']   = $value['state'];
-		} elseif ( 'state' !== $prop ) {
-			$address_fields[ $prop ] = $value;
-		}
-	}
-
-	return $address_fields;
+function wc_gzd_get_shipment_return_address( $shipment_order = false ) {
+	return wc_gzd_get_shipment_setting_address_fields( 'return' );
 }
 
 /**
@@ -1361,4 +1411,36 @@ function wc_gzd_shipments_get_product( $the_product ) {
 	} catch( \Exception $e ) {
 		return false;
 	}
+}
+
+function wc_gzd_get_volume_dimension( $dimension, $to_unit, $from_unit = '' ) {
+	$to_unit = strtolower( $to_unit );
+
+	if ( empty( $from_unit ) ) {
+		$from_unit = strtolower( get_option( 'woocommerce_dimension_unit' ) );
+	}
+
+	// Unify all units to cm first.
+	if ( $from_unit !== $to_unit ) {
+		switch ( $from_unit ) {
+			case 'm':
+				$dimension *= 1000000;
+				break;
+			case 'mm':
+				$dimension *= 0.001;
+				break;
+		}
+
+		// Output desired unit.
+		switch ( $to_unit ) {
+			case 'm':
+				$dimension *= 0.000001;
+				break;
+			case 'mm':
+				$dimension *= 1000;
+				break;
+		}
+	}
+
+	return ( $dimension < 0 ) ? 0 : $dimension;
 }

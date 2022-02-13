@@ -1,3 +1,4 @@
+$=jQuery;
 $(function() {
 var conversion_funnel_chart = "";
 var conversion_bar_chart = "";
@@ -72,7 +73,7 @@ var tvc_helper = {
 	},
 	google_ads_reports_call_api:function(post_data){
 		// Shopping and Google Ads Performance
-		/*post_data['action']='get_google_ads_reports_chart';
+		post_data['action']='get_google_ads_reports_chart';
 		var v_this = this;
 		$.ajax({
       type: "POST",
@@ -86,11 +87,15 @@ var tvc_helper = {
       			v_this.set_google_ads_reports_chart_value(response.data, post_data);
       		}
       	}else{
-      		v_this.tvc_alert("error","",response.error);
+      		if(response.status == "423" || response.status == "400"){
+      			v_this.tvc_alert("error","", "If Google Ads Performance Data is not generated please make sure your Google Ads account should link with our MCC account");
+      		}else{
+        		v_this.tvc_alert("error", "", response?.errors);
+        	}
       	}
         v_this.remove_loader_for_analytics_reports();
       }
-    });*/
+    });
 		//Compaign Performance
     post_data['action']='get_google_ads_campaign_performance';
 		var v_this = this;
@@ -119,25 +124,37 @@ var tvc_helper = {
 			//var p_p_r = data.product_performance_report.products;
 			//console.log(p_p_r);
 			var table_row = '';
+			var table_row_last = '';
 			var product_revenue_per = 0;
 			var status = "";
 			if(data != undefined && Object.keys(data).length > 0){
 				var i=0;
 				$.each(data, function (propKey, propValue) {
 					if(i<5){
-						table_row = '';
+						//table_row = ''; table_row_last = ''; 
 						status = (propValue['active'] == 1)?'active':'deactivate';
-						table_row += '<tr><td class="prdnm-cell">'+propValue['compaignName']+'</td>';
-						table_row += '<td>'+propValue['dailyBudget']+'</td>';
-						table_row += '<td>'+status+'</td>';
-						table_row += '<td>'+propValue['clicks']+'</td>';
-						table_row += '<td>'+propValue['cost']+'</td>';
-						table_row += '<td>'+propValue['conversions']+'</td>';
-						table_row += '<td>'+propValue['sales']+'</td></tr>';
-						$("#campaign_performance_report table tbody").append(table_row);
+						if(status == 'active'){
+							table_row += '<tr><td class="prdnm-cell">'+propValue['compaignName']+'</td>';
+							table_row += '<td>'+propValue['dailyBudget']+'</td>';
+							table_row += '<td>'+status+'</td>';
+							table_row += '<td>'+propValue['clicks']+'</td>';
+							table_row += '<td>'+propValue['cost']+'</td>';
+							table_row += '<td>'+propValue['conversions']+'</td>';
+							table_row += '<td>'+propValue['sales']+'</td></tr>';
+						}else{
+							table_row_last += '<tr><td class="prdnm-cell">'+propValue['compaignName']+'</td>';
+							table_row_last += '<td>'+propValue['dailyBudget']+'</td>';
+							table_row_last += '<td>'+status+'</td>';
+							table_row_last += '<td>'+propValue['clicks']+'</td>';
+							table_row_last += '<td>'+propValue['cost']+'</td>';
+							table_row_last += '<td>'+propValue['conversions']+'</td>';
+							table_row_last += '<td>'+propValue['sales']+'</td></tr>';
+						}						
 						i = i+1;
 					}
-				})
+				});
+				$("#campaign_performance_report table tbody").append(table_row);
+				$("#campaign_performance_report table tbody").append(table_row_last);
 			}else{
 				$("#campaign_performance_report table tbody").append("<tr><td colspan='7'>Data not available</td></tr>");
 			}

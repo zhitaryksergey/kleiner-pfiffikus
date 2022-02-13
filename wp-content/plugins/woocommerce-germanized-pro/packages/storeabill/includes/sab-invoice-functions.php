@@ -185,3 +185,37 @@ function sab_get_invoice_discount_types() {
 		'multi_purpose'  => _x( 'Multipurpose', 'storeabill-discount-type', 'woocommerce-germanized-pro' )
 	);
 }
+
+/**
+ * Make sure to automatically transform total types from the invoice template
+ * to the right total type for very special cases, e.g. vouchers.
+ *
+ * @param string $total_type
+ * @param Invoice $invoice
+ */
+function sab_map_invoice_total_type( $total_type, $invoice ) {
+	/**
+	 * Check whether to use subtotals (before discounts) or totals (after discounts) for fees, shipping.
+	 */
+	if ( in_array( $total_type, array( 'fee', 'shipping', 'fee_net', 'shipping_net' ) ) ) {
+		$template  = $invoice->get_template();
+		$item_type = str_replace( '_net', '', $total_type );
+
+		/**
+		 * Use subtotals in case the item type is not shown as line item type
+		 * e.g. discounts cannot be removed for shipping and fees before showing totals.
+		 */
+		if ( ! in_array( $item_type, $template->get_line_item_types() ) ) {
+			$total_type = $item_type . '_subtotal' . ( strpos( $total_type, '_net' ) !== false ? '_net' : '' );
+		}
+	} elseif ( in_array( $total_type, array( 'discount' ) ) ) {
+		/**
+		 * Replace default discount with the additional costs discount (e.g. for shipping and fees).
+		 */
+		if ( sab_invoice_has_line_total_after_discounts( $invoice ) ) {
+			$total_type = 'additional_costs_discount';
+		}
+	}
+
+	return $total_type;
+}

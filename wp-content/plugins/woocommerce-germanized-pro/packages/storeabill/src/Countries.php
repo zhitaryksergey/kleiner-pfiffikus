@@ -204,9 +204,19 @@ class Countries {
 				'63086', // Mount Athos
 				'63087' // Mount Athos
 			),
+			'FR' => array(
+				'971*', // Guadeloupe
+				'972*', // Martinique
+				'973*', // French Guiana
+				'974*', // Réunion
+				'976*', // Mayotte
+			),
 			'IT' => array(
 				'22060', // Livigno, Campione d’Italia
 				'23030', // Lake Lugano
+			),
+			'FI' => array(
+				'22*', // Aland islands
 			),
 		) );
 	}

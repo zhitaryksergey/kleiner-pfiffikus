@@ -93,13 +93,51 @@ class Product implements \Vendidero\StoreaBill\Interfaces\Product {
 		return false;
 	}
 
+	public function get_attribute_by_slug( $slug ) {
+		$attribute      = false;
+		$slug           = wc_sanitize_taxonomy_name( $slug );
+		$attribute_name = $slug;
+		$wc_product     = $this->get_product();
+
+		// If this is a global taxonomy (prefixed with pa_) use the prefix to determine the name.
+		if ( taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) {
+			$attribute_name = wc_attribute_taxonomy_name( $slug );
+		}
+
+		if ( $attribute_value = $wc_product->get_attribute( $slug ) ) {
+			$label = wc_attribute_label( $attribute_name, $wc_product );
+
+			$attribute = new \Vendidero\StoreaBill\Document\Attribute( array(
+				'key'   => $slug,
+				'value' => $attribute_value,
+				'label' => $label
+			) );
+		} elseif ( $wc_product->get_parent_id() > 0 ) {
+			/*
+			 * In case the product is a child product - lets check the parent product
+			 * for the attribute data in case it was not found for the child.
+			 */
+			if ( $parent = wc_get_product( $wc_product->get_parent_id() ) ) {
+				if ( $attribute_value = $parent->get_attribute( $slug ) ) {
+					$label = wc_attribute_label( $attribute_name, $parent );
+
+					$attribute = new \Vendidero\StoreaBill\Document\Attribute( array(
+						'key'   => $slug,
+						'value' => $attribute_value,
+						'label' => $label
+					) );
+				}
+			}
+		}
+
+		return $attribute;
+	}
+
 	public function get_additional_attributes( $custom_attribute_slugs, $existing_slugs = array() ) {
 		$attributes = array();
 
 		foreach( $custom_attribute_slugs as $slug ) {
-			$slug           = wc_sanitize_taxonomy_name( $slug );
-			$attribute_name = $slug;
-			$wc_product     = $this->get_product();
+			$slug = wc_sanitize_taxonomy_name( $slug );
 
 			/**
 			 * Slug does already exist
@@ -108,35 +146,8 @@ class Product implements \Vendidero\StoreaBill\Interfaces\Product {
 				continue;
 			}
 
-			// If this is a global taxonomy (prefixed with pa_) use the prefix to determine the name.
-			if ( taxonomy_exists( wc_attribute_taxonomy_name( $slug ) ) ) {
-				$attribute_name = wc_attribute_taxonomy_name( $slug );
-			}
-
-			if ( $attribute_value = $wc_product->get_attribute( $slug ) ) {
-				$label = wc_attribute_label( $attribute_name, $wc_product );
-
-				$attributes[] = new \Vendidero\StoreaBill\Document\Attribute( array(
-					'key'   => $slug,
-					'value' => $attribute_value,
-					'label' => $label
-				) );
-			} elseif ( $wc_product->get_parent_id() > 0 ) {
-				/*
-				 * In case the product is a child product - lets check the parent product
-				 * for the attribute data in case it was not found for the child.
-				 */
-				if ( $parent = wc_get_product( $wc_product->get_parent_id() ) ) {
-					if ( $attribute_value = $parent->get_attribute( $slug ) ) {
-						$label = wc_attribute_label( $attribute_name, $parent );
-
-						$attributes[] = new \Vendidero\StoreaBill\Document\Attribute( array(
-							'key'   => $slug,
-							'value' => $attribute_value,
-							'label' => $label
-						) );
-					}
-				}
+			if ( $attribute = $this->get_attribute_by_slug( $slug ) ) {
+				$attributes[] = $attribute;
 			}
 		}
 

@@ -283,6 +283,19 @@ class ParcelLocator {
 		return $codes;
 	}
 
+	public static function get_excluded_gateways() {
+		/**
+		 * Filter to disable DHL parcel shop delivery for certain gateways.
+		 *
+		 * @param array $gateways Array of gateway IDs to exclude.
+		 *
+		 * @package Vendidero/Germanized/DHL
+		 */
+		$codes = apply_filters( 'woocommerce_gzd_dhl_parcel_locator_excluded_gateways', array( 'cod' ) );
+
+		return $codes;
+	}
+
 	/**
 	 * @param $data
 	 * @param $type
@@ -729,6 +742,7 @@ class ParcelLocator {
 				'parcel_locator_nonce'      => wp_create_nonce('dhl-parcel-locator' ),
 				'parcel_locator_data_nonce' => wp_create_nonce('dhl-parcel-locator-shipping-data' ),
 				'supported_countries'       => self::get_supported_countries(),
+				'excluded_gateways'         => self::get_excluded_gateways(),
 				'methods'                   => is_checkout() ? self::get_shipping_method_data() : array(),
 				'is_checkout'               => is_checkout(),
 				'pickup_types'              => wc_gzd_dhl_get_pickup_types(),
@@ -787,7 +801,7 @@ class ParcelLocator {
 		$disable_method_check = ( is_account_page() || is_admin() );
 		$is_forced_checkout   = isset( $_POST['is_checkout'] ) ? wc_string_to_bool( $_POST['is_checkout'] ) : true;
 
-		if ( is_ajax() && $is_forced_checkout ) {
+		if ( wp_doing_ajax() && $is_forced_checkout ) {
 			$disable_method_check = false;
 		}
 

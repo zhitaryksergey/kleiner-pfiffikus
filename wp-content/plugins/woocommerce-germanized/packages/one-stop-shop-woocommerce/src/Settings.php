@@ -80,10 +80,20 @@ class Settings {
 			$settings = array_merge( $settings, array(
 				array(
 					'title'    => _x( 'Fixed gross prices', 'oss', 'woocommerce-germanized' ),
-					'desc'     => _x( 'Apply the same gross price regardless of the tax rate.', 'oss', 'woocommerce-germanized' ) . '<p class="oss-woocommerce-additional-desc wc-gzd-additional-desc">' . _x( 'This option will make sure that your customers pay the same price no matter the tax rate (based on the country chosen) to be applied.', 'oss', 'woocommerce-germanized' ) . '</p>',
+					'desc'     => _x( 'Apply the same gross price regardless of the tax rate for EU countries.', 'oss', 'woocommerce-germanized' ) . '<p class="oss-woocommerce-additional-desc wc-gzd-additional-desc">' . _x( 'This option will make sure that your customers pay the same price no matter the tax rate (based on the country chosen) to be applied.', 'oss', 'woocommerce-germanized' ) . '</p>',
 					'id'       => 'oss_fixed_gross_prices',
 					'type'     => Package::is_integration() ? 'gzd_toggle' : 'checkbox',
 					'default'  => 'yes',
+				),
+				array(
+					'title'    => _x( 'Third countries', 'oss', 'woocommerce-germanized' ),
+					'desc'     => _x( 'Apply the same gross price for third countries too.', 'oss', 'woocommerce-germanized' ),
+					'id'       => 'oss_fixed_gross_prices_for_third_countries',
+					'type'     => Package::is_integration() ? 'gzd_toggle' : 'checkbox',
+					'default'  => 'no',
+					'custom_attributes' => array(
+						'data-show_if_oss_fixed_gross_prices' => '',
+					),
 				),
 			) );
         }
@@ -102,7 +112,8 @@ class Settings {
 		?>
 		<p>
 			<a class="button button-secondary" onclick="return confirm('<?php echo esc_html( _x( 'Are you sure? Please backup your tax rates before proceeding.', 'oss', 'woocommerce-germanized' ) ); ?>');" href="<?php echo self::get_oss_switch_link(); ?>"><?php echo ( Package::oss_procedure_is_enabled() ? _x( 'End OSS participation', 'oss', 'woocommerce-germanized' ) : _x( 'Start OSS participation', 'oss', 'woocommerce-germanized' ) ); ?></a>
-			<a class="oss-settings-learn-more" href="https://vendidero.github.io/one-stop-shop-woocommerce/tax-adjustments"><?php _ex( 'learn more', 'oss', 'woocommerce-germanized' ); ?></a>
+            <a class="oss-settings-refresh-tax-rates" onclick="return confirm('<?php echo esc_html( _x( 'Are you sure? Please backup your tax rates before proceeding.', 'oss', 'woocommerce-germanized' ) ); ?>');" href="<?php echo wp_nonce_url( admin_url( 'admin.php?page=wc-status&tab=tools&action=refresh_oss_tax_rates' ), 'debug_action' ); ?> "><?php _ex( 'refresh VAT rates', 'oss', 'woocommerce-germanized' ); ?></a>
+            <a class="oss-settings-learn-more" href="https://vendidero.github.io/one-stop-shop-woocommerce/tax-adjustments"><?php _ex( 'learn more', 'oss', 'woocommerce-germanized' ); ?></a>
 		</p>
 			<p class="oss-woocommerce-additional-desc wc-gzd-additional-desc"><?php _ex( 'Use this option to automatically adjust tax-related options in WooCommerce. Warning: This option will delete your current tax rates and add new tax rates based on your OSS participation status.', 'oss', 'woocommerce-germanized' ); ?></p>
 		<?php

@@ -251,24 +251,152 @@
             "install-path": "./installers"
         },
         {
-            "name": "dvdoug/boxpacker",
-            "version": "3.9.3",
-            "version_normalized": "3.9.3.0",
+            "name": "defuse/php-encryption",
+            "version": "v2.3.1",
+            "version_normalized": "2.3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/dvdoug/BoxPacker.git",
-                "reference": "b9063023729c403e3c20a7635663f29fac569c96"
+                "url": "https://github.com/defuse/php-encryption.git",
+                "reference": "77880488b9954b7884c25555c2a0ea9e7053f9d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/b9063023729c403e3c20a7635663f29fac569c96",
-                "reference": "b9063023729c403e3c20a7635663f29fac569c96",
+                "url": "https://api.github.com/repos/defuse/php-encryption/zipball/77880488b9954b7884c25555c2a0ea9e7053f9d2",
+                "reference": "77880488b9954b7884c25555c2a0ea9e7053f9d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "paragonie/random_compat": ">= 2",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4|^5|^6|^7|^8|^9"
+            },
+            "time": "2021-04-09T23:57:26+00:00",
+            "bin": [
+                "bin/generate-defuse-key"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Defuse\\Crypto\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Hornby",
+                    "email": "taylor@defuse.ca",
+                    "homepage": "https://defuse.ca/"
+                },
+                {
+                    "name": "Scott Arciszewski",
+                    "email": "info@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "Secure PHP Encryption Library",
+            "keywords": [
+                "aes",
+                "authenticated encryption",
+                "cipher",
+                "crypto",
+                "cryptography",
+                "encrypt",
+                "encryption",
+                "openssl",
+                "security",
+                "symmetric key cryptography"
+            ],
+            "support": {
+                "issues": "https://github.com/defuse/php-encryption/issues",
+                "source": "https://github.com/defuse/php-encryption/tree/v2.3.1"
+            },
+            "install-path": "../defuse/php-encryption"
+        },
+        {
+            "name": "digitick/sepa-xml",
+            "version": "2.1.0",
+            "version_normalized": "2.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-sepa-xml/php-sepa-xml.git",
+                "reference": "0f66774120139555a6a1f532cb30870898004119"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-sepa-xml/php-sepa-xml/zipball/0f66774120139555a6a1f532cb30870898004119",
+                "reference": "0f66774120139555a6a1f532cb30870898004119",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 | ^9.0"
+            },
+            "time": "2021-05-20T13:47:04+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Digitick\\Sepa\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ianaré Sévi"
+                },
+                {
+                    "name": "Digitick, SA",
+                    "email": "info@digitick.net"
+                },
+                {
+                    "name": "Sören Rohweder (monofone)",
+                    "email": "s.rohweder@blage.net"
+                }
+            ],
+            "description": "Creates an XML file for a Single Euro Payments Area (SEPA) Credit Transfer.",
+            "keywords": [
+                "Banking",
+                "sepa",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/php-sepa-xml/php-sepa-xml/issues",
+                "source": "https://github.com/php-sepa-xml/php-sepa-xml/tree/2.1.0"
+            },
+            "install-path": "../digitick/sepa-xml"
+        },
+        {
+            "name": "dvdoug/boxpacker",
+            "version": "3.9.4",
+            "version_normalized": "3.9.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dvdoug/BoxPacker.git",
+                "reference": "07176158e0ebef29b701852181663ed8b429149f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/07176158e0ebef29b701852181663ed8b429149f",
+                "reference": "07176158e0ebef29b701852181663ed8b429149f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "php": "^7.1||^8.0",
-                "psr/log": "^1.0"
+                "psr/log": "^1.0||^2.0||^3.0"
             },
             "require-dev": {
                 "behat/behat": "^3.7",
@@ -277,7 +405,7 @@
                 "monolog/monolog": "^1.0||^2.0",
                 "phpunit/phpunit": "^7.5.20||^8.5.21||^9.5.8"
             },
-            "time": "2021-09-26T19:22:28+00:00",
+            "time": "2021-10-21T21:47:05+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -314,7 +442,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dvdoug/BoxPacker/issues",
-                "source": "https://github.com/dvdoug/BoxPacker/tree/3.9.3"
+                "source": "https://github.com/dvdoug/BoxPacker/tree/3.9.4"
             },
             "funding": [
                 {
@@ -323,6 +451,41 @@
                 }
             ],
             "install-path": "../dvdoug/boxpacker"
+        },
+        {
+            "name": "globalcitizen/php-iban",
+            "version": "v4.1.0",
+            "version_normalized": "4.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/globalcitizen/php-iban.git",
+                "reference": "5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/globalcitizen/php-iban/zipball/5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d",
+                "reference": "5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d",
+                "shasum": ""
+            },
+            "time": "2021-07-01T23:55:02+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "oophp-iban.php",
+                    "php-iban.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "description": "php-iban is a library for parsing and validating IBAN (and IIBAN) bank account information.",
+            "support": {
+                "issues": "https://github.com/globalcitizen/php-iban/issues",
+                "source": "https://github.com/globalcitizen/php-iban/tree/v4.1.0"
+            },
+            "install-path": "../globalcitizen/php-iban"
         },
         {
             "name": "myclabs/deep-copy",
@@ -384,6 +547,59 @@
                 }
             ],
             "install-path": "../myclabs/deep-copy"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v9.99.100",
+            "version_normalized": "9.99.100.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "reference": "996434e5492cb4c3edcb9168db6fbb1359ef965a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*",
+                "vimeo/psalm": "^1"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "time": "2020-10-15T08:29:30+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "polyfill",
+                "pseudorandom",
+                "random"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/random_compat/issues",
+                "source": "https://github.com/paragonie/random_compat"
+            },
+            "install-path": "../paragonie/random_compat"
         },
         {
             "name": "psr/log",
@@ -564,17 +780,17 @@
         },
         {
             "name": "vendidero/one-stop-shop-woocommerce",
-            "version": "v1.1.6",
-            "version_normalized": "1.1.6.0",
+            "version": "v1.1.9",
+            "version_normalized": "1.1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/one-stop-shop-woocommerce.git",
-                "reference": "e15b7a8ec378e7af1cc5eb0315b0b1422f527a24"
+                "reference": "3e58f1f39d3190fed2a1297be2245c359dd12f92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/one-stop-shop-woocommerce/zipball/e15b7a8ec378e7af1cc5eb0315b0b1422f527a24",
-                "reference": "e15b7a8ec378e7af1cc5eb0315b0b1422f527a24",
+                "url": "https://api.github.com/repos/vendidero/one-stop-shop-woocommerce/zipball/3e58f1f39d3190fed2a1297be2245c359dd12f92",
+                "reference": "3e58f1f39d3190fed2a1297be2245c359dd12f92",
                 "shasum": ""
             },
             "require": {
@@ -583,7 +799,7 @@
             "require-dev": {
                 "phpunit/phpunit": "6.5.14"
             },
-            "time": "2021-10-19T10:25:33+00:00",
+            "time": "2022-01-21T14:11:01+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -605,35 +821,37 @@
             "description": "One Stop Shop Helper for WooCommerce",
             "homepage": "https://github.com/vendidero/one-stop-shop-woocommerce",
             "support": {
-                "source": "https://github.com/vendidero/one-stop-shop-woocommerce/tree/v1.1.6",
+                "source": "https://github.com/vendidero/one-stop-shop-woocommerce/tree/v1.1.9",
                 "issues": "https://github.com/vendidero/one-stop-shop-woocommerce/issues"
             },
             "install-path": "../../packages/one-stop-shop-woocommerce"
         },
         {
             "name": "vendidero/woocommerce-germanized-dhl",
-            "version": "v1.6.2",
-            "version_normalized": "1.6.2.0",
+            "version": "v1.6.8",
+            "version_normalized": "1.6.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/woocommerce-germanized-dhl.git",
-                "reference": "c0cb29c298a29be64662c1174abf2f787565869b"
+                "reference": "932fb74388d2027f9ed15e24f268d19b2f312b8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/c0cb29c298a29be64662c1174abf2f787565869b",
-                "reference": "c0cb29c298a29be64662c1174abf2f787565869b",
+                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-dhl/zipball/932fb74388d2027f9ed15e24f268d19b2f312b8d",
+                "reference": "932fb74388d2027f9ed15e24f268d19b2f312b8d",
                 "shasum": ""
             },
             "require": {
                 "automattic/jetpack-autoloader": "^2.6.0",
                 "baltpeter/internetmarke-php": "^0.5.0",
+                "composer/installers": "^1.9.0",
+                "php": ">=5.6|>=7.0",
                 "wsdltophp/wssecurity": "^1.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "6.5.14"
+                "phpunit/phpunit": "7.5.14"
             },
-            "time": "2021-10-19T10:16:56+00:00",
+            "time": "2022-01-28T11:03:31+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -657,24 +875,24 @@
             "description": "The Germanized DHL implementation.",
             "homepage": "https://github.com/vendidero/woocommerce-germanized-dhl",
             "support": {
-                "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.6.2",
+                "source": "https://github.com/vendidero/woocommerce-germanized-dhl/tree/v1.6.8",
                 "issues": "https://github.com/vendidero/woocommerce-germanized-dhl/issues"
             },
             "install-path": "../../packages/woocommerce-germanized-dhl"
         },
         {
             "name": "vendidero/woocommerce-germanized-shipments",
-            "version": "v1.6.3",
-            "version_normalized": "1.6.3.0",
+            "version": "v1.6.6",
+            "version_normalized": "1.6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/woocommerce-germanized-shipments.git",
-                "reference": "aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d"
+                "reference": "92201ddba7d1943b178caec2d6b513ddbe2e627d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d",
-                "reference": "aa4a5f3c3ce1b9a7649f99abddebed5dfa84f84d",
+                "url": "https://api.github.com/repos/vendidero/woocommerce-germanized-shipments/zipball/92201ddba7d1943b178caec2d6b513ddbe2e627d",
+                "reference": "92201ddba7d1943b178caec2d6b513ddbe2e627d",
                 "shasum": ""
             },
             "require": {
@@ -684,9 +902,10 @@
                 "setasign/fpdi": "^2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "7.5.14"
+                "phpunit/phpunit": "7.5.14",
+                "yoast/phpunit-polyfills": "^1.0"
             },
-            "time": "2021-10-21T12:04:14+00:00",
+            "time": "2022-01-21T14:21:18+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -708,24 +927,24 @@
             "description": "The Germanized Shipments implementation.",
             "homepage": "https://github.com/vendidero/woocommerce-germanized-shipments",
             "support": {
-                "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.6.3",
+                "source": "https://github.com/vendidero/woocommerce-germanized-shipments/tree/v1.6.6",
                 "issues": "https://github.com/vendidero/woocommerce-germanized-shipments/issues"
             },
             "install-path": "../../packages/woocommerce-germanized-shipments"
         },
         {
             "name": "vendidero/woocommerce-trusted-shops",
-            "version": "v4.0.12",
-            "version_normalized": "4.0.12.0",
+            "version": "v4.0.13",
+            "version_normalized": "4.0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vendidero/woocommerce-trusted-shops.git",
-                "reference": "c31be4a528bcb13b5d8cd842ec20efa469e65662"
+                "reference": "ea172ccb90dfb9eea2c058e356e49b73f4605777"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/c31be4a528bcb13b5d8cd842ec20efa469e65662",
-                "reference": "c31be4a528bcb13b5d8cd842ec20efa469e65662",
+                "url": "https://api.github.com/repos/vendidero/woocommerce-trusted-shops/zipball/ea172ccb90dfb9eea2c058e356e49b73f4605777",
+                "reference": "ea172ccb90dfb9eea2c058e356e49b73f4605777",
                 "shasum": ""
             },
             "require": {
@@ -734,7 +953,7 @@
             "require-dev": {
                 "phpunit/phpunit": "6.5.14"
             },
-            "time": "2021-08-10T09:45:36+00:00",
+            "time": "2022-01-21T14:02:13+00:00",
             "type": "wordpress-plugin",
             "installation-source": "dist",
             "autoload": {
@@ -756,7 +975,7 @@
             "description": "Trustbadge Reviews for WooCommerce.",
             "homepage": "https://github.com/vendidero/woocommerce-trusted-shops",
             "support": {
-                "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.12",
+                "source": "https://github.com/vendidero/woocommerce-trusted-shops/tree/v4.0.13",
                 "issues": "https://github.com/vendidero/woocommerce-trusted-shops/issues"
             },
             "install-path": "../../packages/woocommerce-trusted-shops"

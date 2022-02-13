@@ -2,10 +2,10 @@
 Contributors: vendidero, vdwoocommercesupport
 Tags: woocommerce, woocommerce german, woocommerce DE, woocommerce germany, woocommerce deutsch, woo, woocommerce deutschland, woocommerce germanized, woocommerce addon, woocommerce plugin, woocommerce german addon, woocommerce germany addon, woocommerce dhl, dhl, shipments
 Requires at least: 5.4
-Tested up to: 5.8
+Tested up to: 5.9
 WC requires at least: 3.9
-WC tested up to: 5.9
-Stable tag: 3.6.3
+WC tested up to: 6.2
+Stable tag: 3.8.3
 Requires PHP: 5.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,7 +21,7 @@ Users of [Germanized for WooCommerce Pro](https://vendidero.de/woocommerce-germa
 Germanized extends WooCommerce with typical german shop functionality: Delivery times, base prices, shipping costs and tax notices, options to attach legally relevant pages (e.g. terms, revocation page, privacy policy etc.) - even in emails, small business regulation notices and many more.
 Furthermore we customized the WooCommerce checkout to make your store meet the button solution. See a list of our features for further details:
 
-* *Delivery Times* - Add and edit delivery times for WooCommerce products. Optionally set a default delivery time as fallback. Disable delivery times for certain product types.
+* *Delivery Times* - Add and edit delivery times (optionally on a per-country base) for WooCommerce products. Set a default delivery time as fallback. Disable delivery times for certain product types.
 * *Small Business Regulation* - Show special tax notices if you are a operating a WooCommerce shop as a small business.
 * *Shipping Costs and Tax notices* - Display notices beneath your WooCommerce product prices and within cart/checkout/e-mails.
 * *Base Prices* - Display additional per unit prices for your products. Let unit prices be calculated automatically (Pro).
@@ -40,6 +40,7 @@ Furthermore we customized the WooCommerce checkout to make your store meet the b
 * *Online Revocation Form* - Allow customers to submit revocations by filling out a form on your revocation page.
 * *Sale Price Labels* - Prepend your WooCommerce sale prices by certain tags e.g. old price and new price.
 * *Differential Taxation* - Insert special notices for products which a differential taxed.
+* *Used Goods and Defective Copies* - Show defect descriptions on your product page and during checkout.
 * *WPML Support* - Germanized can be used with WPML.
 * *REST API Support* - Data added by Germanized is adjustable via the WooCommerce REST API (v2)
 * *Product CSV Import/Export* - We've extended the WooCommerce product CSV import and export to support our custom fields (e.g. unit price, delivery time etc.)
@@ -88,6 +89,9 @@ We've added some specific compatibility and tests for certain popular WooCommerc
 * WooCommerce Dynamic Pricing
 * WooCommerce Role Based Pricing
 * WooCommerce Product Bundles
+* WooCommerce Subscriptions
+* WooCommerce Measurement Price Calculator
+* Elementor
 
 = Tested WooCommerce Themes =
 By default, Germanized works with *every WooCommerce theme*. Some themes may need adjustments due to not using WooCommerce standards hooks or styles. Within our professional version we've tested certain third-party WooCommerce themes to ensure better compatibility with Germanized for WooCommerce:
@@ -130,6 +134,9 @@ Outputs tax notice for a product.
 `[gzd_product_shipping_notice product="123"]`
 Outputs shipping costs notice for a product.
 
+`[gzd_product_defect_description product="123"]`
+Outputs defect description for a defective copy.
+
 `[gzd_product_cart_desc product="123"]`
 Outputs mini cart description for a product.
 
@@ -140,6 +147,10 @@ Inserts online revocation form within your WooCommerce store. Customer and shop 
 
 `[payment_methods_info]`
 Very useful as page to inform the user of your WooCommerce payment gateways - Inserts an overview of all enabled payment gateways plus their descriptions.
+
+`[gzd_email_legal_page_attachments email_id="customer_processing_order"]`
+This shortcode outputs the legal page content attached to a specific email template. In case the email_id attribute is missing the shortcode tries to determine the current email template being sent.
+The shortcode is useful to output the legal page attachments in custom email templates built via a GUI (e.g. email customizer plugins).
 
 `[gzd_complaints]`
 Inserts a text that informs the customer about the EU Online Dispute Platform - this Shortcode should be inserted within your imprint. Find more information [here](http://shop.trustedshops.com/de/rechtstipps/jetzt-handeln-link-auf-eu-online-schlichtungs-plattform-ab-9.1.2016).
@@ -194,6 +205,67 @@ Bug reports may be filed via our [GitHub repository](https://github.com/vendider
 6. Edit pdf documents (Pro)
 
 == Changelog ==
+= 3.8.3 =
+* Improvement: Prevent DHL preferred services from showing in non-shipping carts
+* Improvement: Prevent parcel delivery checkbox from showing in non-shipping carts
+
+= 3.8.2 =
+* Improvement: Elementor Pro Checkout widget compatibility
+* Improvement: Variation main price detection
+* Improvement: Checkout shutdown handler to send fallback order confirmation
+* Improvement: Updated DHL wsdl files to 3.2
+* Improvement: Insert DHL preferred services checkout selection after checkboxes
+* Fix: Mark variations as not needing update after triggering checkbox change event
+* Fix: Direct Debit SEPA XML export > 2 decimals support
+
+= 3.8.1 =
+* Improvement: Email attachment plain text pagebuilder support
+* Improvement: Allow using {stock_status} in delivery time placeholder
+* Improvement: Increase email title gettext replacement filter priority
+* Improvement: Allow disabling checkout adjustments via WC_GZD_DISABLE_CHECKOUT_ADJUSTMENTS constant
+* Improvement: Quick edit support for delivery times and units
+* Improvement: Small business notice placement in cart
+* Improvement: Allow tracking Deutsche Post letter products (basic tracking)
+* Fix: Make sure cart quantity is not zero when (re-) calculating unit price
+* Fix: Shipment packaging dimension conversion
+
+= 3.8.0 =
+* Feature: Woo 6.1 Support
+* Feature: WP 5.9 Support
+* Feature: Explicitly support used goods and defective copies
+* Feature: Product warranty PDF upload option and email attachment
+* Improvement: Bulk-edit support for delivery time and units
+* Improvement: Variation bulk-edit options
+* Improvement: Street number validation for separate shipping addresses
+* Improvement: Extended Divi support
+* Improvement: Dynamically calculate unit price within cart
+* Improvement: AJAX refresh unit prices with loading placeholder
+* Improvement: Added DOI confirmation status column to users table
+* Improvement: urlencode DOI link
+* Improvement: WooCommerce Measurement Price Calculator compatibility
+* Improvement: Remove terms checkbox from pay for order page in case of WC_GZD_FORCE_PAY_ORDER is defined
+* Improvement: Refactored library usage via composer
+* Improvement: Prevent deprecated is_ajax usage
+* Fix: Minimum age for category-wide usage
+* Fix: Register missing pending to cancelled email notification
+
+= 3.7.2 =
+* Improvement: Added WP CLI command (wp wc_gzd update) to run DB updates via CLI
+* Fix: Do not use empty price_html (e.g. variable product with same prices) as indicator to hide shopmarks
+
+= 3.7.1 =
+* Fix: Same as parent delivery time option for variations
+
+= 3.7.0 =
+* Feature: Configure delivery times on a per-country base
+* Improvement: Support observing multiple price wrappers for unit price auto calculation
+* Improvement: Woo Bundles variable products compatibility
+* Improvement: Allow non-numerical customer titles
+* Improvement: Address data handling for (return) shipments
+* Improvement: Added additional VAT exempts for certain postcodes
+* Fix: Legal checkbox placeholder replacement
+* Fix: Tax rate import
+
 = 3.6.3 =
 * Improvement: Do not cache available packaging for non-persisted shipments
 * Improvement: Recalculate individually priced bundle unit price

@@ -110,9 +110,19 @@ class Tax {
                 '63086', // Mount Athos
                 '63087' // Mount Athos
             ),
+            'FR' => array(
+                '971*', // Guadeloupe
+	            '972*', // Martinique
+	            '973*', // French Guiana
+	            '974*', // Réunion
+	            '976*', // Mayotte
+            ),
             'IT' => array(
                 '22060', // Livigno, Campione d’Italia
                 '23030', // Lake Lugano
+            ),
+            'FI' => array(
+	            '22*', // Aland islands
             ),
         );
 
@@ -136,10 +146,10 @@ class Tax {
 			    $postcode = isset( $tax_location[2] ) ? $tax_location[2] : '';
 
 			    /**
-			     * By default do not force gross prices for third countries to make sure
+			     * By default, do not force gross prices for third countries to make sure
                  * net prices are used within cart/checkout.
 			     */
-			    if ( ! Package::country_supports_eu_vat( $country, $postcode ) && apply_filters( 'oss_disable_static_gross_prices_third_countries', true, $tax_location ) ) {
+			    if ( ! Package::country_supports_eu_vat( $country, $postcode ) && apply_filters( 'oss_disable_static_gross_prices_third_countries', ( 'yes' !== get_option( 'oss_fixed_gross_prices_for_third_countries' ) ), $tax_location ) ) {
 				    $fixed_gross_prices = false;
 			    }
 		    }
@@ -205,7 +215,7 @@ class Tax {
 	public static function filter_tax_class( $tax_class, $product ) {
 	    $taxable_address = self::get_taxable_location();
 
-        if ( isset( $taxable_address[0] ) && ! empty( $taxable_address[0] ) && $taxable_address[0] != wc_get_base_location()['country'] ) {
+        if ( isset( $taxable_address[0] ) && ! empty( $taxable_address[0] ) && $taxable_address[0] != WC()->countries->get_base_country() ) {
             $county    = $taxable_address[0];
             $postcode  = isset( $taxable_address[2] ) ? $taxable_address[2] : '';
             $tax_class = self::get_product_tax_class_by_country( $product, $county, $postcode, $tax_class );
@@ -278,7 +288,7 @@ class Tax {
 	     * Remove tax classes which match the products main tax class or the base country
 	     */
 	    foreach( $tax_classes as $country => $tax_class ) {
-		    if ( $tax_class == $product_tax_class || $country === wc_get_base_location()['country'] ) {
+		    if ( $tax_class == $product_tax_class || $country === WC()->countries->get_base_country() ) {
 			    unset( $tax_classes[ $country ] );
 		    } elseif ( isset( $parent_tax_classes[ $country ] ) && $parent_tax_classes[ $country ] == $tax_class ) {
 			    unset( $tax_classes[ $country ] );
@@ -328,7 +338,7 @@ class Tax {
 		 * Remove tax classes which match the products main tax class or the base country
 		 */
 		foreach( $tax_classes as $country => $tax_class ) {
-		    if ( $tax_class == $product_tax_class || $country === wc_get_base_location()['country'] ) {
+		    if ( $tax_class == $product_tax_class || $country === WC()->countries->get_base_country() ) {
 		        unset( $tax_classes[ $country ] );
             }
         }
@@ -357,7 +367,7 @@ class Tax {
 
 	    if ( ! empty( $tax_classes ) ) {
 		    foreach( $tax_classes as $country => $tax_class ) {
-			    $countries_left = array_diff( $countries_left, array( $country ) );
+			    $countries_left = array_diff_key( $countries_left, array( $country => '' ) );
 
 			    woocommerce_wp_select(
 				    array(
@@ -415,7 +425,7 @@ class Tax {
 
 		if ( ! empty( $tax_classes ) ) {
 			foreach( $tax_classes as $country => $tax_class ) {
-				$countries_left = array_diff( $countries_left, array( $country ) );
+				$countries_left = array_diff_key( $countries_left, array( $country => '' ) );
 
 				woocommerce_wp_select(
 					array(
@@ -533,6 +543,7 @@ class Tax {
 		$eu_rates        = self::get_eu_tax_rates();
 
 		foreach( $tax_class_slugs as $tax_class_type => $class ) {
+
 			/**
 			 * Maybe create missing tax classes
 			 */
@@ -559,10 +570,48 @@ class Tax {
 				 * Use base country rates in case OSS is disabled
 				 */
 				if ( ! $is_oss ) {
-					$base_country = wc_get_base_location()['country'];
+					$base_country = Package::get_base_country();
 
 					if ( isset( $eu_rates[ $base_country ] ) ) {
-						$rates_data = $eu_rates[ $base_country ];
+						/**
+						 * In case the country includes multiple rules (e.g. postcode exempts) by default
+						 * do only use the last rule (which does not include exempts) to construct non-base country tax rules.
+						 */
+						if ( $base_country !== $country ) {
+                            $base_country_base_rate = array_values( array_slice( $eu_rates[ $base_country ], -1 ) )[0];
+
+							foreach( $rates_data as $key => $rate_data ) {
+                                $rates_data[ $key ] = array_replace_recursive( $rate_data, $base_country_base_rate );
+
+                                foreach( $tax_class_slugs as $tmp_class_type => $class_data ) {
+	                                /**
+	                                 * Do not include tax classes which are not supported by the base country.
+	                                 */
+                                    if ( isset( $rates_data[ $key ][ $tmp_class_type ] ) && ! isset( $base_country_base_rate[ $tmp_class_type ] ) ) {
+                                        unset( $rates_data[ $key ][ $tmp_class_type ] );
+                                    } elseif ( isset( $rates_data[ $key ][ $tmp_class_type ] ) ) {
+	                                    /**
+	                                     * Replace tax class data with base data to make sure that reduced
+                                         * classes have the same dimensions
+	                                     */
+	                                    $rates_data[ $key ][ $tmp_class_type ] = $base_country_base_rate[ $tmp_class_type ];
+
+	                                    /**
+	                                     * In case this is an exempt make sure to replace with zero tax rates
+	                                     */
+	                                    if ( isset( $rate_data['is_exempt'] ) && $rate_data['is_exempt'] ) {
+		                                    if ( is_array( $rates_data[ $key ][ $tmp_class_type ] ) ) {
+			                                    foreach( $rates_data[ $key ][ $tmp_class_type ] as $k => $rate ) {
+				                                    $rates_data[ $key ][ $tmp_class_type ][ $k ] = 0;
+			                                    }
+		                                    } else {
+			                                    $rates_data[ $key ][ $tmp_class_type ] = 0;
+		                                    }
+	                                    }
+                                    }
+                                }
+ 							}
+						}
 					} else {
 						continue;
 					}
@@ -872,7 +921,7 @@ class Tax {
 				),
 				array(
 					// Acores
-					'postcode' => array( '95*', '96*', '97*', '98*' ),
+					'postcode' => array( '95*', '96*', '97*', '98*', '99*' ),
 					'standard' => 18,
 					'reduced'  => array( 4, 9 ),
 					'name'     => _x( 'Acores', 'oss', 'woocommerce-germanized' )
@@ -921,10 +970,11 @@ class Tax {
 			    $default_rate = array_values( $rates[ $country ] )[0];
 
 			    $postcode_exempt = array(
-				    'postcode' => $exempt_postcodes,
-				    'standard' => 0,
-				    'reduced'  => sizeof( $default_rate['reduced'] ) > 1 ? array( 0, 0 ) : array( 0 ),
-				    'name'     => _x( 'Exempt', 'oss-tax-rate-import', 'woocommerce-germanized' )
+				    'postcode'  => $exempt_postcodes,
+				    'standard'  => 0,
+				    'reduced'   => sizeof( $default_rate['reduced'] ) > 1 ? array( 0, 0 ) : array( 0 ),
+				    'name'      => _x( 'Exempt', 'oss-tax-rate-import', 'woocommerce-germanized' ),
+                    'is_exempt' => true,
 			    );
 
 			    if ( array_key_exists( 'super-reduced', $default_rate ) ) {
@@ -960,13 +1010,12 @@ class Tax {
 		global $wpdb;
 
 		$eu_countries = WC()->countries->get_european_union_countries( 'eu_vat' );
-		$exemptions   = self::get_vat_postcode_exemptions_by_country();
 
 		/**
 		 * Delete EU tax rates and make sure tax rate locations are deleted too
 		 */
 		foreach( \WC_Tax::get_rates_for_tax_class( $tax_class ) as $rate_id => $rate ) {
-		    if ( in_array( $rate->tax_rate_country, $eu_countries ) || self::tax_rate_is_northern_ireland( $rate ) ) {
+		    if ( in_array( $rate->tax_rate_country, $eu_countries ) || self::tax_rate_is_northern_ireland( $rate ) || ( 'GB' === $rate->tax_rate_country && 'GB' !== Package::get_base_country() ) ) {
 			    \WC_Tax::_delete_tax_rate( $rate_id );
 		    }
 		}

@@ -281,6 +281,14 @@ class WC_GZD_Settings_Tab_Shopmarks extends WC_GZD_Settings_Tab {
 				'id' 		    => 'woocommerce_gzd_display_emails_product_item_desc',
 				'type'          => 'gzd_toggle',
 				'default'	    => 'yes',
+				'checkboxgroup'	=> '',
+			),
+
+			array(
+				'desc' 		    => __( 'Defect Description', 'woocommerce-germanized' ),
+				'id' 		    => 'woocommerce_gzd_display_emails_product_defect_description',
+				'type'          => 'gzd_toggle',
+				'default'	    => 'yes',
 				'checkboxgroup'	=> 'end',
 			),
 
@@ -450,11 +458,13 @@ class WC_GZD_Settings_Tab_Shopmarks extends WC_GZD_Settings_Tab {
 	}
 
 	protected function get_delivery_time_settings() {
-		$delivery_terms = array( '' => __( 'None', 'woocommerce-germanized' ) );
-		$terms          = get_terms( 'product_delivery_time', array( 'fields' => 'id=>name', 'hide_empty' => false ) );
+		$delivery_terms             = array( '' => __( 'None', 'woocommerce-germanized' ) );
+		$delivery_terms_per_country = array( '' => __( 'Same as global fallback', 'woocommerce-germanized' ) );
+		$terms                      = WC_germanized()->delivery_times->get_terms();
 
 		if ( ! is_wp_error( $terms ) ) {
-			$delivery_terms = $delivery_terms + $terms;
+			$delivery_terms             = $delivery_terms + $terms;
+			$delivery_terms_per_country = $delivery_terms_per_country + $terms;
 		}
 
 		return array(
@@ -472,8 +482,30 @@ class WC_GZD_Settings_Tab_Shopmarks extends WC_GZD_Settings_Tab {
 				'desc'     => '<a href="' . admin_url( 'edit-tags.php?taxonomy=product_delivery_time&post_type=product' ) . '">' . __( 'Manage Delivery Times', 'woocommerce-germanized' ) . '</a>',
 			),
 			array(
+				'title'    => __( 'Fallback EU Countries', 'woocommerce-germanized' ),
+				'desc_tip' => __( 'This delivery time will serve as a fallback for EU countries other than your base country.', 'woocommerce-germanized' ),
+				'id'       => 'woocommerce_gzd_default_delivery_time_eu',
+				'css'      => 'min-width:250px;',
+				'default'  => '',
+				'type'     => 'select',
+				'class'    => 'wc-enhanced-select',
+				'options'  => $delivery_terms_per_country,
+				'desc'     => '<a href="' . admin_url( 'edit-tags.php?taxonomy=product_delivery_time&post_type=product' ) . '">' . __( 'Manage Delivery Times', 'woocommerce-germanized' ) . '</a>',
+			),
+			array(
+				'title'    => __( 'Fallback Third Countries', 'woocommerce-germanized' ),
+				'desc_tip' => __( 'This delivery time will serve as a fallback for third countries other than your base country.', 'woocommerce-germanized' ),
+				'id'       => 'woocommerce_gzd_default_delivery_time_third_countries',
+				'css'      => 'min-width:250px;',
+				'default'  => '',
+				'type'     => 'select',
+				'class'    => 'wc-enhanced-select',
+				'options'  => $delivery_terms_per_country,
+				'desc'     => '<a href="' . admin_url( 'edit-tags.php?taxonomy=product_delivery_time&post_type=product' ) . '">' . __( 'Manage Delivery Times', 'woocommerce-germanized' ) . '</a>',
+			),
+			array(
 				'title'    => __( 'Format', 'woocommerce-germanized' ),
-				'desc'     => '<div class="wc-gzd-additional-desc"> ' . __( 'This text will be used to indicate delivery time for products. Use {delivery_time} as placeholder.', 'woocommerce-germanized' ) . '</div>',
+				'desc'     => '<div class="wc-gzd-additional-desc"> ' . __( 'This text will be used to indicate delivery time for products. Use {delivery_time} as placeholder. Use {stock_status} to output the current stock status.', 'woocommerce-germanized' ) . '</div>',
 				'desc_tip' => false,
 				'id'       => 'woocommerce_gzd_delivery_time_text',
 				'type'     => 'text',

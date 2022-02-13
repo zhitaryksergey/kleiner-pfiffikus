@@ -119,6 +119,12 @@
 }
 
 .wc-gzd-admin-settings {
+  &.wc-gzd-admin-settings-generator {
+    .wc-gzd-admin-settings-sidebar-inner {
+      display: none;
+    }
+  }
+
   .wc-gzdp-legal-page-button-wrapper {
     .button {
       margin-right: 10px;

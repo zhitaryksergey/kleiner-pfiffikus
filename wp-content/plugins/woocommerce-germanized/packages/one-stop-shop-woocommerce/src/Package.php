@@ -14,7 +14,7 @@ class Package {
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.1.6';
+	const VERSION = '1.1.9';
 
 	/**
 	 * Init the package
@@ -642,6 +642,14 @@ class Package {
 		return ( class_exists( 'WooCommerce' ) );
 	}
 
+    public static function get_base_country() {
+        if ( WC()->countries ) {
+            return WC()->countries->get_base_country();
+        } else {
+            return wc_get_base_location()['country'];
+        }
+    }
+
 	/**
 	 * Returns a list of EU countries except base country.
 	 *
@@ -657,7 +665,7 @@ class Package {
 			$countries = array_merge( $countries, array( 'GB' ) );
 		}
 
-		$base_country = wc_get_base_location()['country'];
+		$base_country = Package::get_base_country();
 		$countries    = array_diff( $countries, array( $base_country ) );
 
 		return $countries;

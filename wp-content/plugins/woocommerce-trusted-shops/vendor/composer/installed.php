@@ -1,33 +1,32 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => 'cad417f51aef9fdea16706f0e1fb8551af9aa20a',
+        'name' => 'vendidero/woocommerce-trusted-shops',
+        'dev' => false,
     ),
-    'reference' => 'bc2fbc9a43ebde2172cdef46903d18a7f92dfc50',
-    'name' => 'vendidero/woocommerce-trusted-shops',
-  ),
-  'versions' => 
-  array (
-    'automattic/jetpack-autoloader' => 
-    array (
-      'pretty_version' => 'v2.10.4',
-      'version' => '2.10.4.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '70cb300a7a215ae87c671f600f77093518f87bac',
+    'versions' => array(
+        'automattic/jetpack-autoloader' => array(
+            'pretty_version' => 'v2.10.11',
+            'version' => '2.10.11.0',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../automattic/jetpack-autoloader',
+            'aliases' => array(),
+            'reference' => '924226c0a9e2f9b0be022fc6bab2a90f5e610ef3',
+            'dev_requirement' => false,
+        ),
+        'vendidero/woocommerce-trusted-shops' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => 'cad417f51aef9fdea16706f0e1fb8551af9aa20a',
+            'dev_requirement' => false,
+        ),
     ),
-    'vendidero/woocommerce-trusted-shops' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'bc2fbc9a43ebde2172cdef46903d18a7f92dfc50',
-    ),
-  ),
 );

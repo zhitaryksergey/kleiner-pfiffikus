@@ -80,7 +80,7 @@ class AsyncReportGenerator {
 	 */
 	protected function get_order_taxable_country( $order ) {
 		if ( ! is_callable( array( $order, 'get_shipping_country' ) ) ) {
-			return wc_get_base_location()['country'];
+			return Package::get_base_country();
 		}
 
 		$taxable_country_type = ! empty( $order->get_shipping_country() ) ? 'shipping' : 'billing';
@@ -218,8 +218,8 @@ class AsyncReportGenerator {
 							continue;
 						}
 
-						if ( ! isset( $tax_data[ $country_iso ][ $tax_percent ] ) ) {
-							$tax_data[ $country_iso ][ $tax_percent ] = array(
+						if ( ! isset( $tax_data[ $country_iso ][ "$tax_percent" ] ) ) {
+							$tax_data[ $country_iso ][ "$tax_percent" ] = array(
 								'tax_total' => 0,
 								'net_total' => 0,
 							);
@@ -233,11 +233,11 @@ class AsyncReportGenerator {
 						$net_total = wc_add_number_precision( $net_total, false );
 						$tax_total = wc_add_number_precision( $tax_total, false );
 
-						$tax_data[ $country_iso ][ $tax_percent ]['tax_total'] = (float) $tax_data[ $country_iso ][ $tax_percent ]['tax_total'];
-						$tax_data[ $country_iso ][ $tax_percent ]['tax_total'] += $tax_total;
+						$tax_data[ $country_iso ][ "$tax_percent" ]['tax_total'] = (float) $tax_data[ $country_iso ][ "$tax_percent" ]['tax_total'];
+						$tax_data[ $country_iso ][ "$tax_percent" ]['tax_total'] += $tax_total;
 
-						$tax_data[ $country_iso ][ $tax_percent ]['net_total'] = (float) $tax_data[ $country_iso ][ $tax_percent ]['net_total'];
-						$tax_data[ $country_iso ][ $tax_percent ]['net_total'] += $net_total;
+						$tax_data[ $country_iso ][ "$tax_percent" ]['net_total'] = (float) $tax_data[ $country_iso ][ "$tax_percent" ]['net_total'];
+						$tax_data[ $country_iso ][ "$tax_percent" ]['net_total'] += $net_total;
 
 						$orders_processed++;
 					}
