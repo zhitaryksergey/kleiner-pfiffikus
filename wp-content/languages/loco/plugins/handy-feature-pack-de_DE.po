@@ -3,7 +3,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Project-Id-Version: Handy Feature Pack\n"
 "POT-Creation-Date: 2017-04-20 12:09+0300\n"
-"PO-Revision-Date: 2020-07-25 23:17+0000\n"
+"PO-Revision-Date: 2022-02-13 17:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Report-Msgid-Bugs-To: \n"
 "Language: de_DE\n"
-"X-Loco-Version: 2.4.0; wp-5.4.2"
+"X-Loco-Version: 2.5.5; wp-5.8.3"
 
 #: includes/class-handy-feature-pack-login-register.php:10
 msgid "Sending user info, please wait..."
@@ -1067,7 +1067,7 @@ msgstr "Zwischensumme:"
 
 #: includes/widgets/class-pt-widget-cart.php:87
 msgid "Checkout"
-msgstr ""
+msgstr "Kasse"
 
 #: includes/widgets/class-pt-widget-cart.php:157
 #: includes/widgets/class-pt-widget-comments-with-avatars.php:87

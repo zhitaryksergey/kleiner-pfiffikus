@@ -180,7 +180,9 @@ class Weslink_Payjoe_Opbeleg_Orders
                     echo "\n --------------------------------------------------------------------\n";
                 }
 
-                $this->handleAPIResult($result, $aOrder['OPAuftragsposten'], $log_json_data);
+                if ($result) {
+                    $this->handleAPIResult($result, $aOrder['OPAuftragsposten'], $log_json_data);
+                }
             }
 
             return json_encode($theOrders);
@@ -971,6 +973,20 @@ class Weslink_Payjoe_Opbeleg_Orders
         );
         curl_setopt_array($curl, $options);
         $result = curl_exec($curl);
+		if (!$result) {
+            $info = curl_getinfo($curl);
+            $tplError = "<span style='color:red'>%s: %s</span>\n";
+            $msg = __('Unknown error occurred!');
+            switch($info['http_code']) {
+                case 0:
+                    $msg = __('The PayJoe servers are not reachable.');
+                    break;
+                case 401:
+                    $msg = __('Invalid PayJoe credentials.');
+                    break;
+            }
+            echo(sprintf($tplError, __("Error"), $msg . "\n"));
+        }
         curl_close($curl);
 
         return $result;
