@@ -127,7 +127,7 @@
     "postcss-preset-env": "^6.6.0",
     "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
-    "stylelint": "^10.0.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^18.3.0",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2"
